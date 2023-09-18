@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/FITM_BE/bin/Debug/net6.0
+/FITM_BE/obj
+/FITM_BE/.vs
