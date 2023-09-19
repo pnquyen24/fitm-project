@@ -11,6 +11,6 @@ namespace FITM_BE.Authorization.Role
         [StringLength(50)]
         public string DisplayName { get; set; }
 
-        public ICollection<string> PermissionName { get; set; } = new List<string>();
+        public virtual ICollection<string> PermissionName { get; set; } = new List<string>();
     }
 }
