@@ -1,4 +1,5 @@
-﻿using FITM_BE.Authentication.Dtos;
+﻿using AutoMapper;
+using FITM_BE.Authentication.Dtos;
 using FITM_BE.Entity;
 using FITM_BE.Service;
 using FITM_BE.Util;
@@ -11,7 +12,7 @@ namespace FITM_BE.Authentication
     {
         private readonly IPasswordHasher<Member> _passwordHasher;
 
-        public AccountService(IRepository repository, IPasswordHasher<Member> passwordHasher) : base(repository)
+        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher) : base(repository, mapper)
         {
             _passwordHasher = passwordHasher;
         }

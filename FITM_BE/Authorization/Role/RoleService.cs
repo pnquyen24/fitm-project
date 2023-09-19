@@ -1,4 +1,5 @@
-﻿using FITM_BE.Authorization.Permission;
+﻿using AutoMapper;
+using FITM_BE.Authorization.Permission;
 using FITM_BE.Service;
 using FITM_BE.Util;
 
@@ -8,7 +9,7 @@ namespace FITM_BE.Authorization.Role
     {
         private readonly PermissionCollection _permissions;
 
-        public RoleService(IRepository repository, PermissionCollection permissions) : base(repository)
+        public RoleService(IRepository repository, IMapper mapper, PermissionCollection permissions) : base(repository, mapper)
         {
             _permissions = permissions;
         }
