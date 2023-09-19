@@ -44,7 +44,7 @@ namespace FITM_BE.Util
 
         public async Task Delete<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>
         {
-            var entity = await _dbContext.Set<TEntity>().Where(entity => entity.IsDeleted ?? true)
+            var entity = await _dbContext.Set<TEntity>().Where(entity => !entity.IsDeleted)
                                          .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
             if (entity == default)
             {
@@ -64,7 +64,7 @@ namespace FITM_BE.Util
         public async Task<TEntity> Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>
         {
             var entity = await _dbContext.Set<TEntity>()
-                                   .Where(entity => !entity.IsDeleted ?? true)
+                                   .Where(entity => !entity.IsDeleted)
                                    .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
             if (entity == default)
             {
@@ -82,7 +82,7 @@ namespace FITM_BE.Util
         public IQueryable<TEntity> GetAll<TEntity>() where TEntity : Audit
         {
             return _dbContext.Set<TEntity>()
-                             .Where(entity => (bool)(entity.IsDeleted == null ? true : !entity.IsDeleted));
+                             .Where(entity => !entity.IsDeleted);
         }
 
         public async Task<TEntity> Update<TEntity>(TEntity newEntity) where TEntity : Audit

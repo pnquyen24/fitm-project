@@ -1,5 +1,5 @@
 ﻿using AutoMapper.Execution;
-using FITM_BE.Service.Member;
+using FITM_BE.Service.MemberService;
 using FITM_BE.Service.Test;
 using Microsoft.AspNetCore.Mvc;
 

@@ -5,14 +5,14 @@ using FITM_BE.Util;
 
 namespace FITM_BE.Service.RequestEditInforService
 {
-    public class RequestEditInfoService : ServiceBase,IRequestEditInfoService
+    public class RequestEditInfoService : ServiceBase, IRequestEditInfoService
     {
         public RequestEditInfoService(IRepository repository) : base(repository)
         {
             
         }
 
-        public RequestEditInfo Create(RequestEditInfoDto requestEditInfoDto)
+        public  RequestEditInfo Create(RequestEditInfoDto requestEditInfoDto)
         {
             RequestEditInfo requestEditInfo = new()
             {
@@ -22,9 +22,10 @@ namespace FITM_BE.Service.RequestEditInforService
                 StudentID = requestEditInfoDto.StudentID,
                 Email = requestEditInfoDto.Email    ,
                 PhoneNumber  = requestEditInfoDto.PhoneNumber,
-                Status = Enums.RequestEditInfoStatus.Pending           } ;
-            _repository.Add(requestEditInfo);
-            return requestEditInfo;
+                Status = Enums.RequestEditInfoStatus.Pending     
+            } ;
+             _repository.Add(requestEditInfo);
+            return  requestEditInfo;
         }
 
         public List<RequestEditInfoDto> getAllRequestEditInfo()
