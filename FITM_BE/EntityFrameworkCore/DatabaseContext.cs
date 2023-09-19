@@ -15,9 +15,9 @@ namespace FITM_BE.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
     }
 }
