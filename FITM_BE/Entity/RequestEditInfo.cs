@@ -19,7 +19,7 @@ namespace FITM_BE.Entity
         public string? BankName { get; set; }
         [StringLength(20)]
         public string? BankNumber { get; set; }
-        [Required]
+       // [Required]
         public RequestEditInfoStatus Status { get; set; }
     }
 }

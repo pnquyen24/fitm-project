@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper;
+using FITM_BE.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace FITM_BE.Service.RequestEditInforService.Dtos
 {
+    [AutoMap(typeof(RequestEditInfo), ReverseMap = true)]
     public class RequestEditInfoDto
     {
         [StringLength(10)]

@@ -1,15 +1,18 @@
-﻿using FITM_BE.Entity;
+﻿using AutoMapper;
+using FITM_BE.Entity;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Util;
+using NuGet.Protocol.Core.Types;
 
 namespace FITM_BE.Service.RequestEditInforService
 {
     public class RequestEditInfoService : ServiceBase, IRequestEditInfoService
     {
-        public RequestEditInfoService(IRepository repository) : base(repository)
+        
+        public RequestEditInfoService(IRepository repository, IMapper mapper) : base(repository, mapper)
         {
-            
+
         }
 
         public  RequestEditInfo Create(RequestEditInfoDto requestEditInfoDto)
