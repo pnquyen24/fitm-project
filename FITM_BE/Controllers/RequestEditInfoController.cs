@@ -1,5 +1,8 @@
 ﻿using AutoMapper.Execution;
+using FITM_BE.Entity;
+using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.RequestEditInforService;
+using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Service.Test;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +18,18 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public List<RequestEditInfoDto> GetAll()
         {
-            return Ok("Not implement");
+            List<RequestEditInfoDto> requestEditInfoDtos=
+                requestEditInforService.getAllRequestEditInfo();
+            return requestEditInfoDtos;
+        }
+
+        [HttpPost]
+        public IActionResult Post(RequestEditInfoDto requestEditInfoDto)
+        {
+           RequestEditInfo requestEditInfo= requestEditInforService.Create(requestEditInfoDto);
+            return Ok(requestEditInfo);
         }
     }
 }

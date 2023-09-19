@@ -8,7 +8,7 @@ using NetCore.AutoRegisterDi;
 
 namespace FITM_BE.Util
 {
-    [RegisterAsTransient]
+    [RegisterAsTransient]       
     public class Repository : IRepository
     {
         private readonly DbContext _dbContext;
@@ -82,7 +82,7 @@ namespace FITM_BE.Util
         public IQueryable<TEntity> GetAll<TEntity>() where TEntity : Audit
         {
             return _dbContext.Set<TEntity>()
-                             .Where(entity => !entity.IsDeleted ?? true);
+                             .Where(entity => (bool)(entity.IsDeleted == null ? true : !entity.IsDeleted));
         }
 
         public async Task<TEntity> Update<TEntity>(TEntity newEntity) where TEntity : Audit
