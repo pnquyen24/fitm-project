@@ -1,6 +1,6 @@
 ﻿using FITM_BE.Util;
 
-namespace FITM_BE.Service.Member
+namespace FITM_BE.Service.MemberService
 {
     public class MemberService : ServiceBase, IMemberService
     {

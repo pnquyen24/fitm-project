@@ -1,4 +1,4 @@
-﻿namespace FITM_BE.Service.Member
+﻿namespace FITM_BE.Service.MemberService
 {
     public interface IMemberService
     {
