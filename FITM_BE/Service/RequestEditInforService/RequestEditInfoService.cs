@@ -15,7 +15,7 @@ namespace FITM_BE.Service.RequestEditInforService
 
         }
 
-        public  RequestEditInfo Create(RequestEditInfoDto requestEditInfoDto)
+        public async Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto)
         {
             RequestEditInfo requestEditInfo = new()
             {
@@ -27,7 +27,7 @@ namespace FITM_BE.Service.RequestEditInforService
                 PhoneNumber  = requestEditInfoDto.PhoneNumber,
                 Status = Enums.RequestEditInfoStatus.Pending     
             } ;
-             _repository.Add(requestEditInfo);
+            await _repository.Add(requestEditInfo);
             return  requestEditInfo;
         }
 

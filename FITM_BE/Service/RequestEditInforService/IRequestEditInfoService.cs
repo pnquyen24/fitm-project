@@ -6,7 +6,7 @@ namespace FITM_BE.Service.RequestEditInforService
     public interface IRequestEditInfoService
     {
         public List<RequestEditInfoDto> getAllRequestEditInfo();
-        public RequestEditInfo Create(RequestEditInfoDto requestEditInfoDto);
+        public Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto);
 
     }
 }
