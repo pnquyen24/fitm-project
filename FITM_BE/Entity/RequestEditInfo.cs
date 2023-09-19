@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FITM_BE.Entity
 {
-    [Index(nameof(Status), IsUnique = true)]
+    [Index(nameof(Status))]
     public class RequestEditInfo : Entity<int>
     {
         [StringLength(10)]
@@ -19,7 +19,6 @@ namespace FITM_BE.Entity
         public string? BankName { get; set; }
         [StringLength(20)]
         public string? BankNumber { get; set; }
-       // [Required]
         public RequestEditInfoStatus Status { get; set; }
     }
 }

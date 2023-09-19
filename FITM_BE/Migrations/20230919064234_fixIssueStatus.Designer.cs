@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FITM_BE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230919062103_update")]
-    partial class update
+    [Migration("20230919064234_fixIssueStatus")]
+    partial class fixIssueStatus
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,8 +159,7 @@ namespace FITM_BE.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("Status")
-                        .IsUnique();
+                    b.HasIndex("Status");
 
                     b.ToTable("RequestEditInfo");
                 });

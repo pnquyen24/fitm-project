@@ -156,8 +156,7 @@ namespace FITM_BE.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("Status")
-                        .IsUnique();
+                    b.HasIndex("Status");
 
                     b.ToTable("RequestEditInfo");
                 });
