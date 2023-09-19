@@ -1,4 +1,4 @@
-﻿using FITM_BE.DependencyInjection;
+﻿using AutoMapper;
 using FITM_BE.Util;
 using NetCore.AutoRegisterDi;
 
@@ -8,10 +8,12 @@ namespace FITM_BE.Service
     public class ServiceBase
     {
         protected readonly IRepository _repository;
+        protected readonly IMapper _mapper;
 
-        public ServiceBase(IRepository repository)
+        public ServiceBase(IRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
     }
 }

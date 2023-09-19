@@ -23,6 +23,8 @@ namespace FITM_BE
 
             services.AddDIAuto();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddSwaggerGen();
 
             services.AddSingleton<PermissionCollection>();
