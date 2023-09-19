@@ -23,6 +23,6 @@ namespace FITM_BE.Entity.Core
 
         public DateTime? ModifiedTime { get; set; }
 
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
