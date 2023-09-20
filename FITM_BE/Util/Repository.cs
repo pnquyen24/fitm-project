@@ -8,7 +8,7 @@ using NetCore.AutoRegisterDi;
 
 namespace FITM_BE.Util
 {
-    [RegisterAsTransient]
+    [RegisterAsTransient]  
     public class Repository : IRepository
     {
         private readonly DbContext _dbContext;
