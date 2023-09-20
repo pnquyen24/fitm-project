@@ -1,0 +1,33 @@
+.avatar {
+  background-size: cover;
+  border-radius: 50%;
+}
+
+.user-dropDown {
+  position: absolute;
+  z-index: 2;
+  right: 10px;
+  text-decoration: none;
+  list-style: none;
+  background-color: white;
+  padding: 10px 20px;
+  box-shadow: 0 1px 7px -2px rgba(50, 71, 92, 0.382);
+}
+
+.user-dropDown li {
+  height: 40px;
+  display: flex;
+  color: rgba(52, 52, 52, 0.6);
+  border-bottom: solid 1px #696cff30;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 2px;
+}
+.user-dropDown li:hover {
+  background-color: #51515133;
+}
+
+.hide{
+  display: none;
+}

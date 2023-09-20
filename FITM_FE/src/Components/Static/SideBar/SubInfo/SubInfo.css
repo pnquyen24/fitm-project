@@ -1,0 +1,10 @@
+.sideBar_sub-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.sideBar_sub-info img{
+  width: 65px;
+}
