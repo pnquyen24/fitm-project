@@ -20,7 +20,7 @@ namespace FITM_BE.Controllers
         [HttpGet]
         public List<CreateByRequestEditInfoDto> GetAll()
         {
-            List<CreateByRequestEditInfoDto> requestEditInfoDtos=
+            List<CreateByRequestEditInfoDto> requestEditInfoDtos =
                 requestEditInforService.getAllRequestEditInfo();
             return requestEditInfoDtos;
         }
@@ -28,7 +28,7 @@ namespace FITM_BE.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(RequestEditInfoDto requestEditInfoDto)
         {
-           RequestEditInfo requestEditInfo= await requestEditInforService.Create(requestEditInfoDto);
+            RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);
             return Ok(requestEditInfo);
         }
     }
