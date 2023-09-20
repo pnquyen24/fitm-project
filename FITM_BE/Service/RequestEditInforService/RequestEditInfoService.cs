@@ -17,32 +17,16 @@ namespace FITM_BE.Service.RequestEditInforService
 
         public async Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto)
         {
-            RequestEditInfo requestEditInfo = new()
-            {
-                BankName = requestEditInfoDto.BankName,
-                BankNumber = requestEditInfoDto.BankNumber,
-                DOB = requestEditInfoDto.DOB,
-                StudentID = requestEditInfoDto.StudentID,
-                Email = requestEditInfoDto.Email    ,
-                PhoneNumber  = requestEditInfoDto.PhoneNumber,
-                Status = Enums.RequestEditInfoStatus.Pending     
-            } ;
+            RequestEditInfo requestEditInfo = _mapper.Map<RequestEditInfo>(requestEditInfoDto);
+            requestEditInfo.Status = Enums.RequestEditInfoStatus.Pending;
             await _repository.Add(requestEditInfo);
             return  requestEditInfo;
         }
 
-        public List<RequestEditInfoDto> getAllRequestEditInfo()
+        public List<CreateByRequestEditInfoDto> getAllRequestEditInfo()
         {
-           List<RequestEditInfoDto> requestEditInfoDtos =
-                _repository.GetAll<RequestEditInfo>().Select(request => new RequestEditInfoDto()
-                {
-                    BankName = request.BankName,
-                    BankNumber = request.BankNumber,
-                    DOB = request.DOB,
-                    StudentID = request.StudentID,
-                    Email = request.Email,
-                    PhoneNumber = request.PhoneNumber,
-                }).ToList();
+           List<CreateByRequestEditInfoDto> requestEditInfoDtos =
+                _repository.GetAll<RequestEditInfo>().Select(request => _mapper.Map<CreateByRequestEditInfoDto>(request)).ToList();
             if (requestEditInfoDtos.Any()) return requestEditInfoDtos;
             else throw new NotFoundException("The list is empty");
         }
