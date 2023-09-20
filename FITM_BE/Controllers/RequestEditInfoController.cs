@@ -18,9 +18,9 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        public List<CreateByRequestEditInfoDto> GetAll()
+        public List<CreateRequestEditInfoDto> GetAll()
         {
-            List<CreateByRequestEditInfoDto> requestEditInfoDtos =
+            List<CreateRequestEditInfoDto> requestEditInfoDtos =
                 requestEditInforService.getAllRequestEditInfo();
             return requestEditInfoDtos;
         }

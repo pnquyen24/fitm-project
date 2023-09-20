@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FITM_BE.Service.RequestEditInforService.Dtos
 {
     [AutoMap(typeof(RequestEditInfo), ReverseMap = true)]
-    public class CreateByRequestEditInfoDto
+    public class CreateRequestEditInfoDto
     {
         public string? StudentID { get; set; }
         public DateTime? DOB { get; set; }
