@@ -1,10 +1,10 @@
-﻿using FITM_BE.DependencyInjection;
-using FITM_BE.Entity;
+﻿using FITM_BE.Entity;
 using FITM_BE.Entity.Core;
 using FITM_BE.EntityFrameworkCore;
 using FITM_BE.Exceptions.UserException;
 using Microsoft.EntityFrameworkCore;
 using NetCore.AutoRegisterDi;
+using System.Security.Claims;
 
 namespace FITM_BE.Util
 {
@@ -22,6 +22,8 @@ namespace FITM_BE.Util
 
         public async Task<TEntity> Add<TEntity>(TEntity entity) where TEntity : Audit
         {
+            entity.CreatedBy = await GetCurrent();
+            entity.CreatedTime = DateTime.Now;
             await _dbContext.Set<TEntity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             _dbContext.SaveChangesFailed += (object? sender, SaveChangesFailedEventArgs eventArgs) =>
@@ -52,7 +54,7 @@ namespace FITM_BE.Util
             }
             entity.IsDeleted = true;
             entity.ModifiedTime = DateTime.Now;
-            entity.ModifyBy = GetAll<Member>().FirstOrDefault(member => member.Username.Equals(_httpContextAccessor.HttpContext.User.Identity.Name));
+            entity.ModifyBy = await GetCurrent();
             await Update(entity);
         }
 
@@ -88,7 +90,7 @@ namespace FITM_BE.Util
         public async Task<TEntity> Update<TEntity>(TEntity newEntity) where TEntity : Audit
         {
             newEntity.ModifiedTime = DateTime.Now;
-            newEntity.ModifyBy = GetAll<Member>().FirstOrDefault(member => member.Username.Equals(_httpContextAccessor.HttpContext.User.Identity.Name));
+            newEntity.ModifyBy = await GetCurrent();
             _dbContext.Set<TEntity>().Update(newEntity);
             await _dbContext.SaveChangesAsync();
             _dbContext.SaveChangesFailed += (object? sender, SaveChangesFailedEventArgs eventArgs) =>
@@ -96,6 +98,12 @@ namespace FITM_BE.Util
                 throw new SystemException();
             };
             return newEntity;
+        }
+
+        private async Task<Member> GetCurrent()
+        {
+            _ = int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID"), out int userID);
+            return await Get<Member>(userID);
         }
     }
 }

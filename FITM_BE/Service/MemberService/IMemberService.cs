@@ -4,7 +4,7 @@ namespace FITM_BE.Service.MemberService
 {
     public interface IMemberService
     {
-        public IEnumerable<MemberDto> GetAll();
-        public Task<MemberDto> Create(MemberDto memberDto);
+        public IEnumerable<MemberGeneratedDto> GetAll();
+        public Task<MemberGeneratedDto> Create(CreateMemberDto memberDto);
     }
 }
