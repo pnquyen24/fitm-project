@@ -3,7 +3,6 @@ import "./App.css";
 import SideBar from "./Components/Static/SideBar/SideBar";
 import React, { useState } from 'react';
 import Page from "./Components/Static/Content/Page";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
 
@@ -13,7 +12,8 @@ function App() {
     <div className="App">
 
       <SideBar isOpen={isOpen} setOpen={setOpen}></SideBar>
-      <Page isOpen={isOpen} setOpen={setOpen}></Page>
+      <Page  isOpen={isOpen} setOpen={setOpen}></Page>
+      <page></page>
     </div>
   );
 }
