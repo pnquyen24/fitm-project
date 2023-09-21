@@ -13,7 +13,6 @@ function App() {
 
       <SideBar isOpen={isOpen} setOpen={setOpen}></SideBar>
       <Page  isOpen={isOpen} setOpen={setOpen}></Page>
-      <page></page>
     </div>
   );
 }
