@@ -1,7 +1,6 @@
 import React from "react";
 import "./Avatar.css";
 import { useState } from 'react';
-import { Link } from "react-router-dom";
 
 function Avatar({ scale = 1 }) {
   var height = scale * 45;
@@ -25,7 +24,7 @@ function Avatar({ scale = 1 }) {
       ></div>
       <ul className={`user-dropDown ${isHide ? "hide" : ""}`}>
         <li> Profile </li>
-        <li> <Link to="/home/profile">ChangePassword</Link></li>
+        <li> Change Password</li>
         <li> Log Out</li>
 
 
