@@ -3,9 +3,10 @@ import "./Page.css";
 import Header from "../Header/header";
 import { click } from "@testing-library/user-event/dist/click";
 import Schedule from "../../Member/Shedule/Schedule";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Outlet, Route, Routes } from "react-router-dom";
 import InputInfo from "../../Member/Input/InputInfo";
 import ChangePassword from "../ChangePassword/ChangePassword";
+import Profile from "../Profile/Profile";
 
 function Page({ isOpen, setOpen }) {
   let [input, setInput] = useState("");
@@ -21,17 +22,19 @@ function Page({ isOpen, setOpen }) {
   return (
     <div className="Page">
       <Header isOpen={isOpen} setOpen={setOpen}></Header>
+      <Outlet></Outlet>
+    <Routes>
+   
 
-      <Link to="/changepassword">text</Link>
-      <Link to="/input">Input</Link>
-
-
-        <Routes>
-          <Route path="/changepassword" element={<ChangePassword></ChangePassword>} />
-          <Route path="/input" element={<InputInfo></InputInfo>} />
-
-        </Routes>
+    </Routes>
+       
     </div>
   );
 }
 export default Page;
+
+
+
+function Change(){
+  return <h1> change </h1>
+}

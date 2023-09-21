@@ -25,7 +25,7 @@ function Avatar({ scale = 1 }) {
       ></div>
       <ul className={`user-dropDown ${isHide ? "hide" : ""}`}>
         <li> Profile </li>
-        <li> <Link to="/changepassword">ChangePassword</Link></li>
+        <li> <Link to="/home/profile">ChangePassword</Link></li>
         <li> Log Out</li>
 
 

@@ -5,20 +5,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Schedule from "./Components/Member/Shedule/Schedule";
+import Profile from "./Components/Static/Profile/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-
-        <App></App>
-
+      <Routes>
+        <Route path="/home" element={<App></App>}>
+          <Route path="profile" element={<Profile></Profile>} />
+          {/* tạo một component, không cần quan tâm header side bar, xong gắn nó như mẫu profie ở trên */}
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
