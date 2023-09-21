@@ -15,7 +15,10 @@ root.render(
       <Routes>
         <Route path="/home" element={<App></App>}>
           <Route path="profile" element={<Profile></Profile>} />
-          {/* tạo một component, không cần quan tâm header side bar, xong gắn nó như mẫu profie ở trên */}
+          {/* tạo một component, không cần quan tâm header side bar, 
+          xong gắn nó như mẫu profie ở trên
+          profile chỉ là bản nháp, ai phụ trách phần này có thể xóa thoải mái
+           */}
         </Route>
       </Routes>
     </BrowserRouter>
