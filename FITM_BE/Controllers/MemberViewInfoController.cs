@@ -1,31 +1,46 @@
 using Microsoft.AspNetCore.Mvc;
-using ViewPersonalProfile.Models;
+using FITM_BE.Entity;
 
 [ApiController]
 [Route("api/userinfo")]
 public class UserInfoController : ControllerBase
 {
-    private readonly List<UserInfo> users;
+    private readonly List<Member> users;
 
     public UserInfoController()
     {
         // Initializing some sample users
-        users = new List<UserInfo>
+        users = new List<Member>
         {
-            new UserInfo
+            new Member
             {
                 FullName = "Bao Tran",
-                UserName = "tran",
+                Username = "tran",
                 Email = "tran@example.com",
                 Password = "123",
                 StudentID = "QE170086",
-                BirthDate = new DateTime(1990, 1, 15),
+                DOB = new DateTime(1990, 1, 15),
                 PhoneNumber = "123456789",
-                BankName = "Example Bank",
-                BankAccountNumber = "1234567890",
+                BankName = "BIDV",
+                BankNumber = "1234567890",
                 Avatar = "link.png",
                 Status = true
-            }            
+            },
+
+            new Member
+            {
+                FullName = "Trung Dung",
+                Username = "dung",
+                Email = "dung@example.com",
+                Password = "456",
+                StudentID = "QE170072",
+                DOB = new DateTime(1990, 1, 15),
+                PhoneNumber = "987654321",
+                BankName = "TP Bank",
+                BankNumber = "654789351",
+                Avatar = "link.png",
+                Status = true
+            }
         };
     }
 
@@ -41,7 +56,7 @@ public class UserInfoController : ControllerBase
     public IActionResult GetUserInfoByUsername(string username)
     {
         // Find the user with the specified username
-        var user = users.FirstOrDefault(u => u.UserName == username);
+        var user = users.FirstOrDefault(u => u.Username == username);
 
         if (user == null)
         {
