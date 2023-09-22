@@ -16,7 +16,7 @@ namespace FITM_BE.Controllers
         }
 
         //ForgotPassword function
-        [HttpPost("forgot-password")]
+        [HttpPost]
         public async Task<bool> ForgotPassword(string email)
         {
             if (await accountService.ForgotPassword(email))

@@ -3,10 +3,9 @@ using FITM_BE.Authentication.Dtos;
 using FITM_BE.Entity;
 using FITM_BE.Service;
 using FITM_BE.Service.EmailService;
-using FITM_BE.Service.LoggerService;
+using Microsoft.EntityFrameworkCore;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 namespace FITM_BE.Authentication
@@ -59,8 +58,8 @@ namespace FITM_BE.Authentication
 
         public async Task<bool> ForgotPassword(string email)
         {
-            Member member = await CheckExistEmail(email);
-            if (member.Id != 0)
+            Member? member = await CheckExistEmail(email);
+            if (member != null)
             {
                 string newPassword = GeneratePassword(8, true);
                 string hashedPassword = _passwordHasher.HashPassword(member, newPassword);
@@ -72,13 +71,11 @@ namespace FITM_BE.Authentication
             return false;
         }
         
-        private async Task<Member> CheckExistEmail(string email)
+        private async Task<Member?> CheckExistEmail(string email)
         {
-            Member member = await _repository
+            Member? member = await _repository
                                 .GetAll<Member>()
-                                .Where(m => m.Email.Equals(email))
-                                .FirstOrDefaultAsync()
-                                ?? new Member();
+                                .FirstOrDefaultAsync(m => m.Email.Equals(email));
             return member;
         }
 
