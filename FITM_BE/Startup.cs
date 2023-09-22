@@ -20,31 +20,16 @@ namespace FITM_BE
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
             LogManager.Setup().LoadConfigurationFromFile
             (
                 string.Concat(Directory.GetCurrentDirectory(), "/nlog.config")
             );
-<<<<<<< Updated upstream
-            services.AddSingleton<ILoggerManager, LoggerManager>();
-=======
->>>>>>> Stashed changes
-            
+
             var emailConfig = Configuration
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
-<<<<<<< Updated upstream
-            services.AddScoped<IEmailSender, EmailSender>();
 
-=======
-
->>>>>>> Stashed changes
->>>>>>> Stashed changes
             services.AddControllers();
 
             services.AddHttpContextAccessor();

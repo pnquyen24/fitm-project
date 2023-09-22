@@ -1,16 +1,9 @@
-<<<<<<< Updated upstream
-﻿using NLog;
-
-namespace FITM_BE.Service.LoggerService
-{
-=======
-﻿using NetCore.AutoRegisterDi;
+using NetCore.AutoRegisterDi;
 using NLog;
 
 namespace FITM_BE.Service.LoggerService
 {
     [RegisterAsSingleton]
->>>>>>> Stashed changes
     public class LoggerManager : ILoggerManager
     {
         private static NLog.ILogger logger = LogManager.GetCurrentClassLogger();

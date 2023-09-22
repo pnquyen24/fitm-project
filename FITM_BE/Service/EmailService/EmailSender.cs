@@ -1,17 +1,11 @@
 ﻿using FITM_BE.Service.LoggerService;
 using MailKit.Net.Smtp;
 using MimeKit;
-<<<<<<< Updated upstream
-
-namespace FITM_BE.Service.EmailService
-{
-=======
 using NetCore.AutoRegisterDi;
 
 namespace FITM_BE.Service.EmailService
 {
     [RegisterAsScoped]
->>>>>>> Stashed changes
     public class EmailSender : IEmailSender
     {
         private readonly ILoggerManager logger;
