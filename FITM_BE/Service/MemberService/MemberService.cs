@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FITM_BE.Authentication;
 using FITM_BE.Entity;
 using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Util;
@@ -7,19 +8,29 @@ namespace FITM_BE.Service.MemberService
 {
     public class MemberService : ServiceBase, IMemberService
     {
-        public MemberService(IRepository repository, IMapper mapper) : base(repository, mapper)
+        private readonly IAccountService _accountService;
+
+        public MemberService(IRepository repository, IMapper mapper, IAccountService accountService) : base(repository, mapper)
         {
+            _accountService = accountService;
         }
 
-        public async Task<MemberDto> Create(MemberDto memberDto)
+        public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)
         {
-            await _repository.Add(_mapper.Map<Member>(memberDto));
-            return memberDto;
+            var newMember = _mapper.Map<Member>(createMemberDto);
+             _accountService.GenerateAccount(ref newMember, out string newPassword);
+
+            newMember.Status = true;
+
+            var member = await _repository.Add(newMember);
+            member.Password = newPassword;
+
+            return _mapper.Map<MemberGeneratedDto>(member);
         }
 
-        public IEnumerable<MemberDto> GetAll()
+        public IEnumerable<MemberGeneratedDto> GetAll()
         {
-            return _repository.GetAll<Member>().Select(member => _mapper.Map<MemberDto>(member));
+            return _repository.GetAll<Member>().Select(member => _mapper.Map<MemberGeneratedDto>(member));
         }
     }
 }
