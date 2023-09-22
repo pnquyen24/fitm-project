@@ -3,6 +3,8 @@ using FITM_BE.Authentication.Dtos;
 using FITM_BE.Entity;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service;
+using FITM_BE.Service.EmailService;
+using Microsoft.EntityFrameworkCore;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +19,13 @@ namespace FITM_BE.Authentication
     public class AccountService : ServiceBase, IAccountService
     {
         private readonly IPasswordHasher<Member> _passwordHasher;
+        private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
 
-        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher, IConfiguration configuration) : base(repository, mapper)
+        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher) : base(repository, mapper)
         {
             _passwordHasher = passwordHasher;
+            _emailSender = emailSender;
             _configuration = configuration;
         }
 
@@ -88,6 +92,43 @@ namespace FITM_BE.Authentication
                 signingCredentials: signIn
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<bool> ForgotPassword(string email)
+        {
+            Member? member = await CheckExistEmail(email);
+            if (member != null)
+            {
+                string newPassword = GeneratePassword(8, true);
+                string hashedPassword = _passwordHasher.HashPassword(member, newPassword);
+                member.Password = hashedPassword;
+                await _repository.Update<Member>(member);
+                await SendEmail(email, newPassword);
+                return true;
+            }
+            return false;
+        }
+        
+        private async Task<Member?> CheckExistEmail(string email)
+        {
+            Member? member = await _repository
+                                .GetAll<Member>()
+                                .FirstOrDefaultAsync(m => m.Email.Equals(email));
+            return member;
+        }
+
+        private async Task SendEmail(string email, string password)
+        {
+            var message = new Message
+            (
+                new string[] 
+                { 
+                    email 
+                }, 
+                "New password (async)",
+                "This is new your password: " + password
+            );
+            await _emailSender.SendEmailAsync(message);
         }
     }
 }

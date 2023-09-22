@@ -7,7 +7,7 @@ namespace FITM_BE.DependencyInjection
         public static void AddDIAuto(this IServiceCollection services)
         {
             var tes = services.RegisterAssemblyPublicNonGenericClasses()
-                    .Where(service => service.Name.EndsWith("Service") || service.Name.Equals("Repository") || service.Name.Equals("Authentication"))
+                    .Where(service => service.Name.EndsWith("Service") || service.Name.Equals("Repository") || service.Name.Equals("Authentication") || service.Name.Equals("EmailSender") || service.Name.Equals("LoggerManager"))
                     .AsPublicImplementedInterfaces();
         }
     }
