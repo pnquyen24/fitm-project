@@ -13,6 +13,6 @@ namespace FITM_BE.Service.RequestEditInforService.Dtos
         public string? PhoneNumber { get; set; }
         public string? BankName { get; set; }
         public string? BankNumber { get; set; }
-        public int CreatedBy { get; set; }
+        public int CreatedById { get; set; }
     }
 }
