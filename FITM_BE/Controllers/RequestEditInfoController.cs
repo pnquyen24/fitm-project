@@ -4,10 +4,12 @@ using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.RequestEditInforService;
 using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Service.Test;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
 {
+    [Authorize]
     public class RequestEditInfoController : ApiBase
     {
         private readonly IRequestEditInfoService requestEditInforService;
