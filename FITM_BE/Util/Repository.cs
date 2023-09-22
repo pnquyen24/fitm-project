@@ -100,10 +100,13 @@ namespace FITM_BE.Util
             return newEntity;
         }
 
-        private async Task<Member> GetCurrent()
+        private async Task<Member?> GetCurrent()
         {
-            _ = int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID"), out int userID);
+            if (_httpContextAccessor.HttpContext != null && int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID"), out int userID))
+            {
             return await Get<Member>(userID);
+            }
+            return null;
         }
     }
 }
