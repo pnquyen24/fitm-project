@@ -18,7 +18,7 @@ namespace FITM_BE.Service.MemberService
         public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)
         {
             var newMember = _mapper.Map<Member>(createMemberDto);
-             _accountService.GenerateAccount(ref newMember, out string newPassword);
+            _accountService.GenerateAccount(ref newMember, out string newPassword);
 
             newMember.Status = true;
 
@@ -31,6 +31,11 @@ namespace FITM_BE.Service.MemberService
         public IEnumerable<MemberGeneratedDto> GetAll()
         {
             return _repository.GetAll<Member>().Select(member => _mapper.Map<MemberGeneratedDto>(member));
+        }
+
+        public Member GetMemberByUsername(string username)
+        {
+            return _repository.GetAll<Member>().FirstOrDefault(m => m.Username == username);
         }
     }
 }

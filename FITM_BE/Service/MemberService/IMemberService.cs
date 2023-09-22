@@ -1,4 +1,5 @@
 ﻿using FITM_BE.Service.MemberService.Dtos;
+using FITM_BE.Entity;
 
 namespace FITM_BE.Service.MemberService
 {
@@ -6,5 +7,7 @@ namespace FITM_BE.Service.MemberService
     {
         public IEnumerable<MemberGeneratedDto> GetAll();
         public Task<MemberGeneratedDto> Create(CreateMemberDto memberDto);
+
+        Member GetMemberByUsername(string username);
     }
 }
