@@ -22,10 +22,10 @@ namespace FITM_BE.Controllers
             return await _memberService.Create(createMemberDto);
         }
 
-        [HttpGet("{username}")]
-        public ActionResult<Member> Get(string username)
+        [HttpGet]
+        public ActionResult<Member> Get(int id)
         {
-            var member = _memberService.GetMemberByUsername(username);
+            var member = _memberService.ViewProfile(id);
             if (member == null)
             {
                 return NotFound();

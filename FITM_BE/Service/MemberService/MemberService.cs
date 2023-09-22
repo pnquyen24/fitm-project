@@ -33,9 +33,9 @@ namespace FITM_BE.Service.MemberService
             return _repository.GetAll<Member>().Select(member => _mapper.Map<MemberGeneratedDto>(member));
         }
 
-        public Member GetMemberByUsername(string username)
+        public Member ViewProfile(int id)
         {
-            return _repository.GetAll<Member>().FirstOrDefault(m => m.Username == username);
+            return _repository.GetAll<Member>().FirstOrDefault(m => m.Id == id);
         }
     }
 }

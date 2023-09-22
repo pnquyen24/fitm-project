@@ -8,6 +8,6 @@ namespace FITM_BE.Service.MemberService
         public IEnumerable<MemberGeneratedDto> GetAll();
         public Task<MemberGeneratedDto> Create(CreateMemberDto memberDto);
 
-        Member GetMemberByUsername(string username);
+        Member ViewProfile(int id);
     }
 }
