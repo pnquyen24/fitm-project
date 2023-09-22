@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AccountController : ApiBase
     {
         private readonly ILoggerManager logger;
