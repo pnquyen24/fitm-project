@@ -33,10 +33,10 @@ namespace FITM_BE.Service.MemberService
             return _repository.GetAll<Member>().Select(member => _mapper.Map<MemberGeneratedDto>(member));
         }
 
-        public async Task<ViewProfileDto> Get(int id)
+        public async Task<ProfileDto> Get(int id)
         {
             var member = await _repository.Get<Member>(id);
-            return _mapper.Map<ViewProfileDto>(member);
+            return _mapper.Map<ProfileDto>(member);
         }
     }
 }

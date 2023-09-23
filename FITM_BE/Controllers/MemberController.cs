@@ -27,10 +27,13 @@ namespace FITM_BE.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ViewProfileDto>Get()
-        {         
-            return await _memberService.Get(int.
-                Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID")));
+        public async Task<ProfileDto>Get()
+        {
+            /*return await _memberService.Get(int.
+                Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID")));*/
+            var userId = int.Parse(User.FindFirstValue("UserID"));
+            return await _memberService.Get(userId);
+
         }
     }
 }
