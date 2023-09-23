@@ -12,11 +12,9 @@ namespace FITM_BE.Controllers
     public class MemberController : ApiBase
     {
         private readonly IMemberService _memberService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public MemberController(IMemberService member, IHttpContextAccessor httpContextAccessor)
+        public MemberController(IMemberService member)
         {
             _memberService = member;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
@@ -29,11 +27,8 @@ namespace FITM_BE.Controllers
         [Authorize]
         public async Task<ProfileDto>Get()
         {
-            /*return await _memberService.Get(int.
-                Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID")));*/
             var userId = int.Parse(User.FindFirstValue("UserID"));
             return await _memberService.Get(userId);
-
         }
     }
 }
