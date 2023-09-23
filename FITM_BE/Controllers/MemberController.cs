@@ -2,6 +2,8 @@
 using FITM_BE.Service.MemberService.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FITM_BE.Entity;
+using FITM_BE.Service;
 
 namespace FITM_BE.Controllers
 {
@@ -18,6 +20,17 @@ namespace FITM_BE.Controllers
         public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)
         {
             return await _memberService.Create(createMemberDto);
+        }
+
+        [HttpGet("{username}")]
+        public ActionResult<Member> Get(string username)
+        {
+            var member = _memberService.GetMemberByUsername(username);
+            if (member == null)
+            {
+                return NotFound();
+            }
+            return Ok(member);
         }
     }
 }
