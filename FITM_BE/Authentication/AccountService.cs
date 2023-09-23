@@ -7,7 +7,6 @@ using FITM_BE.Service.EmailService;
 using Microsoft.EntityFrameworkCore;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,7 +21,7 @@ namespace FITM_BE.Authentication
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
 
-        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher) : base(repository, mapper)
+        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher, IEmailSender emailSender, IConfiguration configuration) : base(repository, mapper)
         {
             _passwordHasher = passwordHasher;
             _emailSender = emailSender;
