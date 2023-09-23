@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FITM_BE.Entity;
 using FITM_BE.Service;
+using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
@@ -11,9 +12,11 @@ namespace FITM_BE.Controllers
     public class MemberController : ApiBase
     {
         private readonly IMemberService _memberService;
-        public MemberController(IMemberService member)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public MemberController(IMemberService member, IHttpContextAccessor httpContextAccessor)
         {
             _memberService = member;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
@@ -22,15 +25,12 @@ namespace FITM_BE.Controllers
             return await _memberService.Create(createMemberDto);
         }
 
-        [HttpGet("{username}")]
-        public ActionResult<Member> Get(string username)
-        {
-            var member = _memberService.GetMemberByUsername(username);
-            if (member == null)
-            {
-                return NotFound();
-            }
-            return Ok(member);
+        [HttpGet]
+        [Authorize]
+        public async Task<ViewProfileDto>Get()
+        {         
+            return await _memberService.Get(int.
+                Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID")));
         }
     }
 }
