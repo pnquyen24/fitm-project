@@ -9,11 +9,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using NLog;
+using FITM_BE.Util;
 
 namespace FITM_BE
 {
     public class Startup
     {
+        private readonly string _corsName = "FITM";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -101,9 +104,15 @@ namespace FITM_BE
 
             services.AddCors(options =>
             {
-                options.AddPolicy("fitm", options =>
+                options.AddPolicy(_corsName, options =>
                 {
-                    options.AllowAnyOrigin();
+                    options.WithOrigins(Configuration.GetValue<string>("App:CorsOrigins")
+                                                     .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                     .Select(origin => origin.RemovePostFix("/"))
+                                                     .ToArray())
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                 });
             });
         }
@@ -119,6 +128,8 @@ namespace FITM_BE
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseCors(_corsName);
 
             app.UseAuthentication();
             app.UseAuthorization();
