@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using NLog;
+using FITM_BE.Util;
 
 namespace FITM_BE
 {
@@ -103,7 +104,13 @@ namespace FITM_BE
             {
                 options.AddPolicy("fitm", options =>
                 {
-                    options.AllowAnyOrigin();
+                    options.WithOrigins(Configuration.GetValue<string>("App:CrosOrigins")
+                                                     .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                     .Select(origin => origin.RemovePostFix("/"))
+                                                     .ToArray())
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
                 });
             });
         }
