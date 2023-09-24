@@ -104,7 +104,7 @@ namespace FITM_BE
             {
                 options.AddPolicy("fitm", options =>
                 {
-                    options.WithOrigins(Configuration.GetValue<string>("App:CrosOrigins")
+                    options.WithOrigins(Configuration.GetValue<string>("App:CorsOrigins")
                                                      .Split(',', StringSplitOptions.RemoveEmptyEntries)
                                                      .Select(origin => origin.RemovePostFix("/"))
                                                      .ToArray())
