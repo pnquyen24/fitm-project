@@ -1,27 +1,30 @@
-function Profile(){
-    return (
-    
-    <div> 
-      
-      <table>
-    <tr>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-    </tr>  
+import React, { useState } from 'react';
+import axios from 'axios';
 
-    <tr>
-<td>1</td>
-<td>2</td>
-<td>3</td>
+function Profile({memberId}) {
+  const [member, setMember] = useState(null);
 
-    </tr>
-      </table>
+  useEffect(() => {
+    axios.get(`https://localhost:7226/apis/Member/Get/${memberId}`)
+      .then(response => {
+        setMember(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [memberId]);
 
-      
-    </div>
-    
-    
-    )
+  if (!member) {
+    return <div>Loading...</div>;
   }
+
+  return (
+    <div>
+      <h2>{member.name}</h2>
+      <p>Email: {member.email}</p>
+      <p>Phone: {member.phone}</p>
+    </div>
+  );
+}
+
 export default Profile;
