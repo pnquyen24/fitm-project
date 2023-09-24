@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FITM_BE.Entity;
 using FITM_BE.Service;
+using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
@@ -22,15 +23,12 @@ namespace FITM_BE.Controllers
             return await _memberService.Create(createMemberDto);
         }
 
-        [HttpGet("{username}")]
-        public ActionResult<Member> Get(string username)
+        [HttpGet]
+        [Authorize]
+        public async Task<ProfileDto>Get()
         {
-            var member = _memberService.GetMemberByUsername(username);
-            if (member == null)
-            {
-                return NotFound();
-            }
-            return Ok(member);
+            var userId = int.Parse(User.FindFirstValue("UserID"));
+            return await _memberService.Get(userId);
         }
     }
 }
