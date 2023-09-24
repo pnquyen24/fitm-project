@@ -1,0 +1,36 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  h1 span {
+    text-align: center;
+  }
+  
+  .wellcome_name {
+    color: red;
+  }
+
+  button {
+    width: 50%;
+    height: 40px;
+    margin: 30px auto;
+    border-radius: 5px;
+    background-color: gray;
+    font-size: 16px;
+    border-color: gray;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
