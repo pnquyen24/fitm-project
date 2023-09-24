@@ -4,6 +4,7 @@ import SideBar from "./Components/Static/SideBar/SideBar";
 import React, { useState } from 'react';
 import Page from "./Components/Static/Content/Page";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Profile from "./Components/Static/Profile/Profile";
 
 function App() {
 
