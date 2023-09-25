@@ -8,4 +8,5 @@
 /.vs
 /FITM_BE/FITM_BE.csproj.user
 /FITM_FE/src/index.js
-/FITM_BE/internal_logs/*.txt
+/FITM_BE/internal_logs/*
+FITM_FE/package-lock.json
