@@ -14,74 +14,76 @@ import Swal from "sweetalert2";
 
 const baseURL = "https://localhost:7226/apis/Account/ForgotPassword";
 const CssTextField = styled(TextField)({
-    "& .MuiInputLabel-root": {
-        color: "#ccc"
+    "& label": {
+        color: "#ccc",
+        "&.Mui-focused": {
+            color: "#696cff",
+        },
+        "&.Mui-error": {
+            color: "red",
+        }
     },
-    "& label.Mui-focused": {
-        color: "#696cff"
-    },
-    "& .MuiInput-underline:after": {
-        borderBottomColor: "#696cff"
-    },
-    "& .MuiOutlinedInput-root": {
+    "& .MuiInputBase-root": {
         "& fieldset": {
-            borderColor: "#ccc"
+            borderColor: "#ccc",
         },
         "&:hover fieldset": {
-            borderColor: "#696cff"
+            borderColor: "#b4b2b7",
         },
         "&.Mui-focused fieldset": {
-            borderColor: "#696cff"
+            borderColor: "#696cff",
+        },
+        "&.Mui-error fieldset": {
+            borderColor: "red"
         }
     }
+});
+const CssLoadingButton = styled(LoadingButton)({
+    backgroundColor: "#696cff",
+    "& .MuiLoadingButton-text": {
+        color: "#fff",
+    },
+    "&:hover": {
+        backgroundColor: "#5f62ff",
+        borderColor: "#5f62ff",
+    },
 });
 const isEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
-    const [emailError, setEmailError] = useState(false);
+    const [inputError, setInputError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [isSuccess, setIsSuccess] = useState();
     const [textError, setTextError] = useState("");
 
     async function callApi() {
         await axios.post(baseURL, email, { headers: { "Content-Type": "application/json" } })
             .then((response) => {
-                setIsSuccess(response.data);
-                checkStatus(isSuccess);
+                checkStatus(response.data)
             })
-            .catch(() => setIsSuccess(false));
-        console.log(isSuccess);
+            .catch(() => Swal.fire('Error!', 'Some error, try again!', 'error'));
     }
 
     async function checkStatus(status) {
         console.log(status);
         if (status) {
-            Swal.fire(
-                'Success!',
-                'Send email success!',
-                'success'
-            )
+            Swal.fire('Success!', 'Send email success!', 'success')
         } else {
-            Swal.fire(
-                'Error!',
-                'Please try again!',
-                'error'
-            )
+            Swal.fire('Error!', 'Not found email!', 'error')
         }
     }
 
-    const handleEmail = (event) => {
+    const handleInput = (event) => {
         const email = event.target.value;
         if (email.length === 0) {
             setTextError("");
-            setEmailError(false);
+            setInputError(false);
         } else if (!isEmail(email)) {
             setTextError("Please enter valid email address");
-            setEmailError(true);
+            setInputError(true);
         } else {
             setTextError("");
-            setEmailError(false);
+            setInputError(false);
         }
         setEmail(email);
     };
@@ -90,11 +92,11 @@ function ForgotPassword() {
         event.preventDefault();
         if (email.length === 0) {
             setTextError("Please enter your email");
-            setEmailError(true);
+            setInputError(true);
             return;
         } else if (!isEmail(email)) {
             setTextError("Please enter valid email address");
-            setEmailError(true);
+            setInputError(true);
             return;
         }
         setLoading(true);
@@ -117,26 +119,26 @@ function ForgotPassword() {
                     <Stack spacing={2} sx={{ alignItems: "center" }}>
                         <CssTextField
                             autoFocus
-                            error={emailError}
+                            error={inputError}
                             fullWidth
                             helperText={textError}
                             label="Email"
                             margin="normal"
                             name="email"
-                            onChange={handleEmail}
+                            onChange={handleInput}
                             placeholder="Enter your email"
                             type="text"
                             value={email}
                         />
-                        <LoadingButton
+                        <CssLoadingButton
                             disableElevation={true}
                             fullWidth
                             loading={loading}
                             type="submit"
                             variant="contained"
                         >
-                            <span>Send request</span>
-                        </LoadingButton>
+                            Send request
+                        </CssLoadingButton>
                         <Link
                             alignItems="center"
                             color="inherit"
