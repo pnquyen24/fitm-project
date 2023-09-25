@@ -1,53 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./ForgotPassword.css"
-import {
-    Link,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material"
+import { Link, Stack, Typography } from "@mui/material"
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import LoadingButton from "@mui/lab/LoadingButton";
-import styled from '@mui/material/styles/styled';
 import Swal from "sweetalert2";
+import CustomeTextField from "../../Member/Input/CustomeTextField";
+import CustomeLoadingButton from "../../Member/Button/CustomeLoadingButton";
 
 const baseURL = "https://localhost:7226/apis/Account/ForgotPassword";
-const CssTextField = styled(TextField)({
-    "& label": {
-        color: "#ccc",
-        "&.Mui-focused": {
-            color: "#696cff",
-        },
-        "&.Mui-error": {
-            color: "red",
-        }
-    },
-    "& .MuiInputBase-root": {
-        "& fieldset": {
-            borderColor: "#ccc",
-        },
-        "&:hover fieldset": {
-            borderColor: "#b4b2b7",
-        },
-        "&.Mui-focused fieldset": {
-            borderColor: "#696cff",
-        },
-        "&.Mui-error fieldset": {
-            borderColor: "red"
-        }
-    }
-});
-const CssLoadingButton = styled(LoadingButton)({
-    backgroundColor: "#696cff",
-    "& .MuiLoadingButton-text": {
-        color: "#fff",
-    },
-    "&:hover": {
-        backgroundColor: "#5f62ff",
-        borderColor: "#5f62ff",
-    },
-});
 const isEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
 function ForgotPassword() {
@@ -117,33 +77,24 @@ function ForgotPassword() {
                 </Stack>
                 <form action="" onSubmit={handleSubmit}>
                     <Stack spacing={2} sx={{ alignItems: "center" }}>
-                        <CssTextField
-                            autoFocus
+                        <CustomeTextField
                             error={inputError}
-                            fullWidth
                             helperText={textError}
                             label="Email"
-                            margin="normal"
                             name="email"
                             onChange={handleInput}
                             placeholder="Enter your email"
                             type="text"
                             value={email}
                         />
-                        <CssLoadingButton
-                            disableElevation={true}
-                            fullWidth
-                            loading={loading}
-                            type="submit"
-                            variant="contained"
-                        >
+                        <CustomeLoadingButton loading={loading}>
                             Send request
-                        </CssLoadingButton>
+                        </CustomeLoadingButton>
                         <Link
                             alignItems="center"
                             color="inherit"
                             display={"inline-flex"}
-                            href="#"
+                            href="/login"
                             underline="hover"
                             variant="subtitle2"
                         >
