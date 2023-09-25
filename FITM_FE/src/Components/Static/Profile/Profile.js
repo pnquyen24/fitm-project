@@ -7,8 +7,7 @@ function Profile({memberId}) {
   const [member, setMember] = useState(null);
 
   useEffect(() => {
-    //axios.get(`https://localhost:7226/apis/Member/Get`)
-    axios.get(`https://localhost:7226/apis/Member/Get?userId=2`)
+    axios.get(`https://localhost:7226/apis/Member/Get`)
       .then(response => {
         setMember(response.data);
       })
