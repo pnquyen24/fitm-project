@@ -1,6 +1,9 @@
 ﻿using FITM_BE.Authentication;
+using FITM_BE.Authentication.Dtos;
 using FITM_BE.Service.LoggerService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
@@ -26,6 +29,19 @@ namespace FITM_BE.Controllers
             }
             logger.LogError("Email does not exist.");
             return false;
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<string> ChangePassword(AccountChangePasswordDTO changeAccountDTO)
+        {
+            int.TryParse(User.FindFirstValue("UserID"), out int userId);
+            
+            changeAccountDTO.Id = userId;
+            
+            var s = await accountService.ChangePassword(changeAccountDTO);
+            
+            return s;
         }
     }
 }
