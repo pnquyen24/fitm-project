@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Avatar.css";
-import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Avatar({ scale = 1 }) {
   var height = scale * 45;
   var width = scale * 45;
   const [isHide, setHide] = useState(true);
+  const navigate = useNavigate();
+
   const handleUserClick = () => {
     if (isHide) {
       setHide(false);
+    } else {
+      setHide(true);
     }
-    else { setHide(true); }
+  };
+
+  function deleteTokenFromLocalStorage() {
+    try {
+      localStorage.removeItem("token");
+      // Redirect to the login page using the Navigate hook.
+      navigate("/login");
+    } catch (error) {
+      console.log("loi");
+      console.log(error);
+    }
   }
+
   return (
     <div className="user" onClick={handleUserClick}>
       <div
@@ -24,13 +38,16 @@ function Avatar({ scale = 1 }) {
         }}
       ></div>
       <ul className={`user-dropDown ${isHide ? "hide" : ""}`}>
-        <li> <Link to="/home/profile">Profile</Link> </li>
-        <li> ChangePassword</li>
-        <li> Log Out</li>
-
-
+        <li>
+          <Link to="/home/profile">Profile</Link>
+        </li>
+        <li>ChangePassword</li>
+        <li>
+          <button onClick={deleteTokenFromLocalStorage}>Log Out</button>
+        </li>
       </ul>
     </div>
   );
 }
+
 export default Avatar;
