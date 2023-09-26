@@ -9,5 +9,6 @@ namespace FITM_BE.Authentication
         public string GeneratePassword(int length, bool isRandom);
         public Task<string> Login(LoginDto login);
         public Task<bool> ForgotPassword(string email);
+        public Task<string> ChangePassword(AccountChangePasswordDTO accountChangePasswordDTO);
     }
 }
