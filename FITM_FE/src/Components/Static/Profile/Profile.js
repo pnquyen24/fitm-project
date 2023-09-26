@@ -1,9 +1,9 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Profile({memberId}) {
+function Profile({ memberId }) {
   const [member, setMember] = useState(null);
 
   useEffect(() => {
