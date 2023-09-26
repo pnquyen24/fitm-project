@@ -10,7 +10,6 @@ function Profile({ memberId }) {
 
   useEffect(() => {
     axios.get(`https://localhost:7226/apis/Member/Get`)
-    //axios.get(`https://localhost:7226/apis/Member/Get?userId=2`)
       .then(response => {
         setMember(response.data);
         setTempMember(response.data);

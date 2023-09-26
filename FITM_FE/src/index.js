@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Profile from "./Components/Static/Profile/Profile";
 import Login from "./Components/Login/Login";
+import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -21,6 +22,7 @@ root.render(
           profile chỉ là bản nháp, ai phụ trách phần này có thể xóa thoải mái
            */}
         </Route>
+        <Route path="/forgot-password" element={<ForgotPassword />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
