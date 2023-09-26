@@ -9,6 +9,7 @@ function Profile({ memberId }) {
   const [tempMember, setTempMember] = useState(null);
 
   useEffect(() => {
+    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
     axios.get(`https://localhost:7226/apis/Member/Get`)
       .then(response => {
         setMember(response.data);
@@ -61,6 +62,7 @@ function Profile({ memberId }) {
     };
 
     // Send a POST request to the API endpoint
+    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
     axios
       .post('https://localhost:7226/apis/RequestEditInfo/Post', requestData)
       .then((response) => {
