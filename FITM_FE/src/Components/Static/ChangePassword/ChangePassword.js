@@ -78,6 +78,10 @@ function ChangePassword({ isOpen, setOpen }) {
 
         }
 
+        const spanElement = document.querySelector('span');
+
+        spanElement.style.setProperty('color', 'red', 100);
+
     }, [inputNewPassword]);
 
 
@@ -92,6 +96,9 @@ function ChangePassword({ isOpen, setOpen }) {
         }
     }, [inputVerifyPassword])
 
+    function getColor(isValidPassword) {
+        return isValidPassword ? 'green' : 'red';
+      }
 
     const handleSubmit = () => {
         const data = {
@@ -124,12 +131,12 @@ function ChangePassword({ isOpen, setOpen }) {
                     <div class="mb-3">
                         <label for="inputPasswordNew">New Password</label>
                         <input type="password" class="form-control" id="inputPasswordNew" onChange={(e) => setInputNewPassword(e.target.value)} required />
-                        <span class="form-text small text-muted">{noti}</span>
+                        <span class="form-text small" style={{color : getColor(isValidPassword)}}>{noti}</span>
                     </div>
                     <div class="mb-3">
                         <label for="inputPasswordNewVerify">Verify</label>
                         <input type="password" class="form-control" id="inputPasswordNewVerify" onChange={(e) => setInputVerifyPassword(e.target.value)} onch oncrequired />
-                        <span class="form-text small text-muted">
+                        <span class="form-text small " style={{color : getColor(!isButtonAvailable)}}>
                             To confirm, type the new password again.
                         </span>
                     </div>
