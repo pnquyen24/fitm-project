@@ -65,45 +65,49 @@ function ForgotPassword() {
     }
 
     return (
-        <div className="form">
-            <Stack className="container" borderRadius={2} padding={3} spacing={3}>
-                <Stack spacing={1}>
-                    <Typography className="title" variant="h5" align="left">
-                        Forgot Password? 🔒
-                    </Typography>
-                    <Typography className="subTitle" variant="h7" align="left">
-                        Enter your email and we'll send you instructions to reset your password
-                    </Typography>
-                </Stack>
-                <form action="" onSubmit={handleSubmit}>
-                    <Stack spacing={2} sx={{ alignItems: "center" }}>
-                        <CustomeTextField
-                            error={inputError}
-                            helperText={textError}
-                            label="Email"
-                            name="email"
-                            onChange={handleInput}
-                            placeholder="Enter your email"
-                            type="text"
-                            value={email}
-                        />
-                        <CustomeLoadingButton loading={loading}>
-                            Send request
-                        </CustomeLoadingButton>
-                        <Link
-                            alignItems="center"
-                            color="inherit"
-                            display={"inline-flex"}
-                            href="/login"
-                            underline="hover"
-                            variant="subtitle2"
-                        >
-                            <ArrowBackIosNewIcon sx={{ width: "16px" }} />{'Back to login'}
-                        </Link>
+        <div id="forgotPassword">
+            <div className="background"></div>
+            <div className="form">
+                <Stack className="container" borderRadius={2} padding={3} spacing={3}>
+                    <Stack spacing={1}>
+                        <Typography className="title" variant="h5" align="left">
+                            Forgot Password? 🔒
+                        </Typography>
+                        <Typography className="subTitle" variant="h7" align="left">
+                            Enter your email and we'll send you instructions to reset your password
+                        </Typography>
                     </Stack>
-                </form>
-            </Stack>
-        </div >
+                    <form action="" onSubmit={handleSubmit}>
+                        <Stack spacing={2} sx={{ alignItems: "center" }}>
+                            <CustomeTextField
+                                autoFocus
+                                error={inputError}
+                                helperText={textError}
+                                label="Email"
+                                name="email"
+                                onChange={handleInput}
+                                placeholder="Enter your email"
+                                type="text"
+                                value={email}
+                            />
+                            <CustomeLoadingButton loading={loading}>
+                                Send request
+                            </CustomeLoadingButton>
+                            <Link
+                                alignItems="center"
+                                color="inherit"
+                                display={"inline-flex"}
+                                href="/login"
+                                underline="hover"
+                                variant="subtitle2"
+                            >
+                                <ArrowBackIosNewIcon sx={{ width: "16px" }} />{'Back to login'}
+                            </Link>
+                        </Stack>
+                    </form>
+                </Stack>
+            </div >
+        </div>
     );
 }
 

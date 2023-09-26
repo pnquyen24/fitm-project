@@ -31,7 +31,6 @@ const CssTextField = styled(TextField)({
 function CustomeTextField(props) {
     return (
         <CssTextField
-            autoFocus
             fullWidth
             margin="normal"
             {...props}

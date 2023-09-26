@@ -6,7 +6,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Profile from "./Components/Static/Profile/Profile";
 import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
-import Login from "./Components/Login/Login";
+import Login from "./Components/Authentication/Login/Login";
 import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPassword";
 
 
