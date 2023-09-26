@@ -107,7 +107,7 @@ namespace FITM_BE.Authentication
             }
             return false;
         }
-        
+
         private async Task<Member?> CheckExistEmail(string email)
         {
             Member? member = await _repository
@@ -120,14 +120,35 @@ namespace FITM_BE.Authentication
         {
             var message = new Message
             (
-                new string[] 
-                { 
-                    email 
-                }, 
+                new string[]
+                {
+                    email
+                },
                 "New password (async)",
                 "This is new your password: " + password
             );
             await _emailSender.SendEmailAsync(message);
         }
+
+        public async Task<string> ChangePassword(AccountChangePasswordDTO accountChangePasswordDTO)
+        {
+            var member = await _repository.Get<Member>(accountChangePasswordDTO.Id);
+            var hashResultCompare = _passwordHasher.VerifyHashedPassword(member, member.Password, accountChangePasswordDTO.OldPassword);
+
+            if (hashResultCompare == PasswordVerificationResult.Failed)
+            {
+                throw new InvalidException();
+            }
+            else
+            {
+                var newPassword = _passwordHasher.HashPassword(member, accountChangePasswordDTO.NewPassword);
+                member.Password = newPassword;
+
+                await _repository.Update<Member>(member);
+            }
+            return "Password is changed!";
+        }
+
+       
     }
 }
