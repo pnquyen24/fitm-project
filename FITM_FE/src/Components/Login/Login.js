@@ -63,7 +63,7 @@ function Login() {
                                 <TextField error={!isPasswordValid} required type='password' label="Password" variant="outlined" value={password} onChange={(event) => setPassword(event.target.value)}/>
                                 <Stack direction="row" justifyContent='space-between' alignItems='center'>
                                     <FormControlLabel label="Remember me" control={<Checkbox checked={isRemember} onChange={(event) => setIsRemember(event.target.checked)}/>}/>
-                                    <Link href="#" underline='always'>Forgot password</Link>
+                                    <Link href="forgotPassword" underline='always'>Forgot password</Link>
                                 </Stack>
                             </Stack>
                         </CardContent>

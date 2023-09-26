@@ -2,11 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
-import Login from "./Components/Login/Login";
-import Profile from "./Components/Static/Profile/Profile";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Profile from "./Components/Static/Profile/Profile";
 import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
 import Login from "./Components/Login/Login";
@@ -28,7 +25,7 @@ root.render(
           profile chỉ là bản nháp, ai phụ trách phần này có thể xóa thoải mái
            */}
         </Route>
-        <Route path="/forgot-password" element={<ForgotPassword />}></Route>
+        <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
