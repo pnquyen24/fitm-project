@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import './login.css';
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeButton from "../../Member/Button/CustomeButton";
@@ -62,7 +62,7 @@ function Login() {
                         <CustomeTextField InputLabelProps={{ required: false }} error={!isPasswordValid} required type='password' label="Password" placeholder="●●●●●●●●" variant="outlined" value={password} onChange={(event) => setPassword(event.target.value)} />
                         <Stack direction="row" justifyContent='space-between' alignItems='center'>
                             <FormControlLabel label="Remember me" control={<Checkbox checked={isRemember} onChange={(event) => setIsRemember(event.target.checked)} />} />
-                            <Link href="forgotPassword" underline='hover'>Forgot password</Link>
+                            <Link to="/forgotPassword" underline='hover' component={RouterLink}>Forgot password</Link>
                         </Stack>
                         <CustomeButton fullWidth variant="contained" onClick={() => onLoginHandle()}>Login</CustomeButton>
                     </Stack>

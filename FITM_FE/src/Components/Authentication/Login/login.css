@@ -30,3 +30,8 @@ a.MuiLink-root {
 span.MuiButtonBase-root.MuiCheckbox-root.Mui-checked {
     color: #696cff;
 }
+
+.css-nzinn5-MuiContainer-root {
+    min-width: 45vw;
+    width: 80%;
+}

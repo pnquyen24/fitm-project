@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./ForgotPassword.css"
-import { Link, Stack, Typography } from "@mui/material"
+import { Link, Stack, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Swal from "sweetalert2";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeLoadingButton from "../../Member/Button/CustomeLoadingButton";
+import {Link as RouterLink, Route, Router } from "react-router-dom";
 
 const baseURL = "https://localhost:7226/apis/Account/ForgotPassword";
 const isEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
@@ -17,7 +18,7 @@ function ForgotPassword() {
     const [textError, setTextError] = useState("");
 
     async function callApi() {
-        await axios.post(baseURL, email, { headers: { "Content-Type": "application/json" } })
+        await axios.post(baseURL, email.toLowerCase(), { headers: { "Content-Type": "application/json" } })
             .then((response) => {
                 checkStatus(response.data)
             })
@@ -97,9 +98,10 @@ function ForgotPassword() {
                                 alignItems="center"
                                 color="inherit"
                                 display={"inline-flex"}
-                                href="/login"
+                                to="/login"
                                 underline="hover"
                                 variant="subtitle2"
+                                component={RouterLink}
                             >
                                 <ArrowBackIosNewIcon sx={{ width: "16px" }} />{'Back to login'}
                             </Link>
