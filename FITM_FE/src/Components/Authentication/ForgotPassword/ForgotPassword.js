@@ -17,7 +17,7 @@ function ForgotPassword() {
     const [textError, setTextError] = useState("");
 
     async function callApi() {
-        await axios.post(baseURL, email, { headers: { "Content-Type": "application/json" } })
+        await axios.post(baseURL, email.toLowerCase(), { headers: { "Content-Type": "application/json" } })
             .then((response) => {
                 checkStatus(response.data)
             })

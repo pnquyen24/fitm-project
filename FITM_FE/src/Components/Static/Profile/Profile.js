@@ -91,21 +91,21 @@ function Profile({ memberId }) {
               <span className="font-weight-bold">{member.fullName}</span><span className="text-black-50">{member.email}</span><span> </span></div>
           </div>
           <div className="col-md-7">
-            <div className="p-3 py-5">
+            <div className="p-3 py-4 info-cover">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-right">Your Profile</h4>
               </div>
               <div className="row mt-2">
-                <div className="col-md-6"><label className="labels">Full Name</label>
-                  <p>{member.fullName}</p>
+                <div className="col-md-6 "><label className="labels">Full Name:</label>
+                  <p className='backgroundTemp'>{member.fullName}</p>
                 </div>
-                <div className="col-md-6"><label className="labels">Username</label>
-                  <p>{member.username}</p>
+                <div className="col-md-6 marginTemp"><label className="labels">Username:</label>
+                  <p className='backgroundTemp'>{member.username}</p>
                 </div>
               </div>
               <div className="row mt-3">
                 
-                    <div className="col-md-6"><label className="labels">Email</label>{isEditing ? (
+                    <div className="col-md-6"><label className="labels">Email:</label>{isEditing ? (
                     <input
                       type="text"  value={tempMember.email}
                       className="form-control"
@@ -113,7 +113,6 @@ function Profile({ memberId }) {
                       onChange={(e) => {
                         setTempMember({ ...tempMember, email: e.target.value });
                       }}
-                     
                     />
                   ) : (
                     member.email
@@ -121,7 +120,7 @@ function Profile({ memberId }) {
                 
                 
                    
-                  <div className="col-md-12"><label className="labels">Phone Number</label>
+                  <div className="col-md-6 marginTemp"><label className="labels">Phone Number:</label>
                     {isEditing ? (
                       <input type="text" value={tempMember.phoneNumber}
                         className="form-control"
@@ -136,7 +135,7 @@ function Profile({ memberId }) {
                 
                 <div className="row mt-2">
                  
-                       <div className="col-md-6"><label className="labels">Date of birth</label>
+                       <div className="col-md-6"><label className="labels">Date of birth:</label>
                       {isEditing ? (
                         <input type="date" value={tempMember.dob.split('T')[0]}
                           className="form-control"
@@ -146,7 +145,7 @@ function Profile({ memberId }) {
                       </div>  
                   
                  
-                       <div className="col-md-6"><label className="labels">Student ID</label>
+                       <div className="col-md-6"><label className="labels">Student ID:</label>
                       {isEditing ? (
                         <input type="text" value={tempMember.studentID}
                           className="form-control"
@@ -156,7 +155,7 @@ function Profile({ memberId }) {
                       </div>    
                  
                  
-                      <div className="col-md-6"><label className="labels">Bank Name</label>
+                      <div className="col-md-6"><label className="labels">Bank Name:</label>
                       {isEditing ? (
                         <input type="text" value={tempMember.bankName}
                           className="form-control"
@@ -166,7 +165,7 @@ function Profile({ memberId }) {
                       </div>    
                 
                 
-                       <div className="col-md-6"><label className="labels">Bank Number</label>
+                       <div className="col-md-6"><label className="labels">Bank Number:</label>
                       {isEditing ? (
                         <input type="text" value={tempMember.bankNumber}
                           className="form-control"
@@ -179,14 +178,14 @@ function Profile({ memberId }) {
                       </div>    
                 
                   <div className="p-3 py-5">
-                    <div className="d-flex justify-content-between align-items-center experience">
+                    <div className="d-flex justify-content-end sm_cl  align-items-center experience float-right" >
                       {/* Submit button */}
                       {isEditing && (
                         <button onClick={handleSubmit}
-                          className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i> Submit</button>
+                          className="border px-3 p-1 add-experience float-right"><i className="fa fa-plus"></i> Request</button>
                       )}
-                      <button onClick={toggleEditing} className="border px-3 p-1 add-experience">
-                      <i className="fa fa-plus"></i> {isEditing ? 'Cancel' : 'Change Information'}
+                      <button onClick={toggleEditing} className="border px-3 p-1 add-experience float-right">
+                      <i className="fa fa-plus"></i> {isEditing ? 'Cancel' : 'Edit Profile'}
                       </button>
                     </div>
                   </div>
