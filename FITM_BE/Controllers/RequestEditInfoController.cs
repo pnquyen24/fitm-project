@@ -4,6 +4,7 @@ using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.RequestEditInforService;
 using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Service.Test;
+using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,11 +21,18 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        public List<CreateRequestEditInfoDto> GetAll()
+        public IQueryable<CreateRequestEditInfoDto> GetAll()
         {
-            List<CreateRequestEditInfoDto> requestEditInfoDtos =
+            IQueryable<CreateRequestEditInfoDto> requestEditInfoDtos =
                 requestEditInforService.getAllRequestEditInfo();
             return requestEditInfoDtos;
+        }
+
+        [HttpPost]
+        public async Task<PaggingResultDto<CreateRequestEditInfoDto>> GetAllPaggin(PaggingDto paggingDto)
+        {
+            var query = requestEditInforService.getAllRequestEditInfo();
+            return await query.GetGridResult(query, paggingDto);
         }
 
         [HttpPost]
