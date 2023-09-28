@@ -671,6 +671,38 @@ namespace FITM_BE.Util
             }
 
             return str.Left(maxLength - postfix.Length) + postfix;
+        }   
+        public static string Pascalize(this string input)
+        {
+            return Regex.Replace(input, "(?:^|_)(.)", match => match.Groups[1].Value.ToUpper());
+        }
+
+        /// <summary>
+        /// Same as Pascalize except that the first character is lower case
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string Camelize(this string input)
+        {
+            var word = Pascalize(input);
+            return word.Substring(0, 1).ToLower() + word.Substring(1);
+        }
+        public static string FirstLetterToUpper(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return string.Empty;
+
+            char[] a = s.ToCharArray();
+            a[0] = char.ToUpper(a[0]);
+            return new string(a);
+        }
+        public static string EmptyIfNull(this string? input)
+        {
+            return input == null ? string.Empty : input.ToString();
+        }
+        public static bool HasValue(this string value)
+        {
+            return !String.IsNullOrEmpty(value);
         }
     }
 }
