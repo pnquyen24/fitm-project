@@ -6,7 +6,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Swal from "sweetalert2";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeLoadingButton from "../../Member/Button/CustomeLoadingButton";
-import {Link as RouterLink, Route, Router } from "react-router-dom";
+import { Link as RouterLink, Route, Router } from "react-router-dom";
 
 const baseURL = "https://localhost:7226/apis/Account/ForgotPassword";
 const isEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
@@ -18,19 +18,28 @@ function ForgotPassword() {
     const [textError, setTextError] = useState("");
 
     async function callApi() {
-        await axios.post(baseURL, email.toLowerCase(), { headers: { "Content-Type": "application/json" } })
-            .then((response) => {
-                checkStatus(response.data)
-            })
-            .catch(() => Swal.fire('Error!', 'Some error, try again!', 'error'));
+        try {
+            const response = await axios.post(
+                baseURL,
+                email.toLowerCase(),
+                { headers: { "Content-Type": "application/json" } });
+            checkStatus(response);
+        } catch (error) {
+            if (error.response.status === 404) {
+                console.log(error.response.status);
+                Swal.fire("Error!", error.message, "error")
+            } else {
+                Swal.fire("Error!", "Something went wrong", "error")
+            }
+        }
     }
 
-    async function checkStatus(status) {
-        console.log(status);
-        if (status) {
-            Swal.fire('Success!', 'Send email success!', 'success')
+    function checkStatus(result) {
+        console.log(result.status);
+        if (result.status === 200) {
+            Swal.fire("Success!", "Send email success", "success")
         } else {
-            Swal.fire('Error!', 'Not found email!', 'error')
+            Swal.fire("Error!", result.message, "error")
         }
     }
 
