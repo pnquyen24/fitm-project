@@ -38,7 +38,6 @@ namespace FITM_BE.Service.MemberService
             var member = await _repository.Add(newMember);
             member.Password = newPassword;
 
-            // Gửi email thông báo tài khoản mới
             await SendNewAccountEmail(member.Email, member.Username, member.Password);
 
             return _mapper.Map<MemberGeneratedDto>(member);

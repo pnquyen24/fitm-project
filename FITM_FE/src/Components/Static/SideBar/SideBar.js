@@ -3,7 +3,6 @@ import './SideBar.css';
 import SubInfo from './SubInfo/SubInfo';
 import Choice from './Choices/Choice';
 import { Link } from 'react-router-dom'; 
-import CreateMember from '../../HR/CreateMember';
 
 function SideBar({isOpen, setOpen}) {
   const [selectedChoice, setSelectedChoice] = useState(null);
@@ -13,10 +12,8 @@ function SideBar({isOpen, setOpen}) {
   };
 //<ion-icon name="calendar-outline"></ion-icon> <ion-icon name="add-circle-outline"></ion-icon>
   const choices = [
-    { Title: 'Add Member', Icon: 'person-add-outline', Link: "/home/profile"},
-    { Title: 'Member list', Icon: 'people-outline', Link: "/home/member-manager/memberList"},
-    { Title: 'Add Member', Icon: 'person-add-outline', Link: "/home/member-management/createMember"},
-    { Title: 'Member List', Icon: 'people-outline', Link: "/home/member-management/memberList"},
+    { Title: 'Add Member', Icon: 'person-add-outline', Link: "/home/member-manager/create-member"},
+    { Title: 'Member list', Icon: 'people-outline', Link: "/home/member-manager/member-list"},
     { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "/home/profile" },
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/home/profile" },
     { Title: 'Plan', Icon: 'calendar-outline' , Link: "/home/profile"},

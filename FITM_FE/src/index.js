@@ -11,6 +11,7 @@ import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPas
 import RequestEditInfo from "./Components/Static/RequestEditInfo/RequestEditInfo";
 import MemberList from "./Components/HR/MemberList/MemberList";
 import MemberProfile from "./Components/HR/MemberProfile/MemberProfile";
+import CreateMember from "./Components/HR/CreateMember/CreateMember";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -22,7 +23,8 @@ root.render(
           <Route path="profile" element={<Profile></Profile>} />
           <Route path="RequestEditInfoList" element={<RequestEditInfo></RequestEditInfo>} />
             <Route path="member-manager">
-                < Route path="memberList" element={<MemberList></MemberList>} />
+                < Route path="create-member" element={<CreateMember></CreateMember>} />    
+                < Route path="member-list" element={<MemberList></MemberList>} />
                 < Route path="memberProfile" element={<MemberProfile></MemberProfile>} />
              </Route>
           <Route path="changepassword" element={<ChangePassword></ChangePassword>} />
