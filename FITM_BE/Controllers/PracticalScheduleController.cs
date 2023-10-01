@@ -21,9 +21,35 @@ namespace FITM_BE.Controllers
         [HttpGet]
         public IQueryable<PracticalScheduleDto> ViewPracticalSchedules()
         {
-            IQueryable<PracticalScheduleDto> practicalScheduleDtos =
-                _practicalScheduleService.ViewPracticalSchedules();
-            return practicalScheduleDtos;
+            return _practicalScheduleService.ViewPracticalSchedules();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPracticalSchedule(int id)
+        {
+            PracticalScheduleDto schedule = await _practicalScheduleService.GetPracticalSchedule(id);
+            return Ok(schedule);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPracticalSchedule([FromBody] CreatePracticalScheduleDto schedule)
+        {
+            PracticalScheduleDto newSchedule = await _practicalScheduleService.AddPracticalSchedule(schedule);
+            return CreatedAtAction(nameof(GetPracticalSchedule), new { id = newSchedule.Id }, newSchedule);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePracticalSchedule([FromBody] PracticalScheduleDto schedule)
+        {
+            var updateSchedule = await _practicalScheduleService.UpdatePracticalSchedule(schedule);
+            return Ok(updateSchedule);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletePracticalSchedule(int id)
+        {
+            await _practicalScheduleService.DeletePracticalSchedule(id);
+            return Ok();
         }
     }
 }

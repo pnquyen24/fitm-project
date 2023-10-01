@@ -6,8 +6,8 @@ namespace FITM_BE.Service.PracticalSchedulService
     {
         public IQueryable<PracticalScheduleDto> ViewPracticalSchedules();
         public Task<PracticalScheduleDto> GetPracticalSchedule(int id);
-        public Task AddPracticalSchedule(PracticalScheduleDto schedule);
-        public Task UpdatePracticalSchedule(PracticalScheduleDto schedule);
+        public Task<PracticalScheduleDto> AddPracticalSchedule(CreatePracticalScheduleDto scheduleDto);
+        public Task<PracticalScheduleDto> UpdatePracticalSchedule(PracticalScheduleDto scheduleDto);
         public Task DeletePracticalSchedule(int id);
     }
 }

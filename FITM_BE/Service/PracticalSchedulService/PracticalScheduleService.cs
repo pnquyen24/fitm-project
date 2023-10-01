@@ -13,7 +13,7 @@ namespace FITM_BE.Service.PracticalSchedulService
 
         public IQueryable<PracticalScheduleDto> ViewPracticalSchedules()
         {
-            IQueryable<PracticalScheduleDto> practicalScheduleDtos = 
+            IQueryable<PracticalScheduleDto> practicalScheduleDtos =
                 _repository.GetAll<PracticalSchedule>().Select(schedule => _mapper.Map<PracticalScheduleDto>(schedule));
             return practicalScheduleDtos;
         }
@@ -24,22 +24,30 @@ namespace FITM_BE.Service.PracticalSchedulService
             return _mapper.Map<PracticalScheduleDto>(schedule);
         }
 
-        public async Task AddPracticalSchedule(PracticalScheduleDto practicalScheduleDto)
+        public async Task<PracticalScheduleDto> AddPracticalSchedule(CreatePracticalScheduleDto practicalScheduleDto)
         {
             PracticalSchedule newSchedule = _mapper.Map<PracticalSchedule>(practicalScheduleDto);
-            await _repository.Add(newSchedule);
+            newSchedule = await _repository.Add(newSchedule);
+            return _mapper.Map<PracticalScheduleDto>(newSchedule);
         }
 
-        public async Task UpdatePracticalSchedule(PracticalScheduleDto practicalScheduleDto)
+        public async Task<PracticalScheduleDto> UpdatePracticalSchedule(PracticalScheduleDto practicalScheduleDto)
         {
             PracticalSchedule schedule = await _repository.Get<PracticalSchedule>(practicalScheduleDto.Id);
-            schedule = _mapper.Map<PracticalSchedule>(schedule);
-            await _repository.Update(schedule);
+            schedule.Title = practicalScheduleDto.Title;
+            schedule.Description = practicalScheduleDto.Description;
+            schedule.StartDate = practicalScheduleDto.StartDate;
+            schedule.EndDate = practicalScheduleDto.EndDate;
+            schedule.Room = practicalScheduleDto.Room;
+            schedule.BackgroundColor = practicalScheduleDto.BackgroundColor;
+            schedule.TextColor = practicalScheduleDto.TextColor;
+            PracticalSchedule newSchedule = await _repository.Update(schedule);
+            return _mapper.Map<PracticalScheduleDto>(newSchedule);
         }
 
         public async Task DeletePracticalSchedule(int id)
         {
-            await _repository.Delete<PracticalSchedule>(id);
+            await _repository.Delete<PracticalSchedule, int>(id);
         }
     }
 }
