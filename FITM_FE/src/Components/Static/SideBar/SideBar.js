@@ -20,7 +20,7 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Add showw', Icon: 'add-circle-outline', Link: "/home/profile" },
 
 
-  ];
+    ];
 
   return (
     <div className= {`sideBar ${isOpen ? "open" : ""}`}>
