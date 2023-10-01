@@ -36,10 +36,10 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(RequestEditInfoDto requestEditInfoDto)
+        public async Task<RequestEditInfoDto> Post(RequestEditInfoDto requestEditInfoDto)
         {
             RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);
-            return Ok(requestEditInfo);
+            return requestEditInfoDto;
         }
     }
 }
