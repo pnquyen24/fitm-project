@@ -24,4 +24,4 @@ const Color3 = {
     color3 : red, // button, hover , active ...
     color4 : "#fff", //text color
 }
-export default Color3
+export default Color
