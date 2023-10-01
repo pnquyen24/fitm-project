@@ -10,7 +10,11 @@
     left: 0; */
     transition: all 0.5s ease-in-out;
 }
-
+.sidebar-link {
+    color: blue; 
+    text-decoration: none;
+    cursor: pointer; 
+  }
 .open{
     width: 300px;
 }

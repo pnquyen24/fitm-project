@@ -74,6 +74,14 @@ namespace FITM_BE.Service.MemberService
             return _repository.GetAll<Member>().Select(member => _mapper.Map<MemberGeneratedDto>(member));
         }
 
+        public IQueryable<ProfileDto> getAllProfile()
+        {
+            IQueryable<ProfileDto> profileDtos =
+                 _repository.GetAll<Member>().Select(request => _mapper.Map<ProfileDto>(request));
+            //if (requestEditInfoDtos.Any()) return requestEditInfoDtos;
+            //else throw new NotFoundException("The list is empty");
+            return profileDtos;
+        }
         public async Task<ProfileDto> Get(int id)
         {
             var member = await _repository.Get<Member>(id);

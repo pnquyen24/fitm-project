@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using FITM_BE.Entity;
 using FITM_BE.Service;
 using System.Security.Claims;
+using Org.BouncyCastle.Bcpg;
+using FITM_BE.Util.Pagging;
 
 namespace FITM_BE.Controllers
 {
@@ -26,9 +28,24 @@ namespace FITM_BE.Controllers
         [HttpGet]
         [Authorize]
         public async Task<ProfileDto>Get()
+        {       
+            return await _memberService.Get(int.Parse(User.FindFirstValue("UserID"))); 
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ProfileDto> GetMemberById(int id)
         {
-            var userId = int.Parse(User.FindFirstValue("UserID"));
-            return await _memberService.Get(userId);
+            return await _memberService.Get(id);
+        }
+
+        [HttpPost]
+        [Authorize]
+
+        public async Task<PaggingResultDto<ProfileDto>> GetAllPagging(PaggingDto paggingDto)
+        {
+            var query = _memberService.getAllProfile();
+            return await query.GetGridResult(query, paggingDto);
         }
     }
 }
