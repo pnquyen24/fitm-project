@@ -3,8 +3,10 @@ import "./header.css";
 import Notification from "./Notification/Notification";
 import Avatar from "../Avatar/Avatar";
 import {Color} from "../../../Variable/Color/Color";
+import Theme from "./Theme/Theme";
+import { useEffect } from "react";
 
-function Header({isOpen, setOpen}) {
+function Header({isOpen, setOpen, themeChange, setTheme}) {
   var noti = 10;
   const avatarStyle = {
     backgroundImage: `url('/IMG/Capthanhdat_old_cyber_king_with_body_and_head_626afbe6-9b92-4ad7-bfcf-4c8af2629a9c.png')`,
@@ -15,6 +17,9 @@ function Header({isOpen, setOpen}) {
       else {setOpen(true);}
   }
 
+  useEffect(() => {
+  },[themeChange])
+
   return (
     <div className="header" style={{backgroundColor: Color.color2}}>
       <div className="header-left">
@@ -24,6 +29,7 @@ function Header({isOpen, setOpen}) {
       </div>
 
       <div className="header-right">
+        <Theme themeChange={themeChange} setTheme={setTheme}></Theme>
         <Notification Noti={noti}></Notification>
         <Avatar scale = {1} ></Avatar>
         {/* <button className="logout">

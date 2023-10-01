@@ -8,7 +8,7 @@ import InputInfo from "../../Member/Input/InputInfo";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import Profile from "../Profile/Profile";
 
-function Page({ isOpen, setOpen }) {
+function Page({ isOpen, setOpen ,  themeChange, setTheme }) {
   let [input, setInput] = useState("");
   let [noti, setNoti] = useState("");
   let [Click, setClick] = useState("");
@@ -20,7 +20,7 @@ function Page({ isOpen, setOpen }) {
 
   return (
     <div className="Page">
-      <Header isOpen={isOpen} setOpen={setOpen}></Header>
+      <Header isOpen={isOpen} setOpen={setOpen}  themeChange={themeChange} setTheme={setTheme}  ></Header>
       <Outlet></Outlet>
     <Routes>
    

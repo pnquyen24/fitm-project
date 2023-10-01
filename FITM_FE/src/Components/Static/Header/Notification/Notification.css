@@ -4,6 +4,7 @@ ion-icon {
 }
 .notification-cover{
   position: relative;
+  z-index: 50;
 }
 .notification {
   display: flex;
@@ -41,4 +42,7 @@ ion-icon {
 .noti-dropDown li{
   list-style-type: none;
   font-size: 0.6rem;
+}
+.hide{
+  display: none;
 }

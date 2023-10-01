@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SideBar.css';
 import SubInfo from './SubInfo/SubInfo';
 import Choice from './Choices/Choice';
@@ -9,6 +9,10 @@ function SideBar({isOpen, setOpen}) {
 
  
 
+  useEffect(() => {
+  },[Color])
+
+  
   const handleChoiceClick = (index) => {
     setSelectedChoice(index);
   };

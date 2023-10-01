@@ -10,12 +10,13 @@ import {Color} from "./Variable/Color/Color";
 function App() {
 
   const [isOpen, setOpen] = useState(false);
+  const [themeChange, setTheme] = useState(true);
 
   return (
     <div className="App" style={{backgroundColor: Color.color1}}>
 
-      <SideBar isOpen={isOpen} setOpen={setOpen}></SideBar>
-      <Page isOpen={isOpen} setOpen={setOpen}></Page>
+      <SideBar isOpen={isOpen} setOpen={setOpen} themeChange={themeChange}  ></SideBar>
+      <Page isOpen={isOpen} setOpen={setOpen}  themeChange={themeChange} setTheme={setTheme} ></Page>
     </div>
   );
 }
