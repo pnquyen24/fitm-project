@@ -7,6 +7,7 @@ import { Link, Outlet, Route, Routes } from "react-router-dom";
 import InputInfo from "../../Member/Input/InputInfo";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import Profile from "../Profile/Profile";
+import RequestEditInfo from "../RequestEditInfo/RequestEditInfo";
 
 function Page({ isOpen, setOpen }) {
   let [input, setInput] = useState("");

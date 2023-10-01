@@ -1,6 +1,12 @@
-  .form-control:focus {
+ .form-control:focus {
     box-shadow: none;
     border-color: lightblue;
+}
+
+.text-right {
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 20px;
 }
 
 .profile-button {
@@ -30,8 +36,20 @@
 }
 
 .labels {
-    font-size: 11px;
+    font-size: 16px;
     font-weight: bold;
+    color: rgba(0,0,0,.5);
+    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-right: 20px;
+}
+.backgroundTemp{
+    background-color: rgba(220, 220, 220, 0.181);
+    padding: 10px;
+    border-radius: 3px;
+}
+.marginTemp{
+    margin-left: -10px;
 }
 
 .add-experience:hover {
@@ -39,8 +57,9 @@
     cursor: pointer;
     border: solid 1px lightblue;
 }
-
-.btn_text {
-  text-decoration: none;
-  color: black;
+.py-4{
+    padding-bottom: 0 !important;
+}
+.sm_cl{
+    gap : 20px
 }

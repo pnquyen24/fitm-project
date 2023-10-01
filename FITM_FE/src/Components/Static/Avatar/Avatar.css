@@ -17,15 +17,15 @@
 .user-dropDown li {
   height: 40px;
   display: flex;
-  color: rgba(52, 52, 52, 0.6);
+  color: #696cff;
   border-bottom: solid 1px #696cff30;
-  display: flex;
   align-items: center;
   padding: 5px;
   border-radius: 2px;
 }
 .user-dropDown li:hover {
   background-color: #51515133;
+  cursor: pointer;
 }
 
 .hide{
@@ -33,6 +33,5 @@
 }
 
 .link-reatjs{
-
   text-decoration: none;
 }
