@@ -2,6 +2,7 @@ import React from "react";
 import "./header.css";
 import Notification from "./Notification/Notification";
 import Avatar from "../Avatar/Avatar";
+import {Color} from "../../../Variable/Color/Color";
 
 function Header({isOpen, setOpen}) {
   var noti = 10;
@@ -15,10 +16,10 @@ function Header({isOpen, setOpen}) {
   }
 
   return (
-    <div className="header">
+    <div className="header" style={{backgroundColor: Color.color2}}>
       <div className="header-left">
         <button className="menu" onClick={handleMenuButton}>
-          <ion-icon name="menu-outline"></ion-icon>
+          <ion-icon name="menu-outline" style={{ color: Color.color5}}></ion-icon>
         </button>
       </div>
 

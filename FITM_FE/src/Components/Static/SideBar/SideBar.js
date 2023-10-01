@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SideBar.css';
 import SubInfo from './SubInfo/SubInfo';
 import Choice from './Choices/Choice';
-
+import {Color} from '../../../Variable/Color/Color';
 function SideBar({isOpen, setOpen}) {
   const [selectedChoice, setSelectedChoice] = useState(null);
   
@@ -27,7 +27,7 @@ function SideBar({isOpen, setOpen}) {
   ];
 
   return (
-    <div className= {`sideBar ${isOpen ? "open" : ""}`}>
+    <div className= {`sideBar ${isOpen ? "open" : ""}`} style={{backgroundColor: Color.color2}}>
       <SubInfo></SubInfo>
       {choices.map((choice, index) => (
         <Choice
