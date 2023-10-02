@@ -6,7 +6,7 @@ import "./MemberProfile.css";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
-function MemberProfile({ memberId }) {
+function MemberProfile({  }) {
     const [member, setMember] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ function MemberProfile({ memberId }) {
 
     useEffect(() => {
         axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-        axios.get(`https://localhost:7226/apis/Member/GetMemberById?id=`+id)
+        axios.get(`https://localhost:7226/apis/Member/GetMemberById?id=${id}`)
             .then(response => {
                 setMember(response.data);
             })

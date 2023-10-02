@@ -48,7 +48,7 @@ function MemberList() {
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
-    navigate("/home/member-manager/member-profile?id=" + id)
+    navigate("/home/member-manager/information-details?id=" + id)
   }
 
   return (
