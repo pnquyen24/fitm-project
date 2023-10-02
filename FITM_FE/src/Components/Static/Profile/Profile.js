@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
+import Swal from "sweetalert2";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Profile({ memberId }) {
@@ -68,12 +69,12 @@ function Profile({ memberId }) {
       .then((response) => {
         // Handle the response from the API if needed
         console.log('Request submitted successfully:', response.data);
-        alert('Request submitted successfully:')
+        Swal.fire('Success!', 'Send request success!', 'success')
       })
       .catch((error) => {
         // Handle errors from the API request
         console.error('Error submitting request:', error);
-        alert('Error submitting request:');
+        Swal.fire('Error!', 'Error submitting request', 'error')
       }
       );
       
