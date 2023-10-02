@@ -7,9 +7,9 @@ function Theme({ Noti = 1 , themeChange, setTheme}) {
   const [isHide, setHide] = useState(true);
 
   const themes = [
-    { Theme: "Fire on sky", BGR: "#f0f8ff", Color: "red", ColorCode: 2 },
-    { Theme: "Little Start", BGR: "#01011d", Color: "white", ColorCode: 1 },
-    { Theme: "Cloudy Day", BGR: "#f0f8ff", Color: "#696cff", ColorCode: 0 },
+    { Theme: "Fire on sky", BGR: "#f0f8ff", Color: "red", ColorCode: 2, expandColor: "#ed0b382d"},
+    { Theme: "Little Start", BGR: "#01011d", Color: "white", ColorCode: 1 , expandColor: "#689775"},
+    { Theme: "Cloudy Day", BGR: "#f0f8ff", Color: "#696cff", ColorCode: 0 , expandColor: "#0bb8ed1c"},
   ];
 
   const handleThemeClick = () => {
@@ -45,11 +45,15 @@ function Theme({ Noti = 1 , themeChange, setTheme}) {
             key={index}
             className="theme-choice"
             style={{ backgroundColor: theme.BGR, color: theme.Color }}
-            onClick={() => handleThemeChoice(theme.ColorCode)} 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleThemeChoice(theme.ColorCode)
+            }} 
           >
+            <div className="expand-domain" style={{ backgroundColor: theme.expandColor }}></div>
             <ion-icon
               name="planet-outline"
-              style={{ color: theme.Color }}
+              style={{ color: theme.Color}}
             ></ion-icon>
             <p> {theme.Theme}</p>
           </div>

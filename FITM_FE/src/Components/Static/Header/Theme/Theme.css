@@ -16,13 +16,19 @@
   align-items: center;
   justify-content: start;
   box-sizing: border-box;
-  padding: 10px;
   gap: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
 }
 .theme-choice p {
   margin: 0;
   padding: 0;
   font-size: 0.7rem;
+  z-index: 1;
+}
+.theme-choice ion-icon{
+  padding-left: 10px;
 }
 .theme-dropDown {
   position: absolute;
@@ -39,8 +45,31 @@
   z-index: 500;
   padding: 10px;
   gap: 10px;
+  transition: all 0.5s ease-in-out;
+  border-radius: 5px;
 }
 
 .hide {
   display: none;
+}
+.expand-domain{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 0, 0, 0.056);
+  z-index: 0;
+  border-radius: 50%;
+  left: -23px;
+  animation: expandAnimation 2.5s linear infinite;
+}
+
+@keyframes expandAnimation {
+  0% {
+    transform: scale(0.01);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(10);
+    opacity: 0;
+  }
 }
