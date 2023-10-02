@@ -98,7 +98,7 @@ function ChangePassword({ isOpen, setOpen }) {
 
     function getColor(isValidPassword) {
         return isValidPassword ? 'green' : 'red';
-      }
+    }
 
     const handleSubmit = () => {
         const data = {
@@ -119,28 +119,28 @@ function ChangePassword({ isOpen, setOpen }) {
     return (
 
         <div className="change-form">
-            <div class="card card-outline-secondary">
-                <div class="card-header">
-                    <h3 class="mb-0">Change Password</h3>
+            <div className="card card-outline-secondary">
+                <div className="card-header">
+                    <h3 className="mb-0">Change Password</h3>
                 </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="inputPasswordOld">Current Password</label>
-                        <input type="password" class="form-control" id="inputPasswordOld" onChange={(e) => setInputOldPassword(e.target.value)} required />
+                <div className="card-body">
+                    <div className="mb-3">
+                        <label htmlFor="inputPasswordOld">Current Password</label>
+                        <input type="password" className="form-control" id="inputPasswordOld" onChange={(e) => setInputOldPassword(e.target.value)} required />
                     </div>
-                    <div class="mb-3">
-                        <label for="inputPasswordNew">New Password</label>
-                        <input type="password" class="form-control" id="inputPasswordNew" onChange={(e) => setInputNewPassword(e.target.value)} required />
-                        <span class="form-text small" style={{color : getColor(isValidPassword)}}>{noti}</span>
+                    <div className="mb-3">
+                        <label htmlFor="inputPasswordNew">New Password</label>
+                        <input type="password" className="form-control" id="inputPasswordNew" onChange={(e) => setInputNewPassword(e.target.value)} required />
+                        <span className="form-text small" style={{ color: getColor(isValidPassword) }}>{noti}</span>
                     </div>
-                    <div class="mb-3">
-                        <label for="inputPasswordNewVerify">Verify</label>
-                        <input type="password" class="form-control" id="inputPasswordNewVerify" onChange={(e) => setInputVerifyPassword(e.target.value)} onch oncrequired />
-                        <span class="form-text small " style={{color : getColor(!isButtonAvailable)}}>
+                    <div className="mb-3">
+                        <label htmlFor="inputPasswordNewVerify">Verify</label>
+                        <input type="password" className="form-control" id="inputPasswordNewVerify" onChange={(e) => setInputVerifyPassword(e.target.value)} required />
+                        <span className="form-text small " style={{ color: getColor(!isButtonAvailable) }}>
                             To confirm, type the new password again.
                         </span>
                     </div>
-                    <button class="btn btn-primary" disabled={isButtonAvailable} onClick={handleSubmit}>Save</button>
+                    <button className="btn btn-primary" disabled={isButtonAvailable} onClick={handleSubmit}>Save</button>
                 </div>
             </div>
         </div>
