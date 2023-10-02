@@ -25,7 +25,7 @@ root.render(
             <Route path="member-manager">
                 < Route path="create-member" element={<CreateMember></CreateMember>} />    
                 < Route path="member-list" element={<MemberList></MemberList>} />
-                < Route path="memberProfile" element={<MemberProfile></MemberProfile>} />
+                < Route path="member-profile" element={<MemberProfile></MemberProfile>} />
              </Route>
           <Route path="changepassword" element={<ChangePassword></ChangePassword>} />
           {/* tạo một component trang bản thân phụ trách, không cần quan tâm header side bar, 

@@ -47,5 +47,13 @@ namespace FITM_BE.Controllers
             var query = _memberService.getAllProfile();
             return await query.GetGridResult(query, paggingDto);
         }
+
+        [HttpPost]
+        public Task<ProfileDto> ChangeStatus(int id) 
+        {
+            var profileDto = _memberService.ChangeStatus(id);
+
+            return profileDto;
+        }
     }
 }

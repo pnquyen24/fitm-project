@@ -41,7 +41,7 @@
     color: rgba(0,0,0,.5);
     margin-top: 5px;
     margin-bottom: 0px;
-    margin-right: 20px;
+    margin-right:10px;
 }
 .backgroundTemp{
     background-color: rgba(220, 220, 220, 0.181);
@@ -49,7 +49,7 @@
     border-radius: 3px;
 }
 .marginTemp{
-    margin-left: -10px;
+    margin-left: 0px;
 }
 
 .add-experience:hover {
@@ -62,4 +62,24 @@
 }
 .sm_cl{
     gap : 20px
+}
+
+.status {
+    color: green;
+}
+
+#detail_button {
+    justify-content: center;
+}
+
+#detail_back {
+    width: 150px;
+}
+
+#deactivate {
+    width: 150px;
+}
+
+#activate {
+    width: 150px;
 }
