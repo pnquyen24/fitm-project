@@ -10,31 +10,21 @@ import Profile from "../Profile/Profile";
 import RequestEditInfo from "../RequestEditInfo/RequestEditInfo";
 
 function Page({ isOpen, setOpen }) {
-  let [input, setInput] = useState("");
-  let [noti, setNoti] = useState("");
-  let [Click, setClick] = useState("");
-  useEffect(() => {
-    if (input.length < 8) {
-      setNoti("chưa hợp lệ");
-    } else setNoti("hợp lệ");
-  }, [input]);
+    let [input, setInput] = useState("");
+    let [noti, setNoti] = useState("");
+    useEffect(() => {
+        if (input.length < 8) {
+            setNoti("chưa hợp lệ");
+        } else setNoti("hợp lệ");
+    }, [input]);
 
-  return (
-    <div className="Page">
-      <Header isOpen={isOpen} setOpen={setOpen}></Header>
-      <Outlet></Outlet>
-    <Routes>
-   
-
-    </Routes>
-       
-    </div>
-  );
+    return (
+        <div className="Page">
+            <Header isOpen={isOpen} setOpen={setOpen}></Header>
+            <div id="swal2-container">
+                <Outlet></Outlet>
+            </div>
+        </div>
+    );
 }
 export default Page;
-
-
-
-function Change(){
-  return <h1> change </h1>
-}

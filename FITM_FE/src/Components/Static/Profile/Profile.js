@@ -1,84 +1,84 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
-import Swal from "sweetalert2";
+//import Swal from "sweetalert2";
+import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Profile({ memberId }) {
-  const [member, setMember] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [tempMember, setTempMember] = useState(null);
+    const [member, setMember] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempMember, setTempMember] = useState(null);
 
-  useEffect(() => {
-    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-    axios.get(`https://localhost:7226/apis/Member/Get`)
-      .then(response => {
-        setMember(response.data);
-        setTempMember(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [memberId]);
+    useEffect(() => {
+        axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+        axios.get(`https://localhost:7226/apis/Member/Get`)
+            .then(response => {
+                setMember(response.data);
+                setTempMember(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, [memberId]);
 
-  // Function to toggle editing mode for all rows
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-    if (!isEditing) {
-      setTempMember(member);
-    }
-  };
-
-  // Function to check if an email is valid
-  function isValidEmail(checkEmail) {
-    // Regular expression for a simple email format check
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(checkEmail)) {
-      alert(`Invalid email format: ${checkEmail}`);
-      return false;
-    }
-    return emailRegex.test(checkEmail);
-  }
-
-  function getCurrentDate() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  // Function to handle form submission
-  const handleSubmit = () => {
-    if(!isValidEmail(tempMember.email))
-    { console.log('Invalid email format');return;} 
-    // Prepare the data to be sent in the request
-    const requestData = {
-      studentID: tempMember.studentID,
-      dob: tempMember.dob,
-      phoneNumber: tempMember.phoneNumber,
-      bankName: tempMember.bankName,
-      bankNumber: tempMember.bankNumber,
-      email: tempMember.email,
+    // Function to toggle editing mode for all rows
+    const toggleEditing = () => {
+        setIsEditing(!isEditing);
+        if (!isEditing) {
+            setTempMember(member);
+        }
     };
 
-    // Send a POST request to the API endpoint
-    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-    axios
-      .post('https://localhost:7226/apis/RequestEditInfo/Post', requestData)
-      .then((response) => {
-        // Handle the response from the API if needed
-        console.log('Request submitted successfully:', response.data);
-        Swal.fire('Success!', 'Send request success!', 'success')
-      })
-      .catch((error) => {
-        // Handle errors from the API request
-        console.error('Error submitting request:', error);
-        Swal.fire('Error!', 'Error submitting request', 'error')
-      }
-      );
-      
-  };
+    // Function to check if an email is valid
+    function isValidEmail(checkEmail) {
+        // Regular expression for a simple email format check
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailRegex.test(checkEmail)) {
+            alert(`Invalid email format: ${checkEmail}`);
+            return false;
+        }
+        return emailRegex.test(checkEmail);
+    }
+
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Function to handle form submission
+    const handleSubmit = () => {
+        if (!isValidEmail(tempMember.email)) { console.log('Invalid email format'); return; }
+        // Prepare the data to be sent in the request
+        const requestData = {
+            studentID: tempMember.studentID,
+            dob: tempMember.dob,
+            phoneNumber: tempMember.phoneNumber,
+            bankName: tempMember.bankName,
+            bankNumber: tempMember.bankNumber,
+            email: tempMember.email,
+        };
+
+        // Send a POST request to the API endpoint
+        axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+        axios
+            .post('https://localhost:7226/apis/RequestEditInfo/Post', requestData)
+            .then((response) => {
+                // Handle the response from the API if needed
+                console.log('Request submitted successfully:', response.data);
+                CustomeAlert.success('Send request success!');
+            })
+            .catch((error) => {
+                // Handle errors from the API request
+                console.error('Error submitting request:', error);
+                CustomeAlert.error('Send request Error!');
+            }
+            );
+
+    };
 
   if (!member) {
     return <div>Loading...</div>;

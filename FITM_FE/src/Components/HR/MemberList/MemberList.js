@@ -11,6 +11,7 @@ import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper
 function MemberList() {
   const [memberList, setMemberList] = useState([]);
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const [pageSize] = useState(9);
   const [sort] = useState('');
   const [sortDirection] = useState(0);
@@ -36,6 +37,7 @@ function MemberList() {
       .post('https://localhost:7226/apis/Member/GetAllPagging', requestData)
       .then((response) => {
         setMemberList(response.data.results);
+        setTotal(response.data.total);
       })
       .catch((error) => {
         console.error(error);
@@ -46,7 +48,7 @@ function MemberList() {
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
-    navigate("/home/member-manager/MemberProfile?id=" + id)
+    navigate("/home/member-manager/member-profile?id=" + id)
   }
 
   return (
@@ -66,13 +68,14 @@ function MemberList() {
         ) : (
           <TableContainer component={Paper} className="TableContainer">
             <Table>
-              <TableHead>
+              <TableHead className='TableHead'>
                 <TableRow>
                   <TableCell>ID</TableCell>
                   <TableCell>FullName</TableCell>
                   <TableCell>UserName</TableCell>
                   <TableCell>StudentID</TableCell>
                   <TableCell>Mail <MailIcon /></TableCell>
+                  <TableCell>Status</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -84,6 +87,7 @@ function MemberList() {
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.email}</TableCell>
+                    <TableCell>Active</TableCell>
                     <TableCell>
                       <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
                     </TableCell>
@@ -98,16 +102,53 @@ function MemberList() {
         <button
           onClick={() => setPage(page - 1)}
           disabled={page === 1}
-          className="pagination-button"
+          className="pagination-button sub-button"
         >
           Previous Page
         </button>
+        <button
+          onClick={() => setPage(page - 2)}
+          className="pagination-button sub-button"
+          style={{ display: (page - 2) > 0 ? "block" : "none" }}
+        >
+          Page {page - 2}
+        </button>
+
+        <button
+          onClick={() => setPage(page - 1)}
+          className="pagination-button sub-button"
+          style={{ display: (page - 1) > 0 ? "block" : "none" }}
+        >Page {page - 1}</button>
+
         <span>Page {page}</span>
+
         <button
           onClick={() => setPage(page + 1)}
-          className="pagination-button"
+          className="pagination-button sub-button"
+          style={{ display: pageSize * (page) < total? "block" : "none" }}
+        >Page {page + 1}</button>
+
+
+        <button
+          onClick={() => setPage(page + 2)}
+          className="pagination-button sub-button"
+          style={{ display: pageSize * (page+1) < total? "block" : "none" }}
+        >Page {page +2 }</button>
+
+        <button
+          onClick={() => setPage(page + 1)}
+          disabled={pageSize * page > total}
+          className="pagination-button sub-button"
         >
           Next Page
+        </button>
+
+        <button
+          onClick={() => setPage(Math.ceil(total/pageSize))}
+          disabled={pageSize * page > total}
+          className="pagination-button sub-button"
+        >
+          Last Page
         </button>
       </div>
     </div>

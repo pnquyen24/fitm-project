@@ -24,7 +24,7 @@ function MemberProfile({ memberId }) {
     });
 
     function BackToList() {
-        navigate("/home/member-manager/MemberList")
+        navigate("/home/member-manager/member-list")
       }
     if (!member) {
         return <div>Loading...</div>;
