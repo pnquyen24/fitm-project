@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
 //import Swal from "sweetalert2";
 import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import Swal from "sweetalert2";
+import './Profile.css';
 
 function Profile({ memberId }) {
     const [member, setMember] = useState(null);

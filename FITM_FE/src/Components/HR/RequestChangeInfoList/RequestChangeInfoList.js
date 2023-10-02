@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./MemberList.css";
-import MailIcon from '@mui/icons-material/Mail';
+import "./RequestChangeInfoList.css";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 
 
 
-function MemberList() {
+function RequestChangeInfoList() {
   const [memberList, setMemberList] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -19,6 +18,11 @@ function MemberList() {
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const status = {
+    0: "Pending",
+    1: "Accepted",
+    2: "Denied"
+  }
 
   useEffect(() => {
     const requestData = {
@@ -34,7 +38,7 @@ function MemberList() {
     axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
     axios
-      .post('https://localhost:7226/apis/Member/GetAllPagging', requestData)
+      .post('https://localhost:7226/apis/RequestEditInfo/GetAllPagging', requestData)
       .then((response) => {
         setMemberList(response.data.results);
         setTotal(response.data.total);
@@ -50,7 +54,6 @@ function MemberList() {
   function viewDetail(id) {
     navigate("/home/member-manager/member-profile?id=" + id)
   }
-
   return (
     <div className="container">
       <div>
@@ -70,11 +73,10 @@ function MemberList() {
             <Table>
               <TableHead className='TableHead'>
                 <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>FullName</TableCell>
-                  <TableCell>UserName</TableCell>
+                  <TableCell>!</TableCell>
+                  <TableCell>Created By</TableCell>
                   <TableCell>StudentID</TableCell>
-                  <TableCell>Mail <MailIcon /></TableCell>
+                  <TableCell>Mail</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -83,11 +85,10 @@ function MemberList() {
                 {memberList.map(request => (
                   <TableRow key={request.id}>
                     <TableCell>{request.id}</TableCell>
-                    <TableCell>{request.fullName}</TableCell>
-                    <TableCell>{request.username}</TableCell>
+                    <TableCell>{request.createdBy}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.email}</TableCell>
-                    <TableCell>Active</TableCell>
+                    <TableCell>{status[request.status]}</TableCell>
                     <TableCell>
                       <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
                     </TableCell>
@@ -155,4 +156,4 @@ function MemberList() {
   );
 }
 
-export default MemberList;
+export default RequestChangeInfoList;

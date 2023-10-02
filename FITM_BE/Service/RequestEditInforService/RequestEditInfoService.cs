@@ -25,9 +25,17 @@ namespace FITM_BE.Service.RequestEditInforService
         public IQueryable<CreateRequestEditInfoDto> getAllRequestEditInfo()
         {
             IQueryable<CreateRequestEditInfoDto> requestEditInfoDtos =
-                 _repository.GetAll<RequestEditInfo>().Select(request => _mapper.Map<CreateRequestEditInfoDto>(request));
-            //if (requestEditInfoDtos.Any()) return requestEditInfoDtos;
-            //else throw new NotFoundException("The list is empty");
+                 _repository.GetAll<RequestEditInfo>().Select(request => new CreateRequestEditInfoDto
+                 {
+                     Id = request.Id,
+                     BankName = request.BankName,
+                     DOB = request.DOB,
+                     BankNumber = request.BankNumber,
+                     Email = request.Email,
+                     PhoneNumber = request.PhoneNumber,
+                     StudentID = request.StudentID,
+                     CreatedBy = request.CreatedBy.Username ?? ""
+                 });
             return requestEditInfoDtos;
         }
 

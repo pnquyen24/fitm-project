@@ -29,7 +29,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        public async Task<PaggingResultDto<CreateRequestEditInfoDto>> GetAllPaggin(PaggingDto paggingDto)
+        public async Task<PaggingResultDto<CreateRequestEditInfoDto>> GetAllPagging(PaggingDto paggingDto)
         {
             var query = requestEditInforService.getAllRequestEditInfo();
             return await query.GetGridResult(query, paggingDto);
