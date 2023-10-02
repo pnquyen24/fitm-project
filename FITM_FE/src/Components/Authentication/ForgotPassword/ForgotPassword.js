@@ -35,7 +35,6 @@ function ForgotPassword() {
     }
 
     function checkStatus(result) {
-        console.log(result.status);
         if (result.status === 200) {
             Swal.fire("Success!", "Send email success", "success")
         } else {
