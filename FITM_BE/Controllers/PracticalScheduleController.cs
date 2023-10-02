@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PracticalScheduleController : ApiBase
     {
         private readonly IPracticalScheduleService _practicalScheduleService;
