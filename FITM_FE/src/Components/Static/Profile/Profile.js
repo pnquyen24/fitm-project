@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
 //import Swal from "sweetalert2";
 import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import Swal from "sweetalert2";
+import './Profile.css';
 
 function Profile({ memberId }) {
     const [member, setMember] = useState(null);
@@ -70,6 +72,7 @@ function Profile({ memberId }) {
                 // Handle the response from the API if needed
                 console.log('Request submitted successfully:', response.data);
                 CustomeAlert.success('Send request success!');
+                Swal.fire('Success!', 'Send request success!', 'success')
             })
             .catch((error) => {
                 // Handle errors from the API request
@@ -188,16 +191,130 @@ function Profile({ memberId }) {
                       <button onClick={toggleEditing} className="border px-3 p-1 add-experience float-right">
                       <i className="fa fa-plus"></i> {isEditing ? 'Cancel' : 'Edit Profile'}
                       </button>
+                Swal.fire('Error!', 'Error submitting request', 'error')
+            }
+            );
+
+    };
+
+    if (!member) {
+        return <div>Loading...</div>;
+    }
+    return (
+        <div>
+            <div className="container rounded bg-white mt-4 mb-4">
+                <div className="row">
+                    <div className="col-md-5 border-right">
+                        <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src='{member.avatar}' />
+                            <span className="font-weight-bold">{member.fullName}</span><span className="text-black-50">{member.email}</span><span> </span></div>
                     </div>
-                  </div>
+                    <div className="col-md-7">
+                        <div className="p-3 py-4 info-cover">
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h4 className="text-right">Your Profile</h4>
+                            </div>
+                            <div className="row mt-2">
+                                <div className="col-md-6 "><label className="labels">Full Name:</label>
+                                    <p className='backgroundTemp'>{member.fullName}</p>
+                                </div>
+                                <div className="col-md-6 marginTemp"><label className="labels">Username:</label>
+                                    <p className='backgroundTemp'>{member.username}</p>
+                                </div>
+                            </div>
+                            <div className="row mt-3">
+
+                                <div className="col-md-6"><label className="labels">Email:</label>{isEditing ? (
+                                    <input
+                                        type="text" value={tempMember.email}
+                                        className="form-control"
+                                        maxLength={30}
+                                        onChange={(e) => {
+                                            setTempMember({ ...tempMember, email: e.target.value });
+                                        }}
+                                    />
+                                ) : (
+                                    member.email
+                                )}</div>
+
+
+
+                                <div className="col-md-6 marginTemp"><label className="labels">Phone Number:</label>
+                                    {isEditing ? (
+                                        <input type="text" value={tempMember.phoneNumber}
+                                            className="form-control"
+                                            maxLength={11}
+                                            onChange={(e) => {
+                                                const numericInput = e.target.value.replace(/[^0-9]/g, '');
+                                                setTempMember({ ...tempMember, phoneNumber: numericInput })
+                                            }} />
+                                    ) : (member.bankNumber)}
+                                </div>
+
+
+                                <div className="row mt-2">
+
+                                    <div className="col-md-6"><label className="labels">Date of birth:</label>
+                                        {isEditing ? (
+                                            <input type="date" value={tempMember.dob.split('T')[0]}
+                                                className="form-control"
+                                                max={getCurrentDate()}
+                                                onChange={(e) => setTempMember({ ...tempMember, dob: e.target.value })} />
+                                        ) : (member.dob.split('T')[0])}
+                                    </div>
+
+
+                                    <div className="col-md-6"><label className="labels">Student ID:</label>
+                                        {isEditing ? (
+                                            <input type="text" value={tempMember.studentID}
+                                                className="form-control"
+                                                maxLength={10}
+                                                onChange={(e) => setTempMember({ ...tempMember, studentID: e.target.value })} />
+                                        ) : (member.studentID)}
+                                    </div>
+
+
+                                    <div className="col-md-6"><label className="labels">Bank Name:</label>
+                                        {isEditing ? (
+                                            <input type="text" value={tempMember.bankName}
+                                                className="form-control"
+                                                maxLength={15}
+                                                onChange={(e) => setTempMember({ ...tempMember, bankName: e.target.value })} />
+                                        ) : (member.bankName)}
+                                    </div>
+
+
+                                    <div className="col-md-6"><label className="labels">Bank Number:</label>
+                                        {isEditing ? (
+                                            <input type="text" value={tempMember.bankNumber}
+                                                className="form-control"
+                                                maxLength={20}
+                                                onChange={(e) => {
+                                                    const numericInput = e.target.value.replace(/[^0-9]/g, '');
+                                                    setTempMember({ ...tempMember, bankNumber: numericInput })
+                                                }} />
+                                        ) : (member.bankNumber)}
+                                    </div>
+
+                                    <div className="p-3 py-5">
+                                        <div className="d-flex justify-content-end sm_cl  align-items-center experience float-right" >
+                                            {/* Submit button */}
+                                            {isEditing && (
+                                                <button onClick={handleSubmit}
+                                                    className="border px-3 p-1 add-experience float-right"><i className="fa fa-plus"></i> Request</button>
+                                            )}
+                                            <button onClick={toggleEditing} className="border px-3 p-1 add-experience float-right">
+                                                <i className="fa fa-plus"></i> {isEditing ? 'Cancel' : 'Edit Profile'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Profile;

@@ -8,6 +8,7 @@ import InputInfo from "../../Member/Input/InputInfo";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import Profile from "../Profile/Profile";
 import RequestEditInfo from "../RequestEditInfo/RequestEditInfo";
+import { Outlet } from "react-router-dom";
 
 function Page({ isOpen, setOpen }) {
     let [input, setInput] = useState("");
