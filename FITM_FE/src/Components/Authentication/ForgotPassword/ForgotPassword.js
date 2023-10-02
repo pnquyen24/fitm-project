@@ -26,7 +26,6 @@ function ForgotPassword() {
             checkStatus(response);
         } catch (error) {
             if (error.response.status === 404) {
-                console.log(error.response.status);
                 Swal.fire("Error!", "Email not found", "error")
             } else {
                 Swal.fire("Error!", "Something went wrong", "error")
