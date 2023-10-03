@@ -41,11 +41,18 @@ namespace FITM_BE.Controllers
 
         [HttpPost]
         [Authorize]
-
         public async Task<PaggingResultDto<ProfileDto>> GetAllPagging(PaggingDto paggingDto)
         {
             var query = _memberService.getAllProfile();
             return await query.GetGridResult(query, paggingDto);
+        }
+
+        [HttpPost]
+        public Task<ProfileDto> ChangeStatus(int id) 
+        {
+            var profileDto = _memberService.ChangeStatus(id);
+
+            return profileDto;
         }
     }
 }

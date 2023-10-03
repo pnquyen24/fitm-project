@@ -33,13 +33,20 @@ namespace FITM_BE.Controllers
         {
             var query = requestEditInforService.getAllRequestEditInfo();
             return await query.GetGridResult(query, paggingDto);
-        }
+        } 
 
         [HttpPost]
         public async Task<RequestEditInfoDto> Post(RequestEditInfoDto requestEditInfoDto)
         {
             RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);
             return requestEditInfoDto;
+        }
+
+        [HttpGet]
+        public  CompareRequestDTO GetCompareRequestDto(int createdId, string username)
+        {
+            CompareRequestDTO compareRequestDTO =  requestEditInforService.getCompareRequest(createdId, username);
+            return compareRequestDTO;
         }
     }
 }

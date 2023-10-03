@@ -51,8 +51,8 @@ function RequestChangeInfoList() {
       });
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
-  function viewDetail(id) {
-    navigate("/home/member-manager/member-profile?id=" + id)
+  function viewDetail(id,username) {
+    navigate("/home/member-manager/request-details?createdId=" + id +"&username=" +username)
   }
   return (
     <div className="container">
@@ -88,9 +88,9 @@ function RequestChangeInfoList() {
                     <TableCell>{request.createdBy}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.email}</TableCell>
-                    <TableCell>{status[request.status]}</TableCell>
+                    <TableCell  className={`${status[request.status]}`}>{status[request.status]}</TableCell>
                     <TableCell>
-                      <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
+                      <Button onClick={() => viewDetail(request.id,request.createdBy)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -138,7 +138,7 @@ function RequestChangeInfoList() {
 
         <button
           onClick={() => setPage(page + 1)}
-          disabled={pageSize * page > total}
+          disabled={pageSize * page >= total}
           className="pagination-button sub-button"
         >
           Next Page
@@ -146,7 +146,7 @@ function RequestChangeInfoList() {
 
         <button
           onClick={() => setPage(Math.ceil(total/pageSize))}
-          disabled={pageSize * page > total}
+          disabled={pageSize * page >= total}
           className="pagination-button sub-button"
         >
           Last Page

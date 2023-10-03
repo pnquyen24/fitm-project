@@ -16,5 +16,6 @@ namespace FITM_BE.Service.MemberService.Dtos
         public string BankName { get; set; }
         public string BankNumber { get; set; }
         public string Avatar { get; set; }
+        public bool Status { get; set; }
     }
 }
