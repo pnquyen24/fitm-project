@@ -6,6 +6,7 @@
 .container {
   width: 100%;
   float: left;
+  margin-top: 5px;
 }
 
 /* Table styles */
@@ -47,4 +48,12 @@
   text-decoration: underline;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.create-member{
+  float: right;
+  margin-top: 5px !important;
+  background-color:rgb(67,130,218) !important;
+  color: white !important;
+  margin-right:  12px !important;
 }

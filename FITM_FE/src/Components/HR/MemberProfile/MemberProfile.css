@@ -1,5 +1,6 @@
 .member-profile-container{
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 .form-control:focus {
     box-shadow: none;
@@ -75,8 +76,9 @@
     justify-content: center;
 }
 
+
 #detail_back {
-    width: 150px;
+    width: 150px !important;
 }
 
 #deactivate {
@@ -85,4 +87,13 @@
 
 #activate {
     width: 150px;
+}
+.mbButton{
+    width: 150px !important;
+}
+.detail_button_cover{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 20px;
 }

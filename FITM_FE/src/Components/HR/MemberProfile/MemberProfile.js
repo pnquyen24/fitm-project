@@ -15,8 +15,8 @@ function MemberProfile() {
 
 
   function getData(){
-    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-    axios.get(`https://localhost:7226/apis/Member/GetMemberById?id=${id}`)
+    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token" )}`;
+    axios.get('https://localhost:7226/apis/Member/GetMemberById?id='+id)
       .then(response => {
         setMember(response.data);
       })
@@ -30,7 +30,7 @@ function MemberProfile() {
 
   function ChangeStatus(id) {
     // Send a POST request to the API endpoint
-    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token" )}`;
     axios
       .post('https://localhost:7226/apis/Member/ChangeStatus?id=' + id)
       .then((response) => {
@@ -132,13 +132,13 @@ function MemberProfile() {
           </div>
         </div>      
       </div>
-      <div className="row mt-2" id="detail_button">
-        <Button className="col-md-2" id="detail_back" onClick={() => { BackToList(); }} variant="outlined">Back to List</Button>
+      <div  className="detail_button_cover">
+        <Button className=" mbButton" id="detail_back" onClick={() => { BackToList(); }} variant="outlined" style={{width:"150px"}}>Back to List</Button>
 
-        <div className="col-md-2" id="detail_button">
+        <div  className="detail_button">
           {member.status ?
-            <Button id="deactivate" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Deactivate </Button> :
-            <Button id="activate" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Activate </Button>}
+            <Button id="deactivate" className = "mbButton" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Deactivate </Button> :
+            <Button id="activate" className = "mbButton" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Activate </Button>}
         </div>
       </div>
     </div>

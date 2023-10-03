@@ -12,8 +12,7 @@ function SideBar({isOpen, setOpen}) {
   };
 //<ion-icon name="calendar-outline"></ion-icon> <ion-icon name="add-circle-outline"></ion-icon>
   const choices = [
-    { Title: 'Add Member', Icon: 'person-add-outline', Link: "member-manager/create-member"},
-    { Title: 'Member list', Icon: 'people-outline', Link: "member-manager/member-list"},
+    { Title: 'Member Management', Icon: 'person-outline', Link: "member-manager/member-list"},
     { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "member-manager/request-edit-info-list" },
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/home/profile" },
     { Title: 'Plan', Icon: 'calendar-outline' , Link: "/home/profile"},

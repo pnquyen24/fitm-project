@@ -59,7 +59,9 @@ function MemberList() {
   function viewDetail(id) {
     navigate("/home/member-manager/member-profile?id=" + id);
   }
-
+  function addMember() {
+    navigate("/home/member-manager/create-member");
+  }
   return (
     <div className="container">
       <div>
@@ -70,7 +72,9 @@ function MemberList() {
           onChange={(e) => setSearchText(e.target.value)}
           className="search-input"
         />
+        <Button  onClick={() => addMember()} variant="outlined"size="small" sx={{}} className="detail-button create-member ">Add Member</Button>
       </div>
+      
       <div>
         {loading ? (
           <div className="loading">Loading...</div>
@@ -98,9 +102,9 @@ function MemberList() {
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.email}</TableCell>
-                    <TableCell style={{ color: request.status ?  'green' : 'red'}}>
-                      {request.status ?  'Active' : 'Inactive'}</TableCell>
-                      
+                    <TableCell style={{ color: request.status ? 'green' : 'red' }}>
+                      {request.status ? 'Active' : 'Inactive'}</TableCell>
+
                     <TableCell>
                       <Button
                         onClick={() => viewDetail(request.id)}
