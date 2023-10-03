@@ -19,5 +19,7 @@ namespace FITM_BE.EntityFrameworkCore
 
         public DbSet<Member> Members { get; set; }
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
+        public DbSet<Song> Songs { get; set; }
+
     }
 }

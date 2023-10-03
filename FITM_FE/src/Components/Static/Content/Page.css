@@ -1,8 +1,11 @@
 .Page{
     flex: 1;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
 }

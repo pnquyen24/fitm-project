@@ -23,7 +23,7 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/home/profile" },
     { Title: 'Plan', Icon: 'calendar-outline' , Link: "/home/profile"},
     { Title: 'Add showw', Icon: 'add-circle-outline', Link: "/home/profile" },
-    { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/home/music list" },
+    { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/home/music" },
 
     
 
@@ -39,6 +39,7 @@ function SideBar({isOpen, setOpen}) {
           Title={choice.Title}
           Icon={choice.Icon}
           isOpen = {isOpen}
+          _Link = {choice.Link}
           isSelected={selectedChoice === index}
           onClick={() => handleChoiceClick(index)}
         ></Choice>

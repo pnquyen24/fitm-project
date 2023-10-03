@@ -1,0 +1,9 @@
+.music{
+    width: 96%;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    align-self: center;
+    position: relative;
+    padding: 20px 0;
+}

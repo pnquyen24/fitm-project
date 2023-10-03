@@ -59,7 +59,7 @@ let Colors = [
     }
 
 ];
-export let Color = Colors[1];
+export let Color = Colors[2];
 export const setColor = (number) =>{
     Color = Colors[number];
 }

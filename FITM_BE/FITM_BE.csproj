@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="EntityFrameworkCore\Seed\" />
+    <Folder Include="Service\SongService\" />
     <Folder Include="Service\Test\DTOs\" />
   </ItemGroup>
 
