@@ -8,21 +8,40 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 function MemberProfile() {
-    const [member, setMember] = useState(null);
-    const location = useLocation();
-    const navigate = useNavigate();
-    const id = new URLSearchParams(location.search).get('id');
+  const [member, setMember] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const id = new URLSearchParams(location.search).get('id');
 
-    useEffect(() => {
-        axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-        axios.get(`https://localhost:7226/apis/Member/GetMemberById?id=${id}`)
-            .then(response => {
-                setMember(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    },[id]);
+  useEffect(() => {
+    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    axios.get(`https://localhost:7226/apis/Member/GetMemberById?id=${id}`)
+      .then(response => {
+        setMember(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [id]);
+
+  function ChangeStatus(id) {
+    // Send a POST request to the API endpoint
+    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    axios
+      .post('https://localhost:7226/apis/Member/ChangeStatus?id=' + id)
+      .then((response) => {
+        // Handle the response from the API if needed
+        console.log('Request submitted successfully:', response.data);
+        CustomeAlert.success('Send request success!');
+      })
+      .catch((error) => {
+        // Handle errors from the API request
+        console.error('Error submitting request:', error);
+        CustomeAlert.error('Send request Error!');
+      }
+      );
+
+  };
 
   function BackToList() {
     navigate("/home/member-manager/member-list");
@@ -78,11 +97,11 @@ function MemberProfile() {
                   <label className="labels">Status:</label> {member.status}
                   <label
                     className="status"
-                  style={{ color: member.status ?  'green' : 'red'}}>
-                      {member.status ?  'Active' : 'Inactive'}
-                   
+                    style={{ color: member.status ? 'green' : 'red' }}>
+                    {member.status ? 'Active' : 'Inactive'}
+
                   </label>
-                  
+
                 </div>
               </div>
 
@@ -109,16 +128,16 @@ function MemberProfile() {
         </div>
       </div>
 
-      <div className="row mt-2" id="detail_button">  
-      <Button className="col-md-2" id="detail_back" onClick={() => {BackToList();}}   variant="outlined">Back to List</Button>
+      <div className="row mt-2" id="detail_button">
+        <Button className="col-md-2" id="detail_back" onClick={() => { BackToList(); }} variant="outlined">Back to List</Button>
 
-      <div className="col-md-2" id="detail_button">
-      {member.status ? 
-      <Button id="deactivate" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Deactivate </Button> : 
-      <Button id="activate" onClick={() => {  ChangeStatus(member.id) }} variant="outlined" > Activate </Button> }
+        <div className="col-md-2" id="detail_button">
+          {member.status ?
+            <Button id="deactivate" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Deactivate </Button> :
+            <Button id="activate" onClick={() => { ChangeStatus(member.id) }} variant="outlined" > Activate </Button>}
+        </div>
       </div>
-      </div>
-      </div>
+    </div>
   );
 }
 

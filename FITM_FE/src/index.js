@@ -19,48 +19,28 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="login" element={<Login></Login>}></Route>
-        <Route path="home" element={<App></App>}>
-          <Route path="profile" element={<Profile></Profile>} />
-          <Route path="RequestEditInfoList" element={<RequestEditInfo></RequestEditInfo>} />
-            <Route path="member-manager">
-                < Route path="create-member" element={<CreateMember></CreateMember>} />    
-                < Route path="member-list" element={<MemberList></MemberList>} />
-                < Route path="member-profile" element={<MemberProfile></MemberProfile>} />
-             </Route>
-          <Route path="changepassword" element={<ChangePassword></ChangePassword>} />
+        <Route path="login" element={<Login />} />
+        <Route path="home" element={<App />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
           <Route path="member-manager" >
-            < Route path="create-member" element={<CreateMember></CreateMember>} />
-            <Route path="request-edit-info-list" element={<RequestChangeInfoList></RequestChangeInfoList>} />
-            < Route path="information-details" element={<MemberProfile></MemberProfile>} />
-            < Route path="member-list" element={<MemberList></MemberList>} />
-            < Route path="request-details" element={<RequestDetail></RequestDetail>} />
-          </Route>
-          {/* tạo một component trang bản thân phụ trách, không cần quan tâm header side bar, 
+            <Route path="create-member" element={<CreateMember />} />
+            <Route path="member-list" element={<MemberList />} />
+            <Route path="member-profile" element={<MemberProfile />} />
+            <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
+            <Route path="request-details" element={<RequestDetail />} />
+            {/* tạo một component trang bản thân phụ trách, không cần quan tâm header side bar, 
           xong gắn nó như mẫu profie ở trên
           profile chỉ là bản nháp, ai phụ trách phần này có thể xóa thoải mái
            */}
+          </Route>
+          <Route path="changepassword" element={<ChangePassword />} />
+          {/* Add more top-level routes under home as needed */}
         </Route>
-        <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
-    <React.StrictMode>
-        <BrowserRouter>
-            <Routes>
-                <Route path="login" element={<Login></Login>}></Route>
-                <Route path="home" element={<App></App>}>
-                    <Route path="profile" element={<Profile></Profile>} />
-                    <Route path="changepassword" element={<ChangePassword></ChangePassword>} />
-                    {/* tạo một component trang bản thân phụ trách, không cần quan tâm header side bar, 
-                    xong gắn nó như mẫu profie ở trên
-                    profile chỉ là bản nháp, ai phụ trách phần này có thể xóa thoải mái
-                    */}
-                </Route>
-                <Route path="/forgotPassword" element={<ForgotPassword />}></Route>
-            </Routes>
-        </BrowserRouter>
-    </React.StrictMode>
 );
 
 reportWebVitals();
