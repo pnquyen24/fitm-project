@@ -30,19 +30,17 @@ function MemberProfile() {
 
   function ChangeStatus(id) {
     // Send a POST request to the API endpoint
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token" )}`;
+    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
     axios
       .post('https://localhost:7226/apis/Member/ChangeStatus?id=' + id)
       .then((response) => {
-        // Handle the response from the API if needed
         console.log('Request submitted successfully:', response.data);
-        CustomeAlert.success('Send request success!');
+        CustomeAlert.success(`${member.status == 1 ? "Deactivate" : "Activate"} success!`);
         getData();
       })
       .catch((error) => {
-        // Handle errors from the API request
-        console.error('Error submitting request:', error);
-        CustomeAlert.error('Send request Error!');
+        console.error(error);
+        CustomeAlert.error(`${member.status == 1 ? "Deactivate" : "Activate"} Error!`);
       }
       );
 

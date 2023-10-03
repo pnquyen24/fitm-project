@@ -7,7 +7,9 @@ namespace FITM_BE.Service.RequestEditInforService
     {
         public IQueryable<CreateRequestEditInfoDto> getAllRequestEditInfo();
         public Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto);
-        public CompareRequestDTO getCompareRequest(int requestId, string username);
+        public CompareRequestDTO getCompareRequest(int Id);
+        public Task<CreateRequestEditInfoDto> DenyRequest(int Id, int HRId);
+        public Task<CreateRequestEditInfoDto> AcceptRequest(int Id, int HRId);
 
     }
 }

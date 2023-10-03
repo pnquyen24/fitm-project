@@ -7,6 +7,7 @@ using FITM_BE.Service.Test;
 using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
@@ -43,10 +44,24 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        public  CompareRequestDTO GetCompareRequestDto(int createdId, string username)
+        public  CompareRequestDTO GetCompareRequest(int Id)
         {
-            CompareRequestDTO compareRequestDTO =  requestEditInforService.getCompareRequest(createdId, username);
+            CompareRequestDTO compareRequestDTO =  requestEditInforService.getCompareRequest(Id);
             return compareRequestDTO;
+        }
+
+        [HttpPost]
+        public async Task<CreateRequestEditInfoDto> DenyRequest(int id)
+        {
+            var HR = int.Parse(User.FindFirstValue("UserID"));
+            return  await requestEditInforService.DenyRequest(id, HR);
+        }
+
+        [HttpPost]
+        public async Task<CreateRequestEditInfoDto> AcceptRequest(int id)
+        {
+            var HR = int.Parse(User.FindFirstValue("UserID"));
+            return await requestEditInforService.AcceptRequest(id, HR);
         }
     }
 }

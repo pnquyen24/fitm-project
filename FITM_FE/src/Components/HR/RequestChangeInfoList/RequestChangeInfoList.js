@@ -51,8 +51,8 @@ function RequestChangeInfoList() {
       });
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
-  function viewDetail(id,username) {
-    navigate("/home/member-manager/request-details?createdId=" + id +"&username=" +username)
+  function viewDetail(id) {
+    navigate("/home/member-manager/request-details?id=" + id )
   }
   return (
     <div className="container">
@@ -90,7 +90,7 @@ function RequestChangeInfoList() {
                     <TableCell>{request.email}</TableCell>
                     <TableCell  className={`${status[request.status]}`}>{status[request.status]}</TableCell>
                     <TableCell>
-                      <Button onClick={() => viewDetail(request.id,request.createdBy)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
+                      <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
                     </TableCell>
                   </TableRow>
                 ))}

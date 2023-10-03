@@ -4,34 +4,74 @@ import "./RequestDetail.css";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 function RequestDetail() {
     const [compareData, setCompareData] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
-    const createdId = new URLSearchParams(location.search).get('createdId');
-    const username = new URLSearchParams(location.search).get('username');
+    const id = new URLSearchParams(location.search).get('id');
     const status = {
         0: "Pending",
         1: "Accepted",
         2: "Denied"
     }
 
-    useEffect(() => {
+    function getData(){
         axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-        axios.get(`https://localhost:7226/apis/RequestEditInfo/GetCompareRequestDto?createdId=${createdId}&username=${username}`)
+        axios.get(`https://localhost:7226/apis/RequestEditInfo/GetCompareRequest?id=${id}`)
             .then(response => {
                 setCompareData(response.data);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, [createdId, username]);
+    }
+
+    useEffect(() => {
+       getData();
+    }, [id]);
 
     function BackToList() {
         navigate("/home/member-manager/request-edit-info-list");
     }
+
+    function AcceptRequest(id) {
+        // Send a POST request to the API endpoint
+        axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+        axios
+          .post('https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=' + id)
+          .then((response) => {
+            console.log('Request submitted successfully:', response.data);
+            CustomeAlert.success(`Accept request success!`);
+            getData();
+          })
+          .catch((error) => {
+            console.error(error);
+            CustomeAlert.error(`Accept Request Error!`);
+          }
+          );
+    
+      };
+
+      function DenyRequest(id) {
+        // Send a POST request to the API endpoint
+        axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+        axios
+          .post('https://localhost:7226/apis/RequestEditInfo/DenyRequest?id=' + id)
+          .then((response) => {
+            console.log('Request submitted successfully:', response.data);
+            CustomeAlert.success(`Deny request success!`);
+            getData();
+          })
+          .catch((error) => {
+            console.error(error);
+            CustomeAlert.error(`Deny Request Error!`);
+          }
+          );
+    
+      };
 
     return (
         <div className="container">
@@ -96,11 +136,11 @@ function RequestDetail() {
                 <Button
                     style={{ display: (compareData.status === 1 || compareData.status === 2) ? "none" : "block" }}
                     className='buttons accept-button'
-                    onClick={() => { BackToList() }} variant="outlined">Accepted</Button>
+                    onClick={() => { AcceptRequest(id) }} variant="outlined">Accepted</Button>
                 <Button
                     style={{ display: (compareData.status === 1 || compareData.status === 2) ? "none" : "block" }}
                     className='buttons deny-button'
-                    onClick={() => { BackToList() }} variant="outlined">Denied</Button>
+                    onClick={() => { DenyRequest(id) }} variant="outlined">Denied</Button>
             </div>
         </div>
     );
