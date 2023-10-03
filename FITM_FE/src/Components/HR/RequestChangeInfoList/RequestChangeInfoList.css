@@ -48,14 +48,14 @@
     margin-left: 20px;
     margin-right: 20px;
   }
-  .Pending {
-    color: darkorange !important;
+  .MuiTableCell-root.Pending {
+    color: darkorange ;
   }
   
-  .Accepted {
-    color: green !important;
+  .MuiTableCell-root.Denied {
+    color: red ;
   }
-  
-  .Denied {
-    color: red !important;
+
+  .MuiTableCell-root.Accepted {
+    color: green;
   }

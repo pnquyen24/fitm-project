@@ -13,7 +13,8 @@ function MemberProfile() {
   const navigate = useNavigate();
   const id = new URLSearchParams(location.search).get('id');
 
-  useEffect(() => {
+
+  function getData(){
     axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
     axios.get(`https://localhost:7226/apis/Member/GetMemberById?id=${id}`)
       .then(response => {
@@ -22,6 +23,9 @@ function MemberProfile() {
       .catch(error => {
         console.log(error);
       });
+  }
+  useEffect(() => {
+    getData();
   }, [id]);
 
   function ChangeStatus(id) {
@@ -33,6 +37,7 @@ function MemberProfile() {
         // Handle the response from the API if needed
         console.log('Request submitted successfully:', response.data);
         CustomeAlert.success('Send request success!');
+        getData();
       })
       .catch((error) => {
         // Handle errors from the API request
@@ -50,9 +55,9 @@ function MemberProfile() {
     return <div>Loading...</div>;
   }
   return (
-    <div>
+    <div className="member-profile-container">
       <div className="container rounded bg-white mt-5 mb-4 ">
-        <div className="row ">
+        <div className="row">
           <div className="col-md-5 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
               <img
@@ -125,9 +130,8 @@ function MemberProfile() {
               </div>
             </div>
           </div>
-        </div>
+        </div>      
       </div>
-
       <div className="row mt-2" id="detail_button">
         <Button className="col-md-2" id="detail_back" onClick={() => { BackToList(); }} variant="outlined">Back to List</Button>
 
