@@ -48,6 +48,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public Task<ProfileDto> ChangeStatus(int id) 
         {
             var profileDto = _memberService.ChangeStatus(id);

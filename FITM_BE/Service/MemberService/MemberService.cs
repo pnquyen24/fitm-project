@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FITM_BE.Authentication;
 using FITM_BE.Entity;
+using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.EmailService;
 using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Util;
@@ -27,7 +28,7 @@ namespace FITM_BE.Service.MemberService
             var existingMember = await CheckExistEmail(createMemberDto.Email);
             if (existingMember != null)
             {
-                throw new Exception("Email đã tồn tại");
+                throw new InvalidException("Email đã tồn tại");
             }
 
             var newMember = _mapper.Map<Member>(createMemberDto);
