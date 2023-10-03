@@ -88,7 +88,7 @@ function CreateMember() {
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="form-input" required /><br />
 
         <label htmlFor="phonenumber" className="form-label">Phone Number:</label>
-        <input type="tel" id="phonenumber" name="phonenumber" maxLength={11} minLength={10} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" value={formData.phonenumber} onChange={handleChange} className="form-input" required /><br />
+        <input type="tel" id="phonenumber" name="phonenumber" maxLength={11} minLength={10} value={formData.phonenumber} onChange={handleChange} className="form-input" required /><br />
         { formData.phonenumber.length != 0 && (formData.phonenumber.length < 10  ||formData.phonenumber.length > 11) ? 
         <span className="form-error">Phone number must be exactly 10 - 11 digits</span> : <span></span>}<br />
 
