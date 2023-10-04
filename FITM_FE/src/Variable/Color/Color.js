@@ -53,7 +53,7 @@ let Colors = [
         // fire on sky
         color1 : "#f0f8ff", //background
         color2 : "#fff",  // field background
-        color3 : "#696cff", // button, ...
+        color3 : "#ed0b382d", // button, ...
         color4 : "#ed0b382d", //  hover , active ...
         color5 : "red", //text color
     },
@@ -68,6 +68,7 @@ let Colors = [
 
 ];
 export let Color = Colors[2];
+
 export const setColor = (number) =>{
     Color = Colors[number];
 }
