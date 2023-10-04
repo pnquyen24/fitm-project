@@ -30,22 +30,21 @@ function SideBar({isOpen, setOpen}) {
 
   ];
 
-  return (
-    <div className= {`sideBar ${isOpen ? "open" : ""}`} style={{backgroundColor: Color.color2}}>
-      <SubInfo></SubInfo>
-      {choices.map((choice, index) => (
-        <Choice
-          key={index}
-          Title={choice.Title}
-          Icon={choice.Icon}
-          isOpen = {isOpen}
-          _Link = {choice.Link}
-          isSelected={selectedChoice === index}
-          onClick={() => handleChoiceClick(index)}
-        ></Choice>
-      ))}
-    </div>
-  );
+    return (
+        <div className={`sideBar ${isOpen ? "open" : ""}`} style={{backgroundColor:Color.color2}}>
+            <SubInfo></SubInfo>
+            {choices.map((choice, index) => (
+                <Choice
+                    key={index}
+                    Title={choice.Title}
+                    Icon={choice.Icon}
+                    isOpen={isOpen}
+                    isSelected={selectedChoice === index}
+                    onClick={() => handleChoiceClick(index)}
+                ></Choice>
+            ))}
+        </div>
+    );
 }
 
 export default SideBar;
