@@ -21,7 +21,6 @@ function MemberProfile() {
         setMember(response.data);
       })
       .catch(error => {
-        console.log(error);
       });
   }
   useEffect(() => {
@@ -33,13 +32,11 @@ function MemberProfile() {
     axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
     axios
       .post('https://localhost:7226/apis/Member/ChangeStatus?id=' + id)
-      .then((response) => {
-        console.log('Request submitted successfully:', response.data);
+      .then(() => {
         CustomeAlert.success(`${member.status == 1 ? "Deactivate" : "Activate"} success!`);
         getData();
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         CustomeAlert.error(`${member.status == 1 ? "Deactivate" : "Activate"} Error!`);
       }
       );

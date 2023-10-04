@@ -45,11 +45,9 @@ function MemberList() {
       .post("https://localhost:7226/apis/Member/GetAllPagging", requestData)
       .then((response) => {
         setMemberList(response.data.results);
-        console.log(response.data.results);
         setTotal(response.data.total);
       })
       .catch((error) => {
-        console.error(error);
       })
       .finally(() => {
         setLoading(false);

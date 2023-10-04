@@ -18,7 +18,6 @@ function Profile({ memberId }) {
                 setTempMember(response.data);
             })
             .catch(error => {
-                console.log(error);
             });
     }, [memberId]);
 
@@ -68,13 +67,9 @@ function Profile({ memberId }) {
         axios
             .post('https://localhost:7226/apis/RequestEditInfo/Post', requestData)
             .then((response) => {
-                // Handle the response from the API if needed
-                console.log('Request submitted successfully:', response.data);
                 CustomeAlert.success('Send request success!');
             })
             .catch((error) => {
-                // Handle errors from the API request
-                console.error('Error submitting request:', error);
                 CustomeAlert.error('Send request Error!');
             }
             );

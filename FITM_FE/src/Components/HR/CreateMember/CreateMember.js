@@ -17,7 +17,6 @@ function CreateMember() {
     bankname: ''
   });
 
-  const [emailError, setEmailError] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +24,6 @@ function CreateMember() {
     formData.email = formData.email.toLowerCase();
     axios.post('https://localhost:7226/apis/Member/Create', formData)
       .then(response => {
-        console.log(response.data);
         Swal.fire({
           icon: 'success',
           title: 'Create Successfully !!!',

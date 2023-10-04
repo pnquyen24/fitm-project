@@ -43,7 +43,6 @@ function RequestDetail() {
         axios
           .post('https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=' + id)
           .then((response) => {
-            console.log('Request submitted successfully:', response.data);
             CustomeAlert.success(`Accepted successfully!`);
             getData();
           })
@@ -61,7 +60,6 @@ function RequestDetail() {
         axios
           .post('https://localhost:7226/apis/RequestEditInfo/DenyRequest?id=' + id)
           .then((response) => {
-            console.log('Request submitted successfully:', response.data);
             CustomeAlert.success(`Denied successfully!`);
             getData();
           })

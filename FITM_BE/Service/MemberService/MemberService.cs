@@ -14,7 +14,7 @@ namespace FITM_BE.Service.MemberService
         private readonly IAccountService _accountService;
         private readonly IEmailSender _emailSender;
 
-        public MemberService(IRepository repository, IMapper mapper, IAccountService accountService, IEmailSender emailSender, IConfiguration configuration) : base(repository, mapper)
+        public MemberService(IRepository repository, IMapper mapper, IAccountService accountService, IEmailSender emailSender) : base(repository, mapper)
         {
             _accountService = accountService;
             _emailSender = emailSender;
