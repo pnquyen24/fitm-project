@@ -141,7 +141,11 @@ function MemberList() {
           Page {page - 1}
         </button>
 
-        <span className="main_page">Page {page}</span>
+        <button
+          className="pagination-button sub-button main-page"
+        >
+          Page {page}
+        </button>
 
         <button
           onClick={() => setPage(page + 1)}

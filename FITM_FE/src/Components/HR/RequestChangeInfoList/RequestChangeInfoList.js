@@ -121,7 +121,12 @@ function RequestChangeInfoList() {
           style={{ display: (page - 1) > 0 ? "block" : "none" }}
         >Page {page - 1}</button>
 
-        <span className='main-page'>Page {page}</span>
+
+        <button
+          className="pagination-button sub-button main-page"
+        >
+          Page {page}
+        </button>
 
         <button
           onClick={() => setPage(page + 1)}
