@@ -28,8 +28,8 @@ function PracticalSchedule() {
                     start: event.startDate,
                     end: event.endDate,
                     room: event.room,
-                    backgroundColor: event.backgroundColor,
-                    textColor: event.textColor
+                    color: "#1677ff",
+                    display: "block",
                 }
             }));
         };
@@ -76,7 +76,10 @@ function PracticalSchedule() {
                     isEditCard={isEditCard}
                 />
                 <FullCalendar
+                    dayMaxEvents={2}
+                    defaultAllDay={false}
                     editable={true}
+                    height={800}
                     selectable={true}
                     plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
@@ -89,6 +92,11 @@ function PracticalSchedule() {
                     select={handleSelect}
                     eventClick={handleEventClick}
                     eventChange={handleEventChange}
+                    eventTimeFormat={{
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        meridiem: false
+                    }}
                 />
             </Box>
         </div>

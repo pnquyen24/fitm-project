@@ -1,10 +1,9 @@
 import axiosClient from "../../Variable/Api/axiosClient";
 
 const GET_ALL_SCHEDULES = "PracticalSchedule/ViewPracticalSchedules";
-const GET_SCHEDULE = "PracticalSchedule/GetPracticalSchedule"
 const CREATE_SCHEDULE = "PracticalSchedule/AddPracticalSchedule";
 const UPDATE_SCHEDULE = "PracticalSchedule/UpdatePracticalSchedule";
-const DELETE_SCHEDULE = (id) => `PracticalSchedule/DeletePracticalSchedule/${id}`;
+const DELETE_SCHEDULE = (id) => `PracticalSchedule/DeletePracticalSchedule?id=${id}`;
 
 export const getAllSchedules = async () => {
     try {
@@ -14,15 +13,6 @@ export const getAllSchedules = async () => {
         return error;
     }
 };
-
-export const getSchedule = async () => {
-    try {
-        const response = await axiosClient.get(GET_SCHEDULE);
-        return response.data;
-    } catch (error) {
-        return error;
-    }
-}
 
 export const createSchedule = async (data) => {
     try {

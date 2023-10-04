@@ -6,7 +6,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Swal from "sweetalert2";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeLoadingButton from "../../Member/Button/CustomeLoadingButton";
-import {Link as RouterLink, Route, Router } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const baseURL = "https://localhost:7226/apis/Account/ForgotPassword";
 const isEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
