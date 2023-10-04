@@ -22,12 +22,13 @@ namespace FITM_BE.Service.RequestEditInforService
             return requestEditInfo;
         }
 
-        public List<CreateRequestEditInfoDto> getAllRequestEditInfo()
+        public IQueryable<CreateRequestEditInfoDto> getAllRequestEditInfo()
         {
-            List<CreateRequestEditInfoDto> requestEditInfoDtos =
-                 _repository.GetAll<RequestEditInfo>().Select(request => _mapper.Map<CreateRequestEditInfoDto>(request)).ToList();
-            if (requestEditInfoDtos.Any()) return requestEditInfoDtos;
-            else throw new NotFoundException("The list is empty");
+            IQueryable<CreateRequestEditInfoDto> requestEditInfoDtos =
+                 _repository.GetAll<RequestEditInfo>().Select(request => _mapper.Map<CreateRequestEditInfoDto>(request));
+            //if (requestEditInfoDtos.Any()) return requestEditInfoDtos;
+            //else throw new NotFoundException("The list is empty");
+            return requestEditInfoDtos;
         }
 
     }

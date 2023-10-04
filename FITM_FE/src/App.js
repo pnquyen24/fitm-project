@@ -1,4 +1,3 @@
-import Header from "./Components/Static/Header/header";
 import "./App.css";
 import SideBar from "./Components/Static/SideBar/SideBar";
 import React, { useState } from 'react';

@@ -1,5 +1,6 @@
 ﻿using FITM_BE.Authentication;
 using FITM_BE.Authentication.Dtos;
+using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.LoggerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +21,22 @@ namespace FITM_BE.Controllers
 
         //ForgotPassword function
         [HttpPost]
-        public async Task<bool> ForgotPassword([FromBody]string email)
+        public async Task<IActionResult> ForgotPassword([FromBody]string email)
         {
-            if (await accountService.ForgotPassword(email))
+            try
             {
-                logger.LogInfo("Sent email successfully.");
-                return true;
+                await accountService.ForgotPassword(email);
+                return Ok();
+            } 
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            } 
+            catch (Exception ex)
+            {
+                logger.LogError($"Exception in ForgotPassword: {ex}");
+                return StatusCode(500);
             }
-            logger.LogError("Email does not exist.");
-            return false;
         }
 
         [HttpPut]
