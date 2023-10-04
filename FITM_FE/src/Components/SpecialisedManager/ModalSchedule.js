@@ -8,10 +8,10 @@ import {
     DialogTitle,
     Grid,
     InputLabel,
-    Stack,
-    useFormControl
+    Stack
 } from "@mui/material";
 import CustomeTextField from "../Member/Input/CustomeTextField";
+import DateTimePicker from "@mui/x-date-pickers/DateTimePicker";
 
 function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     const [title, setTitle] = useState("");
@@ -26,8 +26,8 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     useEffect(() => {
         if (isEditCard) {
             setTitle(eventInfos?.event?.title);
-            setDescription(eventInfos?.event?.description);
-            setRoom(eventInfos?.event?.room);
+            setDescription(eventInfos?.event?.extendedProps?.description);
+            setRoom(eventInfos?.event?.extendedProps?.room);
             setCardColor({
                 backgroundColor: eventInfos?.event?.backgroundColor,
                 textColor: eventInfos?.event?.textColor
@@ -64,10 +64,10 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
             calendarApi.addEvent({
                 id: eventCalendar.id,
                 title: eventCalendar.title,
-                description: eventCalendar.description,
+                description: eventCalendar.extendedProps.description,
                 startDate: eventCalendar.start,
                 endDate: eventCalendar.endStr,
-                room: eventCalendar.room,
+                room: eventCalendar.extendedProps.room,
                 backgroundColor: cardColor.backgroundColor,
                 textColor: cardColor.textColor
             });
@@ -120,12 +120,12 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     };
 
     return (
-        <Dialog open={Boolean(open)} onClose={() => { handleClose(); setIsTouched(false); }} scroll="paper" fullWidth>
+        <Dialog open={Boolean(open)} onClose={() => { handleClose(); setIsTouched(false); }} scroll={"paper"} fullWidth>
             <form action="#" autoComplete="off" noValidate="">
                 <DialogTitle sx={{ m: 0, p: 2 }}>Add Schedule</DialogTitle>
 
                 <DialogContent dividers>
-                    <Grid container spacing={7}>
+                    <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
                                 <InputLabel children="Title" />
@@ -142,9 +142,37 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                                 />
                             </Stack>
                         </Grid>
-                        <Grid item xs={12}></Grid>
-                        <Grid item xs={12}></Grid>
-                        <Grid item xs={12}></Grid>
+                        <Grid item xs={12}>
+                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                                <InputLabel children="Description" />
+                                <CustomeTextField
+                                    multiline
+                                    name="Description"
+                                    onChange={(event) => setDescription(event.target.value)}
+                                    placeholder="Description"
+                                    rows={3}
+                                    size="small"
+                                    type="text"
+                                    value={description}
+                                />
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                                <InputLabel children="Start Date" />
+                                <CustomeTextField
+                                    size="small"
+                                />
+                            </Stack>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                                <InputLabel children="End Date" />
+                                <CustomeTextField
+                                    size="small"
+                                />
+                            </Stack>
+                        </Grid>
                         <Grid item xs={12}></Grid>
                         <Grid item xs={12}></Grid>
                         <Grid item xs={12}></Grid>
