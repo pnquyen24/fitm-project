@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FITM_BE.Entity;
+using FITM_BE.EntityFrameworkCore;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.EmailService;
 using FITM_BE.Service.MemberService.Dtos;
@@ -13,6 +14,7 @@ namespace FITM_BE.Service.RequestEditInforService
     {
 
         private readonly IEmailSender _emailSender;
+   
         public RequestEditInfoService(IRepository repository, IMapper mapper, IEmailSender emailSender) : base(repository, mapper)
         {
             _emailSender = emailSender;
@@ -96,13 +98,13 @@ namespace FITM_BE.Service.RequestEditInforService
 
         public async Task<CreateRequestEditInfoDto> AcceptRequest(int requestId, string HRUsername)
         {
-            var requestEditInfo = _repository.GetAll<RequestEditInfo>().
-                First(request => request.Id == requestId);
+            var requestEditInfo =await _repository.GetAll<RequestEditInfo>().
+                FirstAsync(request => request.Id == requestId);
 
-            var member = _repository.GetAll<Member>().
-                First(member => member.Id == requestEditInfo.CreatedById);
+            var member = await _repository.GetAll<Member>().
+                FirstAsync(member => member.Id == requestEditInfo.CreatedById);
             
-            if ((CheckExistEmail(requestEditInfo.Email)!=null) && (member.Email != requestEditInfo.Email) )
+            if (( await CheckExistEmail(requestEditInfo.Email)!=null) && (member.Email != requestEditInfo.Email) )
              throw new InvalidException("Email has been exist");
 
             //update infomation
