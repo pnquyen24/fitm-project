@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import "./Page.css";
+import React, { useEffect, useState } from "react";
+import { Outlet, Routes } from "react-router-dom";
 import Header from "../Header/header";
-import { Outlet } from "react-router-dom";
+import "./Page.css";
 
 function Page({ isOpen, setOpen ,  themeChange, setTheme }) {
   let [input, setInput] = useState("");
