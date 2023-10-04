@@ -43,7 +43,7 @@ let Colors = [
     {
         // little start
         color1 : "#01011d", //background
-        color2 : "#04042e",  // field background
+        color2 : "#080848",  // field background
         color3 : "#3838aa", // button, ...
         color4 : green, //  hover , active ...
         color5 : "white", //text color
