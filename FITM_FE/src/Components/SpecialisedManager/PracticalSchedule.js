@@ -6,31 +6,30 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import {
-    createEventCalendar,
-    getAllEventsCalendar,
-    updateEventCalendar,
-    deleteEventCalendar
-} from "./eventCalendarApi"
+import { getAllSchedules, updateSchedule } from "./ScheduleApi"
+import ModalSchedule from "./ModalSchedule";
+import UseOpenClosed from "./UseOpenClosed";
 
 function PracticalSchedule() {
     const [events, setEvents] = useState([]);
     const [eventInfos, setEventInfos] = useState();
     const [isEditCard, setIsEditCard] = useState();
 
+    const modalInfosEvent = UseOpenClosed(false);
+
     useEffect(() => {
         const fetchEvent = async () => {
-            const events = Object.values(await getAllEventsCalendar());
-            setEvents(events.map(item => {
+            const events = Object.values(await getAllSchedules());
+            setEvents(events.map(event => {
                 return {
-                    id: item.id,
-                    title: item.title,
-                    description: item.description,
-                    start: item.startDate,
-                    end: item.endDate,
-                    room: item.room,
-                    backgroundColor: item.backgroundColor,
-                    textColor: item.textColor
+                    id: event.id,
+                    title: event.title,
+                    description: event.description,
+                    start: event.startDate,
+                    end: event.endDate,
+                    room: event.room,
+                    backgroundColor: event.backgroundColor,
+                    textColor: event.textColor
                 }
             }));
         };
@@ -40,11 +39,13 @@ function PracticalSchedule() {
     const handleSelect = async (selectInfo) => {
         setIsEditCard(false);
         setEventInfos(selectInfo);
+        modalInfosEvent.handleOpen();
     }
 
     const handleEventClick = async (clickInfo) => {
         setIsEditCard(true);
         setEventInfos(clickInfo);
+        modalInfosEvent.handleOpen();
     }
 
     const handleEventChange = async (changeInfo) => {
@@ -59,9 +60,7 @@ function PracticalSchedule() {
                 backgroundColor: changeInfo.event.backgroundColor,
                 textColor: changeInfo.event.textColor
             }
-            // const jsonData = JSON.stringify(eventUpdated);
-            // await updateEventCalendar(jsonData);
-            await updateEventCalendar(eventUpdated);
+            await updateSchedule(eventUpdated);
         } catch {
             console.log("Something error!");
         }
@@ -70,6 +69,12 @@ function PracticalSchedule() {
     return (
         <div id="calendar">
             <Box>
+                <ModalSchedule
+                    open={modalInfosEvent.isOpen}
+                    handleClose={modalInfosEvent.handleClose}
+                    eventInfos={eventInfos}
+                    isEditCard={isEditCard}
+                />
                 <FullCalendar
                     editable={true}
                     selectable={true}

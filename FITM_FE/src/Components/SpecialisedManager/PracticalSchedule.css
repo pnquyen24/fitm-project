@@ -1,6 +1,7 @@
 #calendar {
     width: 96%;
     height: 100vh;
+    margin-top: 2%;
     background-color: #f0f8ff;
 }
 
@@ -9,5 +10,5 @@
 }
 
 .fc {
-    margin: 2% auto;
+    margin: auto;
 }
