@@ -25,7 +25,7 @@ namespace FITM_BE.Service.MemberService
             var existingMember = await CheckExistEmail(createMemberDto.Email);
             if (existingMember != null)
             {
-                throw new InvalidException("Email đã tồn tại");
+                throw new InvalidException("Email has been exist");
             }
 
             var newMember = _mapper.Map<Member>(createMemberDto);

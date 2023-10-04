@@ -85,11 +85,9 @@ function MemberList() {
                   <TableCell>FullName</TableCell>
                   <TableCell>UserName</TableCell>
                   <TableCell>StudentID</TableCell>
-                  <TableCell>
-                    Mail <MailIcon />
-                  </TableCell>
+                  <TableCell>Mail</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -102,7 +100,6 @@ function MemberList() {
                     <TableCell>{request.email}</TableCell>
                     <TableCell style={{ color: request.status ? 'green' : 'red' }}>
                       {request.status ? 'Active' : 'Inactive'}</TableCell>
-
                     <TableCell>
                       <Button
                         onClick={() => viewDetail(request.id)}

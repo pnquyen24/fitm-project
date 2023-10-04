@@ -14,11 +14,16 @@
   width: 100%;
   margin-bottom: 20px;
 }
-
+.css-1ygcj2i-MuiTableCell-root{
+  text-align: center ;
+}
 .TableHead {
   background-color: lightgray;
+  font-weight: bold !important;
 }
-
+.css-1ygcj2i-MuiTableCell-root{
+  font-weight: bold !important;
+}
 .button-container,
 .pagination-button {
   display: flex;

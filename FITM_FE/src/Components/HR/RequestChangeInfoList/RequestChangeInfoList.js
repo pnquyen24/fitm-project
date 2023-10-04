@@ -3,7 +3,7 @@ import axios from 'axios';
 import "./RequestChangeInfoList.css";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, TablePagination } from '@mui/material';
 
 
 
@@ -52,7 +52,7 @@ function RequestChangeInfoList() {
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
-    navigate("/home/member-manager/request-details?id=" + id )
+    navigate("/home/member-manager/request-details?id=" + id)
   }
   return (
     <div className="container">
@@ -85,10 +85,10 @@ function RequestChangeInfoList() {
                 {memberList.map((request, index) => (
                   <TableRow key={request.id}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
+                    <TableCell>{request.studentID}</TableCell>
                     <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>
-                    <TableCell  className={`${status[request.status]}`}>{status[request.status]}</TableCell>
+                    <TableCell className={`${status[request.status]}`}>{status[request.status]}</TableCell>
                     <TableCell>
                       <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
                     </TableCell>
@@ -126,15 +126,15 @@ function RequestChangeInfoList() {
         <button
           onClick={() => setPage(page + 1)}
           className="pagination-button sub-button"
-          style={{ display: pageSize * (page) < total? "block" : "none" }}
+          style={{ display: pageSize * (page) < total ? "block" : "none" }}
         >Page {page + 1}</button>
 
 
         <button
           onClick={() => setPage(page + 2)}
           className="pagination-button sub-button"
-          style={{ display: pageSize * (page+1) < total? "block" : "none" }}
-        >Page {page +2 }</button>
+          style={{ display: pageSize * (page + 1) < total ? "block" : "none" }}
+        >Page {page + 2}</button>
 
         <button
           onClick={() => setPage(page + 1)}
@@ -145,7 +145,7 @@ function RequestChangeInfoList() {
         </button>
 
         <button
-          onClick={() => setPage(Math.ceil(total/pageSize))}
+          onClick={() => setPage(Math.ceil(total / pageSize))}
           disabled={pageSize * page >= total}
           className="pagination-button sub-button"
         >

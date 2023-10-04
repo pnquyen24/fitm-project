@@ -5,6 +5,7 @@ using FITM_BE.Service.EmailService;
 using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace FITM_BE.Service.RequestEditInforService
 {
@@ -100,6 +101,9 @@ namespace FITM_BE.Service.RequestEditInforService
 
             var member = _repository.GetAll<Member>().
                 First(member => member.Id == requestEditInfo.CreatedById);
+            
+            if ((CheckExistEmail(requestEditInfo.Email)!=null) && (member.Email != requestEditInfo.Email) )
+             throw new InvalidException("Email has been exist");
 
             //update infomation
             await _repository.Update(UpdateMember(member,requestEditInfo));
@@ -126,6 +130,13 @@ namespace FITM_BE.Service.RequestEditInforService
             return member;
         }
 
+        private async Task<Member?> CheckExistEmail(string email)
+        {
+            Member? member = await _repository
+                                .GetAll<Member>()
+                                .FirstOrDefaultAsync(m => m.Email.Equals(email));
+            return member;
+        }
         private async Task SendEmail(string email, string username, int status)
         {
             Message message ;
