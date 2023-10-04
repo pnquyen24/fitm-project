@@ -17,29 +17,31 @@ function PracticalSchedule() {
 
     const modalInfosEvent = UseOpenClosed(false);
 
+    const fetchEvent = async () => {
+        const events = Object.values(await getAllSchedules());
+        setEvents(events.map(event => {
+            return {
+                id: event.id,
+                title: event.title,
+                description: event.description,
+                start: event.startDate,
+                end: event.endDate,
+                room: event.room,
+                color: "#1677ff",
+                display: "block",
+            }
+        }));
+    };
+
     useEffect(() => {
-        const fetchEvent = async () => {
-            const events = Object.values(await getAllSchedules());
-            setEvents(events.map(event => {
-                return {
-                    id: event.id,
-                    title: event.title,
-                    description: event.description,
-                    start: event.startDate,
-                    end: event.endDate,
-                    room: event.room,
-                    color: "#1677ff",
-                    display: "block",
-                }
-            }));
-        };
         fetchEvent();
-    }, []);
+    }, [eventInfos]);
 
     const handleSelect = async (selectInfo) => {
         setIsEditCard(false);
         setEventInfos(selectInfo);
         modalInfosEvent.handleOpen();
+        fetchEvent();
     }
 
     const handleEventClick = async (clickInfo) => {

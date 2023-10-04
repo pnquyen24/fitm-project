@@ -60,8 +60,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 backgroundColor: "#1677ff",
                 textColor: "#ffffff",
             };
-            calendarApi.addEvent(eventCalendar);
-            await createSchedule(eventCalendar);
+            calendarApi.addEvent(await createSchedule(eventCalendar));
         } catch (error) {
             // error
             console.log("Error!");
@@ -84,6 +83,8 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 start: startDate,
                 end: endDate,
                 room: room,
+                backgroundColor: "#1677ff",
+                textColor: "#ffffff",
             };
 
             const currentEvent = calendarApi.getEventById(eventInfos.event.id);
@@ -94,6 +95,8 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 currentEvent.setProp("startDate", startDate);
                 currentEvent.setProp("endDate", endDate);
                 currentEvent.setProp("room", room);
+                currentEvent.setProp("backgroundColor", "#1677ff");
+                currentEvent.setProp("textColor", "#ffffff");
             }
 
             await updateSchedule(eventCalendarUpdated);
@@ -218,7 +221,6 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                                     children={isEditCard ? "Update" : "Add"}
                                     variant="contained"
                                     onClick={isEditCard ? handleUpdatedEvent : handleAddedEvent}
-                                    type="submit"
                                 />
                             </Stack>
                         </Grid>
