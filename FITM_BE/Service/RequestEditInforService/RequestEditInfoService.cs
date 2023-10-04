@@ -28,12 +28,15 @@ namespace FITM_BE.Service.RequestEditInforService
         public IQueryable<CreateRequestEditInfoDto> getAllRequestEditInfo()
         {
             IQueryable<CreateRequestEditInfoDto> requestEditInfoDtos =
-                 _repository.GetAll<RequestEditInfo>().Select(request => new CreateRequestEditInfoDto
+                 _repository.GetAll<RequestEditInfo>()
+                 .OrderByDescending(request => request.CreatedTime)
+                 .Select(request => new CreateRequestEditInfoDto
                  {
                      Id = request.Id,
                      BankName = request.BankName,
                      DOB = request.DOB,
                      BankNumber = request.BankNumber,
+                     CreatedTime = request.CreatedTime,
                      Email = request.Email,
                      PhoneNumber = request.PhoneNumber,
                      StudentID = request.StudentID,

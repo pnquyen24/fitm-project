@@ -94,8 +94,8 @@ function RequestDetail() {
                             <TableCell>
                                 {compareData.oldDOB ? new Date(compareData.oldDOB).toLocaleDateString() : ''}
                             </TableCell>
-                            <TableCell style={{ color: compareData.oldDOB === compareData.newDOB ? "black" : "red" }}>
-                                {compareData.newDOB ? new Date(compareData.oldDOB).toLocaleDateString(): ''}
+                            <TableCell style={{ color: new Date (compareData.oldDOB).toLocaleDateString() ===  new Date (compareData.newDOB).toLocaleDateString() ? "black" : "red" }}>
+                                {compareData.newDOB ? new Date(compareData.newDOB).toLocaleDateString(): ''}
                             </TableCell>
                         </TableRow>
                         <TableRow >

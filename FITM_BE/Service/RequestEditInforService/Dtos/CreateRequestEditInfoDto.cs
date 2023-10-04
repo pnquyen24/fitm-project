@@ -17,5 +17,6 @@ namespace FITM_BE.Service.RequestEditInforService.Dtos
         public string? BankNumber { get; set; }
         public string CreatedBy { get; set; }
         public RequestEditInfoStatus Status { get; set; }
+        public DateTime? CreatedTime { get; set; }
     }
 }

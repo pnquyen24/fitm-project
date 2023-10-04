@@ -81,7 +81,7 @@ function MemberList() {
             <Table>
               <TableHead className="TableHead">
                 <TableRow>
-                  <TableCell>ID</TableCell>
+                  <TableCell>#</TableCell>
                   <TableCell>FullName</TableCell>
                   <TableCell>UserName</TableCell>
                   <TableCell>StudentID</TableCell>
@@ -93,9 +93,9 @@ function MemberList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {memberList.map((request) => (
+                {memberList.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{request.id}</TableCell>
+                    <TableCell>{index +1}</TableCell>
                     <TableCell>{request.fullName}</TableCell>
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>

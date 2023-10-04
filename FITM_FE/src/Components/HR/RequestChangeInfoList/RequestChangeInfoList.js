@@ -73,21 +73,21 @@ function RequestChangeInfoList() {
             <Table>
               <TableHead className='TableHead'>
                 <TableRow>
-                  <TableCell>!</TableCell>
+                  <TableCell>#</TableCell>
                   <TableCell>Created By</TableCell>
                   <TableCell>StudentID</TableCell>
                   <TableCell>Created Date</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {memberList.map(request => (
+                {memberList.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{request.id}</TableCell>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
-                    <TableCell>{request.createdTime}</TableCell>
-                    <TableCell>{request.email}</TableCell>
+                    <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>
                     <TableCell  className={`${status[request.status]}`}>{status[request.status]}</TableCell>
                     <TableCell>
                       <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
