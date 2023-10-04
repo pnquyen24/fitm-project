@@ -1,7 +1,8 @@
 import axios from 'axios';
+import './Profile.css';
+import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
-import Swal from "sweetalert2";
 import './Profile.css';
 
 function Profile({ memberId }) {
@@ -17,7 +18,6 @@ function Profile({ memberId }) {
                 setTempMember(response.data);
             })
             .catch(error => {
-                console.log(error);
             });
     }, [memberId]);
 
@@ -28,17 +28,18 @@ function Profile({ memberId }) {
             setTempMember(member);
         }
     };
-
+  
     // Function to check if an email is valid
     function isValidEmail(checkEmail) {
         // Regular expression for a simple email format check
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailRegex.test(checkEmail)) {
-            alert(`Invalid email format: ${checkEmail}`);
+            CustomeAlert.warning(`Invalid email format: ${checkEmail}`);
             return false;
         }
         return emailRegex.test(checkEmail);
     }
+
 
     function getCurrentDate() {
         const currentDate = new Date();
@@ -47,7 +48,7 @@ function Profile({ memberId }) {
         const day = String(currentDate.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
-
+ 
     // Function to handle form submission
     const handleSubmit = () => {
         if (!isValidEmail(tempMember.email)) { console.log('Invalid email format'); return; }
@@ -66,14 +67,10 @@ function Profile({ memberId }) {
         axios
             .post('https://localhost:7226/apis/RequestEditInfo/Post', requestData)
             .then((response) => {
-                // Handle the response from the API if needed
-                console.log('Request submitted successfully:', response.data);
-                Swal.fire('Success!', 'Send request success!', 'success')
+                CustomeAlert.success('Send request success!');
             })
             .catch((error) => {
-                // Handle errors from the API request
-                console.error('Error submitting request:', error);
-                Swal.fire('Error!', 'Error submitting request', 'error')
+                CustomeAlert.error('Send request Error!');
             }
             );
 
@@ -141,7 +138,7 @@ function Profile({ memberId }) {
                                                 className="form-control"
                                                 max={getCurrentDate()}
                                                 onChange={(e) => setTempMember({ ...tempMember, dob: e.target.value })} />
-                                        ) : (member.dob.split('T')[0])}
+                                        ) : (new Date(member.dob).toLocaleDateString())}
                                     </div>
 
 
@@ -197,6 +194,5 @@ function Profile({ memberId }) {
             </div>
         </div>
     );
-}
-
+ }
 export default Profile;

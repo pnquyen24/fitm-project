@@ -68,6 +68,7 @@ namespace FITM_BE.Authentication
         public async Task<string> Login(LoginDto login)
         {
             var member = await _repository.GetAll<Member>()
+                                        .Where(member => member.Status)
                                           .FirstOrDefaultAsync(member => member.Username.Equals(login.Username));
             if (member == null
                 || _passwordHasher.VerifyHashedPassword(member, member.Password, login.Password) == PasswordVerificationResult.Failed)
