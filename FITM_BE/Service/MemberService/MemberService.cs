@@ -6,7 +6,6 @@ using FITM_BE.Service.EmailService;
 using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Util;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace FITM_BE.Service.MemberService
 {
