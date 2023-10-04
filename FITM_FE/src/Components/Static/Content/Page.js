@@ -18,6 +18,7 @@ function Page({ isOpen, setOpen ,  themeChange, setTheme }) {
     } else setNoti("hợp lệ");
   }, [input]);
 
+  useEffect(()=>{},[themeChange])
   return (
     <div className="Page">
       <Header isOpen={isOpen} setOpen={setOpen}  themeChange={themeChange} setTheme={setTheme}  ></Header>

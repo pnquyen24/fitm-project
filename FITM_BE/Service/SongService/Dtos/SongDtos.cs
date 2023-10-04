@@ -1,17 +1,15 @@
-﻿using FITM_BE.Entity.Core;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using AutoMapper;
+using FITM_BE.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
-namespace FITM_BE.Entity
+namespace FITM_BE.Service.SongService.Dtos
 {
-    [Index(nameof(Name))]
-    public class Song : Entity<int>
+    [AutoMap(typeof(Song), ReverseMap = true)]
+    public class SongDto
     {
 
-        [NotNull]
+        [Required]
         [StringLength(100)]
         public string Name { get; set; }
 
