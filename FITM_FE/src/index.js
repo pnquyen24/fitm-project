@@ -2,17 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
-import Profile from "./Components/Static/Profile/Profile";
-import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
-import Login from "./Components/Authentication/Login/Login";
 import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPassword";
+import Login from "./Components/Authentication/Login/Login";
+import CreateMember from "./Components/HR/CreateMember/CreateMember";
 import MemberList from "./Components/HR/MemberList/MemberList";
 import MemberProfile from "./Components/HR/MemberProfile/MemberProfile";
-import CreateMember from "./Components/HR/CreateMember/CreateMember";
 import RequestChangeInfoList from "./Components/HR/RequestChangeInfoList/RequestChangeInfoList";
 import RequestDetail from "./Components/HR/RequestDetail/RequestDetail";
+import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
+import Music from "./Components/Static/Music/Music";
+import Profile from "./Components/Static/Profile/Profile";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -35,7 +38,7 @@ root.render(
            */}
           </Route>
           <Route path="changepassword" element={<ChangePassword />} />
-          {/* Add more top-level routes under home as needed */}
+          <Route path="music" element={<Music></Music>} />
         </Route>
         <Route path="/forgotPassword" element={<ForgotPassword />} />
       </Routes>

@@ -15,14 +15,9 @@
 
 .choice ion-icon {
     font-size: 1.2rem;
-}
+  }
 
-.selected {
-    background-color: #696cff2b;
-}
-
-span,
-ion-icon {
+  span , ion-icon {
     user-select: none;
 }
 
