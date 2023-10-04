@@ -14,13 +14,11 @@ namespace FITM_BE.Service.MemberService
     {
         private readonly IAccountService _accountService;
         private readonly IEmailSender _emailSender;
-        private readonly IConfiguration _configuration;
 
         public MemberService(IRepository repository, IMapper mapper, IAccountService accountService, IEmailSender emailSender, IConfiguration configuration) : base(repository, mapper)
         {
             _accountService = accountService;
             _emailSender = emailSender;
-            _configuration = configuration;
         }
 
         public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)

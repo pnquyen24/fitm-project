@@ -44,12 +44,12 @@ function RequestDetail() {
           .post('https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=' + id)
           .then((response) => {
             console.log('Request submitted successfully:', response.data);
-            CustomeAlert.success(`Accept request success!`);
+            CustomeAlert.success(`Accepted successfully!`);
             getData();
           })
           .catch((error) => {
             console.error(error);
-            CustomeAlert.error(`Accept Request Error!`);
+            CustomeAlert.error(`Accepted Error!`);
           }
           );
     
@@ -62,12 +62,12 @@ function RequestDetail() {
           .post('https://localhost:7226/apis/RequestEditInfo/DenyRequest?id=' + id)
           .then((response) => {
             console.log('Request submitted successfully:', response.data);
-            CustomeAlert.success(`Deny request success!`);
+            CustomeAlert.success(`Denied successfully!`);
             getData();
           })
           .catch((error) => {
             console.error(error);
-            CustomeAlert.error(`Deny Request Error!`);
+            CustomeAlert.error(`Denied Error!`);
           }
           );
     
@@ -94,10 +94,10 @@ function RequestDetail() {
                         <TableRow >
                             <TableCell>Date of Birth</TableCell>
                             <TableCell>
-                                {compareData.oldDOB ? new Date(compareData.oldDOB).toISOString().split('T')[0] : ''}
+                                {compareData.oldDOB ? new Date(compareData.oldDOB).toLocaleDateString() : ''}
                             </TableCell>
                             <TableCell style={{ color: compareData.oldDOB === compareData.newDOB ? "black" : "red" }}>
-                                {compareData.newDOB ? new Date(compareData.oldDOB).toISOString().split('T')[0] : ''}
+                                {compareData.newDOB ? new Date(compareData.oldDOB).toLocaleDateString(): ''}
                             </TableCell>
                         </TableRow>
                         <TableRow >

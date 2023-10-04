@@ -59,6 +59,7 @@ namespace FITM_BE.Service.RequestEditInforService
                 NewEmail = requestEditInfo.Email,
                 NewBankNumber = requestEditInfo.BankNumber,
                 NewPhoneNumber = requestEditInfo.PhoneNumber,
+                CreatedTime = (DateTime)requestEditInfo.CreatedTime ,
                 OldBankName = oldProfile.BankName,
                 OldDOB = oldProfile.DOB,
                 OldEmail = oldProfile.Email,
@@ -71,7 +72,7 @@ namespace FITM_BE.Service.RequestEditInforService
             return compareRequestDTO;
         }
 
-        public async Task<CreateRequestEditInfoDto> DenyRequest(int requestId, int HRId)
+        public async Task<CreateRequestEditInfoDto> DenyRequest(int requestId, string HRUsername)
         {
             var requestEditInfo = _repository.GetAll<RequestEditInfo>().
                 First(request => request.Id == requestId);
@@ -79,21 +80,17 @@ namespace FITM_BE.Service.RequestEditInforService
             var member = _mapper.Map<ProfileDto>(_repository.GetAll<Member>().
                 FirstOrDefault(member => member.Id == requestEditInfo.CreatedById));
 
-            //write HR do the deny/accept into the mail
-            var HR = _mapper.Map<ProfileDto>(_repository.GetAll<Member>().
-                FirstOrDefault(member => member.Id == HRId));
-
             requestEditInfo.Status = (Enums.RequestEditInfoStatus)2;
             await _repository.Update(requestEditInfo);
 
-            await SendEmail(member.Email,HR.Username,2);
+            await SendEmail(member.Email,HRUsername,2);
 
             var createRequestEditInfo = _mapper.Map<CreateRequestEditInfoDto>(requestEditInfo);
 
             return createRequestEditInfo;
         }
 
-        public async Task<CreateRequestEditInfoDto> AcceptRequest(int requestId, int HRId)
+        public async Task<CreateRequestEditInfoDto> AcceptRequest(int requestId, string HRUsername)
         {
             var requestEditInfo = _repository.GetAll<RequestEditInfo>().
                 First(request => request.Id == requestId);
@@ -101,17 +98,13 @@ namespace FITM_BE.Service.RequestEditInforService
             var member = _repository.GetAll<Member>().
                 First(member => member.Id == requestEditInfo.CreatedById);
 
-            //write HR do the deny/accept into the mail
-            var HR = _mapper.Map<ProfileDto>(_repository.GetAll<Member>().
-                FirstOrDefault(member => member.Id == HRId));
-
             //update infomation
             await _repository.Update(UpdateMember(member,requestEditInfo));
 
             requestEditInfo.Status = (Enums.RequestEditInfoStatus)1;
             await _repository.Update(requestEditInfo);
 
-            await SendEmail(member.Email, HR.Username, 1);
+            await SendEmail(member.Email,HRUsername , 1);
 
             var createRequestEditInfo = _mapper.Map<CreateRequestEditInfoDto>(requestEditInfo);
 

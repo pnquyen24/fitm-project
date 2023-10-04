@@ -143,7 +143,7 @@ function Profile({ memberId }) {
                                                 className="form-control"
                                                 max={getCurrentDate()}
                                                 onChange={(e) => setTempMember({ ...tempMember, dob: e.target.value })} />
-                                        ) : (member.dob.split('T')[0])}
+                                        ) : (new Date(member.dob).toLocaleDateString())}
                                     </div>
 
 

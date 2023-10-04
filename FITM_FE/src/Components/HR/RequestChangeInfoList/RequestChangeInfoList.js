@@ -76,7 +76,7 @@ function RequestChangeInfoList() {
                   <TableCell>!</TableCell>
                   <TableCell>Created By</TableCell>
                   <TableCell>StudentID</TableCell>
-                  <TableCell>Mail</TableCell>
+                  <TableCell>Created Date</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
@@ -86,7 +86,7 @@ function RequestChangeInfoList() {
                   <TableRow key={request.id}>
                     <TableCell>{request.id}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
-                    <TableCell>{request.studentID}</TableCell>
+                    <TableCell>{request.createdTime}</TableCell>
                     <TableCell>{request.email}</TableCell>
                     <TableCell  className={`${status[request.status]}`}>{status[request.status]}</TableCell>
                     <TableCell>

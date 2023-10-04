@@ -111,7 +111,7 @@ function MemberProfile() {
               <div className="row mt-2">
                 <div className="col-md-6">
                   <label className="labels">Date of birth:</label>
-                  {member.dob.split("T")[0]}
+                  {new Date(member.dob).toLocaleDateString()}
                 </div>
                 <div className="col-md-6">
                   <label className="labels">Student ID:</label>

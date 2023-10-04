@@ -53,14 +53,14 @@ namespace FITM_BE.Controllers
         [HttpPost]
         public async Task<CreateRequestEditInfoDto> DenyRequest(int id)
         {
-            var HR = int.Parse(User.FindFirstValue("UserID"));
+            var HR = User.FindFirstValue("Username");
             return  await requestEditInforService.DenyRequest(id, HR);
         }
 
         [HttpPost]
         public async Task<CreateRequestEditInfoDto> AcceptRequest(int id)
         {
-            var HR = int.Parse(User.FindFirstValue("UserID"));
+            var HR = User.FindFirstValue("Username");
             return await requestEditInforService.AcceptRequest(id, HR);
         }
     }
