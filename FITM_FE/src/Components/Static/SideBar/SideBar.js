@@ -39,6 +39,7 @@ function SideBar({isOpen, setOpen}) {
                     Title={choice.Title}
                     Icon={choice.Icon}
                     isOpen={isOpen}
+                    _Link={choice.Link}
                     isSelected={selectedChoice === index}
                     onClick={() => handleChoiceClick(index)}
                 ></Choice>

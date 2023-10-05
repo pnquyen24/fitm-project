@@ -58,5 +58,50 @@ namespace FITM_BE.Controllers
 
             return Ok(songDto);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSong(int id, [FromBody] SongDto songDto)
+        {
+            if (songDto == null)
+            {
+                return BadRequest("Invalid data");
+            }
+
+// nếu đoạn này có lỗi thì chắc do chưa check tồn tại hay không
+            try
+            {
+                await _songService.Update(id, songDto);
+                return Ok("Song updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSong(int id)
+        {
+            try
+            {
+                var song = await _songService.GetById(id);
+
+                if (song == null)
+                {
+                    return NotFound();
+                }
+
+                await _songService.Delete(id);
+
+                return Ok("Song deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
     }
 }

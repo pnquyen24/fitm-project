@@ -45,6 +45,8 @@
     height: 50px;
     border-radius: 5px;
     border: solid 1px rgba(97, 97, 97, 0.462);
+    box-sizing: border-box;
+    padding: 0 10px;
 }
 .ms-info{
     width: 100%;
