@@ -80,8 +80,8 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 id: eventInfos.event.id,
                 title: title,
                 description: description,
-                start: startDate,
-                end: endDate,
+                startDate: startDate,
+                endDate: endDate,
                 room: room,
                 backgroundColor: "#1677ff",
                 textColor: "#ffffff",
@@ -91,10 +91,8 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
 
             if (currentEvent) {
                 currentEvent.setProp("title", title);
-                currentEvent.setProp("description", description);
-                currentEvent.setProp("startDate", startDate);
-                currentEvent.setProp("endDate", endDate);
-                currentEvent.setProp("room", room);
+                currentEvent.setExtendedProp("description", description);
+                currentEvent.setExtendedProp("room", room);
                 currentEvent.setProp("backgroundColor", "#1677ff");
                 currentEvent.setProp("textColor", "#ffffff");
             }
