@@ -32,6 +32,7 @@ root.render(
             <Route path="member-profile" element={<MemberProfile />} />
             <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
             <Route path="request-details" element={<RequestDetail />} />
+            <Route path="practicalSchedule" element={<PracticalSchedule />} />
             {/* tạo một component trang bản thân phụ trách, không cần quan tâm header side bar, 
           xong gắn nó như mẫu profie ở trên
           profile chỉ là bản nháp, ai phụ trách phần này có thể xóa thoải mái
