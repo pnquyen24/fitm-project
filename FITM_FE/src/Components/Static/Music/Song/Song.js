@@ -14,7 +14,7 @@ function Song({ id, name, author, beat, sheet, background }) {
   };
 
   const opts = {
-    width: "320", 
+    width: "320",
     height: "100",
     playerVars: {
       autoplay: 0, // Đặt giá trị ban đầu là 0 (không tự động phát)
@@ -36,12 +36,20 @@ function Song({ id, name, author, beat, sheet, background }) {
       }
     }
   }
-  
 
+  console.log(
+    `linear-gradient(to right, rgba(0, 0, 0, 0.703), rgba(0, 0, 0, 0.221)),  url("${background}");`
+  );
   return (
     <div
       className="song"
-      style={{ backgroundImage: background }}
+      style={
+        background == ""
+          ? {}
+          : {
+              backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.703), rgba(0, 0, 0, 0.221)), url("${background}")`,
+            }
+      }
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -60,18 +68,16 @@ function Song({ id, name, author, beat, sheet, background }) {
               autoplay: 1, // Khi hover vào, tự động phát
             },
           }}
-          style={{marginTop:"6px"}}
+          style={{ marginTop: "6px" }}
         />
       )}
       <div className="song-doc">
         <p>💿</p>
-        <p>
+        <a href={sheet}>
           <ion-icon name="document-text"></ion-icon>
-        </p>
+        </a>
       </div>
       <div className="blurAll"></div>
-
-      
     </div>
   );
 }

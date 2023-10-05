@@ -26,7 +26,7 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
       .get(`https://localhost:7226/apis/Song/GetSongById/${inputValue}`)
       .then((response) => {
         setSongName(response.data.name);
-        setAuthor("Cẩm Lan S");
+        setAuthor(response.data.author);
         setLinkBeat(response.data.linkBeat);
         setLinkSheet(response.data.linkSheet);
         setBackGroundImage(response.data.backgroundImg);
@@ -54,6 +54,7 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
     let updateSong = {
       id: idInput,
       name: songName,
+      author: Author,
       linkBeat: linkBeat,
       linkSheet: linkSheet,
       backgroundImg: backgroundImage,
@@ -71,6 +72,7 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
     let NewSong = {
       id: 0,
       name: songName,
+      author: Author,
       linkBeat: linkBeat,
       linkSheet: linkSheet,
       backgroundImg: backgroundImage,

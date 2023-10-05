@@ -16,6 +16,9 @@ namespace FITM_BE.Entity
         public string Name { get; set; }
 
         [StringLength(500)]
+        public string Author { get; set; }
+
+        [StringLength(500)]
         public string LinkBeat { get; set; }
 
         [StringLength(500)]

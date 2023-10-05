@@ -31,10 +31,10 @@ function Music() {
           key={index} 
           id={song.id}
           name={song.name}
-          author={"Cẩm Lan S"}
+          author={song.author}
           beat={song.linkBeat}
           sheet={song.linkSheet}
-          background={""}
+          background={song.backgroundImg=="" ? "": song.backgroundImg}
         ></Song>
       ))}
     </div>
