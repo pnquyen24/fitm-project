@@ -9,5 +9,10 @@ namespace FITM_BE.Service.MemberService
         public Task<MemberGeneratedDto> Create(CreateMemberDto memberDto);
 
         public Task<ProfileDto> Get(int id);
+
+        public IQueryable<ProfileDto> getAllProfile();
+
+
+        public  Task<ProfileDto> ChangeStatus(int id);
     }
 }

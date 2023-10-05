@@ -18,19 +18,26 @@ function ForgotPassword() {
     const [textError, setTextError] = useState("");
 
     async function callApi() {
-        await axios.post(baseURL, email.toLowerCase(), { headers: { "Content-Type": "application/json" } })
-            .then((response) => {
-                checkStatus(response.data)
-            })
-            .catch(() => Swal.fire('Error!', 'Some error, try again!', 'error'));
+        try {
+            const response = await axios.post(
+                baseURL,
+                email.toLowerCase(),
+                { headers: { "Content-Type": "application/json" } });
+            checkStatus(response);
+        } catch (error) {
+            if (error.response.status === 404) {
+                Swal.fire("Error!", "Email not found", "error")
+            } else {
+                Swal.fire("Error!", "Something went wrong", "error")
+            }
+        }
     }
 
-    async function checkStatus(status) {
-        console.log(status);
-        if (status) {
-            Swal.fire('Success!', 'Send email success!', 'success')
+    function checkStatus(result) {
+        if (result.status === 200) {
+            Swal.fire("Success!", "Send email success", "success")
         } else {
-            Swal.fire('Error!', 'Not found email!', 'error')
+            Swal.fire("Error!", result.message, "error")
         }
     }
 

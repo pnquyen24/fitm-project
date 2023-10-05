@@ -7,6 +7,7 @@ using FITM_BE.Service.Test;
 using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
@@ -29,17 +30,38 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        public async Task<PaggingResultDto<CreateRequestEditInfoDto>> GetAllPaggin(PaggingDto paggingDto)
+        public async Task<PaggingResultDto<CreateRequestEditInfoDto>> GetAllPagging(PaggingDto paggingDto)
         {
             var query = requestEditInforService.getAllRequestEditInfo();
             return await query.GetGridResult(query, paggingDto);
+        } 
+
+        [HttpPost]
+        public async Task<RequestEditInfoDto> Post(RequestEditInfoDto requestEditInfoDto)
+        {
+            RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);
+            return requestEditInfoDto;
+        }
+
+        [HttpGet]
+        public  CompareRequestDTO GetCompareRequest(int Id)
+        {
+            CompareRequestDTO compareRequestDTO =  requestEditInforService.getCompareRequest(Id);
+            return compareRequestDTO;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(RequestEditInfoDto requestEditInfoDto)
+        public async Task<CreateRequestEditInfoDto> DenyRequest(int id)
         {
-            RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);
-            return Ok(requestEditInfo);
+            var HR = User.FindFirstValue("Username");
+            return  await requestEditInforService.DenyRequest(id, HR);
+        }
+
+        [HttpPost]
+        public async Task<CreateRequestEditInfoDto> AcceptRequest(int id)
+        {
+            var HR = User.FindFirstValue("Username");
+            return await requestEditInforService.AcceptRequest(id, HR);
         }
     }
 }

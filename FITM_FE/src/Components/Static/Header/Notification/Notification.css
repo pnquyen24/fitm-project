@@ -2,15 +2,19 @@ ion-icon {
   font-size: 2rem;
   color: #696cff;
 }
-.notification-cover{
+
+.notification-cover {
   position: relative;
+  z-index: 50;
 }
+
 .notification {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
+
 .numNotification {
   background-color: red;
   position: absolute;
@@ -27,18 +31,23 @@ ion-icon {
   border-radius: 50%;
   color: white;
 }
-.noti-dropDown{
+
+.noti-dropDown {
   position: absolute;
   min-height: 100px;
   width: 300px;
-  background-color: rgb(255, 255, 255) ;
+  background-color: rgb(255, 255, 255);
   right: 0px;
   top: 40px;
   box-shadow: 0 1px 7px -2px rgba(50, 71, 92, 0.382);
   display: flex;
   align-items: center;
 }
-.noti-dropDown li{
+
+.noti-dropDown li {
   list-style-type: none;
   font-size: 0.6rem;
+}
+.hide{
+  display: none;
 }
