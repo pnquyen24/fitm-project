@@ -14,8 +14,8 @@ function Song({ id, name, author, beat, sheet, background }) {
   };
 
   const opts = {
-    width: "320",
-    height: "100",
+    width: "180",
+    height: "99",
     playerVars: {
       autoplay: 0, // Đặt giá trị ban đầu là 0 (không tự động phát)
     },

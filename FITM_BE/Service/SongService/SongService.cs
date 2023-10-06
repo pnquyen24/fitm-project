@@ -23,27 +23,24 @@ namespace FITM_BE.Service.SongService
             return song;
         }
 
-        public List<Song> GetAll()
+        public IQueryable<Song> GetAll()
         {
-            List<Song> songs = _repository.GetAll<Song>().ToList();
+            var songs = _repository.GetAll<Song>();
             if (songs.Any()) return songs;
             else throw new NotFoundException("The list is empty");
         }
 
+
         public async Task<Song> GetById(int id)
         {
             var song = await _repository.Get<Song>(id);
-            if (song != null) return song;
-            else throw new NotFoundException("Song not found");
+            return song;
         }
 
         public async Task Update(int id, SongDto songDto)
         {
             var existingSong = await _repository.Get<Song>(id);
-            if (existingSong == null)
-            {
-                throw new NotFoundException("Song not found");
-            }
+
 
             _mapper.Map(songDto, existingSong);
             await _repository.Update(existingSong);
