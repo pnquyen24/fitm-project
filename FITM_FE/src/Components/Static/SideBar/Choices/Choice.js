@@ -1,10 +1,10 @@
 import React from "react";
-import "./Choice.css";
-import { Color } from "../../../../Variable/Color/Color";
 import { Link } from "react-router-dom";
+import { Color } from "../../../../Variable/Color/Color";
+import "./Choice.css";
 
 function Choice({ Title, Icon, isOpen, _Link, SendTo = "", isSelected, onClick }) {
-  const choiceClassName = `choice ${isSelected ? "selected" : ""} ${isOpen ? "open" : ""}`;
+const choiceClassName = `choice ${isSelected ? "selected" : ""} ${isOpen ? "open" : ""}`;
 
   return (
     <Link to = {_Link} style={{textDecoration:"none"}}>

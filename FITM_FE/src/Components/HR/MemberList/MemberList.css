@@ -1,0 +1,64 @@
+.loading {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.container {
+  width: 100%;
+  float: left;
+  margin-top: 5px;
+}
+
+/* Table styles */
+.TableContainer {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.css-1ygcj2i-MuiTableCell-root{
+  text-align: center ;
+}
+.TableHead {
+  background-color: lightgray;
+  font-weight: bold !important;
+}
+.css-1ygcj2i-MuiTableCell-root{
+  font-weight: bold !important;
+}
+.button-container,
+.pagination-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.search-input {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.detail-button:hover {
+  background-color: rgb(240, 248, 255);
+  color: black;
+  cursor: pointer;
+}
+
+.sub-button {
+  background-color: rgb(240, 248, 255);
+  border: none;
+}
+
+.main-page {
+  text-decoration: underline;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.create-member{
+  float: right;
+  margin-top: 5px !important;
+  background-color:rgb(67,130,218) !important;
+  color: white !important;
+  margin-right:  12px !important;
+}

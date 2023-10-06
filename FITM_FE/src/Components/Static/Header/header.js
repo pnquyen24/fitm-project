@@ -12,10 +12,10 @@ function Header({isOpen, setOpen, themeChange, setTheme}) {
     backgroundImage: `url('/IMG/Capthanhdat_old_cyber_king_with_body_and_head_626afbe6-9b92-4ad7-bfcf-4c8af2629a9c.png')`,
   };
 
-  const handleMenuButton = () => {
-      if (isOpen) {setOpen(false);}
-      else {setOpen(true);}
-  }
+    const handleMenuButton = () => {
+        if (isOpen) { setOpen(false); }
+        else { setOpen(true); }
+    }
 
   useEffect(() => {
   },[themeChange])
@@ -35,9 +35,9 @@ function Header({isOpen, setOpen, themeChange, setTheme}) {
         {/* <button className="logout">
           Log Out <ion-icon name="log-out-outline"></ion-icon>
         </button> */}
-      </div>
-    </div>
-  );
+            </div>
+        </div>
+    );
 }
 
 export default Header;

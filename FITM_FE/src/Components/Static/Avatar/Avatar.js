@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./Avatar.css";
 import { Link, useNavigate } from "react-router-dom";
+import "./Avatar.css";
 
 function Avatar({ scale = 1 }) {
   var height = scale * 45;
@@ -38,12 +38,14 @@ function Avatar({ scale = 1 }) {
         }}
       ></div>
       <ul className={`user-dropDown ${isHide ? "hide" : ""}`}>
-        <li>
-          <Link to="/home/profile" className="link-reatjs" >Profile</Link>
-        </li>
-        <li><Link to="/home/changepassword"  className="link-reatjs">Change Password</Link></li>
-        <li>
-          <button onClick={deleteTokenFromLocalStorage}>Log Out</button>
+        <Link to="/profile" className="link-reatjs">
+          <li>View profile</li>
+        </Link>
+        <Link to="/changepassword" className="link-reatjs">
+          <li>Change Password</li>
+        </Link>
+        <li onClick={deleteTokenFromLocalStorage}>
+          Log Out
         </li>
       </ul>
     </div>

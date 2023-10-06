@@ -12,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
+using FITM_BE.Service.LoggerService;
 
 namespace FITM_BE.Authentication
 {
@@ -19,12 +20,14 @@ namespace FITM_BE.Authentication
     {
         private readonly IPasswordHasher<Member> _passwordHasher;
         private readonly IEmailSender _emailSender;
+        private readonly ILoggerManager _logger;
         private readonly IConfiguration _configuration;
 
-        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher, IEmailSender emailSender, IConfiguration configuration) : base(repository, mapper)
+        public AccountService(IRepository repository, IMapper mapper, IPasswordHasher<Member> passwordHasher, IEmailSender emailSender, ILoggerManager logger, IConfiguration configuration) : base(repository, mapper)
         {
             _passwordHasher = passwordHasher;
             _emailSender = emailSender;
+            _logger = logger;
             _configuration = configuration;
         }
 
@@ -65,6 +68,7 @@ namespace FITM_BE.Authentication
         public async Task<string> Login(LoginDto login)
         {
             var member = await _repository.GetAll<Member>()
+                                        .Where(member => member.Status)
                                           .FirstOrDefaultAsync(member => member.Username.Equals(login.Username));
             if (member == null
                 || _passwordHasher.VerifyHashedPassword(member, member.Password, login.Password) == PasswordVerificationResult.Failed)
@@ -93,41 +97,58 @@ namespace FITM_BE.Authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<bool> ForgotPassword(string email)
+        public async Task ForgotPassword(string email)
         {
-            Member? member = await CheckExistEmail(email);
-            if (member != null)
+            try
             {
+                Member? member = await CheckExistEmail(email);
+                if (member == null)
+                {
+                    throw new NotFoundException();
+                }
                 string newPassword = GeneratePassword(8, true);
                 string hashedPassword = _passwordHasher.HashPassword(member, newPassword);
                 member.Password = hashedPassword;
-                await _repository.Update<Member>(member);
+                await _repository.Update(member);
                 await SendEmail(email, newPassword);
-                return true;
+            } catch (NotFoundException ex)
+            {
+                _logger.LogError($"Member not found error: {ex}");
+                throw;
+            } catch (Exception ex)
+            {
+                _logger.LogError($"Unknown error while reset password: {ex}");
+                throw;
             }
-            return false;
         }
 
         private async Task<Member?> CheckExistEmail(string email)
         {
             Member? member = await _repository
                                 .GetAll<Member>()
-                                .FirstOrDefaultAsync(m => m.Email.Equals(email));
+                                .FirstOrDefaultAsync(m => m.Email == email);
             return member;
         }
 
         private async Task SendEmail(string email, string password)
         {
-            var message = new Message
-            (
-                new string[]
-                {
-                    email
-                },
-                "New password (async)",
-                "This is new your password: " + password
-            );
-            await _emailSender.SendEmailAsync(message);
+            try
+            {
+                var message = new Message
+                (
+                    new string[]
+                    {
+                        email
+                    },
+                    "New password (async)",
+                    "This is new your password: " + password
+                );
+                await _emailSender.SendEmailAsync(message);
+            } catch (Exception ex)
+            {
+                _logger.LogError($"Error sending email: {ex}");
+                throw;
+            }
         }
 
         public async Task<string> ChangePassword(AccountChangePasswordDTO accountChangePasswordDTO)
