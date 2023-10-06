@@ -14,10 +14,10 @@ import {
 } from "@mui/material";
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate, Link as RouterLink } from "react-router-dom";
-import './login.css';
-import CustomeTextField from "../../Member/Input/CustomeTextField";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import CustomeButton from "../../Member/Button/CustomeButton";
+import CustomeTextField from "../../Member/Input/CustomeTextField";
+import './login.css';
 
 function Login() {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ function Login() {
                 localStorage.setItem("saved", isRemember ? "saved" : "")
             })
             .then(() => {
-                navigate("/home")
+                navigate("/")
             })
             .catch(error => {
                 setIsOpen(true)

@@ -4,15 +4,14 @@ import { useState } from "react";
 import { Color } from "../../../../Variable/Color/Color";
 
 function Notification({ Noti = 1 }) {
-  let [notification, setNotification] = useState(Noti);
-  const [isHide, setHide] = useState(true);
+    const [isHide, setHide] = useState(true);
 
-  const handleNotiClick = () => {
-    if (isHide) {
-      setHide(false);
+    const handleNotiClick = () => {
+        if (isHide) {
+            setHide(false);
+        }
+        else { setHide(true); }
     }
-    else { setHide(true); }
-  }
 
   return (
     <div className="notification-cover" onClick={handleNotiClick}>

@@ -5,8 +5,11 @@ namespace FITM_BE.Service.RequestEditInforService
 {
     public interface IRequestEditInfoService
     {
-        public List<CreateRequestEditInfoDto> getAllRequestEditInfo();
+        public IQueryable<CreateRequestEditInfoDto> getAllRequestEditInfo();
         public Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto);
+        public CompareRequestDTO getCompareRequest(int Id);
+        public Task<CreateRequestEditInfoDto> DenyRequest(int Id, string HRId);
+        public Task<CreateRequestEditInfoDto> AcceptRequest(int Id, string HRId);
 
     }
 }

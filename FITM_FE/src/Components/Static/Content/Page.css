@@ -1,4 +1,4 @@
-.Page{
+.Page {
     flex: 1;
     min-height: 100vh;
     display: flex;
@@ -8,4 +8,8 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+}
+
+.swal2-timer-progress-bar {
+    background: white;
 }

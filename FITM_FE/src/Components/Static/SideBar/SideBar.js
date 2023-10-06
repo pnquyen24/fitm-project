@@ -1,51 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Color } from '../../../Variable/Color/Color';
+import Choice from './Choices/Choice';
 import './SideBar.css';
 import SubInfo from './SubInfo/SubInfo';
-import Choice from './Choices/Choice';
-import {Color} from '../../../Variable/Color/Color';
+
 function SideBar({isOpen, setOpen}) {
   const [selectedChoice, setSelectedChoice] = useState(null);
-  
-
- 
-
-  useEffect(() => {
-  },[Color])
-
   
   const handleChoiceClick = (index) => {
     setSelectedChoice(index);
   };
-//<ion-icon name="person-outline"></ion-icon>
   const choices = [
-    { Title: 'Member Management', Icon: 'person-outline', Link: "/profile"},
-    { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "/profile" },
+    { Title: 'Member Management', Icon: 'person-outline', Link: "/member-manager/member-list"},
+    { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "/member-manager/request-edit-info-list" },
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/profile" },
     { Title: 'Plan', Icon: 'calendar-outline' , Link: "/profile"},
-    { Title: 'Add showw', Icon: 'add-circle-outline', Link: "/profile" },
-    { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/music" },
+    { Title: 'Add show', Icon: 'add-circle-outline', Link: "/profile" },
+    { Title: 'Practical Schedule', Icon: 'calendar', Link: "/practicalSchedule" },
+    { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/music-list" },
+    ]; 
+  useEffect(() => {
+  },[Color])
 
-    
+  return (
+    <div className={`sideBar ${isOpen ? "open" : ""}`}  style={{backgroundColor: Color.color2}}>
+      <SubInfo></SubInfo>
+      {choices.map((choice, index) => (
+        <Link key={index} className="sidebar-link"> 
+          <Choice
+            Title={choice.Title}
+            Icon={choice.Icon}
+            isOpen={isOpen}
+            isSelected={selectedChoice === index}
+            onClick={() => handleChoiceClick(index)}
+            _Link={choice.Link}
+          ></Choice>
+        </Link>
+      ))}
+    </div>
+  );
 
-
-  ];
-
-    return (
-        <div className={`sideBar ${isOpen ? "open" : ""}`} style={{backgroundColor:Color.color2}}>
-            <SubInfo></SubInfo>
-            {choices.map((choice, index) => (
-                <Choice
-                    key={index}
-                    Title={choice.Title}
-                    Icon={choice.Icon}
-                    isOpen={isOpen}
-                    _Link={choice.Link}
-                    isSelected={selectedChoice === index}
-                    onClick={() => handleChoiceClick(index)}
-                ></Choice>
-            ))}
-        </div>
-    );
 }
 
 export default SideBar;

@@ -6,6 +6,7 @@ namespace FITM_BE.Service.MemberService.Dtos
     [AutoMap(typeof(Member), ReverseMap = true)]
     public class ProfileDto
     {
+        public int Id { get; set; }
         public string FullName { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -15,5 +16,6 @@ namespace FITM_BE.Service.MemberService.Dtos
         public string BankName { get; set; }
         public string BankNumber { get; set; }
         public string Avatar { get; set; }
+        public bool Status { get; set; }
     }
 }
