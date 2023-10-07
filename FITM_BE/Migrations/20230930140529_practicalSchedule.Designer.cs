@@ -13,7 +13,7 @@ namespace FITM_BE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     [Migration("20230930140529_DatabaseCreation")]
-    partial class DatabaseCreation
+    partial class practicalSchedule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
