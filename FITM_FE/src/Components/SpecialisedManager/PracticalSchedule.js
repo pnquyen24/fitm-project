@@ -1,72 +1,83 @@
 import React, { useEffect, useState } from "react";
 import "./PracticalSchedule.css";
+import ModalSchedule from "./ModalSchedule";
+import UseOpenClosed from "./useOpenClosed";
+import {
+    fetchSchedules,
+    getScheduleError,
+    getScheduleStatus,
+    selectAllSchedules,
+    updateSchedule,
+} from "./scheduleSlice";
+import CustomeAlert from "../Member/Alert/CustomeAlert";
 import { Box } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import { getAllSchedules, updateSchedule } from "./ScheduleApi"
-import ModalSchedule from "./ModalSchedule";
-import UseOpenClosed from "./UseOpenClosed";
+import { useDispatch, useSelector } from "react-redux";
 
 function PracticalSchedule() {
-    const [events, setEvents] = useState([]);
+    const dispatch = useDispatch();
+    const schedules = useSelector(selectAllSchedules);
+    const scheduleStatus = useSelector(getScheduleStatus);
+    const error = useSelector(getScheduleError);
+    const modalInfosEvent = UseOpenClosed(false);
+
     const [eventInfos, setEventInfos] = useState();
     const [isEditCard, setIsEditCard] = useState();
 
-    const modalInfosEvent = UseOpenClosed(false);
+    useEffect(() => {
+        if (scheduleStatus === "idle") {
+            dispatch(fetchSchedules());
+        }
+    }, [scheduleStatus, dispatch]);
 
-    const fetchEvent = async () => {
-        const events = Object.values(await getAllSchedules());
-        setEvents(events.map(event => {
-            return {
-                id: event.id,
-                title: event.title,
-                description: event.description,
-                start: event.startDate,
-                end: event.endDate,
-                room: event.room,
-                color: "#1677ff",
-                display: "block",
-            }
+    const processReduxData = (data) => {
+        return data.map((item) => ({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            start: item.startDate,
+            end: item.endDate,
+            room: item.room,
+            color: "#1677ff",
+            display: "block",
         }));
     };
 
-    useEffect(() => {
-        fetchEvent();
-    }, [eventInfos]);
+    const processCalendarData = (data) => {
+        return {
+            id: data.event.id,
+            title: data.event.title,
+            description: data.event.extendedProps.description,
+            startDate: data.event.startStr,
+            endDate: data.event.endStr,
+            room: data.event.extendedProps.room,
+        };
+    };
 
     const handleSelect = async (selectInfo) => {
-        setIsEditCard(false);
         setEventInfos(selectInfo);
+        setIsEditCard(false);
         modalInfosEvent.handleOpen();
-        fetchEvent();
-    }
+    };
 
     const handleEventClick = async (clickInfo) => {
-        setIsEditCard(true);
         setEventInfos(clickInfo);
+        setIsEditCard(true);
         modalInfosEvent.handleOpen();
-    }
+    };
 
     const handleEventChange = async (changeInfo) => {
         try {
-            const eventUpdated = {
-                id: changeInfo.event.id,
-                title: changeInfo.event.title,
-                description: changeInfo.event.extendedProps.description,
-                startDate: changeInfo.event.startStr,
-                endDate: changeInfo.event.endStr,
-                room: changeInfo.event.extendedProps.room,
-                backgroundColor: changeInfo.event.backgroundColor,
-                textColor: changeInfo.event.textColor
-            }
-            await updateSchedule(eventUpdated);
+            const processedData = processCalendarData(changeInfo);
+            dispatch(updateSchedule(processedData));
         } catch {
-            console.log("Something error!");
+            CustomeAlert.error(error);
         }
-    }
+    };
 
     return (
         <div id="calendar">
@@ -78,26 +89,33 @@ function PracticalSchedule() {
                     isEditCard={isEditCard}
                 />
                 <FullCalendar
-                    dayMaxEvents={2}
+                    dayMaxEvents={true}
                     defaultAllDay={false}
                     editable={true}
                     height={800}
                     selectable={true}
-                    plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
+                    selectMirror={true}
+                    plugins={[
+                        dayGridPlugin,
+                        timeGridPlugin,
+                        listPlugin,
+                        interactionPlugin,
+                    ]}
                     initialView="dayGridMonth"
                     headerToolbar={{
                         left: "prev,next today",
                         center: "title",
-                        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
+                        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
                     }}
-                    events={events}
+                    events={processReduxData(schedules)}
                     select={handleSelect}
                     eventClick={handleEventClick}
                     eventChange={handleEventChange}
                     eventTimeFormat={{
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        meridiem: false
+                        hour: "numeric",
+                        minute: "2-digit",
+                        meridiem: false,
+                        hour12: false,
                     }}
                 />
             </Box>

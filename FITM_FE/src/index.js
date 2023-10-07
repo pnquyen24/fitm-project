@@ -15,33 +15,63 @@ import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-
+import { Provider } from "react-redux";
+import store from "./Variable/Redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="home" element={<App />}>
-          <Route path="profile" element={<Profile />} />
-          <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
-          <Route path="member-manager" >
-            <Route path="create-member" element={<CreateMember />} />
-            <Route path="member-list" element={<MemberList />} />
-            <Route path="member-profile" element={<MemberProfile />} />
-            <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
-            <Route path="request-details" element={<RequestDetail />} />
-          </Route>
-        <Route path="practicalSchedule" element={<PracticalSchedule />} />
-          <Route path="changepassword" element={<ChangePassword />} />
-          <Route path="music" element={<Music></Music>} />
-        </Route>
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={store}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="login" element={<Login />} />
+                    <Route path="home/*" element={<App />}>
+                        <Route path="profile" element={<Profile />} />
+                        <Route
+                            path="request-edit-info-list"
+                            element={<RequestChangeInfoList />}
+                        />
+                        <Route path="member-manager">
+                            <Route
+                                path="create-member"
+                                element={<CreateMember />}
+                            />
+                            <Route
+                                path="member-list"
+                                element={<MemberList />}
+                            />
+                            <Route
+                                path="member-profile"
+                                element={<MemberProfile />}
+                            />
+                            <Route
+                                path="request-edit-info-list"
+                                element={<RequestChangeInfoList />}
+                            />
+                            <Route
+                                path="request-details"
+                                element={<RequestDetail />}
+                            />
+                        </Route>
+                        <Route
+                            path="practicalSchedule"
+                            element={<PracticalSchedule />}
+                        />
+                        <Route
+                            path="changepassword"
+                            element={<ChangePassword />}
+                        />
+                        <Route path="music" element={<Music></Music>} />
+                    </Route>
+                    <Route
+                        path="/forgotPassword"
+                        element={<ForgotPassword />}
+                    />
+                </Routes>
+            </BrowserRouter>
+        </Provider>
+    </React.StrictMode>
 );
 
 reportWebVitals();

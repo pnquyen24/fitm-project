@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import {
     Button,
@@ -8,19 +9,27 @@ import {
     DialogTitle,
     Grid,
     InputLabel,
-    Stack
+    Stack,
 } from "@mui/material";
-import { createSchedule, updateSchedule, deleteSchedule } from "./ScheduleApi";
+import {
+    createSchedule,
+    deleteSchedule,
+    getScheduleError,
+    updateSchedule,
+} from "./scheduleSlice";
 import DateTimeInput from "../Member/Input/DateTimeInput";
 import CustomeTextField from "../Member/Input/CustomeTextField";
+import CustomeAlert from "../Member/Alert/CustomeAlert";
 
 function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
+    const dispatch = useDispatch();
+    const error = useSelector(getScheduleError);
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [startDate, setStartDate] = useState(eventInfos?.startStr);
+    const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [room, setRoom] = useState();
-
     const [isError, setIsError] = useState(false);
 
     useEffect(() => {
@@ -39,105 +48,91 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
         }
     }, [eventInfos, isEditCard]);
 
-    const handleInput = (event) => {
-        const text = event.target.value;
-        if (text.length === 0) {
-            setIsError(true);
-        } else {
-            setIsError(false);
-        }
-    };
+    function getEvent(title, description, startDate, endDate, room) {
+        return {
+            title,
+            description,
+            startDate,
+            endDate,
+            room,
+        };
+    }
+
+    function resetAndCloseModal() {
+        setTitle("");
+        setDescription("");
+        setRoom();
+        handleClose();
+    }
 
     const handleAddedEvent = async () => {
         try {
-            const calendarApi = eventInfos.view.calendar;
-            const eventCalendar = {
-                title: title,
-                description: description,
-                startDate: startDate,
-                endDate: endDate,
-                room: room,
-                backgroundColor: "#1677ff",
-                textColor: "#ffffff",
-            };
-            calendarApi.addEvent(await createSchedule(eventCalendar));
-        } catch (error) {
-            // error
-            console.log("Error!");
+            const newSchedule = getEvent(
+                title,
+                description,
+                startDate,
+                endDate,
+                room
+            );
+            dispatch(createSchedule(newSchedule));
+        } catch {
+            CustomeAlert.error(error);
         } finally {
-            setTitle("");
-            setDescription("");
-            setRoom();
-            handleClose();
+            resetAndCloseModal();
         }
     };
 
     const handleUpdatedEvent = async () => {
         try {
-            const calendarApi = eventInfos.view.calendar;
-
-            const eventCalendarUpdated = {
+            const updatedSchedule = {
                 id: eventInfos.event.id,
-                title: title,
-                description: description,
-                startDate: startDate,
-                endDate: endDate,
-                room: room,
-                backgroundColor: "#1677ff",
-                textColor: "#ffffff",
+                ...getEvent(title, description, startDate, endDate, room),
             };
-
-            const currentEvent = calendarApi.getEventById(eventInfos.event.id);
-
-            if (currentEvent) {
-                currentEvent.setProp("title", title);
-                currentEvent.setExtendedProp("description", description);
-                currentEvent.setExtendedProp("room", room);
-                currentEvent.setProp("backgroundColor", "#1677ff");
-                currentEvent.setProp("textColor", "#ffffff");
-            }
-
-            await updateSchedule(eventCalendarUpdated);
-        } catch (error) {
-            // error
-            console.log("Error!");
+            dispatch(updateSchedule(updatedSchedule));
+        } catch {
+            CustomeAlert.error(error);
         } finally {
-            setTitle("");
-            setDescription("");
-            setRoom();
-            handleClose();
+            resetAndCloseModal();
         }
     };
 
     const handleDeleteEvent = async () => {
         try {
-            await deleteSchedule({ id: eventInfos.event.id });
-            eventInfos.event.remove();
-        } catch (error) {
-            // error
-            console.log("Error!");
+            dispatch(deleteSchedule({ id: Number(eventInfos.event.id) }));
+        } catch {
+            CustomeAlert.error(error);
         } finally {
-            setTitle("");
-            setDescription("");
-            setRoom();
-            handleClose();
+            resetAndCloseModal();
         }
     };
 
     return (
-        <Dialog open={Boolean(open)} onClose={handleClose} scroll={"paper"} fullWidth>
+        <Dialog
+            open={Boolean(open)}
+            onClose={handleClose}
+            scroll={"paper"}
+            fullWidth
+        >
             <form action="#" autoComplete="off" noValidate="">
-                <DialogTitle sx={{ m: 0, p: 2 }}>{isEditCard ? "Edit Schedule" : "Add Schedule"}</DialogTitle>
+                <DialogTitle sx={{ m: 0, p: 2 }}>
+                    {isEditCard ? "Edit Schedule" : "Add Schedule"}
+                </DialogTitle>
 
                 <DialogContent dividers>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={10}>
-                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                            <Stack
+                                spacing={1.25}
+                                direction={"column"}
+                                useFlexGap={false}
+                            >
                                 <InputLabel children="Title" />
                                 <CustomeTextField
                                     error={isError}
                                     name="Title"
-                                    onChange={(event) => setTitle(event.target.value)}
+                                    onChange={(event) =>
+                                        setTitle(event.target.value)
+                                    }
                                     placeholder="Title"
                                     required
                                     size="small"
@@ -147,12 +142,18 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             </Stack>
                         </Grid>
                         <Grid item xs={12} md={2}>
-                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                            <Stack
+                                spacing={1.25}
+                                direction={"column"}
+                                useFlexGap={false}
+                            >
                                 <InputLabel children="Room" />
                                 <CustomeTextField
                                     error={isError}
                                     name="Room"
-                                    onChange={(event) => setRoom(parseInt(event.target.value))}
+                                    onChange={(event) =>
+                                        setRoom(parseInt(event.target.value))
+                                    }
                                     placeholder="Room"
                                     required
                                     size="small"
@@ -162,12 +163,18 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             </Stack>
                         </Grid>
                         <Grid item xs={12}>
-                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                            <Stack
+                                spacing={1.25}
+                                direction={"column"}
+                                useFlexGap={false}
+                            >
                                 <InputLabel children="Description" />
                                 <CustomeTextField
                                     multiline
                                     name="Description"
-                                    onChange={(event) => setDescription(event.target.value)}
+                                    onChange={(event) =>
+                                        setDescription(event.target.value)
+                                    }
                                     placeholder="Description"
                                     rows={3}
                                     size="small"
@@ -177,7 +184,11 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             </Stack>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                            <Stack
+                                spacing={1.25}
+                                direction={"column"}
+                                useFlexGap={false}
+                            >
                                 <InputLabel children="Start Date" />
                                 <DateTimeInput
                                     onChange={(event) => setStartDate(event)}
@@ -186,7 +197,11 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             </Stack>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                            <Stack
+                                spacing={1.25}
+                                direction={"column"}
+                                useFlexGap={false}
+                            >
                                 <InputLabel children="End Date" />
                                 <DateTimeInput
                                     onChange={(event) => setEndDate(event)}
@@ -198,7 +213,13 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 </DialogContent>
 
                 <DialogActions>
-                    <Grid container direction={"row"} columns={12} alignItems="center" justifyContent="space-between">
+                    <Grid
+                        container
+                        direction={"row"}
+                        columns={12}
+                        alignItems="center"
+                        justifyContent="space-between"
+                    >
                         <Grid>
                             {isEditCard && (
                                 <Button
@@ -209,7 +230,11 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             )}
                         </Grid>
                         <Grid alignItems="center">
-                            <Stack direction="row" spacing={2} useFlexGap={false}>
+                            <Stack
+                                direction="row"
+                                spacing={2}
+                                useFlexGap={false}
+                            >
                                 <Button
                                     children="Cancel"
                                     variant="contained"
@@ -218,14 +243,18 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                                 <Button
                                     children={isEditCard ? "Update" : "Add"}
                                     variant="contained"
-                                    onClick={isEditCard ? handleUpdatedEvent : handleAddedEvent}
+                                    onClick={
+                                        isEditCard
+                                            ? handleUpdatedEvent
+                                            : handleAddedEvent
+                                    }
                                 />
                             </Stack>
                         </Grid>
                     </Grid>
                 </DialogActions>
             </form>
-        </Dialog >
+        </Dialog>
     );
 }
 
