@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
     Grid,
     InputLabel,
     Stack,
+    Tab,
 } from "@mui/material";
 import {
     createSchedule,
@@ -20,6 +21,7 @@ import {
 import DateTimeInput from "../Member/Input/DateTimeInput";
 import CustomeTextField from "../Member/Input/CustomeTextField";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     const dispatch = useDispatch();
@@ -34,6 +36,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     };
     const [formSchedule, setFormSchedule] = useState(intialValues);
     const [formErrors, setFormErrors] = useState({});
+    const [valueTab, setValueTab] = useState("1");
 
     useEffect(() => {
         if (isEditCard) {
@@ -177,6 +180,10 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
         }
     };
 
+    const handleChangeTab = (event, newValueTab) => {
+        setValueTab(newValueTab);
+    };
+
     return (
         <Dialog
             open={Boolean(open)}
@@ -184,163 +191,188 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
             scroll={"paper"}
             fullWidth
         >
-            <form action="" onSubmit={handleSubmit}>
-                <DialogTitle sx={{ m: 0, p: 2 }}>
-                    {isEditCard ? "Edit Schedule" : "Add Schedule"}
-                </DialogTitle>
+            <TabContext value={valueTab}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <TabList onChange={handleChangeTab}>
+                        <Tab label="Practical Schedule" value="1" />
+                        <Tab label="Performance Schedule" value="2" />
+                    </TabList>
+                </Box>
+                <TabPanel value="1">
+                    <form action="" onSubmit={handleSubmit}>
+                        {/* <DialogTitle sx={{ m: 0, p: 2 }}>
+                            {isEditCard ? "Edit Schedule" : "Add Schedule"}
+                        </DialogTitle>
+                            dividers
+                        */}
+                        <DialogContent>
+                            {" "}
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} md={10}>
+                                    <Stack
+                                        spacing={1.25}
+                                        direction={"column"}
+                                        useFlexGap={false}
+                                    >
+                                        <InputLabel children="Title" />
+                                        <CustomeTextField
+                                            error={Boolean(formErrors.title)}
+                                            helperText={
+                                                Boolean(formErrors.title) &&
+                                                formErrors.title
+                                            }
+                                            name="title"
+                                            onChange={(event) =>
+                                                handleChange("title", event)
+                                            }
+                                            placeholder="Title"
+                                            size="small"
+                                            type="text"
+                                            value={formSchedule.title}
+                                        />
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={2}>
+                                    <Stack
+                                        spacing={1.25}
+                                        direction={"column"}
+                                        useFlexGap={false}
+                                    >
+                                        <InputLabel children="Room" />
+                                        <CustomeTextField
+                                            error={Boolean(formErrors.room)}
+                                            helperText={
+                                                Boolean(formErrors.room) &&
+                                                formErrors.room
+                                            }
+                                            name="room"
+                                            onChange={(event) =>
+                                                handleChange("room", event)
+                                            }
+                                            placeholder="Room"
+                                            size="small"
+                                            type="text"
+                                            value={
+                                                formSchedule.room
+                                                    ? String(formSchedule.room)
+                                                    : ""
+                                            }
+                                        />
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Stack
+                                        spacing={1.25}
+                                        direction={"column"}
+                                        useFlexGap={false}
+                                    >
+                                        <InputLabel children="Description" />
+                                        <CustomeTextField
+                                            error={Boolean(
+                                                formErrors.description
+                                            )}
+                                            helperText={
+                                                Boolean(
+                                                    formErrors.description
+                                                ) && formErrors.description
+                                            }
+                                            multiline
+                                            name="description"
+                                            onChange={(event) =>
+                                                handleChange(
+                                                    "description",
+                                                    event
+                                                )
+                                            }
+                                            placeholder="Description"
+                                            rows={3}
+                                            size="small"
+                                            type="text"
+                                            value={formSchedule.description}
+                                        />
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Stack
+                                        spacing={1.25}
+                                        direction={"column"}
+                                        useFlexGap={false}
+                                    >
+                                        <InputLabel children="Start Date" />
+                                        <DateTimeInput
+                                            onChange={(event) =>
+                                                handleChange("startDate", event)
+                                            }
+                                            value={dayjs(
+                                                formSchedule.startDate
+                                            )}
+                                        />
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <Stack
+                                        spacing={1.25}
+                                        direction={"column"}
+                                        useFlexGap={false}
+                                    >
+                                        <InputLabel children="End Date" />
+                                        <DateTimeInput
+                                            minDateTime={dayjs(
+                                                formSchedule.startDate
+                                            )}
+                                            onChange={(event) =>
+                                                handleChange("endDate", event)
+                                            }
+                                            value={dayjs(formSchedule.endDate)}
+                                        />
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        </DialogContent>
 
-                <DialogContent dividers>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={10}>
-                            <Stack
-                                spacing={1.25}
-                                direction={"column"}
-                                useFlexGap={false}
+                        <DialogActions>
+                            <Grid
+                                container
+                                direction={"row"}
+                                columns={12}
+                                alignItems="center"
+                                justifyContent="space-between"
                             >
-                                <InputLabel children="Title" />
-                                <CustomeTextField
-                                    error={Boolean(formErrors.title)}
-                                    helperText={
-                                        Boolean(formErrors.title) &&
-                                        formErrors.title
-                                    }
-                                    name="title"
-                                    onChange={(event) =>
-                                        handleChange("title", event)
-                                    }
-                                    placeholder="Title"
-                                    size="small"
-                                    type="text"
-                                    value={formSchedule.title}
-                                />
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={12} md={2}>
-                            <Stack
-                                spacing={1.25}
-                                direction={"column"}
-                                useFlexGap={false}
-                            >
-                                <InputLabel children="Room" />
-                                <CustomeTextField
-                                    error={Boolean(formErrors.room)}
-                                    helperText={
-                                        Boolean(formErrors.room) &&
-                                        formErrors.room
-                                    }
-                                    name="room"
-                                    onChange={(event) =>
-                                        handleChange("room", event)
-                                    }
-                                    placeholder="Room"
-                                    size="small"
-                                    type="text"
-                                    value={
-                                        formSchedule.room
-                                            ? String(formSchedule.room)
-                                            : ""
-                                    }
-                                />
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Stack
-                                spacing={1.25}
-                                direction={"column"}
-                                useFlexGap={false}
-                            >
-                                <InputLabel children="Description" />
-                                <CustomeTextField
-                                    error={Boolean(formErrors.description)}
-                                    helperText={
-                                        Boolean(formErrors.description) &&
-                                        formErrors.description
-                                    }
-                                    multiline
-                                    name="description"
-                                    onChange={(event) =>
-                                        handleChange("description", event)
-                                    }
-                                    placeholder="Description"
-                                    rows={3}
-                                    size="small"
-                                    type="text"
-                                    value={formSchedule.description}
-                                />
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Stack
-                                spacing={1.25}
-                                direction={"column"}
-                                useFlexGap={false}
-                            >
-                                <InputLabel children="Start Date" />
-                                <DateTimeInput
-                                    onChange={(event) =>
-                                        handleChange("startDate", event)
-                                    }
-                                    value={dayjs(formSchedule.startDate)}
-                                />
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Stack
-                                spacing={1.25}
-                                direction={"column"}
-                                useFlexGap={false}
-                            >
-                                <InputLabel children="End Date" />
-                                <DateTimeInput
-                                    minDateTime={dayjs(formSchedule.startDate)}
-                                    onChange={(event) =>
-                                        handleChange("endDate", event)
-                                    }
-                                    value={dayjs(formSchedule.endDate)}
-                                />
-                            </Stack>
-                        </Grid>
-                    </Grid>
-                </DialogContent>
-
-                <DialogActions>
-                    <Grid
-                        container
-                        direction={"row"}
-                        columns={12}
-                        alignItems="center"
-                        justifyContent="space-between"
-                    >
-                        <Grid>
-                            {isEditCard && (
-                                <Button
-                                    children="Delete"
-                                    variant="contained"
-                                    onClick={handleDeleteEvent}
-                                />
-                            )}
-                        </Grid>
-                        <Grid alignItems="center">
-                            <Stack
-                                direction="row"
-                                spacing={2}
-                                useFlexGap={false}
-                            >
-                                <Button
-                                    children="Cancel"
-                                    variant="contained"
-                                    onClick={handleClose}
-                                />
-                                <Button
-                                    children={isEditCard ? "Update" : "Add"}
-                                    variant="contained"
-                                    type="submit"
-                                />
-                            </Stack>
-                        </Grid>
-                    </Grid>
-                </DialogActions>
-            </form>
+                                <Grid>
+                                    {isEditCard && (
+                                        <Button
+                                            children="Delete"
+                                            variant="contained"
+                                            onClick={handleDeleteEvent}
+                                        />
+                                    )}
+                                </Grid>
+                                <Grid alignItems="center">
+                                    <Stack
+                                        direction="row"
+                                        spacing={2}
+                                        useFlexGap={false}
+                                    >
+                                        <Button
+                                            children="Cancel"
+                                            variant="contained"
+                                            onClick={handleClose}
+                                        />
+                                        <Button
+                                            children={
+                                                isEditCard ? "Update" : "Add"
+                                            }
+                                            variant="contained"
+                                            type="submit"
+                                        />
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        </DialogActions>
+                    </form>
+                </TabPanel>
+                <TabPanel value="2">Oke</TabPanel>
+            </TabContext>
         </Dialog>
     );
 }
