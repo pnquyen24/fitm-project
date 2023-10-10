@@ -25,56 +25,61 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     const dispatch = useDispatch();
     const error = useSelector(getScheduleError);
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
-    const [room, setRoom] = useState();
-    const [isError, setIsError] = useState(false);
+    const intialValues = {
+        title: "",
+        description: "",
+        startDate: null,
+        endDate: null,
+        room: null,
+    };
+    const [formSchedule, setFormSchedule] = useState(intialValues);
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         if (isEditCard) {
-            setTitle(eventInfos?.event?.title);
-            setDescription(eventInfos?.event?.extendedProps?.description);
-            setStartDate(eventInfos?.event?.startStr);
-            setEndDate(eventInfos?.event?.endStr);
-            setRoom(eventInfos?.event?.extendedProps?.room);
+            setFormSchedule({
+                title: eventInfos?.event?.title,
+                description: eventInfos?.event?.extendedProps?.description,
+                startDate: eventInfos?.event?.startStr,
+                endDate: eventInfos?.event?.endStr,
+                room: eventInfos?.event?.extendedProps?.room,
+            });
         } else {
-            setTitle("");
-            setDescription("");
-            setStartDate(eventInfos?.startStr);
-            setEndDate(eventInfos?.endStr);
-            setRoom();
+            setFormSchedule({
+                title: "",
+                description: "",
+                startDate: eventInfos?.startStr,
+                endDate: eventInfos?.endStr,
+                room: null,
+            });
         }
     }, [eventInfos, isEditCard]);
 
-    function getEvent(title, description, startDate, endDate, room) {
+    function getEvent(formSchedule) {
         return {
-            title,
-            description,
-            startDate,
-            endDate,
-            room,
+            title: formSchedule.title,
+            description: formSchedule.description,
+            startDate: formSchedule.startDate,
+            endDate: formSchedule.endDate,
+            room: formSchedule.room,
         };
     }
 
     function resetAndCloseModal() {
-        setTitle("");
-        setDescription("");
-        setRoom();
+        setFormSchedule({
+            ...formSchedule,
+            title: "",
+            description: "",
+            room: null,
+        });
         handleClose();
     }
 
-    const handleAddedEvent = async () => {
+    const handleAddedEvent = () => {
         try {
-            const newSchedule = getEvent(
-                title,
-                description,
-                startDate,
-                endDate,
-                room
-            );
+            const newSchedule = getEvent(formSchedule);
             dispatch(createSchedule(newSchedule));
+            CustomeAlert.success("Added successfully");
         } catch {
             CustomeAlert.error(error);
         } finally {
@@ -82,13 +87,14 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
         }
     };
 
-    const handleUpdatedEvent = async () => {
+    const handleUpdatedEvent = () => {
         try {
             const updatedSchedule = {
                 id: eventInfos.event.id,
-                ...getEvent(title, description, startDate, endDate, room),
+                ...getEvent(formSchedule),
             };
             dispatch(updateSchedule(updatedSchedule));
+            CustomeAlert.success("Updated successfully");
         } catch {
             CustomeAlert.error(error);
         } finally {
@@ -96,13 +102,78 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
         }
     };
 
-    const handleDeleteEvent = async () => {
+    const handleDeleteEvent = () => {
         try {
             dispatch(deleteSchedule({ id: Number(eventInfos.event.id) }));
+            CustomeAlert.success("Deleted successfully");
         } catch {
             CustomeAlert.error(error);
         } finally {
             resetAndCloseModal();
+        }
+    };
+
+    const handleChange = (name, event) => {
+        setFormErrors((prev) => ({ ...prev, [name]: null }));
+
+        let value;
+        switch (name) {
+            case "room":
+                value = parseInt(event.target.value);
+                break;
+            case "startDate":
+            case "endDate":
+                value = event;
+                break;
+            default:
+                value = event.target.value;
+                break;
+        }
+        setFormSchedule({
+            ...formSchedule,
+            [name]: value,
+        });
+    };
+
+    const validate = (values) => {
+        let errors = {};
+
+        if (!values.title) {
+            errors.title = "Title is required";
+        } else if (values.title.length >= 30) {
+            errors.title = "Title limited to 30 characters or less";
+        }
+
+        if (values.description.length >= 200) {
+            errors.description = "Description limited to 30 characters or less";
+        }
+
+        const roomRegex = /^50[1-9]|51[0-9]|520$/;
+        if (!values.room) {
+            errors.room = "Required";
+        } else if (!roomRegex.test(values.room)) {
+            errors.room = "501-520";
+        }
+
+        if (values.startDate > values.endDate) {
+            errors.endDate = "End date must be last start date";
+        }
+
+        return errors;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const errors = validate(formSchedule);
+        setFormErrors(errors);
+
+        if (Object.keys(errors).length === 0) {
+            if (isEditCard) {
+                handleUpdatedEvent();
+            } else {
+                handleAddedEvent();
+            }
         }
     };
 
@@ -113,7 +184,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
             scroll={"paper"}
             fullWidth
         >
-            <form action="#" autoComplete="off" noValidate="">
+            <form action="" onSubmit={handleSubmit}>
                 <DialogTitle sx={{ m: 0, p: 2 }}>
                     {isEditCard ? "Edit Schedule" : "Add Schedule"}
                 </DialogTitle>
@@ -128,16 +199,19 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             >
                                 <InputLabel children="Title" />
                                 <CustomeTextField
-                                    error={isError}
-                                    name="Title"
+                                    error={Boolean(formErrors.title)}
+                                    helperText={
+                                        Boolean(formErrors.title) &&
+                                        formErrors.title
+                                    }
+                                    name="title"
                                     onChange={(event) =>
-                                        setTitle(event.target.value)
+                                        handleChange("title", event)
                                     }
                                     placeholder="Title"
-                                    required
                                     size="small"
                                     type="text"
-                                    value={title}
+                                    value={formSchedule.title}
                                 />
                             </Stack>
                         </Grid>
@@ -149,16 +223,23 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             >
                                 <InputLabel children="Room" />
                                 <CustomeTextField
-                                    error={isError}
-                                    name="Room"
+                                    error={Boolean(formErrors.room)}
+                                    helperText={
+                                        Boolean(formErrors.room) &&
+                                        formErrors.room
+                                    }
+                                    name="room"
                                     onChange={(event) =>
-                                        setRoom(parseInt(event.target.value))
+                                        handleChange("room", event)
                                     }
                                     placeholder="Room"
-                                    required
                                     size="small"
                                     type="text"
-                                    value={room ? String(room) : ""}
+                                    value={
+                                        formSchedule.room
+                                            ? String(formSchedule.room)
+                                            : ""
+                                    }
                                 />
                             </Stack>
                         </Grid>
@@ -170,16 +251,21 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             >
                                 <InputLabel children="Description" />
                                 <CustomeTextField
+                                    error={Boolean(formErrors.description)}
+                                    helperText={
+                                        Boolean(formErrors.description) &&
+                                        formErrors.description
+                                    }
                                     multiline
-                                    name="Description"
+                                    name="description"
                                     onChange={(event) =>
-                                        setDescription(event.target.value)
+                                        handleChange("description", event)
                                     }
                                     placeholder="Description"
                                     rows={3}
                                     size="small"
                                     type="text"
-                                    value={description}
+                                    value={formSchedule.description}
                                 />
                             </Stack>
                         </Grid>
@@ -191,8 +277,10 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             >
                                 <InputLabel children="Start Date" />
                                 <DateTimeInput
-                                    onChange={(event) => setStartDate(event)}
-                                    value={dayjs(startDate)}
+                                    onChange={(event) =>
+                                        handleChange("startDate", event)
+                                    }
+                                    value={dayjs(formSchedule.startDate)}
                                 />
                             </Stack>
                         </Grid>
@@ -204,8 +292,11 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                             >
                                 <InputLabel children="End Date" />
                                 <DateTimeInput
-                                    onChange={(event) => setEndDate(event)}
-                                    value={dayjs(endDate)}
+                                    minDateTime={dayjs(formSchedule.startDate)}
+                                    onChange={(event) =>
+                                        handleChange("endDate", event)
+                                    }
+                                    value={dayjs(formSchedule.endDate)}
                                 />
                             </Stack>
                         </Grid>
@@ -243,11 +334,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                                 <Button
                                     children={isEditCard ? "Update" : "Add"}
                                     variant="contained"
-                                    onClick={
-                                        isEditCard
-                                            ? handleUpdatedEvent
-                                            : handleAddedEvent
-                                    }
+                                    type="submit"
                                 />
                             </Stack>
                         </Grid>
