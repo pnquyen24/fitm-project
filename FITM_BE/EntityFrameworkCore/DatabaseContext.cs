@@ -20,5 +20,7 @@ namespace FITM_BE.EntityFrameworkCore
         public DbSet<Member> Members { get; set; }
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
         public DbSet<PracticalSchedule> PracticalSchedules { get; set; }
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Outcome> Outcomes { get; set; }
     }
 }
