@@ -3,8 +3,7 @@ import { Color } from "../../../../Variable/Color/Color";
 import MusicPopup from "./Music PopUp/MusicPopUp";
 import { useState } from "react";
 
-function MusicControl({getAllSongs}) {
-  const [editMusic, setEditMusic] = useState(false);
+function MusicControl({getAllSongs,setEditMusic, editMusic}) {
 
   const handleEditClick = () => {
     setEditMusic(true);

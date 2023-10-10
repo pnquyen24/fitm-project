@@ -25,8 +25,8 @@ namespace FITM_BE.Controllers
         public async Task<ActionResult<IEnumerable<SongDto>>> GetAllSongs()
         {
             var songs = await Task.Run(() => _songService.GetAll());
-            var songDtos = _mapper.Map<IEnumerable<SongDto>>(songs);
-            return Ok(songDtos);
+            
+            return Ok(songs);
         }
 
 
@@ -54,9 +54,9 @@ namespace FITM_BE.Controllers
                 return NotFound();
             }
 
-            var songDto = _mapper.Map<SongDto>(song);
+            
 
-            return Ok(songDto);
+            return Ok(song);
         }
 
         [HttpPut("{id}")]
@@ -99,6 +99,7 @@ namespace FITM_BE.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
     }
 }

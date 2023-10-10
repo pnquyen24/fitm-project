@@ -16,25 +16,35 @@ namespace FITM_BE.Service.SongService
 
         }
 
-        public async Task<Song> Create(SongDto songDto)
+        public async Task<string> Create(SongDto songDto)
         {
             var song = _mapper.Map<Song>(songDto);
             await _repository.Add(song);
-            return song;
+            return "successfully";
         }
 
-        public IQueryable<Song> GetAll()
+        public async Task<IEnumerable<SongDto>> GetAll()
         {
             var songs = _repository.GetAll<Song>();
-            if (songs.Any()) return songs;
-            else throw new NotFoundException("The list is empty");
+
+            if (songs.Any())
+            {
+                var songDtos = _mapper.Map<IEnumerable<SongDto>>(songs);
+                return songDtos;
+            }
+            else
+            {
+                throw new NotFoundException("The list is empty");
+            }
         }
 
 
-        public async Task<Song> GetById(int id)
+
+        public async Task<SongDto> GetById(int id)
         {
             var song = await _repository.Get<Song>(id);
-            return song;
+            var songDto = _mapper.Map<SongDto>(song);
+            return songDto;
         }
 
         public async Task Update(int id, SongDto songDto)

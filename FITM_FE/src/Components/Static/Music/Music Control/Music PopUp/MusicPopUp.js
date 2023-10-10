@@ -39,8 +39,8 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
         setBackGroundImage("");
       });
   };
-  const deleteSongById = () => {
-    axios
+  const deleteSongById = async () => {
+    await axios
       .delete(`https://localhost:7226/apis/Song/DeleteSong/${idInput}`)
       .then((response) => {
         console.log(response.data);
@@ -48,9 +48,12 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
       .catch((error) => {
         console.log(error.message);
       });
+
+      getAllSongs();
+       setEditMusic(false);
   };
 
-  const UpdateSong = () => {
+  const UpdateSong = async () => {
     let updateSong = {
       id: idInput,
       name: songName,
@@ -60,15 +63,17 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
       backgroundImg: backgroundImage,
     };
 
-    axios
+    await axios
       .put(`https://localhost:7226/apis/Song/UpdateSong/${idInput}`, updateSong)
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {});
+      getAllSongs();
+      setEditMusic(false);
   };
 
-  const CreateSong = () => {
+  const CreateSong = async () => {
     let NewSong = {
       id: 0,
       name: songName,
@@ -78,12 +83,14 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
       backgroundImg: backgroundImage,
     };
 
-    axios
+    await axios
       .post(`https://localhost:7226/apis/Song/CreateSong`, NewSong)
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {});
+      getAllSongs();
+      setEditMusic(false);
   };
 
   const handleEditClick = () => {

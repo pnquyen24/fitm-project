@@ -5,6 +5,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 function Music() {
   let [songs, setSongs] = useState([]);
+  const [editMusic, setEditMusic] = useState(false);
+
 
   useEffect(() => {
     axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
@@ -25,7 +27,7 @@ function Music() {
 
   return (
     <div className="music">
-      <MusicControl getAllSongs={getAllSongs}></MusicControl>
+      <MusicControl getAllSongs={getAllSongs} setEditMusic={setEditMusic} editMusic={editMusic}></MusicControl>
       {songs.map((song, index) => (
         <Song
           key={index} 
