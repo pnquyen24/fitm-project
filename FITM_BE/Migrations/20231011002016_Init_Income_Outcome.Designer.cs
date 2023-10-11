@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FITM_BE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231011000941_Init_Income_Outcome")]
+    [Migration("20231011002016_Init_Income_Outcome")]
     partial class Init_Income_Outcome
     {
         /// <inheritdoc />
