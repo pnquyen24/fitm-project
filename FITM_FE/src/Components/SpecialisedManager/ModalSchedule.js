@@ -17,7 +17,7 @@ import {
     deleteSchedule,
     getScheduleError,
     updateSchedule,
-} from "./scheduleSlice";
+} from "../../Variable/Redux/Slice/scheduleSlice";
 import DateTimeInput from "../Member/Input/DateTimeInput";
 import CustomeTextField from "../Member/Input/CustomeTextField";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
@@ -200,13 +200,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 </Box>
                 <TabPanel value="1">
                     <form action="" onSubmit={handleSubmit}>
-                        {/* <DialogTitle sx={{ m: 0, p: 2 }}>
-                            {isEditCard ? "Edit Schedule" : "Add Schedule"}
-                        </DialogTitle>
-                            dividers
-                        */}
-                        <DialogContent>
-                            {" "}
+                        <DialogContent dividers>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={10}>
                                     <Stack

@@ -9,7 +9,7 @@ import MemberList from "./Components/HR/MemberList/MemberList";
 import MemberProfile from "./Components/HR/MemberProfile/MemberProfile";
 import RequestChangeInfoList from "./Components/HR/RequestChangeInfoList/RequestChangeInfoList";
 import RequestDetail from "./Components/HR/RequestDetail/RequestDetail";
-import PracticalSchedule from "./Components/SpecialisedManager/PracticalSchedule";
+import Schedule from "./Components/SpecialisedManager/Schedule";
 import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
 import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
@@ -54,10 +54,7 @@ root.render(
                                 element={<RequestDetail />}
                             />
                         </Route>
-                        <Route
-                            path="practicalSchedule"
-                            element={<PracticalSchedule />}
-                        />
+                        <Route path="schedule" element={<Schedule />} />
                         <Route
                             path="changepassword"
                             element={<ChangePassword />}

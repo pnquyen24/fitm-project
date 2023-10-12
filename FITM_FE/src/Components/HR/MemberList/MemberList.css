@@ -3,8 +3,8 @@
   margin-bottom: 20px;
 }
 
-.container {
-  width: 100%;
+.container_memberList {
+  width: 96%;
   float: left;
   margin-top: 5px;
 }
@@ -14,16 +14,20 @@
   width: 100%;
   margin-bottom: 20px;
 }
-.css-1ygcj2i-MuiTableCell-root{
-  text-align: center ;
+
+.css-1ygcj2i-MuiTableCell-root {
+  text-align: center;
 }
+
 .TableHead {
   background-color: lightgray;
   font-weight: bold !important;
 }
-.css-1ygcj2i-MuiTableCell-root{
+
+.css-1ygcj2i-MuiTableCell-root {
   font-weight: bold !important;
 }
+
 .button-container,
 .pagination-button {
   display: flex;
@@ -55,10 +59,10 @@
   margin-right: 20px;
 }
 
-.create-member{
+.create-member {
   float: right;
   margin-top: 5px !important;
-  background-color:rgb(67,130,218) !important;
+  background-color: rgb(67, 130, 218) !important;
   color: white !important;
-  margin-right:  12px !important;
+  margin-right: 12px !important;
 }
