@@ -2,9 +2,9 @@
 {
     public enum FinanceStatus
     {
-        waiting,
-        pending,
-        accepted,
-        denied
+        Waiting,
+        Pending,
+        Accepted,
+        Denied
     }
 }
