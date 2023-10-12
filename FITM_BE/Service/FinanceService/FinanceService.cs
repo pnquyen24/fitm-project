@@ -2,6 +2,7 @@
 using FITM_BE.Entity;
 using FITM_BE.Enums;
 using FITM_BE.Service.FinanceService.Dtos;
+using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;
@@ -60,6 +61,44 @@ namespace FITM_BE.Service.FinanceService
                                  };
 
             return groupedIncomes;
+        }
+
+
+        //==================================================
+
+        public IQueryable<IncomeListDto> ViewIncome()
+        {
+            IQueryable<IncomeListDto> incomeListDtos =
+                _repository.GetAll<Income>().Select(income => _mapper.Map<IncomeListDto>(income));
+            return incomeListDtos;
+        }
+
+        public async Task<IncomeListDto> GetIncome(int id)
+        {
+            Income income = await _repository.Get<Income>(id);
+            return _mapper.Map<IncomeListDto>(income);
+        }
+
+        public async Task<IncomeListDto> AddIncome(CreateIncomeDto createIncomeDto)
+        {
+            Income newIncome = _mapper.Map<Income>(createIncomeDto);
+            newIncome = await _repository.Add(newIncome);
+            return _mapper.Map<IncomeListDto>(newIncome);
+        }
+
+        public async Task<IncomeListDto> UpdateIncome(IncomeListDto incomeListDto)
+        {
+            Income income = await _repository.Get<Income>(incomeListDto.Id);
+            income.Title = income.Title;
+            income.Description = income.Description;
+            income.Amount = income.Amount;
+            Income newIncome = await _repository.Update(income);
+            return _mapper.Map<IncomeListDto>(newIncome);
+        }
+
+        public async Task DeleteIncome(int id)
+        {
+            await _repository.Delete<Income, int>(id);
         }
     }
 
