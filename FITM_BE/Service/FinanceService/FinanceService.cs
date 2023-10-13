@@ -28,7 +28,7 @@ namespace FITM_BE.Service.FinanceService
                 {
                     ModifiedTime = group.Key,
                     TotalAmount = group.Sum(ic => ic.Amount)
-                });
+                }).OrderBy(ic => ic.ModifiedTime);
 
             var groupedIncomes = from item in query
                                  select new IncomeDto
@@ -45,14 +45,14 @@ namespace FITM_BE.Service.FinanceService
         public IEnumerable<OutcomeDto> GetAcceptedOutcomeByTime(DateTime start, DateTime end)
         {
             var query = _repository.GetAll<Outcome>()
-                .Where(ic => ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date <= end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
+                .Where(oc => oc.ModifiedTime.Value.Date >= start.Date && oc.ModifiedTime.Value.Date <= end.Date && oc.FinanceStatus == FinanceStatus.Accepted)
                 .AsEnumerable()
-                .GroupBy(ic => ic.ModifiedTime.Value.Date, new DateComparer())
+                .GroupBy(oc => oc.ModifiedTime.Value.Date, new DateComparer())
                 .Select(group => new
                 {
                     ModifiedTime = group.Key,
-                    TotalAmount = group.Sum(ic => ic.Amount)
-                });
+                    TotalAmount = group.Sum(oc => oc.Amount)
+                }).OrderBy(oc => oc.ModifiedTime);
 
             var groupedIncomes = from item in query
                                  select new OutcomeDto
