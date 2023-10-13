@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './OutcomeList.css';
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 function OutcomeList() {
   const [outcomeList, setOutcomeList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('https://localhost:7226/apis/Finance/ViewOutcome')
@@ -16,7 +19,7 @@ function OutcomeList() {
       <h1>Outcome List</h1>
       <table className='outcome_table'>
         <thead className='outcome_table_thead'>
-          <tr className='outcome_table_tr'>
+          <tr>
             <th>#</th>
             <th>Bill Code</th>
             <th>Title</th>
@@ -31,7 +34,7 @@ function OutcomeList() {
         <tbody>
           {outcomeList.map((outcome) => (
             <tr key={outcome.id}>
-                <td>{outcome.id}</td>
+              <td>{outcome.id}</td>
               <td>{outcome.billCode}</td>
               <td>{outcome.title}</td>
               <td>{outcome.description}</td>
@@ -40,8 +43,8 @@ function OutcomeList() {
               <td>{outcome.modifiedTime}</td>
               <td>{outcome.financeStatus}</td>
               <td>
-                    Waiting
-                </td>   
+                Wait
+              </td>   
             </tr>
           ))}
         </tbody>

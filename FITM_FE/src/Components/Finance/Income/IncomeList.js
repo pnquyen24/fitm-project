@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './IncomeList.css';
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 function IncomeList() {
   const [incomeList, setIncomeList] = useState([]);
+  const navigate = useNavigate();
+
+  function ViewIncomeDetail(id) {
+    navigate("/home/income-detai?id=" + id); // Sửa lỗi ở đây, sử dụng id thay vì request.id
+  }
 
   useEffect(() => {
     fetch('https://localhost:7226/apis/Finance/ViewIncome')
@@ -31,7 +38,7 @@ function IncomeList() {
         <tbody>
           {incomeList.map((income) => (
             <tr key={income.id}>
-                <td>{income.id}</td>
+              <td>{income.id}</td>
               <td>{income.billCode}</td>
               <td>{income.title}</td>
               <td>{income.description}</td>
@@ -40,8 +47,15 @@ function IncomeList() {
               <td>{income.modifiedTime}</td>
               <td>{income.financeStatus}</td>
               <td>
-                    Waiting
-                </td>   
+                <Button
+                  onClick={() => ViewIncomeDetail(income.id)} // Sửa lỗi ở đây, sử dụng outcome.id thay vì request.id
+                  variant="outlined"
+                  size="small"
+                  className="detail-button"
+                >
+                  View Detail
+                </Button>
+              </td>   
             </tr>
           ))}
         </tbody>

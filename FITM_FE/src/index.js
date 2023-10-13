@@ -13,6 +13,7 @@ import PracticalSchedule from "./Components/SpecialisedManager/PracticalSchedule
 import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
 import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
+import FinanceList from "./Components/Finance/FinanceList";
 import BalanceChart from "./Components/Finance/BalanceChart/BalanceChart";
 import IncomeList from "./Components/Finance/Income/IncomeList";
 import IncomeDetail from "./Components/Finance/Income/IncomeDetail";
@@ -39,6 +40,7 @@ root.render(
             <Route path="request-details" element={<RequestDetail />} />
           </Route>
 
+        <Route path="finance-list" element={<FinanceList/>}></Route>
         <Route path="balance" element={<BalanceChart/>}></Route>
         <Route path="income" element={<IncomeList/>}></Route>
         <Route path="income-detail" element={<IncomeDetail/>}></Route>

@@ -17,7 +17,7 @@
   }
   
   .outcome_table tbody tr:hover {
-    background-color: lightgreen;
+    background-color: lightyellow;
     font-weight: bold;
   }
 

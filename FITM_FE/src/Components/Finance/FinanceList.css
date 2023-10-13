@@ -1,30 +1,30 @@
-.income_table table {
+.finance_table table {
     width: 100%;
     border-collapse: collapse;
   }
 
-.income_table:hover {
+.finance_table:hover {
     cursor: default;
 }
   
-.income_table th, td {
+.finance_table th, td {
     padding: 8px;
     border: 1px solid #ccc;
   }
   
-.income_table thead {
+.finance_table thead {
     background-color: lightskyblue;
   }
   
-  .income_table tbody tr:hover {
+  .finance_table tbody tr:hover {
     background-color: lightyellow;
     font-weight: bold;
   }
-  
-  .income_table_thead {
+
+  .finance_table_thead {
     text-align: center;
   }
 
-  .income_table td {
+  .finance_table td {
     text-align: center;
   }
