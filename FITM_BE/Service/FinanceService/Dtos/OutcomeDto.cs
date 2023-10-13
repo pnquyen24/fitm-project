@@ -9,6 +9,6 @@ namespace FITM_BE.Service.FinanceService.Dtos
     {
         public long TotalAmount { get; set; }
         public FinanceStatus FinanceStatus { get; set; }
-        public DateTime ModifiedTime { get; set; }
+        public DateTime? ModifiedTime { get; set; }
     }
 }
