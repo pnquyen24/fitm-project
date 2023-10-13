@@ -19,9 +19,9 @@ namespace FITM_BE.Service.FinanceService
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime start, DateTime end)
         {
             var query = _repository.GetAll<Income>()
-                .Where(ic => ic.CreatedTime >= start && ic.CreatedTime <= end && ic.FinanceStatus == FinanceStatus.Accepted)
+                .Where(ic => ic.ModifiedTime >= start && ic.ModifiedTime <= end && ic.FinanceStatus == FinanceStatus.Accepted)
                 .AsEnumerable()
-                .GroupBy(ic => ic.ModifiedTime, new DateComparer())
+                .GroupBy(ic => ic.ModifiedTime.Value.Date, new DateComparer())
                 .Select(group => new
                 {
                     ModifiedTime = group.Key,
@@ -43,9 +43,9 @@ namespace FITM_BE.Service.FinanceService
         public IEnumerable<OutcomeDto> GetAcceptedOutcomeByTime(DateTime start, DateTime end)
         {
             var query = _repository.GetAll<Outcome>()
-                .Where(ic => ic.CreatedTime >= start && ic.CreatedTime <= end && ic.FinanceStatus == FinanceStatus.Accepted)
+                .Where(ic => ic.ModifiedTime >= start && ic.ModifiedTime <= end && ic.FinanceStatus == FinanceStatus.Accepted)
                 .AsEnumerable()
-                .GroupBy(ic => ic.ModifiedTime, new DateComparer())
+                .GroupBy(ic => ic.ModifiedTime.Value.Date, new DateComparer())
                 .Select(group => new
                 {
                     ModifiedTime = group.Key,
@@ -62,7 +62,6 @@ namespace FITM_BE.Service.FinanceService
 
             return groupedIncomes;
         }
-
 
         //==================================================
 
@@ -89,9 +88,10 @@ namespace FITM_BE.Service.FinanceService
         public async Task<IncomeListDto> UpdateIncome(IncomeListDto incomeListDto)
         {
             Income income = await _repository.Get<Income>(incomeListDto.Id);
-            income.Title = income.Title;
-            income.Description = income.Description;
-            income.Amount = income.Amount;
+            income.Title = incomeListDto.Title;
+            income.Description = incomeListDto.Description;
+            income.Amount = incomeListDto.Amount;
+            income.FinanceStatus = incomeListDto.FinanceStatus;
             Income newIncome = await _repository.Update(income);
             return _mapper.Map<IncomeListDto>(newIncome);
         }
@@ -100,6 +100,44 @@ namespace FITM_BE.Service.FinanceService
         {
             await _repository.Delete<Income, int>(id);
         }
+
+        //==================================================
+        public IQueryable<OutcomeListDto> ViewOutcome()
+        {
+            IQueryable<OutcomeListDto> outcomeListDtos =
+                _repository.GetAll<Outcome>().Select(outcome => _mapper.Map<OutcomeListDto>(outcome));
+            return outcomeListDtos;
+        }
+
+        public async Task<OutcomeListDto> GetOutcome(int id)
+        {
+            Outcome outcome = await _repository.Get<Outcome>(id);
+            return _mapper.Map<OutcomeListDto>(outcome);
+        }
+
+        public async Task<OutcomeListDto> AddOutcome(CreateOutcomeDto createOutcomeDto)
+        {
+            Outcome newOutcome = _mapper.Map<Outcome>(createOutcomeDto);
+            newOutcome = await _repository.Add(newOutcome);
+            return _mapper.Map<OutcomeListDto>(newOutcome);
+        }
+
+        public async Task<OutcomeListDto> UpdateOutcome(OutcomeListDto outcomeListDto)
+        {
+            Outcome outcome = await _repository.Get<Outcome>(outcomeListDto.Id);
+            outcome.Title = outcomeListDto.Title;
+            outcome.Description = outcomeListDto.Description;
+            outcome.Amount = outcomeListDto.Amount;
+            outcome.FinanceStatus = outcomeListDto.FinanceStatus;
+            Outcome newOutcome = await _repository.Update(outcome);
+            return _mapper.Map<OutcomeListDto>(newOutcome);
+        }
+
+        public async Task DeleteOutcome(int id)
+        {
+            await _repository.Delete<Outcome, int>(id);
+        }
+
     }
 
     class DateComparer : IEqualityComparer<DateTime?>

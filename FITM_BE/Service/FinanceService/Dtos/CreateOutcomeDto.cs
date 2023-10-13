@@ -3,8 +3,8 @@ using FITM_BE.Entity;
 
 namespace FITM_BE.Service.PracticalSchedulService.Dtos
 {
-    [AutoMap(typeof(Income), ReverseMap = true)]
-    public class CreateIncomeDto
+    [AutoMap(typeof(Outcome), ReverseMap = true)]
+    public class CreateOutcomeDto
     {
         public string Title { get; set; }
         public string Description { get; set; }

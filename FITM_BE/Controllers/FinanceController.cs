@@ -27,10 +27,7 @@ namespace FITM_BE.Controllers
             return _financeService.GetAcceptedOutcomeByTime(startDate, endDate);
         }
 
-
         //=======================================================
-
-
 
         [HttpGet]
         public IQueryable<IncomeListDto> ViewIncome()
@@ -49,7 +46,7 @@ namespace FITM_BE.Controllers
         public async Task<IActionResult> AddIncome([FromBody] CreateIncomeDto income)
         {
             IncomeListDto newIncome = await _financeService.AddIncome(income);
-            return CreatedAtAction(nameof(GetIncome), new { id = newIncome.Id }, newIncome);
+            return Ok(newIncome);
         }
 
         [HttpPut]
@@ -63,6 +60,42 @@ namespace FITM_BE.Controllers
         public async Task<IActionResult> DeleteIncome(int id)
         {
             await _financeService.DeleteIncome(id);
+            return Ok();
+        }
+
+        //=======================================================
+
+        [HttpGet]
+        public IQueryable<OutcomeListDto> ViewOutcome()
+        {
+            return _financeService.ViewOutcome();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOutcome(int id)
+        {
+            OutcomeListDto outcome = await _financeService.GetOutcome(id);
+            return Ok(outcome);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddOutcome([FromBody] CreateOutcomeDto outcome)
+        {
+            OutcomeListDto newOutcome = await _financeService.AddOutcome(outcome);
+            return Ok(newOutcome);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateOutcome([FromBody] OutcomeListDto outcome)
+        {
+            var updateOutcome = await _financeService.UpdateOutcome(outcome);
+            return Ok(updateOutcome);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteOutcome(int id)
+        {
+            await _financeService.DeleteOutcome(id);
             return Ok();
         }
     }
