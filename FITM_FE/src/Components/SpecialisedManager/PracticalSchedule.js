@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "./PracticalSchedule.css";
-import { Box } from "@mui/material";
-import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import { getAllSchedules, updateSchedule } from "./ScheduleApi"
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import ModalSchedule from "./ModalSchedule";
-import UseOpenClosed from "./UseOpenClosed";
+import "./PracticalSchedule.css";
+import { getAllSchedules, updateSchedule } from "./ScheduleApi";
+import UseOpenClosed from "./useOpenClosed";
 
 function PracticalSchedule() {
     const [events, setEvents] = useState([]);
