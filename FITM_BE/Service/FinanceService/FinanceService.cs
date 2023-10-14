@@ -183,6 +183,7 @@ namespace FITM_BE.Service.FinanceService
             income.Title = incomeListDto.Title;
             income.Description = incomeListDto.Description;
             income.Amount = incomeListDto.Amount;
+            income.BillCode = incomeListDto.BillCode;
             income.FinanceStatus = incomeListDto.FinanceStatus;
             Income newIncome = await _repository.Update(income);
             return _mapper.Map<IncomeListDto>(newIncome);
@@ -220,6 +221,7 @@ namespace FITM_BE.Service.FinanceService
             outcome.Title = outcomeListDto.Title;
             outcome.Description = outcomeListDto.Description;
             outcome.Amount = outcomeListDto.Amount;
+            outcome.BillCode = outcomeListDto.BillCode;
             outcome.FinanceStatus = outcomeListDto.FinanceStatus;
             Outcome newOutcome = await _repository.Update(outcome);
             return _mapper.Map<OutcomeListDto>(newOutcome);

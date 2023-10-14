@@ -7,47 +7,47 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-function IncomeDetail() {
-    const [income, setIncome] = useState(null);
+function OutcomeDetail() {
+    const [outcome, setOutcome] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [tempIncome, setTempIncome] = useState(null);
+    const [tempOutcome, setTempOutcome] = useState(null);
     const [error, setError] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
-    const incomeId = new URLSearchParams(location.search).get('id');
+    const outcomeId = new URLSearchParams(location.search).get('id');
 
   function getData(){
     axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-    axios.get(`https://localhost:7226/apis/Finance/GetIncome?id=` +incomeId)
+    axios.get(`https://localhost:7226/apis/Finance/GetOutcome?id=` +outcomeId)
       .then(response => {
-        setIncome(response.data);
+        setOutcome(response.data);
       })
       .catch(error => {
       });
   }
   useEffect(() => {
     getData();
-  }, [incomeId]);
+  }, [outcomeId]);
     // Function to toggle editing mode for all rows
     const toggleEditing = () => {
         setIsEditing(!isEditing);
         if (!isEditing) {
-            setTempIncome(income);
+            setTempOutcome(outcome);
         }
     };
 
     const handleSubmit = () => {
         const updateData = 
         {
-            id : incomeId,
-            title: tempIncome.title,
-            description: tempIncome.description,
-            amount: tempIncome.amount,
-            billCode: tempIncome.billCode
+            id : outcomeId,
+            title: tempOutcome.title,
+            description: tempOutcome.description,
+            amount: tempOutcome.amount,
+            billCode: tempOutcome.billCode
         };
         
         axios
-            .put('https://localhost:7226/apis/Finance/UpdateIncome?id=' +incomeId, updateData)
+            .put('https://localhost:7226/apis/Finance/UpdateOutcome?id=' +outcomeId, updateData)
             .then(response => {
               Swal.fire({
                 icon: 'success',
@@ -67,7 +67,7 @@ function IncomeDetail() {
             });
     };
 
-    if (!income) {
+    if (!outcome) {
         return <div>Loading...</div>;
     }
 
@@ -78,7 +78,7 @@ function IncomeDetail() {
                     <div className="col-md-7">
                         <div className="p-3 py-4 info-cover">
                             <div className="d-flex justify-content-between align-items-center mb-3">
-                                <h4 className="text-right">Your income</h4>
+                                <h4 className="text-right">Your outcome</h4>
                             </div>
 
                             <div className="row mt-3">
@@ -87,14 +87,14 @@ function IncomeDetail() {
                                     {isEditing ? (
                                         <input
                                             type="text"
-                                            value={tempIncome.title}
+                                            value={tempOutcome.title}
                                             className="form-control"
                                             onChange={(e) =>
-                                                setTempIncome({ ...tempIncome, title: e.target.value })
+                                                setTempOutcome({ ...tempOutcome, title: e.target.value })
                                             }
                                         />
                                     ) : (
-                                        income.title
+                                        outcome.title
                                     )}
                                 </div>
                                 <div className="col-md-6">
@@ -102,14 +102,14 @@ function IncomeDetail() {
                                     {isEditing ? (
                                         <input
                                             type="text"
-                                            value={tempIncome.description}
+                                            value={tempOutcome.description}
                                             className="form-control"
                                             onChange={(e) =>
-                                                setTempIncome({ ...tempIncome, description: e.target.value })
+                                                setTempOutcome({ ...tempOutcome, description: e.target.value })
                                             }
                                         />
                                     ) : (
-                                        income.description
+                                        outcome.description
                                     )}
                                 </div>
                             </div>
@@ -123,15 +123,15 @@ function IncomeDetail() {
                                     {isEditing ? (
                                         <input
                                             type="text"
-                                            value={tempIncome.amount}
+                                            value={tempOutcome.amount}
                                             className="form-control"
                                             onChange={(e) => {
                                                 const numericInput = e.target.value.replace(/[^0-9]/g, '');
-                                                setTempIncome({ ...tempIncome, amount: numericInput })
+                                                setTempOutcome({ ...tempOutcome, amount: numericInput })
                                             }}
                                         />
                                     ) : (
-                                        income.amount
+                                        outcome.amount
                                     )}
                                 </div>
                                 <div className="col-md-6">
@@ -139,14 +139,14 @@ function IncomeDetail() {
                                     {isEditing ? (
                                         <input
                                             type="text"
-                                            value={tempIncome.billCode}
+                                            value={tempOutcome.billCode}
                                             className="form-control"
                                             onChange={(e) =>
-                                                setTempIncome({ ...tempIncome, billCode: e.target.value })
+                                                setTempOutcome({ ...tempOutcome, billCode: e.target.value })
                                             }
                                         />
                                     ) : (
-                                        income.billCode
+                                        outcome.billCode
                                     )}
                                 </div>
                             </div>
@@ -187,4 +187,4 @@ function IncomeDetail() {
     );
 }
 
-export default IncomeDetail;
+export default OutcomeDetail;

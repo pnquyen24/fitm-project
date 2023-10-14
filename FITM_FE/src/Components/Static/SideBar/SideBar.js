@@ -18,6 +18,7 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Plan', Icon: 'calendar-outline' , Link: "/home/profile"},
     { Title: 'Add show', Icon: 'add-circle-outline', Link: "/home/profile" },
     { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/home/music list" },
+    { Title: 'Finance', Icon: 'cash-outline', Link: "/home/financial-manager/finance-list" },
     ]; 
   useEffect(() => {
   },[Color])

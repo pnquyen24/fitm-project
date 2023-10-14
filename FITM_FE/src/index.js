@@ -15,9 +15,9 @@ import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
 import FinanceList from "./Components/Finance/FinanceList";
 import BalanceChart from "./Components/Finance/BalanceChart/BalanceChart";
-import IncomeList from "./Components/Finance/Income/IncomeList";
 import IncomeDetail from "./Components/Finance/Income/IncomeDetail";
-import OutcomeList from "./Components/Finance/Outcome/OutcomeList";
+import OutcomeDetail from "./Components/Finance/Outcome/OutcomeDetail";
+import CreateFinance from "./Components/Finance/CreateFinance/CreateFinance";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
@@ -40,11 +40,13 @@ root.render(
             <Route path="request-details" element={<RequestDetail />} />
           </Route>
 
-        <Route path="finance-list" element={<FinanceList/>}></Route>
-        <Route path="balance" element={<BalanceChart/>}></Route>
-        <Route path="income" element={<IncomeList/>}></Route>
-        <Route path="income-detail" element={<IncomeDetail/>}></Route>
-        <Route path="outcome" element={<OutcomeList/>}></Route>
+          <Route path="financial-manager" >
+        <Route path="finance-list" element={<FinanceList/>}/>
+        <Route path="balance" element={<BalanceChart/>}/>
+        <Route path="income-detail" element={<IncomeDetail/>}/>
+        <Route path="outcome-detail" element={<OutcomeDetail/>}/>
+        <Route path="create-finance" element={<CreateFinance/>}/>
+          </Route>
 
         <Route path="practicalSchedule" element={<PracticalSchedule />} />
           <Route path="changepassword" element={<ChangePassword />} />
