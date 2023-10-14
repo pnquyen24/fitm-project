@@ -18,6 +18,9 @@ import BalanceChart from "./Components/Finance/BalanceChart/BalanceChart";
 import IncomeDetail from "./Components/Finance/Income/IncomeDetail";
 import OutcomeDetail from "./Components/Finance/Outcome/OutcomeDetail";
 import CreateFinance from "./Components/Finance/CreateFinance/CreateFinance";
+import FinanceRequestList from "./Components/Finance/FinanceRequestList/FinanceRequestList";
+import IncomeRequestDetail from "./Components/Finance/FinanceRequestDetail/IncomeRequestDetail";
+import OutcomeRequestDetail from "./Components/Finance/FinanceRequestDetail/OutcomeRequestDetail";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
@@ -46,6 +49,9 @@ root.render(
         <Route path="income-detail" element={<IncomeDetail/>}/>
         <Route path="outcome-detail" element={<OutcomeDetail/>}/>
         <Route path="create-finance" element={<CreateFinance/>}/>
+        <Route path="finance-request-list" element={<FinanceRequestList/>}/>
+        <Route path="income-request-detail" element={<IncomeRequestDetail/>}/>
+        <Route path="outcome-request-detail" element={<OutcomeRequestDetail/>}/>
           </Route>
 
         <Route path="practicalSchedule" element={<PracticalSchedule />} />

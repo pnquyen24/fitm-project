@@ -138,5 +138,21 @@ namespace FITM_BE.Controllers
         }
 
 
+        //=========================================
+        [HttpPost]
+        public Task<CreateOutcomeDto> DenyOutcomeRequest(int id)
+        {
+            var denyOutcome = _financeService.DenyOutcomeRequest(id);
+            return denyOutcome;
+        }
+
+        [HttpPost]
+        public Task<CreateOutcomeDto> AcceptOutcomeRequest(int id)
+        {
+            var acceptOutcome = _financeService.AcceptOutcomeRequest(id);
+            return acceptOutcome;
+        }
+
+
     }
 }

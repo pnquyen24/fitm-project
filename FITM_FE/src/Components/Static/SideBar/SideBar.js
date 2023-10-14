@@ -19,6 +19,7 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Add show', Icon: 'add-circle-outline', Link: "/home/profile" },
     { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/home/music list" },
     { Title: 'Finance', Icon: 'cash-outline', Link: "/home/financial-manager/finance-list" },
+    { Title: 'Finance Request List', Icon: 'wallet-outline', Link: "/home/financial-manager/finance-request-list" },
     ]; 
   useEffect(() => {
   },[Color])

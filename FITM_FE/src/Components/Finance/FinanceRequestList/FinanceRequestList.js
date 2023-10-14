@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './FinanceList.css';
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { type } from '@testing-library/user-event/dist/type';
 
-const FinanceList = () => {
+const FinanceRequestList = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
@@ -80,14 +81,56 @@ const FinanceList = () => {
     return {};
   };
 
-  
-  function ViewOutcomeDetail(id) {
-    navigate("/home/financial-manager/outcome-detail?id=" + id);
+
+  const handleDelete = async (id, type) => {
+  {data.map(item => {
+  const handleDelete = async (id, type) => {
+    try {
+      let deleteUrl = '';
+      if (type === 'Income') {
+        deleteUrl = `https://localhost:7226/apis/Finance/DeleteIncome?id=${item.id}`;
+      } else if (type === 'Outcome') {
+        deleteUrl = `https://localhost:7226/apis/Finance/DeleteOutcome?id=${item.id}`;
+      } else {
+        console.error('Invalid type');
+        return;
+      }
+
+      const response = await axios.delete(deleteUrl);
+
+      // If the request is successful, remove the deleted item from the state
+      if (response.status === 200) {
+        setData(data.filter(item => item.id !== id));
+        Swal.fire({
+          title: 'Success',
+          text: 'Deleted successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Deletion unsuccessful',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+
+})}
   }
 
-  function ViewIncomeDetail(id) {
-    navigate("/home/financial-manager/income-detail?id=" + id);
+ 
+  function ViewOutcomeRequestDetail(id) {
+    navigate("/home/financial-manager/outcome-request-detail?id=" + id);
   }
+
+  function ViewIncomeRequestDetail(id) {
+    navigate("/home/financial-manager/income-request-detail?id=" + id);
+  }
+
 
   //===================================
 
@@ -117,6 +160,8 @@ const FinanceList = () => {
 
   //===================================
 
+  //===================================
+
   return (
     <div>
       <h1 className='finance_title'>Finance Report List</h1>
@@ -125,10 +170,6 @@ const FinanceList = () => {
         <Link to="/home/">
           <button className='finance_home'><span>BACK TO HOME</span></button>
         </Link>
-
-        <Link to="/home/financial-manager/create-finance" className='finance_create_button'>
-          <button><span>CREATE FINANCE</span></button>
-        </Link>
       </div>
 
 
@@ -136,9 +177,7 @@ const FinanceList = () => {
         <thead className='finance_table_thead'>
           <tr>
             <th>Type</th>
-            <th>Bill Code</th>
             <th>Title</th>
-            <th>Description</th>
             <th>Amount</th>
             <th>Status</th>
             <th>Detail</th>
@@ -149,14 +188,12 @@ const FinanceList = () => {
           {data.map(item => (
             <tr key={item.id}>
               <td style={getTypeStyle(item.type)}>{item.type}</td>
-              <td>{item.billCode}</td>
               <td>{item.title}</td>
-              <td>{item.description}</td>
               <td>{item.amount}</td>
               <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
               <td>
                 <Button
-                  onClick={() => {item.type === 'Outcome' ? ViewOutcomeDetail(item.id) : ViewIncomeDetail(item.id)}}
+                  onClick={() => {item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id)}}
                   variant="outlined"
                   size="small"
                   className="detail-button"
@@ -164,8 +201,10 @@ const FinanceList = () => {
                   View Detail
                 </Button>
               </td>
+              
+
               <td>
-  {item.financeStatus === 0 || item.financeStatus === 3 ? (
+  {item.financeStatus !== 1 ? (
     <Button
       onClick={() => {
         if (item.type === 'Outcome') {
@@ -183,6 +222,7 @@ const FinanceList = () => {
     <span>Can't delete</span>
   )}
 </td>
+              
 
             </tr>
           ))}
@@ -192,4 +232,4 @@ const FinanceList = () => {
   );
 };
 
-export default FinanceList;
+export default FinanceRequestList;

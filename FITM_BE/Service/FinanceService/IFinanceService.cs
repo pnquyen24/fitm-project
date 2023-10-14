@@ -27,5 +27,9 @@ namespace FITM_BE.Service.FinanceService
 
         public Task<CreateIncomeDto> AcceptIncomeRequest(int requestId);
 
+        public Task<CreateOutcomeDto> DenyOutcomeRequest(int requestId);
+
+        public Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId);
+
     }
 }

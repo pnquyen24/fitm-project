@@ -396,6 +396,41 @@ namespace FITM_BE.Service.FinanceService
 
             return createRequestEditIncome;
         }
+
+        public async Task<CreateOutcomeDto> DenyOutcomeRequest(int requestId)
+        {
+            var requestEditOutcome = _repository.GetAll<Outcome>().
+                First(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditOutcome.FinanceStatus = (Enums.FinanceStatus)3;
+            await _repository.Update(requestEditOutcome);
+
+            await ReplyRequestMail(address, 2);
+
+            var createRequestEditOutcome = _mapper.Map<CreateOutcomeDto>(requestEditOutcome);
+
+            return createRequestEditOutcome;
+        }
+
+        public async Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId)
+        {
+            var requestEditOutcome = await _repository.GetAll<Outcome>().
+                FirstAsync(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditOutcome.FinanceStatus = (Enums.FinanceStatus)2;
+            await _repository.Update(requestEditOutcome);
+
+            await ReplyRequestMail(address, 1);
+
+            var createRequestEditOutcome = _mapper.Map<CreateOutcomeDto>(requestEditOutcome);
+
+            return createRequestEditOutcome;
+        }
+
     }
 
 }
