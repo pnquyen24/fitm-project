@@ -22,51 +22,6 @@ namespace FITM_BE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FITM_BE.Entity.AttendancePractical", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PracticalScheduleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("PracticalScheduleId");
-
-                    b.ToTable("AttendancePracticals");
-                });
-
             modelBuilder.Entity("FITM_BE.Entity.Member", b =>
                 {
                     b.Property<int>("Id")
@@ -267,39 +222,6 @@ namespace FITM_BE.Migrations
                     b.HasIndex("Status");
 
                     b.ToTable("RequestEditInfo");
-                });
-
-            modelBuilder.Entity("FITM_BE.Entity.AttendancePractical", b =>
-                {
-                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FITM_BE.Entity.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FITM_BE.Entity.PracticalSchedule", "PracticalSchedule")
-                        .WithMany()
-                        .HasForeignKey("PracticalScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("Member");
-
-                    b.Navigation("ModifyBy");
-
-                    b.Navigation("PracticalSchedule");
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.Member", b =>

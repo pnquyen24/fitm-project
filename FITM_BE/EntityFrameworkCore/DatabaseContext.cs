@@ -20,6 +20,5 @@ namespace FITM_BE.EntityFrameworkCore
         public DbSet<Member> Members { get; set; }
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
         public DbSet<PracticalSchedule> PracticalSchedules { get; set; }
-        public DbSet<AttendancePractical> AttendancePracticals { get; set; }
     }
 }
