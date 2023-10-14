@@ -36,6 +36,69 @@ function OutcomeDetail() {
         }
     };
 
+
+    const getStatusLabel = (status) => {
+        if (status === 0) {
+          return 'Waiting';
+        } else if (status === 1) {
+          return 'Pending';
+        } else if (status === 2) {
+          return 'Accepted';
+        } else if (status === 3) {
+          return 'Denied';
+        }
+        return '';
+      };
+    
+      const getStatusStyle = (status) => {
+        if (status === 0) {
+          return {
+            color: 'gray',
+            fontWeight: 'bold'
+          };
+        } else if (status === 1) {
+          return {
+            color: 'orange',
+            fontWeight: 'bold'
+          };
+        } else if (status === 2) {
+          return {
+            color: 'green',
+            fontWeight: 'bold'
+          };
+        } else if (status === 3) {
+          return {
+            color: 'red',
+            fontWeight: 'bold'
+          };
+        }
+        return {};
+      };
+    
+      const getTypeStyle = (type) => {
+        if (type === 'Income') {
+          return {
+            color: 'green'
+          };
+        } else if (type === 'Outcome') {
+          return {
+            color: 'red'
+          };
+        }
+        return {};
+      };
+
+    function formatDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        if (day === 1 && month === 1 && year === 1) {
+          return 'Not yet';
+        }
+        return `${day}-${month}-${year}`;
+      }
+
     const handleSubmit = () => {
         const updateData = 
         {
@@ -115,7 +178,11 @@ function OutcomeDetail() {
                             </div>
 
 
+                            <div>
+                                <label>Created Time:</label><label>{formatDate(outcome.createdTime)}</label>
+                                <label>Modified Time:</label><label>{formatDate(outcome.modifiedTime)}</label>
 
+                            </div>
 
 
                             <div className="row mt-3">
@@ -150,6 +217,11 @@ function OutcomeDetail() {
                                     )}
                                 </div>
                             </div>
+
+
+                            <div><label>Status:</label><label style={getStatusStyle(outcome.financeStatus)}>{getStatusLabel(outcome.financeStatus)}</label></div>
+
+
                             <div className="p-3 py-5">
                                 <div className="d-flex justify-content-end sm_cl align-items-center experience float-right">
                                     {/* Submit button */}

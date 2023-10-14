@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FITM_BE.Entity;
 
-namespace FITM_BE.Service.PracticalSchedulService.Dtos
+namespace FITM_BE.Service.FinanceService.Dtos
 {
     [AutoMap(typeof(Income), ReverseMap = true)]
     public class CreateIncomeDto

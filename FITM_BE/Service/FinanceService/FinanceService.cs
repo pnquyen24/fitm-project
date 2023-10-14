@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using FITM_BE.Authentication;
 using FITM_BE.Entity;
 using FITM_BE.Enums;
+using FITM_BE.Exceptions.UserException;
+using FITM_BE.Service.EmailService;
 using FITM_BE.Service.FinanceService.Dtos;
+using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
@@ -13,9 +17,12 @@ namespace FITM_BE.Service.FinanceService
 {
     public class FinanceService : ServiceBase, IFinanceService
     {
-        public FinanceService(IRepository repository, IMapper mapper) : base(repository, mapper)
+        private readonly IAccountService _accountService;
+        private readonly IEmailSender _emailSender;
+        public FinanceService(IRepository repository, IMapper mapper, IEmailSender emailSender, IAccountService accountService) : base(repository, mapper)
         {
-
+            _accountService = accountService;
+            _emailSender = emailSender;
         }
 
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime start, DateTime end)
@@ -232,6 +239,41 @@ namespace FITM_BE.Service.FinanceService
             await _repository.Delete<Outcome, int>(id);
         }
 
+        //======================================
+        public async Task<IncomeDto> ChangeIncomeStatus(int id)
+        {
+            ;
+            var income = await _repository.Get<Income>(id);
+            var status = income.FinanceStatus != income.FinanceStatus;
+            var newStatus = await _repository.Update(income);
+            return _mapper.Map<IncomeDto>(newStatus);
+        }
+
+        private async Task SendIncomeReport(string email, string amount, string status)
+        {
+            var message = new Message
+            (
+                new string[]
+                {
+            email
+                },
+                "New Account",
+                "<p>This is your income:</p>" +
+                "<ul>" +
+                "<li>Username: " + amount + "</li>" +
+                "<li>Password: " + status + "</li>" +
+                "</ul>"
+            );
+            await _emailSender.SendEmailAsync(message);
+        }
+
+        private async Task<Member?> CheckExistEmail(string email)
+        {
+            Member? member = await _repository
+                                .GetAll<Member>()
+                                .FirstOrDefaultAsync(m => m.Email.Equals(email));
+            return member;
+        }
     }
 
 }
