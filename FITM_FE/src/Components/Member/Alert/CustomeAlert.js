@@ -2,21 +2,16 @@ import Swal from "sweetalert2";
 
 const Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: "top-end",
     showConfirmButton: false,
     timer: 3000,
     color: "white",
     iconColor: "white",
     timerProgressBar: true,
-    customClass: {
-        timerProgressBar: {
-            background: "alert-progress-bar",
-        },
-    },
     didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
 });
 
 const CustomeAlert = {
@@ -36,9 +31,9 @@ const CustomeAlert = {
         Toast.fire({
             icon: icon,
             title: msg,
-            background: color
-        })
-    }
+            background: color,
+        });
+    },
 };
 
 export default CustomeAlert;
