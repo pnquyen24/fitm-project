@@ -20,7 +20,12 @@ namespace FITM_BE.Service.FinanceService
         public Task<OutcomeListDto> AddOutcome(CreateOutcomeDto outcomeDto);
         public Task<OutcomeListDto> UpdateOutcome(OutcomeListDto outcomeDto);
         public Task DeleteOutcome(int id);
-        public Task<IncomeDto> ChangeIncomeStatus(int id);
+        public Task<IncomeListDto> ChangeIncomeStatus(int id);
+        public Task<OutcomeListDto> ChangeOutcomeStatus(int id);
+
+        public Task<CreateIncomeDto> DenyIncomeRequest(int requestId);
+
+        public Task<CreateIncomeDto> AcceptIncomeRequest(int requestId);
 
     }
 }

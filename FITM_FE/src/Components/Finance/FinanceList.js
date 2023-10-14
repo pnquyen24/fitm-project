@@ -89,13 +89,41 @@ const FinanceList = () => {
     navigate("/home/financial-manager/income-detail?id=" + id);
   }
 
+  //===================================
+
+  const DeleteIncome = async (id) => {
+    try {
+      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
+      // If the request is successful, remove the deleted item from the state
+      if (response.status === 200) {
+        setData(data.filter(item => item.id !== id));
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+
+  const DeleteOutcome = async (id) => {
+    try {
+      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
+      // If the request is successful, remove the deleted item from the state
+      if (response.status === 200) {
+        setData(data.filter(item => item.id !== id));
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+
+  //===================================
+
   return (
     <div>
       <h1 className='finance_title'>Finance Report List</h1>
 
       <div className='create_finance_top'>
         <Link to="/home/">
-          <button className='finance_home'><span>BACK TO HOME</span></button>
+          <button className='finance_home'><span>MANAGE REPORT</span></button>
         </Link>
 
         <Link to="/home/financial-manager/create-finance" className='finance_create_button'>
@@ -114,6 +142,7 @@ const FinanceList = () => {
             <th>Amount</th>
             <th>Status</th>
             <th>Detail</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -135,6 +164,26 @@ const FinanceList = () => {
                   View Detail
                 </Button>
               </td>
+              <td>
+  {item.financeStatus === 0 || item.financeStatus === 3 ? (
+    <Button
+      onClick={() => {
+        if (item.type === 'Outcome') {
+          DeleteOutcome(item.id);
+        } else if (item.type === 'Income') {
+          DeleteIncome(item.id);
+        }
+      }}
+      size="small"
+      className="delete-button" // Add a CSS class for styling if needed
+    >
+      <span><ion-icon name="trash-outline"></ion-icon></span>
+    </Button>
+  ) : (
+    <span>Can't delete</span>
+  )}
+</td>
+
             </tr>
           ))}
         </tbody>

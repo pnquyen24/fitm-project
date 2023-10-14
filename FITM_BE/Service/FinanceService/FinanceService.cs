@@ -8,10 +8,12 @@ using FITM_BE.Service.EmailService;
 using FITM_BE.Service.FinanceService.Dtos;
 using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
+using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Metrics;
 using System.Linq;
 
 namespace FITM_BE.Service.FinanceService
@@ -244,7 +246,7 @@ namespace FITM_BE.Service.FinanceService
         public async Task<IncomeListDto> ChangeIncomeStatus(int id)
         {
             var income = await _repository.Get<Income>(id);
-            var mail = await _repository.Get<Member>(id);
+            var mail = "tranbnbqe170086@fpt.edu.vn";
 
             if (income == null)
             {
@@ -258,22 +260,69 @@ namespace FITM_BE.Service.FinanceService
             var incomeDto = _mapper.Map<IncomeDto>(updatedIncome);
 
             // Send income report email
-            string userEmail = mail.UserEmail; // Replace 'UserEmail' with the actual property containing the user's email
+            string userEmail = mail;
+            string title = income.Title.ToString();
+            string description = income.Description.ToString();
             string amount = income.Amount.ToString();
             string status = incomeDto.FinanceStatus.ToString();
 
-            await SendIncomeReport(userEmail, amount, status);
+            await SendIncomeReport(userEmail, title, description, amount, status);
 
             return _mapper.Map<IncomeListDto>(updatedIncome);
         }
 
-        private async Task SendIncomeReport(string email, string amount, string status)
+        private async Task SendIncomeReport(string email, string title, string description, string amount, string status)
         {
             var message = new Message(
                 new string[] { email },
                 "Income Report",
                 $"<p>This is your income:</p>" +
                 $"<ul>" +
+                $"<li>Amount: {title}</li>" +
+                $"<li>Status: {description}</li>" +
+                $"<li>Amount: {amount}</li>" +
+                $"<li>Status: {status}</li>" +
+                $"</ul>"
+            );
+
+            await _emailSender.SendEmailAsync(message);
+        }
+        //======================================
+        public async Task<OutcomeListDto> ChangeOutcomeStatus(int id)
+        {
+            var outcome = await _repository.Get<Outcome>(id);
+            var mail = "tranbnbqe170086@fpt.edu.vn";
+
+            if (outcome == null)
+            {
+                return null;
+            }
+
+            outcome.FinanceStatus = FinanceStatus.Pending;
+
+            var updatedOutcome = await _repository.Update(outcome);
+            var outcomeDto = _mapper.Map<OutcomeDto>(updatedOutcome);
+
+            string userEmail = mail;
+            string title = outcome.Title.ToString();
+            string description = outcome.Description.ToString();
+            string amount = outcome.Amount.ToString();
+            string status = outcomeDto.FinanceStatus.ToString();
+
+            await SendOutcomeReport(userEmail, title, description, amount, status);
+
+            return _mapper.Map<OutcomeListDto>(updatedOutcome);
+        }
+
+        private async Task SendOutcomeReport(string email, string title, string description, string amount, string status)
+        {
+            var message = new Message(
+                new string[] { email },
+                "Outcome Report",
+                $"<p>This is your outcome:</p>" +
+                $"<ul>" +
+                $"<li>Amount: {title}</li>" +
+                $"<li>Status: {description}</li>" +
                 $"<li>Amount: {amount}</li>" +
                 $"<li>Status: {status}</li>" +
                 $"</ul>"
@@ -282,13 +331,70 @@ namespace FITM_BE.Service.FinanceService
             await _emailSender.SendEmailAsync(message);
         }
 
-        private async Task<Member?> CheckExistEmail(string email)
-        {
-            Member? member = await _repository
-                .GetAll<Member>()
-                .FirstOrDefaultAsync(m => m.Email.Equals(email));
+        //====================================================
 
-            return member;
+       private async Task ReplyRequestMail(string email, int status)
+        {
+            Message message;
+
+            if (status == 2)
+            {
+                message = new Message
+                (
+               new string[]
+                    { email },
+                    "FITM FM reply: denied",
+                    "From FITM Human resouces"
+                    + "<p>Your request to change account's information has been denied</p>"
+                );
+            }
+            else
+            {
+                message = new Message
+                 (
+                new string[]
+                     { email },
+                     "FITM FM reply: Accept",
+                     "<p>From FITM Muman resouces </p>"
+                     + "<p>Your request to change account's information has been accepted</p>"
+                 );
+            }
+            await _emailSender.SendEmailAsync(message);
+        }
+
+
+        public async Task<CreateIncomeDto> DenyIncomeRequest(int requestId)
+        {
+            var requestEditIncome = _repository.GetAll<Income>().
+                First(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditIncome.FinanceStatus = (Enums.FinanceStatus)3;
+            await _repository.Update(requestEditIncome);
+
+            await ReplyRequestMail(address, 2);
+
+            var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
+
+            return createRequestEditIncome;
+        }
+
+        public async Task<CreateIncomeDto> AcceptIncomeRequest(int requestId)
+        {
+            var requestEditIncome = await _repository.GetAll<Income>().
+                FirstAsync(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditIncome.FinanceStatus = (Enums.FinanceStatus)2;
+            await _repository.Update(requestEditIncome);
+
+            await ReplyRequestMail(address, 1);
+
+            var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
+
+            return createRequestEditIncome;
         }
     }
 

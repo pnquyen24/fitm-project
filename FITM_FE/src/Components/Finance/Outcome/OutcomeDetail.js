@@ -37,6 +37,33 @@ function OutcomeDetail() {
     };
 
 
+    
+    const OutcomeSend = () => {
+      axios
+        .post(`https://localhost:7226/apis/Finance/ChangeOutcomeStatus?id=${outcomeId}`)
+        .then(response => {
+          // Handle success (e.g., show success message)
+          Swal.fire({
+            icon: 'success',
+            title: 'Send Request Successfully !!!',
+            showConfirmButton: true,
+          }).then(() => {
+            window.location.href = '/home/financial-manager/finance-list';
+          });
+          // Perform any other necessary actions or updates after status change
+        })
+        .catch(error => {
+          // Handle error (e.g., show error message)
+          Swal.fire({
+            icon: 'error',
+            title: 'Unsuccessfully !!!',
+            showConfirmButton: true,
+          });
+        });
+    };
+    
+
+
     const getStatusLabel = (status) => {
         if (status === 0) {
           return 'Waiting';
@@ -143,6 +170,10 @@ function OutcomeDetail() {
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h4 className="text-right">Your outcome</h4>
                             </div>
+                            
+                            <div>
+                              ID: {outcome.id}
+                            </div>
 
                             <div className="row mt-3">
                             <div className="col-md-6">
@@ -242,14 +273,28 @@ function OutcomeDetail() {
   </Link>
 )}
                                     <button
-                                        onClick={toggleEditing}
-                                        className="border px-3 p-1 add-experience float-right"
-                                    >
-                                        <i className="fa fa-plus"></i>{' '}
-                                        {isEditing ? 'Cancel' : 'Edit'}
-                                    </button>
+  onClick={toggleEditing}
+  className="border px-3 p-1 add-experience float-right"
+  style={{ display: outcome.financeStatus === 0 ? 'block' : 'none' }}
+>
+  {outcome.financeStatus === 0 && (
+    <i className="fa fa-hourglass-half"></i>
+  )}
+  {outcome.financeStatus === 0 && (
+    isEditing ? 'Cancel' : 'Edit'
+  )}
+</button>
+
+
                                 </div>
                             </div>
+
+                            <div>
+  {outcome.financeStatus === 0 && (
+    <button onClick={OutcomeSend}>Send</button>
+  )}
+</div>
+
                         </div>
                     </div>
                 </div>

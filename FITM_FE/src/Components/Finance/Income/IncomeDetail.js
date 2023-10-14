@@ -36,6 +36,36 @@ function IncomeDetail() {
         }
     };
 
+
+    //============================================================
+    const IncomeSend = () => {
+      axios
+        .post(`https://localhost:7226/apis/Finance/ChangeIncomeStatus?id=${incomeId}`)
+        .then(response => {
+          // Handle success (e.g., show success message)
+          Swal.fire({
+            icon: 'success',
+            title: 'Send Request Successfully !!!',
+            showConfirmButton: true,
+          }).then(() => {
+            window.location.href = '/home/financial-manager/finance-list';
+          });
+          // Perform any other necessary actions or updates after status change
+        })
+        .catch(error => {
+          // Handle error (e.g., show error message)
+          Swal.fire({
+            icon: 'error',
+            title: 'Unsuccessfully !!!',
+            showConfirmButton: true,
+          });
+        });
+    };
+    
+    //============================================================
+
+
+
     const getStatusLabel = (status) => {
         if (status === 0) {
           return 'Waiting';
@@ -145,6 +175,10 @@ function IncomeDetail() {
                                 <h4 className="text-right">Your income</h4>
                             </div>
 
+                            <div>
+                              ID: {income.id}
+                            </div>
+
                             <div className="row mt-3">
                             <div className="col-md-6">
                                     <label className="labels">title</label>
@@ -236,29 +270,45 @@ function IncomeDetail() {
                                             <i className="fa fa-plus"></i> Update
                                         </button>
                                     )}
-                                    
-                                    {isEditing ? (
-  <></>
-) : (
-  <Link to="/home/financial-manager/finance-list" className='finance_create_button'>
-    <button><span>Back to List</span></button>
-  </Link>
-)}
-                                    <button
-                                        onClick={toggleEditing}
-                                        className="border px-3 p-1 add-experience float-right"
-                                    >
-                                        <i className="fa fa-plus"></i>{' '}
-                                        {isEditing ? 'Cancel' : 'Edit'}
-                                    </button>
-                                </div>
+                                  
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {error && <div>Error: {error}</div>}
+          {!isEditing && (
+            <Link to="/home/financial-manager/finance-list" className='finance_create_button'>
+              <button><span>Back to List</span></button>
+            </Link>
+          )}
+
+
+
+<button
+  onClick={toggleEditing}
+  className="border px-3 p-1 add-experience float-right"
+  style={{ display: income.financeStatus === 0 ? 'block' : 'none' }}
+>
+  {income.financeStatus === 0 && (
+    <i className="fa fa-hourglass-half"></i>
+  )}
+  {income.financeStatus === 0 && (
+    isEditing ? 'Cancel' : 'Edit'
+  )}
+</button>
+
+
+
         </div>
+
+
+        <div>
+  {income.financeStatus === 0 && (
+    <button onClick={IncomeSend}>Send</button>
+  )}
+</div>
+
+      </div>
+    </div>
+    {error && <div>Error: {error}</div>}
+  </div>
+  </div></div>
     );
 }
 

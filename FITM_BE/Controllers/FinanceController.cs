@@ -1,5 +1,6 @@
 ﻿using FITM_BE.Service.FinanceService;
 using FITM_BE.Service.FinanceService.Dtos;
+using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Authorization;
@@ -104,5 +105,38 @@ namespace FITM_BE.Controllers
             await _financeService.DeleteOutcome(id);
             return Ok();
         }
+
+        [HttpPost]
+        public Task<IncomeListDto> ChangeIncomeStatus(int id)
+        {
+            var incomeStatus = _financeService.ChangeIncomeStatus(id);
+
+            return incomeStatus;
+        }
+
+        [HttpPost]
+        public Task<OutcomeListDto> ChangeOutcomeStatus(int id)
+        {
+            var outcomeStatus = _financeService.ChangeOutcomeStatus(id);
+
+            return outcomeStatus;
+        }
+
+        //=========================================
+        [HttpPost]
+        public Task<CreateIncomeDto> DenyIncomeRequest(int id)
+        {
+            var denyIncome = _financeService.DenyIncomeRequest(id);
+            return denyIncome;
+        }
+
+        [HttpPost]
+        public Task<CreateIncomeDto> AcceptIncomeRequest(int id)
+        {
+            var acceptIncome = _financeService.AcceptIncomeRequest(id);
+            return acceptIncome;
+        }
+
+
     }
 }
