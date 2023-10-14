@@ -10,6 +10,7 @@ namespace FITM_BE.Service.FinanceService.Dtos
     public class IncomeDto
     {
         public long TotalAmount { get; set; }
+        public long Balance { get; set; }
         public FinanceStatus FinanceStatus { get; set; }
         public DateTime? ModifiedTime { get; set; }
     }

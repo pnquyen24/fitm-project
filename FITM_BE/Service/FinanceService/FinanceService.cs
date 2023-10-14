@@ -27,7 +27,7 @@ namespace FITM_BE.Service.FinanceService
                 .Select(group => new
                 {
                     ModifiedTime = group.Key,
-                    TotalAmount = group.Sum(ic => ic.Amount)
+                    TotalAmount = group.Sum(ic => ic.Amount),
                 }).OrderBy(ic => ic.ModifiedTime);
 
             var groupedIncomes = from item in query
@@ -35,7 +35,8 @@ namespace FITM_BE.Service.FinanceService
                                  {
                                      ModifiedTime = (DateTime)item.ModifiedTime,
                                      FinanceStatus = FinanceStatus.Accepted,
-                                     TotalAmount = item.TotalAmount
+                                     TotalAmount = item.TotalAmount,
+                                     Balance = item.TotalAmount
                                  };
 
             return groupedIncomes;
@@ -59,7 +60,8 @@ namespace FITM_BE.Service.FinanceService
                                  {
                                      ModifiedTime = (DateTime)item.ModifiedTime,
                                      FinanceStatus = FinanceStatus.Accepted,
-                                     TotalAmount = item.TotalAmount
+                                     TotalAmount = item.TotalAmount,
+                                     Balance = (item.TotalAmount)
                                  };
 
             return groupedIncomes;
@@ -88,7 +90,7 @@ namespace FITM_BE.Service.FinanceService
                 .GroupBy(item => item.ModifiedTime.Value.Date)
                 .OrderBy(group => group.Key);
 
-            long currentBalance = 0;
+            long currentBalance = CalculateBalanceByBefore(new DateTime(2023,10,1),start);
             List<BalanceDto> balances = new List<BalanceDto>();
 
             for (var date = start.Date; date <= end.Date; date = date.AddDays(1))
@@ -109,6 +111,51 @@ namespace FITM_BE.Service.FinanceService
             }
 
             return balances;
+        }
+        private long CalculateBalanceByBefore(DateTime start, DateTime end)
+        {
+            var combinedData = _repository.GetAll<Income>()
+           .Where(ic => ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date <= end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
+           .Select(ic => new
+           {
+               ModifiedTime = ic.ModifiedTime,
+               TotalAmount = ic.Amount,
+               IsIncome = true
+           })
+           .Union(_repository.GetAll<Outcome>()
+               .Where(oc => oc.ModifiedTime.Value.Date >= start.Date && oc.ModifiedTime.Value.Date <= end.Date && oc.FinanceStatus == FinanceStatus.Accepted)
+               .Select(oc => new
+               {
+                   ModifiedTime = oc.ModifiedTime,
+                   TotalAmount = oc.Amount,
+                   IsIncome = false
+               })).ToList();
+
+            var groupedData = combinedData
+                .GroupBy(item => item.ModifiedTime.Value.Date)
+                .OrderBy(group => group.Key);
+
+            long currentBalance = 0;
+            List<BalanceDto> balances = new List<BalanceDto>();
+
+            for (var date = start.Date; date < end.Date; date = date.AddDays(1))
+            {
+                var group = groupedData.FirstOrDefault(g => g.Key == date);
+                var incomeTotal = group?.Where(item => item.IsIncome).Sum(item => item.TotalAmount) ?? 0;
+                var outcomeTotal = group?.Where(item => !item.IsIncome).Sum(item => item.TotalAmount) ?? 0;
+
+                currentBalance += incomeTotal - outcomeTotal;
+
+                balances.Add(new BalanceDto
+                {
+                    ModifiedTime = date,
+                    TotalIncome = incomeTotal,
+                    TotalOutcome = outcomeTotal,
+                    Balance = currentBalance
+                });
+            }
+
+            return currentBalance;
         }
 
         public IEnumerable<BalanceDto> CalculateBalanceByDate1(DateTime start, DateTime end)
