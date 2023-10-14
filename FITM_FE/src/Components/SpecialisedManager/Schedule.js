@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
-import "./PracticalSchedule.css";
-import ModalSchedule from "./ModalSchedule";
-import UseOpenClosed from "./useOpenClosed";
-import {
-    fetchSchedules,
-    getScheduleError,
-    getScheduleStatus,
-    selectAllSchedules,
-    updateSchedule,
-} from "./scheduleSlice";
-import CustomeAlert from "../Member/Alert/CustomeAlert";
-import { Box } from "@mui/material";
-import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import ModalSchedule from "./ModalSchedule";
+import "./Schedule.css";
+import { fetchSchedules, getScheduleError, getScheduleStatus, selectAllSchedules, updateSchedule } from "./scheduleSlice";
+import UseOpenClosed from "./useOpenClosed";
 import { useDispatch, useSelector } from "react-redux";
+import CustomeAlert from "../Member/Alert/CustomeAlert";
 
 function PracticalSchedule() {
     const dispatch = useDispatch();

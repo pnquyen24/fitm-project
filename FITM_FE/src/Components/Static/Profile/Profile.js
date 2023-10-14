@@ -1,8 +1,6 @@
 import axios from 'axios';
-import './Profile.css';
-import CustomeAlert from '../../Member/Alert/CustomeAlert';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
+import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import './Profile.css';
 
 function Profile({ memberId }) {
@@ -81,7 +79,7 @@ function Profile({ memberId }) {
     }
     return (
         <div>
-            <div className="container rounded bg-white mt-4 mb-4">
+            <div className="container rounded bg-white mt-4 mb-4 profile-cover" >
                 <div className="row">
                     <div className="col-md-5 border-right">
                         <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src='{member.avatar}' />
@@ -138,7 +136,7 @@ function Profile({ memberId }) {
                                                 className="form-control"
                                                 max={getCurrentDate()}
                                                 onChange={(e) => setTempMember({ ...tempMember, dob: e.target.value })} />
-                                        ) : (new Date(member.dob).toLocaleDateString())}
+                                        ) : (member.dob.split('T')[0])}
                                     </div>
 
 
@@ -194,5 +192,6 @@ function Profile({ memberId }) {
             </div>
         </div>
     );
- }
+}
+
 export default Profile;

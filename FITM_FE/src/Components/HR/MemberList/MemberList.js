@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./MemberList.css";
-import MailIcon from "@mui/icons-material/Mail";
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 import {
+  Paper,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TableHead,
-  TableBody,
   TableRow,
-  TableCell,
-  Paper,
 } from "@mui/material";
+import Button from "@mui/material/Button";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./MemberList.css";
 
 function MemberList() {
   const [memberList, setMemberList] = useState([]);
@@ -55,10 +54,10 @@ function MemberList() {
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
-    navigate("/home/member-manager/member-profile?id=" + id);
+    navigate("/member-manager/member-profile?id=" + id);
   }
   function addMember() {
-    navigate("/home/member-manager/create-member");
+    navigate("/member-manager/create-member");
   }
   return (
     <div className="container">

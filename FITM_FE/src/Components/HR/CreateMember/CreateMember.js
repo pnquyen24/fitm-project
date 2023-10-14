@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
-import Button from "@mui/material/Button";
-import './CreateMember.css';
-import CustomeAlert from '../../Member/Alert/CustomeAlert';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import CustomeAlert from '../../Member/Alert/CustomeAlert';
+import './CreateMember.css';
 
 function CreateMember() {
   const [formData, setFormData] = useState({
@@ -29,7 +28,7 @@ function CreateMember() {
           title: 'Create Successfully !!!',
           showConfirmButton: true,
         }).then(() => {
-          window.location.href = '/home/member-manager/member-list';
+          window.location.href = '/member-manager/member-list';
         });
       })
       .catch(error => {
@@ -98,7 +97,7 @@ function CreateMember() {
           <input type="text" id="bankname" name="bankname" value={formData.bankname} onChange={handleChange} className="form-input" /><br />
         </div>
         <div className='button-container'>
-          <Link to="/home/member-manager/member-list" className='create_submit'> BackToList</Link>
+          <Link to="/member-manager/member-list" className='create_submit'> BackToList</Link>
           <input type="submit" value="CREATE" className="create_submit" />
         </div>  
       </form>
