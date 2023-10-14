@@ -4,6 +4,7 @@ using FITM_BE.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FITM_BE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20231013045822_AttendancePracticals")]
+    partial class AttendancePracticals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,10 @@ namespace FITM_BE.Migrations
                     b.Property<DateTime?>("ModifiedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PracticalScheduleId")
+                    b.Property<int>("PracticalId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PracticalScheduleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -61,6 +67,8 @@ namespace FITM_BE.Migrations
                     b.HasIndex("MemberId");
 
                     b.HasIndex("ModifiedById");
+
+                    b.HasIndex("PracticalId");
 
                     b.HasIndex("PracticalScheduleId");
 
@@ -154,11 +162,6 @@ namespace FITM_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BackgroundColor")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
-
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
@@ -187,11 +190,6 @@ namespace FITM_BE.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TextColor")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -289,9 +287,7 @@ namespace FITM_BE.Migrations
 
                     b.HasOne("FITM_BE.Entity.PracticalSchedule", "PracticalSchedule")
                         .WithMany()
-                        .HasForeignKey("PracticalScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PracticalScheduleId");
 
                     b.Navigation("CreatedBy");
 

@@ -100,6 +100,27 @@ namespace FITM_BE.Util
             return newEntity;
         }
 
+        public async Task<IEnumerable<TEntity>> UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit
+        {
+            var currentTime = DateTime.Now;
+            var currentUser = await GetCurrent();
+            foreach (var entity in entities)
+            {
+                entity.ModifiedTime = currentTime;
+                entity.ModifyBy = currentUser;
+            }
+
+            _dbContext.UpdateRange(entities);
+            await _dbContext.SaveChangesAsync();
+
+            _dbContext.SaveChangesFailed += (sender, e) =>
+            {
+                throw new SystemException(e.Exception.Message);
+            };
+
+            return entities;
+        }
+
         private async Task<Member?> GetCurrent()
         {
             if (_httpContextAccessor.HttpContext != null && int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID"), out int userID))
