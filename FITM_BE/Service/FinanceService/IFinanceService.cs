@@ -1,5 +1,6 @@
 ﻿using FITM_BE.Service.FinanceService.Dtos;
-using FITM_BE.Service.PracticalSchedulService.Dtos;
+using FITM_BE.Entity;
+
 
 namespace FITM_BE.Service.FinanceService
 {
@@ -19,5 +20,16 @@ namespace FITM_BE.Service.FinanceService
         public Task<OutcomeListDto> AddOutcome(CreateOutcomeDto outcomeDto);
         public Task<OutcomeListDto> UpdateOutcome(OutcomeListDto outcomeDto);
         public Task DeleteOutcome(int id);
+        public Task<IncomeListDto> ChangeIncomeStatus(int id);
+        public Task<OutcomeListDto> ChangeOutcomeStatus(int id);
+
+        public Task<CreateIncomeDto> DenyIncomeRequest(int requestId);
+
+        public Task<CreateIncomeDto> AcceptIncomeRequest(int requestId);
+
+        public Task<CreateOutcomeDto> DenyOutcomeRequest(int requestId);
+
+        public Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId);
+
     }
 }

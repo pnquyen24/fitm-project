@@ -4,7 +4,7 @@ using FITM_BE.Enums;
 
 namespace FITM_BE.Service.FinanceService.Dtos
 {
-    [AutoMap(typeof(OutcomeDto), ReverseMap = true)]
+    [AutoMap(typeof(Outcome), ReverseMap = true)]
     public class OutcomeDto
     {
         public long TotalAmount { get; set; }

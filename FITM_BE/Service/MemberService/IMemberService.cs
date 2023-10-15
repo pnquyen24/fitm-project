@@ -12,7 +12,6 @@ namespace FITM_BE.Service.MemberService
 
         public IQueryable<ProfileDto> getAllProfile();
 
-
         public  Task<ProfileDto> ChangeStatus(int id);
     }
 }

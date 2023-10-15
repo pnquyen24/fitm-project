@@ -1,21 +1,31 @@
 ﻿using AutoMapper;
+using AutoMapper.Execution;
+using FITM_BE.Authentication;
 using FITM_BE.Entity;
 using FITM_BE.Enums;
+using FITM_BE.Exceptions.UserException;
+using FITM_BE.Service.EmailService;
 using FITM_BE.Service.FinanceService.Dtos;
+using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
+using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Metrics;
 using System.Linq;
 
 namespace FITM_BE.Service.FinanceService
 {
     public class FinanceService : ServiceBase, IFinanceService
     {
-        public FinanceService(IRepository repository, IMapper mapper) : base(repository, mapper)
+        private readonly IAccountService _accountService;
+        private readonly IEmailSender _emailSender;
+        public FinanceService(IRepository repository, IMapper mapper, IEmailSender emailSender, IAccountService accountService) : base(repository, mapper)
         {
-
+            _accountService = accountService;
+            _emailSender = emailSender;
         }
 
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime start, DateTime end)
@@ -230,6 +240,7 @@ namespace FITM_BE.Service.FinanceService
             income.Title = incomeListDto.Title;
             income.Description = incomeListDto.Description;
             income.Amount = incomeListDto.Amount;
+            income.BillCode = incomeListDto.BillCode;
             income.FinanceStatus = incomeListDto.FinanceStatus;
             Income newIncome = await _repository.Update(income);
             return _mapper.Map<IncomeListDto>(newIncome);
@@ -267,6 +278,7 @@ namespace FITM_BE.Service.FinanceService
             outcome.Title = outcomeListDto.Title;
             outcome.Description = outcomeListDto.Description;
             outcome.Amount = outcomeListDto.Amount;
+            outcome.BillCode = outcomeListDto.BillCode;
             outcome.FinanceStatus = outcomeListDto.FinanceStatus;
             Outcome newOutcome = await _repository.Update(outcome);
             return _mapper.Map<OutcomeListDto>(newOutcome);
@@ -275,6 +287,195 @@ namespace FITM_BE.Service.FinanceService
         public async Task DeleteOutcome(int id)
         {
             await _repository.Delete<Outcome, int>(id);
+        }
+
+        //======================================
+        public async Task<IncomeListDto> ChangeIncomeStatus(int id)
+        {
+            var income = await _repository.Get<Income>(id);
+            var mail = "tranbnbqe170086@fpt.edu.vn";
+
+            if (income == null)
+            {
+                // Handle the case when the income with the specified id is not found
+                return null;
+            }
+
+            income.FinanceStatus = FinanceStatus.Pending;
+
+            var updatedIncome = await _repository.Update(income);
+            var incomeDto = _mapper.Map<IncomeDto>(updatedIncome);
+
+            // Send income report email
+            string userEmail = mail;
+            string title = income.Title.ToString();
+            string description = income.Description.ToString();
+            string amount = income.Amount.ToString();
+            string status = incomeDto.FinanceStatus.ToString();
+
+            await SendIncomeReport(userEmail, title, description, amount, status);
+
+            return _mapper.Map<IncomeListDto>(updatedIncome);
+        }
+
+        private async Task SendIncomeReport(string email, string title, string description, string amount, string status)
+        {
+            var message = new Message(
+                new string[] { email },
+                "Income Report",
+                $"<p>This is your income:</p>" +
+                $"<ul>" +
+                $"<li>Amount: {title}</li>" +
+                $"<li>Status: {description}</li>" +
+                $"<li>Amount: {amount}</li>" +
+                $"<li>Status: {status}</li>" +
+                $"</ul>"
+            );
+
+            await _emailSender.SendEmailAsync(message);
+        }
+        //======================================
+        public async Task<OutcomeListDto> ChangeOutcomeStatus(int id)
+        {
+            var outcome = await _repository.Get<Outcome>(id);
+            var mail = "tranbnbqe170086@fpt.edu.vn";
+
+            if (outcome == null)
+            {
+                return null;
+            }
+
+            outcome.FinanceStatus = FinanceStatus.Pending;
+
+            var updatedOutcome = await _repository.Update(outcome);
+            var outcomeDto = _mapper.Map<OutcomeDto>(updatedOutcome);
+
+            string userEmail = mail;
+            string title = outcome.Title.ToString();
+            string description = outcome.Description.ToString();
+            string amount = outcome.Amount.ToString();
+            string status = outcomeDto.FinanceStatus.ToString();
+
+            await SendOutcomeReport(userEmail, title, description, amount, status);
+
+            return _mapper.Map<OutcomeListDto>(updatedOutcome);
+        }
+
+        private async Task SendOutcomeReport(string email, string title, string description, string amount, string status)
+        {
+            var message = new Message(
+                new string[] { email },
+                "Outcome Report",
+                $"<p>This is your outcome:</p>" +
+                $"<ul>" +
+                $"<li>Amount: {title}</li>" +
+                $"<li>Status: {description}</li>" +
+                $"<li>Amount: {amount}</li>" +
+                $"<li>Status: {status}</li>" +
+                $"</ul>"
+            );
+
+            await _emailSender.SendEmailAsync(message);
+        }
+
+        //====================================================
+
+       private async Task ReplyRequestMail(string email, int status)
+        {
+            Message message;
+
+            if (status == 2)
+            {
+                message = new Message
+                (
+               new string[]
+                    { email },
+                    "FITM FM reply: denied",
+                    "From FITM Human resouces"
+                    + "<p>Your request to change account's information has been denied</p>"
+                );
+            }
+            else
+            {
+                message = new Message
+                 (
+                new string[]
+                     { email },
+                     "FITM FM reply: Accept",
+                     "<p>From FITM Muman resouces </p>"
+                     + "<p>Your request to change account's information has been accepted</p>"
+                 );
+            }
+            await _emailSender.SendEmailAsync(message);
+        }
+
+
+        public async Task<CreateIncomeDto> DenyIncomeRequest(int requestId)
+        {
+            var requestEditIncome = _repository.GetAll<Income>().
+                First(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditIncome.FinanceStatus = (Enums.FinanceStatus)3;
+            await _repository.Update(requestEditIncome);
+
+            await ReplyRequestMail(address, 2);
+
+            var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
+
+            return createRequestEditIncome;
+        }
+
+        public async Task<CreateIncomeDto> AcceptIncomeRequest(int requestId)
+        {
+            var requestEditIncome = await _repository.GetAll<Income>().
+                FirstAsync(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditIncome.FinanceStatus = (Enums.FinanceStatus)2;
+            await _repository.Update(requestEditIncome);
+
+            await ReplyRequestMail(address, 1);
+
+            var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
+
+            return createRequestEditIncome;
+        }
+
+        public async Task<CreateOutcomeDto> DenyOutcomeRequest(int requestId)
+        {
+            var requestEditOutcome = _repository.GetAll<Outcome>().
+                First(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditOutcome.FinanceStatus = (Enums.FinanceStatus)3;
+            await _repository.Update(requestEditOutcome);
+
+            await ReplyRequestMail(address, 2);
+
+            var createRequestEditOutcome = _mapper.Map<CreateOutcomeDto>(requestEditOutcome);
+
+            return createRequestEditOutcome;
+        }
+
+        public async Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId)
+        {
+            var requestEditOutcome = await _repository.GetAll<Outcome>().
+                FirstAsync(request => request.Id == requestId);
+
+            var address = "tranbnbqe170086@fpt.edu.vn";
+
+            requestEditOutcome.FinanceStatus = (Enums.FinanceStatus)2;
+            await _repository.Update(requestEditOutcome);
+
+            await ReplyRequestMail(address, 1);
+
+            var createRequestEditOutcome = _mapper.Map<CreateOutcomeDto>(requestEditOutcome);
+
+            return createRequestEditOutcome;
         }
 
     }

@@ -1,0 +1,157 @@
+.visiting_card {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    margin-top: 4%;
+    background-color: white;
+  }
+        
+  .visiting_card h4 {
+    font-size: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .visiting_card .row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .span_title {
+    font-weight: bold;
+    margin-left: 20px;
+    font-size: 18px;
+    color: rgba(0,0,0,.5);
+  }
+  
+  .visiting_card input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .visiting_card button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .visiting_card button:hover {
+    background-color: #0056b3;
+  }
+  
+  .visiting_card button span {
+    margin-left: 5px;
+  }
+  
+  .visiting_card .back_button {
+    display: inline-block;
+    margin-top: 10px;
+  }
+  
+  .visiting_card .edit_button {
+    display: inline-block;
+    background-color: #f57c00;
+  }
+  
+  .visiting_card .edit_button span {
+    margin-left: 5px;
+  }
+  
+  .visiting_card .send_button {
+    display: inline-block;
+  }
+  
+  .visiting_card .send_button button {
+    background-color: #5cb85c;
+    margin-top: 10px;
+  }
+  
+  .visiting_card .error_message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .amount_billCode {
+    display: flex;
+    margin-left: 20px;
+  }
+  
+  .finance_status {
+    text-align: right;
+    margin-right: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px whitesmoke;
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .each_row_info {
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+
+  .span_info {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+
+  .id_title {
+    display: flex;
+  }
+
+  .title {
+    font-weight: bold;
+    margin-left: 170px;
+    font-size: 18px;
+    color: rgba(0,0,0,.5);
+  }
+
+  .bill_title {
+    font-weight: bold;
+    margin-left: 120px;
+    font-size: 18px;
+    color: rgba(0,0,0,.5);
+  }
+
+  .visiting_card_button {
+    display: flex;
+    margin-top: 40px;
+    margin-bottom: 1%;
+    justify-content: center ;
+  }
+  
+  .visiting_card_button button {
+    background-color: lightskyblue;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block; 
+  }
+  
+  .visiting_card_button button:hover {
+    background-color: rgb(0, 100, 162);
+    color: white;
+  }
+
+  .detail_back {
+margin-left: 20px;
+  }
+
+  .detail_send {
+margin-left: 20px;
+}
