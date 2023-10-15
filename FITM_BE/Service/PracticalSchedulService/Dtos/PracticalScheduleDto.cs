@@ -12,7 +12,5 @@ namespace FITM_BE.Service.PracticalSchedulService.Dtos
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int Room { get; set; }
-        public string BackgroundColor { get; set; }
-        public string TextColor { get; set; }
     }
 }

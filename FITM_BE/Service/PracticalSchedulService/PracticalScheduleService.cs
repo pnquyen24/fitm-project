@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FITM_BE.Entity;
+using FITM_BE.Service.AttendancePracticalService;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Util;
 
@@ -7,8 +8,11 @@ namespace FITM_BE.Service.PracticalSchedulService
 {
     public class PracticalScheduleService : ServiceBase, IPracticalScheduleService
     {
-        public PracticalScheduleService(IRepository repository, IMapper mapper) : base(repository, mapper)
+        private readonly IAttendancePracticalService _attendancePracticalService;
+
+        public PracticalScheduleService(IRepository repository, IMapper mapper, IAttendancePracticalService attendancePracticalService) : base(repository, mapper)
         {
+            _attendancePracticalService = attendancePracticalService;
         }
 
         public IQueryable<PracticalScheduleDto> ViewPracticalSchedules()
@@ -28,6 +32,9 @@ namespace FITM_BE.Service.PracticalSchedulService
         {
             PracticalSchedule newSchedule = _mapper.Map<PracticalSchedule>(practicalScheduleDto);
             newSchedule = await _repository.Add(newSchedule);
+
+            await _attendancePracticalService.CreateAttendanceList(newSchedule.Id);
+
             return _mapper.Map<PracticalScheduleDto>(newSchedule);
         }
 
@@ -39,8 +46,6 @@ namespace FITM_BE.Service.PracticalSchedulService
             schedule.StartDate = practicalScheduleDto.StartDate;
             schedule.EndDate = practicalScheduleDto.EndDate;
             schedule.Room = practicalScheduleDto.Room;
-            schedule.BackgroundColor = practicalScheduleDto.BackgroundColor;
-            schedule.TextColor = practicalScheduleDto.TextColor;
             PracticalSchedule newSchedule = await _repository.Update(schedule);
             return _mapper.Map<PracticalScheduleDto>(newSchedule);
         }
