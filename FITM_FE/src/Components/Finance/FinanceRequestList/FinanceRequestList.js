@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { type } from '@testing-library/user-event/dist/type';
+import './FinanceRequestList.css';
 
 const FinanceRequestList = () => {
   const [data, setData] = useState([]);
@@ -83,46 +83,47 @@ const FinanceRequestList = () => {
 
 
   const handleDelete = async (id, type) => {
-  {data.map(item => {
-  const handleDelete = async (id, type) => {
-    try {
-      let deleteUrl = '';
-      if (type === 'Income') {
-        deleteUrl = `https://localhost:7226/apis/Finance/DeleteIncome?id=${item.id}`;
-      } else if (type === 'Outcome') {
-        deleteUrl = `https://localhost:7226/apis/Finance/DeleteOutcome?id=${item.id}`;
-      } else {
-        console.error('Invalid type');
-        return;
-      }
+    {
+      data.map(item => {
+        const handleDelete = async (id, type) => {
+          try {
+            let deleteUrl = '';
+            if (type === 'Income') {
+              deleteUrl = `https://localhost:7226/apis/Finance/DeleteIncome?id=${item.id}`;
+            } else if (type === 'Outcome') {
+              deleteUrl = `https://localhost:7226/apis/Finance/DeleteOutcome?id=${item.id}`;
+            } else {
+              console.error('Invalid type');
+              return;
+            }
 
-      const response = await axios.delete(deleteUrl);
+            const response = await axios.delete(deleteUrl);
 
-      // If the request is successful, remove the deleted item from the state
-      if (response.status === 200) {
-        setData(data.filter(item => item.id !== id));
-        Swal.fire({
-          title: 'Success',
-          text: 'Deleted successfully!',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        });
-      }
-    } catch (error) {
-      console.error('Error deleting item:', error);
-      Swal.fire({
-        title: 'Error',
-        text: 'Deletion unsuccessful',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
+            if (response.status === 200) {
+              setData(data.filter(item => item.id !== id));
+              Swal.fire({
+                title: 'Success',
+                text: 'Deleted successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
+            }
+          } catch (error) {
+            console.error('Error deleting item:', error);
+            Swal.fire({
+              title: 'Error',
+              text: 'Deletion unsuccessful',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        };
+
+      })
     }
-  };
-
-})}
   }
 
- 
+
   function ViewOutcomeRequestDetail(id) {
     navigate("/home/financial-manager/outcome-request-detail?id=" + id);
   }
@@ -136,35 +137,82 @@ const FinanceRequestList = () => {
 
   const DeleteIncome = async (id) => {
     try {
+      const confirmDelete = await Swal.fire({
+        title: 'You want to delete ?',
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonColor: '#DD0000',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+      });
+
+      if (!confirmDelete.isConfirmed) return;
+
       const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
-      // If the request is successful, remove the deleted item from the state
+
       if (response.status === 200) {
-        setData(data.filter(item => item.id !== id));
+        await Swal.fire({
+          icon: 'success',
+          title: 'Delete Successfully !!!',
+          showConfirmButton: true,
+        });
+        window.location.href = '/home/financial-manager/finance-request-list';
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
+      console.log(error);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Delete Unsuccessfully !!!',
+        showConfirmButton: true,
+      });
     }
   };
+
 
   const DeleteOutcome = async (id) => {
     try {
+      
+      const confirmDelete = await Swal.fire({
+        title: 'You want to delete ?',
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonColor: '#DD0000',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+      });
+
+      if (!confirmDelete.isConfirmed) return;
+
       const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
-      // If the request is successful, remove the deleted item from the state
+
+    
       if (response.status === 200) {
+    
+        Swal.fire({
+          icon: 'success',
+          title: 'Delete Successfully !!!',
+          showConfirmButton: true,
+        }).then(() => {
+          window.location.href = '/home/financial-manager/finance-request-list';
+        });
+        
         setData(data.filter(item => item.id !== id));
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Delete Unsuccessfully !!!',
+        showConfirmButton: true,
+      });
     }
   };
-
-  //===================================
 
   //===================================
 
   return (
     <div>
-      <h1 className='finance_title'>Finance Report List</h1>
+      <h1 className='finance_title'>FINANCE REPORT REQUEST LIST</h1>
 
       <div className='create_finance_top'>
         <Link to="/home/">
@@ -193,7 +241,7 @@ const FinanceRequestList = () => {
               <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
               <td>
                 <Button
-                  onClick={() => {item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id)}}
+                  onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
                   variant="outlined"
                   size="small"
                   className="detail-button"
@@ -201,28 +249,28 @@ const FinanceRequestList = () => {
                   View Detail
                 </Button>
               </td>
-              
+
 
               <td>
-  {item.financeStatus !== 1 ? (
-    <Button
-      onClick={() => {
-        if (item.type === 'Outcome') {
-          DeleteOutcome(item.id);
-        } else if (item.type === 'Income') {
-          DeleteIncome(item.id);
-        }
-      }}
-      size="small"
-      className="delete-button" // Add a CSS class for styling if needed
-    >
-      <span><ion-icon name="trash-outline"></ion-icon></span>
-    </Button>
-  ) : (
-    <span>Can't delete</span>
-  )}
-</td>
-              
+                {item.financeStatus !== 1 ? (
+                  <Button
+                    onClick={() => {
+                      if (item.type === 'Outcome') {
+                        DeleteOutcome(item.id);
+                      } else if (item.type === 'Income') {
+                        DeleteIncome(item.id);
+                      }
+                    }}
+                    size="small"
+                    className="delete-button"
+                  >
+                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                  </Button>
+                ) : (
+                  <span>Can't delete</span>
+                )}
+              </td>
+
 
             </tr>
           ))}

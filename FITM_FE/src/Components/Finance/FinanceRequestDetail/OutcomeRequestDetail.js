@@ -28,7 +28,7 @@ function OutcomeRequestDetail() {
   useEffect(() => {
     getData();
   }, [outcomeId]);
-    // Function to toggle editing mode for all rows
+  
     const toggleEditing = () => {
         setIsEditing(!isEditing);
         if (!isEditing) {
@@ -94,7 +94,7 @@ function OutcomeRequestDetail() {
     function formatDate() {
         const currentDate = new Date();
         const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
         const day = String(currentDate.getDate()).padStart(2, '0');
         if (day === 1 && month === 1 && year === 1) {
           return 'Not yet';
@@ -140,181 +140,193 @@ function OutcomeRequestDetail() {
     }
 
     return (
+      <div className='card'>
         <div>
-            <div className="container rounded bg-white mt-4 mb-4">
-                <div className="row">
-                    <div className="col-md-7">
-                        <div className="p-3 py-4 info-cover">
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                                <h4 className="text-right">Your outcome</h4>
-                            </div>
-
-                            <div>
-                              ID: {outcome.id}
-                            </div>
-
-                            <div className="row mt-3">
-                            <div className="col-md-6">
-                                    <label className="labels">title</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            value={tempOutcome.title}
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setTempOutcome({ ...tempOutcome, title: e.target.value })
-                                            }
-                                        />
-                                    ) : (
-                                      outcome.title
-                                    )}
+              <div className="in_request_card">
+                  <div>
+                      <div>
+                        
+                              <div>
+                                  <h4>Outcome Detail</h4>
+                              </div>
+  
+  
+  <div className='id_title'>
+                              <div className='each_row_info'>
+                                <label className='span_title'>ID: </label> <span className='span_info'>{outcome.id}</span>
+                              </div>
+  
+                              <div>
+                              <div>
+                                      <label className='title'>Title: </label>
+                                      <lable className='span_info'>
+                                       {isEditing ? (
+                                          <input
+                                              type="text"
+                                              value={tempOutcome.title}
+                                              onChange={(e) =>
+                                                  setTempOutcome({ ...tempOutcome, title: e.target.value })
+                                              }
+                                          />
+                                      ) : (
+                                        outcome.title
+                                      )}
+                                      </lable>
+                                  </div>
+  
+                                  </div>
+                                  </div>
+  
+  
+                                  <div className='each_row_info'>
+                                      <label className='span_title'>Description: </label>
+                                      <lable className='span_info'>
+                                      {isEditing ? (
+                                          <input
+                                              type="text"
+                                              value={tempOutcome.description}
+                                              onChange={(e) =>
+                                                  setTempOutcome({ ...tempOutcome, description: e.target.value })
+                                              }
+                                          />
+                                      ) : (
+                                        outcome.description
+                                      )}
+                                      </lable>  
+                                  </div>
+                              
+  
+                              <div>
+                                <div className='each_row_info'>
+                                <label className='span_title'>Created Time: </label><label className='span_info'>{formatDate(outcome.createdTime)}</label> <br></br>
                                 </div>
-                                <div className="col-md-6">
-                                    <label className="labels">description</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            value={tempOutcome.description}
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setTempOutcome({ ...tempOutcome, description: e.target.value })
-                                            }
-                                        />
-                                    ) : (
-                                      outcome.description
-                                    )}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label>Created Time:</label><label>{formatDate(outcome.createdTime)}</label>
-                                <label>Modified Time:</label><label>{formatDate(outcome.modifiedTime)}</label>
-
-                            </div>
-
-
-
-
-
-                            <div className="row mt-3">
-                                <div className="col-md-6 marginTemp"><label className="labels">amount</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            value={tempOutcome.amount}
-                                            className="form-control"
-                                            onChange={(e) => {
-                                                const numericInput = e.target.value.replace(/[^0-9]/g, '');
-                                                setTempOutcome({ ...tempOutcome, amount: numericInput })
-                                            }}
-                                        />
-                                    ) : (
-                                      outcome.amount
-                                    )}
-                                </div>
-                                <div className="col-md-6">
-                                    <label className="labels">billCode:</label>
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            value={tempOutcome.billCode}
-                                            className="form-control"
-                                            onChange={(e) =>
-                                                setTempOutcome({ ...tempOutcome, billCode: e.target.value })
-                                            }
-                                        />
-                                    ) : (
-                                      outcome.billCode
-                                    )}
-                                </div>
-                            </div>
-
-                            <div><label>Status:</label><label style={getStatusStyle(outcome.financeStatus)}>{getStatusLabel(outcome.financeStatus)}</label></div>
-
-
-
-                            <div className="p-3 py-5">
-                                <div className="d-flex justify-content-end sm_cl align-items-center experience float-right">
-                                    {/* Submit button */}
-                                    {isEditing && (
-                                        <button
-                                            onClick={handleSubmit}
-                                            className="border px-3 p-1 add-experience float-right"
-                                        >
-                                            <i className="fa fa-plus"></i> Update
-                                        </button>
-                                    )}
-                                  
-                            </div>
-          {!isEditing && (
-            <Link to="/home/financial-manager/finance-request-list" className='finance_create_button'>
-              <button><span>Back to List</span></button>
-            </Link>
-          )}
-        </div>
-
-        
-        <div>
-  {outcome.financeStatus === 1 ? (
-    <div>
-      <button onClick={() => {
-        axios.post(`https://localhost:7226/apis/Finance/AcceptOutcomeRequest?id=${outcomeId}`)
-          .then(response => {
-            console.log(response);
-            Swal.fire({
-              title: "Finance Report Accepted !!!",
-              icon: "success",
-              confirmButtonText: "OK"
-            }).then(() => {
-              window.location.href = "/home/financial-manager/finance-request-list";
-            });
-          })
-          .catch(error => {
-            console.error(error);
-            Swal.fire({
-              title: "Error",
-              text: "Accept Unsuccessfully !!!",
-              icon: "error",
-              confirmButtonText: "OK"
-            });
-          });
-      }}>Accept</button>
-      <button onClick={() => {
-        axios.post(`https://localhost:7226/apis/Finance/DenyOutcomeRequest?id=${outcomeId}`)
-          .then(response => {
-            console.log(response);
-            Swal.fire({
-              title: "Success",
-              text: "Mail has been sent successfully!",
-              icon: "success",
-              confirmButtonText: "OK"
-            }).then(() => {
-              window.location.href = "/home/financial-manager/finance-request-list";
-            });
-          })
-          .catch(error => {
-            console.error(error);
-            Swal.fire({
-              title: "Error",
-              text: "Unsuccessful",
-              icon: "error",
-              confirmButtonText: "OK"
-            });
-          });
-      }}>Deny</button>
-    </div>
-  ) : null}
-</div>
-
-
-
-     
-
-      </div>
-    </div>
-    {error && <div>Error: {error}</div>}
+  
+                                <div className='each_row_info'>
+                                  <label className='span_title'>Modified Time: </label><label className='span_info'>{formatDate(outcome.modifiedTime)}</label>
   </div>
-  </div></div>
+                              </div>
+  
+  
+  
+  
+  
+                              <div className='amount_billCode'>
+                                  <div>
+                                    <label className='span_title'>Amount: </label>
+                                  <label className='span_info'>
+                                      {isEditing ? (
+                                          <input
+                                              type="text"
+                                              value={tempOutcome.amount} 
+                                              onChange={(e) => {
+                                                  const numericInput = e.target.value.replace(/[^0-9]/g, '');
+                                                  setTempOutcome({ ...tempOutcome, amount: numericInput })
+                                              }}
+                                          />
+                                      ) : (
+                                        outcome.amount
+                                      )}
+                                      </label>
+                                  </div>
+                                  <div className='billCode'>
+                                      <label className='bill_title'>Bill Code: </label>
+                                  <label className='span_info'>
+                                      {isEditing ? (
+                                          <input
+                                              type="text"
+                                              value={tempOutcome.billCode}
+                                              onChange={(e) =>
+                                                  setTempOutcome({ ...tempOutcome, billCode: e.target.value })
+                                              }
+                                          />
+                                      ) : (
+                                        outcome.billCode
+                                      )}
+                                      </label>
+                                  </div>
+                              </div>
+  
+                              <div className='finance_status'><label style={getStatusStyle(outcome.financeStatus)}>{getStatusLabel(outcome.financeStatus)}</label></div>
+  
+  
+  
+  
+                              <div className="in_request_card_button">
+  
+  
+    {!isEditing && (
+      <Link to="/home/financial-manager/finance-request-list">
+        <button className='detail_back'>
+          <span>Back to List</span>
+        </button>
+      </Link>
+    )}
+  
+  
+    <div>
+                  {outcome.financeStatus === 1 ? (
+                    <div>
+                      <button onClick={() => {
+                        axios.post(`https://localhost:7226/apis/Finance/AcceptOutcomeRequest?id=${outcomeId}`)
+                          .then(response => {
+                            console.log(response);
+                            Swal.fire({
+                              title: "Finance Report Accepted !!!",
+                              icon: "success",
+                              confirmButtonText: "OK"
+                            }).then(() => {
+                              window.location.href = "/home/financial-manager/finance-request-list";
+                            });
+                          })
+                          .catch(error => {
+                            console.error(error);
+                            Swal.fire({
+                              title: "Error",
+                              text: "Accept Unsuccessfully !!!",
+                              icon: "error",
+                              confirmButtonText: "OK"
+                            });
+                          });
+                      }}>Accept</button>
+  
+  
+  
+  
+  
+                      
+                      <button onClick={() => {
+                        axios.post(`https://localhost:7226/apis/Finance/DenyOutcomeRequest?id=${outcomeId}`)
+                          .then(response => {
+                            console.log(response);
+                            Swal.fire({
+                              title: "Success",
+                              icon: "success",
+                              confirmButtonText: "OK"
+                            }).then(() => {
+                              window.location.href = "/home/financial-manager/finance-request-list";
+                            });
+                          })
+                          .catch(error => {
+                            console.error(error);
+                            Swal.fire({
+                              title: "Error",
+                              text: "Unsuccessful",
+                              icon: "error",
+                              confirmButtonText: "OK"
+                            });
+                          });
+                      }}>Deny</button>
+                    </div>
+                  ) : null}
+                </div>
+  
+  </div>
+              </div>
+            </div>
+            {error && <div>Error: {error}</div>}
+          </div>
+        </div>
+      </div>
     );
 }
 

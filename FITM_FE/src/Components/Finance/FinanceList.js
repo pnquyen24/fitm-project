@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './FinanceList.css';
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { Button } from '@mui/material';
 
 const FinanceList = () => {
   const [data, setData] = useState([]);
@@ -91,35 +92,87 @@ const FinanceList = () => {
 
   //===================================
 
-  const DeleteIncome = async (id) => {
-    try {
-      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
-      // If the request is successful, remove the deleted item from the state
-      if (response.status === 200) {
-        setData(data.filter(item => item.id !== id));
-      }
-    } catch (error) {
-      console.error('Error deleting item:', error);
+const DeleteIncome = async (id) => {
+  try {
+    
+    const confirmDelete = await Swal.fire({
+      title: 'You want to delete ?',
+      icon: 'question',
+      showCancelButton: true,
+      cancelButtonColor: '#DD0000',
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+    });
+
+    if (!confirmDelete.isConfirmed) return;
+
+    const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
+
+    
+    if (response.status === 200) {
+    
+      await Swal.fire({
+        icon: 'success',
+        title: 'Delete Successfully !!!',
+        showConfirmButton: true,
+      });
+      window.location.href = '/home/financial-manager/finance-list';
     }
-  };
+  } catch (error) {
+    console.log(error);
+    await Swal.fire({
+      icon: 'error',
+      title: 'Delete Unsuccessfully !!!',
+      showConfirmButton: true,
+    });
+  }
+};
+
 
   const DeleteOutcome = async (id) => {
     try {
+      
+      const confirmDelete = await Swal.fire({
+        title: 'You want to delete ?',
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonColor: '#DD0000',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+      });
+  
+      if (!confirmDelete.isConfirmed) return;
+  
       const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
-      // If the request is successful, remove the deleted item from the state
+  
+      
       if (response.status === 200) {
+      
+        Swal.fire({
+          icon: 'success',
+          title: 'Delete Successfully !!!',
+          showConfirmButton: true,
+        }).then(() => {
+          window.location.href = '/home/financial-manager/finance-list';
+        });
+      
         setData(data.filter(item => item.id !== id));
       }
     } catch (error) {
-      console.error('Error deleting item:', error);
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Delete Unsuccessfully !!!',
+        showConfirmButton: true,
+      });
     }
   };
-
+  
   //===================================
 
   return (
     <div>
-      <h1 className='finance_title'>Finance Report List</h1>
+      <h1 className='finance_title'>FINANCE REPORT LIST</h1>
 
       <div className='create_finance_top'>
         <Link to="/home/">
@@ -175,7 +228,7 @@ const FinanceList = () => {
         }
       }}
       size="small"
-      className="delete-button" // Add a CSS class for styling if needed
+      className="delete-button" 
     >
       <span><ion-icon name="trash-outline"></ion-icon></span>
     </Button>
@@ -188,6 +241,7 @@ const FinanceList = () => {
           ))}
         </tbody>
       </table>
+
     </div>
   );
 };

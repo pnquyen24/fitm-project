@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import './CreateFinance.css';
 
 function CreateIncome() {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ function CreateIncome() {
     description: '',
     amount: '',
     billCode: '',
-    type: 'income', // Default type is income
+    type: 'income', 
   });
 
   const handleSubmit = (event) => {
@@ -52,12 +53,86 @@ function CreateIncome() {
     setFormData({ ...formData, type: value });
   };
 
+//====================================================================
+
   return (
     <div>
       <h2 className="create_title">CREATE NEW FINANCE REPORT</h2>
       <form onSubmit={handleSubmit} className="create_form">
-        <div className="type_radio">
-          <div>
+        <div className="type_in">
+          
+
+        <label htmlFor="title" className="  finance_form_input">
+          Title:{' '}
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={formData.title}
+          placeholder='Finance Title'
+          onChange={handleChange}
+          className="form_input"
+          required
+        />
+        <br />
+
+        
+          <label htmlFor="description" className="finance_form_input">
+            Description:{' '}
+          </label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={formData.description}
+            placeholder='Finance Description'
+            onChange={handleChange}
+            className="form_input"
+          />
+          <br />
+
+
+
+        <div className='amount_bill'>
+
+          <label htmlFor="amount" className="finance_form_input" id='input_amount'>
+            Amount:{' '}
+          </label>
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            value={formData.amount}
+            placeholder='Finance Amount'
+            onChange={handleChange}
+            className="form_input"
+            required
+          />
+
+          
+
+        <label htmlFor="billCode" className="  finance_form_input" id='input_billCode'>
+          Bill Code:{' '}
+        </label>
+        <input
+          type="text"
+          id="billCode"
+          name="billCode"
+          value={formData.billCode}
+          placeholder='Finance Bill Code'
+          onChange={handleChange}
+          className="form_input"
+          required
+        />
+        </div>
+        </div>
+
+
+<div className='radio_in_out'>
+
+
+        <div className='radio_in'>
             <input
               type="radio"
               id="income"
@@ -66,9 +141,10 @@ function CreateIncome() {
               checked={formData.type === 'income'}
               onChange={handleTypeChange}
             />
-            <label htmlFor="income">Income</label>
+            <label htmlFor="income" className='radio_in_label'>Income</label>
           </div>
-          <div>
+          
+          <div className='radio_out'>
             <input
               type="radio"
               id="outcome"
@@ -77,72 +153,22 @@ function CreateIncome() {
               checked={formData.type === 'outcome'}
               onChange={handleTypeChange}
             />
-            <label htmlFor="outcome">Outcome</label>
+            <label htmlFor="outcome" className='radio_out_label'>Outcome</label>
           </div>
-        </div>
 
-        <label htmlFor="title" className="form-label">
-          Title:{' '}
-        </label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          className="form-input"
-          required
-        />
-        <br />
+          </div>
 
-        <div className="create_id_dob">
-          <label htmlFor="description" className="form-label">
-            Description:{' '}
-          </label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="form-input"
-          />
-          <br />
 
-          <label htmlFor="birthday" className="form-label">
-            Amount:{' '}
-          </label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            value={formData.amount}
-            onChange={handleChange}
-            className="form-input"
-            required
-          />
-          <br />
-        </div>
+        
 
-        <label htmlFor="email" className="form-label">
-          Bill Code:{' '}
-        </label>
-        <input
-          type="text"
-          id="billCode"
-          name="billCode"
-          value={formData.billCode}
-          onChange={handleChange}
-          className="form-input"
-          required
-        />
-        <br />
-
-        <div className="button-container">
-          <Link to="/home/financial-manager/finance-list" className="create_submit">
-            BackToList
+        <div className="finance_group_button">
+          <Link to="/home/financial-manager/finance-list" className="btn_back">
+            BACK
           </Link>
-          <input type="submit" value="CREATE" className="create_submit" />
+          
+
+         <input type="submit" value="CREATE" className="btn_create" />
+
         </div>
       </form>
     </div>
