@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './FinanceList.css';
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Button } from '@mui/material';
@@ -81,7 +81,7 @@ const FinanceList = () => {
     return {};
   };
 
-  
+
   function ViewOutcomeDetail(id) {
     navigate("/home/financial-manager/outcome-detail?id=" + id);
   }
@@ -92,46 +92,9 @@ const FinanceList = () => {
 
   //===================================
 
-const DeleteIncome = async (id) => {
-  try {
-    
-    const confirmDelete = await Swal.fire({
-      title: 'You want to delete ?',
-      icon: 'question',
-      showCancelButton: true,
-      cancelButtonColor: '#DD0000',
-      confirmButtonText: 'Xóa',
-      cancelButtonText: 'Hủy',
-    });
-
-    if (!confirmDelete.isConfirmed) return;
-
-    const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
-
-    
-    if (response.status === 200) {
-    
-      await Swal.fire({
-        icon: 'success',
-        title: 'Delete Successfully !!!',
-        showConfirmButton: true,
-      });
-      window.location.href = '/home/financial-manager/finance-list';
-    }
-  } catch (error) {
-    console.log(error);
-    await Swal.fire({
-      icon: 'error',
-      title: 'Delete Unsuccessfully !!!',
-      showConfirmButton: true,
-    });
-  }
-};
-
-
-  const DeleteOutcome = async (id) => {
+  const DeleteIncome = async (id) => {
     try {
-      
+
       const confirmDelete = await Swal.fire({
         title: 'You want to delete ?',
         icon: 'question',
@@ -140,14 +103,51 @@ const DeleteIncome = async (id) => {
         confirmButtonText: 'Xóa',
         cancelButtonText: 'Hủy',
       });
-  
+
       if (!confirmDelete.isConfirmed) return;
-  
-      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
-  
-      
+
+      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
+
+
       if (response.status === 200) {
-      
+
+        await Swal.fire({
+          icon: 'success',
+          title: 'Delete Successfully !!!',
+          showConfirmButton: true,
+        });
+        window.location.href = '/home/financial-manager/finance-list';
+      }
+    } catch (error) {
+      console.log(error);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Delete Unsuccessfully !!!',
+        showConfirmButton: true,
+      });
+    }
+  };
+
+
+  const DeleteOutcome = async (id) => {
+    try {
+
+      const confirmDelete = await Swal.fire({
+        title: 'You want to delete ?',
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonColor: '#DD0000',
+        confirmButtonText: 'Xóa',
+        cancelButtonText: 'Hủy',
+      });
+
+      if (!confirmDelete.isConfirmed) return;
+
+      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
+
+
+      if (response.status === 200) {
+
         Swal.fire({
           icon: 'success',
           title: 'Delete Successfully !!!',
@@ -155,7 +155,7 @@ const DeleteIncome = async (id) => {
         }).then(() => {
           window.location.href = '/home/financial-manager/finance-list';
         });
-      
+
         setData(data.filter(item => item.id !== id));
       }
     } catch (error) {
@@ -167,7 +167,7 @@ const DeleteIncome = async (id) => {
       });
     }
   };
-  
+
   //===================================
 
   return (
@@ -177,6 +177,10 @@ const DeleteIncome = async (id) => {
       <div className='create_finance_top'>
         <Link to="/home/">
           <button className='finance_home'><span>BACK TO HOME</span></button>
+        </Link>
+
+        <Link to="/home/financial-manager/balance">
+          <button className='finance_home'><span>View balance</span></button>
         </Link>
 
         <Link to="/home/financial-manager/create-finance" className='finance_create_button'>
@@ -199,8 +203,8 @@ const DeleteIncome = async (id) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
-            <tr key={item.id}>
+          {data.map((item,index) => (
+            <tr key={index}>
               <td style={getTypeStyle(item.type)}>{item.type}</td>
               <td>{item.billCode}</td>
               <td>{item.title}</td>
@@ -209,7 +213,7 @@ const DeleteIncome = async (id) => {
               <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
               <td>
                 <Button
-                  onClick={() => {item.type === 'Outcome' ? ViewOutcomeDetail(item.id) : ViewIncomeDetail(item.id)}}
+                  onClick={() => { item.type === 'Outcome' ? ViewOutcomeDetail(item.id) : ViewIncomeDetail(item.id) }}
                   variant="outlined"
                   size="small"
                   className="detail-button"
@@ -218,24 +222,24 @@ const DeleteIncome = async (id) => {
                 </Button>
               </td>
               <td>
-  {item.financeStatus === 0 || item.financeStatus === 3 ? (
-    <Button
-      onClick={() => {
-        if (item.type === 'Outcome') {
-          DeleteOutcome(item.id);
-        } else if (item.type === 'Income') {
-          DeleteIncome(item.id);
-        }
-      }}
-      size="small"
-      className="delete-button" 
-    >
-      <span><ion-icon name="trash-outline"></ion-icon></span>
-    </Button>
-  ) : (
-    <span>Can't delete</span>
-  )}
-</td>
+                {item.financeStatus === 0 || item.financeStatus === 3 ? (
+                  <Button
+                    onClick={() => {
+                      if (item.type === 'Outcome') {
+                        DeleteOutcome(item.id);
+                      } else if (item.type === 'Income') {
+                        DeleteIncome(item.id);
+                      }
+                    }}
+                    size="small"
+                    className="delete-button"
+                  >
+                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                  </Button>
+                ) : (
+                  <span>Can't delete</span>
+                )}
+              </td>
 
             </tr>
           ))}

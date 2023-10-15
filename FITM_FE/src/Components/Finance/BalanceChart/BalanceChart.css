@@ -1,0 +1,34 @@
+.balance-container{
+    background-color: rgb(240,248,255);
+}
+.balance-buttons-container{
+    display: flex;
+    align-items: center; 
+    margin-top: 10px ;
+}
+.balance-buttons-container label, input{
+    margin-right: 5px;
+}
+.balance-apply-button{
+    height: 70%;
+    font-size: 12px;
+    padding: 3px; 
+}
+.balance-select-button{
+    position: absolute;
+    right: 5%;
+    top: 80px; 
+}
+.balance-select-button .select-button,
+.balance-select-button .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10px ;
+    padding-right: 32px;
+}
+.balance-waiting {
+    margin-top: 50px;
+}
+.chart-container{
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 0 auto;
+}

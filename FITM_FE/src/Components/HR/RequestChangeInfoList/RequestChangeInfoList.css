@@ -63,3 +63,14 @@
   .MuiTableCell-root.Accepted {
     color: green;
   }
+
+  .select-container .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+    padding: 0px ;
+  }
+  .select-container{
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  .menu-container{
+    display: flex;
+  }

@@ -47,6 +47,13 @@ namespace FITM_BE.Controllers
             return await query.GetGridResult(query, paggingDto);
         }
 
+        [HttpGet]
+        [Authorize]
+        public  IQueryable<ProfileDto> ExportMembers()
+        {
+            return  _memberService.getAllProfile();
+        }
+
         [HttpPost]
         [Authorize]
         public Task<ProfileDto> ChangeStatus(int id) 
