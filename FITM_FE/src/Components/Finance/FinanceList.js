@@ -222,25 +222,25 @@ const FinanceList = () => {
                 </Button>
               </td>
               <td>
-                {item.financeStatus === 0 || item.financeStatus === 3 ? (
-                  <Button
-                    onClick={() => {
-                      if (item.type === 'Outcome') {
-                        DeleteOutcome(item.id);
-                      } else if (item.type === 'Income') {
-                        DeleteIncome(item.id);
-                      }
-                    }}
-                    size="small"
-                    className="delete-button"
-                  >
-                    <span><ion-icon name="trash-outline"></ion-icon></span>
-                  </Button>
-                ) : (
-                  <span>Can't delete</span>
-                )}
-              </td>
 
+  {item.financeStatus === 0 || item.financeStatus === 1 || item.financeStatus === 3 ? (
+    <Button
+      onClick={() => {
+        if (item.type === 'Outcome') {
+          DeleteOutcome(item.id);
+        } else if (item.type === 'Income') {
+          DeleteIncome(item.id);
+        }
+      }}
+      size="small"
+      className="delete-button" 
+    >
+      <span><ion-icon name="trash-outline"></ion-icon></span>
+    </Button>
+  ) : (
+    <span>Can't delete</span>
+  )}
+</td>
             </tr>
           ))}
         </tbody>

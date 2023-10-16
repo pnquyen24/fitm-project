@@ -175,14 +175,13 @@ function OutcomeDetail() {
                             </div>
 
 
-<div className='id_title'>
                             <div className='each_row_info'>
                               <label className='span_title'>ID: </label> <span className='span_info'>{outcome.id}</span>
                             </div>
 
-                            <div>
-                            <div>
-                                    <label className='title'>Title: </label>
+                            
+                            <div className='each_row_info'>
+                                    <label className='span_title'>Title: </label>
                                     <lable className='span_info'>
                                      {isEditing ? (
                                         <input
@@ -198,8 +197,8 @@ function OutcomeDetail() {
                                     </lable>
                                 </div>
 
-                                </div>
-                                </div>
+                                
+
 
 
                                 <div className='each_row_info'>

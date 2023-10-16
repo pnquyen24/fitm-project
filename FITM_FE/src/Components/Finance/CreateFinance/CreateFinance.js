@@ -120,7 +120,8 @@ function CreateIncome() {
           id="billCode"
           name="billCode"
           value={formData.billCode}
-          placeholder='Finance Bill Code'
+          maxLength={10}
+          placeholder='Max 10 digits'
           onChange={handleChange}
           className="form_input"
           required

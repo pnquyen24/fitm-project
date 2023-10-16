@@ -175,14 +175,13 @@ function IncomeDetail() {
                             </div>
 
 
-<div className='id_title'>
                             <div className='each_row_info'>
                               <label className='span_title'>ID: </label> <span className='span_info'>{income.id}</span>
                             </div>
 
-                            <div>
-                            <div>
-                                    <label className='title'>Title: </label>
+                            
+                            <div className='each_row_info'>
+                                    <label className='span_title'>Title: </label>
                                     <lable className='span_info'>
                                      {isEditing ? (
                                         <input
@@ -196,10 +195,10 @@ function IncomeDetail() {
                                         income.title
                                     )}
                                     </lable>
-                                </div>
+                              
 
                                 </div>
-                                </div>
+                                
 
 
                                 <div className='each_row_info'>
@@ -259,6 +258,7 @@ function IncomeDetail() {
                                         <input
                                             type="text"
                                             value={tempIncome.billCode}
+                                            maxLength={10}
                                             onChange={(e) =>
                                                 setTempIncome({ ...tempIncome, billCode: e.target.value })
                                             }
