@@ -252,7 +252,7 @@ const FinanceRequestList = () => {
 
 
               <td>
-                {item.financeStatus !== 1 ? (
+                {item.financeStatus === 3 ? (
                   <Button
                     onClick={() => {
                       if (item.type === 'Outcome') {

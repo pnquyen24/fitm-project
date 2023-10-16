@@ -218,7 +218,7 @@ const DeleteIncome = async (id) => {
                 </Button>
               </td>
               <td>
-  {item.financeStatus === 0 || item.financeStatus === 3 ? (
+  {item.financeStatus === 0 || item.financeStatus === 1 || item.financeStatus === 3 ? (
     <Button
       onClick={() => {
         if (item.type === 'Outcome') {

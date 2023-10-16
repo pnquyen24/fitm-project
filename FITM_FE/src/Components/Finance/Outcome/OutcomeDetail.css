@@ -11,7 +11,7 @@
         
   .visiting_card h4 {
     font-size: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     text-align: center;
     font-weight: bold;
     margin-top: 10px;
@@ -106,17 +106,6 @@
   .span_info {
     font-size: 16px;
     margin-left: 10px;
-  }
-
-  .id_title {
-    display: flex;
-  }
-
-  .title {
-    font-weight: bold;
-    margin-left: 170px;
-    font-size: 18px;
-    color: rgba(0,0,0,.5);
   }
 
   .bill_title {
