@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./MemberList.css";
-import MailIcon from "@mui/icons-material/Mail";
+import * as XLSX from 'xlsx';
 import Button from "@mui/material/Button";
+import { FormControl, Select, MenuItem } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import {
   Table,
@@ -16,6 +17,7 @@ import {
 
 function MemberList() {
   const [memberList, setMemberList] = useState([]);
+  const [allMember, setAllMember] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [pageSize] = useState(9);
@@ -24,6 +26,7 @@ function MemberList() {
   const [filterItems] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
+  let [option, setOption] = useState('All');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +48,7 @@ function MemberList() {
       .post("https://localhost:7226/apis/Member/GetAllPagging", requestData)
       .then((response) => {
         setMemberList(response.data.results);
+        getAllMember();
         setTotal(response.data.total);
       })
       .catch((error) => {
@@ -54,25 +58,71 @@ function MemberList() {
       });
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
+    function getAllMember() {
+    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+    axios
+        .get("https://localhost:7226/apis/Member/ExportMembers")
+        .then((response) => {
+            setAllMember(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+  
+const handleDownload =  () => {
+   getAllMember(); 
+  if (allMember.length != 0) {
+      const ws = XLSX.utils.json_to_sheet(allMember);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'MemberData');
+      XLSX.writeFile(wb, 'FIT-members.xlsx');
+  }
+  else alert("Data is null");
+};
+
   function viewDetail(id) {
     navigate("/home/member-manager/member-profile?id=" + id);
   }
   function addMember() {
     navigate("/home/member-manager/create-member");
   }
+
+  const handleChange = (event) => {
+    setOption(event.target.value);
+  };
+
   return (
     <div className="container">
       <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="search-input"
-        />
-        <Button  onClick={() => addMember()} variant="outlined"size="small" sx={{}} className="detail-button create-member ">Add Member</Button>
+        <div className="menu-container">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="search-input"
+          />
+          <div className="select-container">
+            <FormControl>
+              <Select  value={option} onChange={handleChange}>
+                <MenuItem value="Active" style={{color:"green"}}>Active</MenuItem>
+                <MenuItem value="Inactive" style={{color:"red"}}>Inactive</MenuItem>
+                <MenuItem value="All">All</MenuItem>
+              </Select>
+            </FormControl>
+          </div> 
+          <div className="member-download-button">
+                <Button variant="contained" color="success" onClick={handleDownload}>Download As Excel</Button>
+            </div>
+          <div className="create-member">
+           <Button onClick={() => addMember()} variant="outlined" size="small" sx={{}} className="detail-button">Add Member</Button>
+          </div>
+          
+        </div>  
       </div>
-      
+
       <div>
         {loading ? (
           <div className="loading">Loading...</div>
@@ -93,7 +143,7 @@ function MemberList() {
               <TableBody>
                 {memberList.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{index +1}</TableCell>
+                    <TableCell>{(index + 1) + (page - 1) * pageSize}</TableCell>
                     <TableCell>{request.fullName}</TableCell>
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>

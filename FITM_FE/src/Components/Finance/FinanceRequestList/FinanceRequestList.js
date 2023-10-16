@@ -233,8 +233,8 @@ const FinanceRequestList = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
-            <tr key={item.id}>
+          {data.map((item,index) => (
+            <tr key={index}>
               <td style={getTypeStyle(item.type)}>{item.type}</td>
               <td>{item.title}</td>
               <td>{item.amount}</td>

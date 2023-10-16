@@ -3,6 +3,7 @@ import axios from 'axios';
 import "./RequestChangeInfoList.css";
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import { FormControl, Select, MenuItem } from '@mui/material';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, TablePagination } from '@mui/material';
 
 
@@ -17,6 +18,7 @@ function RequestChangeInfoList() {
   const [filterItems] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(false);
+  let [option, setOption] = useState('All');
   const navigate = useNavigate();
   const status = {
     0: "Pending",
@@ -51,19 +53,33 @@ function RequestChangeInfoList() {
       });
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
+  const handleChange = (event) => {
+    setOption(event.target.value);
+  };
+
   function viewDetail(id) {
     navigate("/home/member-manager/request-details?id=" + id)
   }
   return (
     <div className="container">
-      <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="search-input"
-        />
+      <div className="menu-container">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="search-input"
+          />
+          <div className="select-container">
+            <FormControl>
+              <Select value={option} onChange={handleChange}>
+                <MenuItem value="Pending">Pending</MenuItem>
+                <MenuItem value="Accepted">Accepted</MenuItem>
+                <MenuItem value="Denied">Denied</MenuItem>
+                <MenuItem value="All">ALL</MenuItem>
+              </Select>
+            </FormControl>
+          </div> 
       </div>
       <div>
         {loading ? (
@@ -84,7 +100,7 @@ function RequestChangeInfoList() {
               <TableBody>
                 {memberList.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{(index+1)+ (page-1)*pageSize}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>

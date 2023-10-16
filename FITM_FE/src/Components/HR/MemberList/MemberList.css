@@ -55,10 +55,28 @@
   margin-right: 20px;
 }
 
-.create-member{
-  float: right;
-  margin-top: 5px !important;
-  background-color:rgb(67,130,218) !important;
-  color: white !important;
-  margin-right:  12px !important;
+.select-container .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 0px ;
+}
+.select-container{
+  margin-left: 10px;
+  height: 20px;
+  border-radius: 3px;
+  background-color: rgb(240,248,255);
+}
+
+.menu-container{
+  display: flex;
+}
+.create-member .css-1k23hlb-MuiButtonBase-root-MuiButton-root{
+  float: right ;
+  right: 3.5%;
+  margin-top: 5px ;
+  background-color:rgb(67,130,218) ;
+  color: white ;
+  margin-right:  12px ;
+  position: absolute;
+}
+.member-download-button{
+  margin-left: 10px;
 }
