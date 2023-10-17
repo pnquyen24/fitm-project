@@ -17,6 +17,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./Variable/Redux/store";
+import AttendancePractical from "./Components/SpecialisedManager/AttendancePractical";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -55,6 +56,10 @@ root.render(
                             />
                         </Route>
                         <Route path="schedule" element={<Schedule />} />
+                        <Route
+                            path="attendance"
+                            element={<AttendancePractical />}
+                        />
                         <Route
                             path="changepassword"
                             element={<ChangePassword />}
