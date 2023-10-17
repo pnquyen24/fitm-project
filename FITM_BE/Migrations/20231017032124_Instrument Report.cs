@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FITM_BE.Migrations
 {
+    /// <inheritdoc />
     public partial class InstrumentReport : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -38,8 +40,24 @@ namespace FITM_BE.Migrations
                         principalTable: "Members",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InstrumentReports_CreatedById",
+                table: "InstrumentReports",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InstrumentReports_MemberID",
+                table: "InstrumentReports",
+                column: "MemberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InstrumentReports_ModifiedById",
+                table: "InstrumentReports",
+                column: "ModifiedById");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

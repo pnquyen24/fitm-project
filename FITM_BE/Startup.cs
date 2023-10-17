@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using NLog;
 using FITM_BE.Util;
+using FITM_BE.EntityFrameworkCore.Seed;
 
 namespace FITM_BE
 {
