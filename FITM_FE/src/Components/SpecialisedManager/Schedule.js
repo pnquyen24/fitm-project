@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import ModalSchedule from "./ModalSchedule";
 import "./Schedule.css";
 import { fetchSchedules, getScheduleError, getScheduleStatus, selectAllSchedules, updateSchedule } from "./scheduleSlice";
-import UseOpenClosed from "./useOpenClosed";
+import UseOpenClosed from "./useOpenClosed"
 import { useDispatch, useSelector } from "react-redux";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 

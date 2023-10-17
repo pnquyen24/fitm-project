@@ -15,10 +15,14 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Member Management', Icon: 'person-outline', Link: "/member-manager/member-list"},
     { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "/member-manager/request-edit-info-list" },
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/profile" },
-    { Title: 'Plan', Icon: 'calendar-outline' , Link: "/profile"},
+    { Title: 'Plan', Icon: 'list-circle-outline' , Link: "/profile"},
     { Title: 'Add show', Icon: 'add-circle-outline', Link: "/profile" },
-    { Title: 'Practical Schedule', Icon: 'calendar', Link: "/practicalSchedule" },
+    { Title: 'Practical Schedule', Icon: 'calendar-outline', Link: "/practicalSchedule" },
     { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/music-list" },
+    { Title: 'Instrument Report', Icon: 'warning-outline', Link: "/report-instrument" },
+    { Title: 'Instrument Report Management', Icon: 'file-tray-full-outline', Link: "/instrument-report-management" },
+
+
     ]; 
   useEffect(() => {
   },[Color])
