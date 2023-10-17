@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FITM_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseCreation : Migration
+    public partial class AddSong : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PracticalSchedules",
+                name: "Songs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Room = table.Column<int>(type: "int", maxLength: 3, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    LinkBeat = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    LinkSheet = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    BackgroundImg = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedById = table.Column<int>(type: "int", nullable: true),
@@ -30,40 +30,40 @@ namespace FITM_BE.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PracticalSchedules", x => x.Id);
+                    table.PrimaryKey("PK_Songs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PracticalSchedules_Members_CreatedById",
+                        name: "FK_Songs_Members_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Members",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PracticalSchedules_Members_ModifiedById",
+                        name: "FK_Songs_Members_ModifiedById",
                         column: x => x.ModifiedById,
                         principalTable: "Members",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PracticalSchedules_CreatedById",
-                table: "PracticalSchedules",
+                name: "IX_Songs_CreatedById",
+                table: "Songs",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PracticalSchedules_ModifiedById",
-                table: "PracticalSchedules",
+                name: "IX_Songs_ModifiedById",
+                table: "Songs",
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PracticalSchedules_StartDate",
-                table: "PracticalSchedules",
-                column: "StartDate");
+                name: "IX_Songs_Name",
+                table: "Songs",
+                column: "Name");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PracticalSchedules");
+                name: "Songs");
         }
     }
 }

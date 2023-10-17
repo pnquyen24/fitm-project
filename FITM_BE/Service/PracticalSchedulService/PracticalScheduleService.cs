@@ -39,8 +39,6 @@ namespace FITM_BE.Service.PracticalSchedulService
             schedule.StartDate = practicalScheduleDto.StartDate;
             schedule.EndDate = practicalScheduleDto.EndDate;
             schedule.Room = practicalScheduleDto.Room;
-            schedule.BackgroundColor = practicalScheduleDto.BackgroundColor;
-            schedule.TextColor = practicalScheduleDto.TextColor;
             PracticalSchedule newSchedule = await _repository.Update(schedule);
             return _mapper.Map<PracticalScheduleDto>(newSchedule);
         }

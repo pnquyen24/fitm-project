@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import "./RequestChangeInfoList.css";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Button from '@mui/material/Button';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, TablePagination } from '@mui/material';
+import "./RequestChangeInfoList.css";
 
 
 
@@ -52,7 +52,7 @@ function RequestChangeInfoList() {
   }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
-    navigate("/home/member-manager/request-details?id=" + id)
+    navigate("/member-manager/request-details?id=" + id)
   }
   return (
     <div className="container">
