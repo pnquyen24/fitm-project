@@ -9,6 +9,15 @@ import { Button } from '@mui/material';
 const FinanceList = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [pageSize] = useState(9);
+  const [sort] = useState("");
+  const [sortDirection] = useState(0);
+  const [filterItems] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
+  let [option, setOption] = useState('All');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -246,6 +255,69 @@ const FinanceList = () => {
         </tbody>
       </table>
 
+
+      <div className="button-container">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="pagination-button sub-button"
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={() => setPage(page - 2)}
+          className="pagination-button sub-button"
+          style={{ display: page - 2 > 0 ? "block" : "none" }}
+        >
+          Page {page - 2}
+        </button>
+
+        <button
+          onClick={() => setPage(page - 1)}
+          className="pagination-button sub-button"
+          style={{ display: page - 1 > 0 ? "block" : "none" }}
+        >
+          Page {page - 1}
+        </button>
+
+        <button
+          className="pagination-button sub-button main-page"
+        >
+          Page {page}
+        </button>
+
+        <button
+          onClick={() => setPage(page + 1)}
+          className="pagination-button sub-button"
+          style={{ display: pageSize * page < total ? "block" : "none" }}
+        >
+          Page {page + 1}
+        </button>
+
+        <button
+          onClick={() => setPage(page + 2)}
+          className="pagination-button sub-button"
+          style={{ display: pageSize * (page + 1) < total ? "block" : "none" }}
+        >
+          Page {page + 2}
+        </button>
+
+        <button
+          onClick={() => setPage(page + 1)}
+          disabled={pageSize * page > total}
+          className="pagination-button sub-button"
+        >
+          Next Page
+        </button>
+
+        <button
+          onClick={() => setPage(Math.ceil(total / pageSize))}
+          disabled={pageSize * page > total}
+          className="pagination-button sub-button"
+        >
+          Last Page
+        </button>
+      </div>
     </div>
   );
 };

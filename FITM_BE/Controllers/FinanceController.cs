@@ -153,6 +153,20 @@ namespace FITM_BE.Controllers
             return acceptOutcome;
         }
 
+        [HttpGet]
+        public Task<CreateOutcomeDto> GetFinanceReport()
+        {
+            var acceptOutcome = _financeService.GetFinanceReport();
+            return null;
+        }
 
+        //==================================== 
+
+        [HttpPost]
+        public async Task<PaggingResultDto<BalanceDto>> GetAllFinancePagging(PaggingDto paggingDto)
+        {
+            var query = _financeService.GetFinanceReport();
+            return await query.GetGridResult(paggingDto);
+        }
     }
 }
