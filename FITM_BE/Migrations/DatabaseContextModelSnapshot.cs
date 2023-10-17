@@ -259,37 +259,63 @@ namespace FITM_BE.Migrations
                     b.ToTable("RequestEditInfo");
                 });
 
-            modelBuilder.Entity("FITM_BE.Entity.AttendancePractical", b =>
+            modelBuilder.Entity("FITM_BE.Entity.Song", b =>
                 {
-                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasOne("FITM_BE.Entity.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.HasOne("FITM_BE.Entity.PracticalSchedule", "PracticalSchedule")
-                        .WithMany()
-                        .HasForeignKey("PracticalScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("BackgroundImg")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Navigation("CreatedBy");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Navigation("Member");
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
 
-                    b.Navigation("ModifyBy");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Navigation("PracticalSchedule");
+                    b.Property<string>("LinkBeat")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("LinkSheet")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("ModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("Songs");
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.Member", b =>
@@ -327,6 +353,23 @@ namespace FITM_BE.Migrations
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.RequestEditInfo", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifyBy");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.Song", b =>
                 {
                     b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
                         .WithMany()

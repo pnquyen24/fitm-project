@@ -22,7 +22,7 @@ namespace FITM_BE.Controllers
         public IQueryable<PracticalScheduleDto> ViewPracticalSchedules()
         {
             return _practicalScheduleService.ViewPracticalSchedules();
-        }
+        }   
 
         [HttpGet]
         public async Task<IActionResult> GetPracticalSchedule(int id)

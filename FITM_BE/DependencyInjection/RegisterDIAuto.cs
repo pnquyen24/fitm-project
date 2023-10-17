@@ -4,10 +4,20 @@ namespace FITM_BE.DependencyInjection
 {
     public static class RegisterDIAuto
     {
+        private static readonly string[] specialService =
+        {
+            "Repository",
+            "Authentication",
+            "EmailSender",
+            "LoggerManager",
+            "SeedingData"
+        };
+
         public static void AddDIAuto(this IServiceCollection services)
         {
             var tes = services.RegisterAssemblyPublicNonGenericClasses()
-                    .Where(service => service.Name.EndsWith("Service") || service.Name.Equals("Repository") || service.Name.Equals("Authentication") || service.Name.Equals("EmailSender") || service.Name.Equals("LoggerManager"))
+                    .Where(service => service.Name.EndsWith("Service")
+                    || specialService.Contains(service.Name))
                     .AsPublicImplementedInterfaces();
         }
     }

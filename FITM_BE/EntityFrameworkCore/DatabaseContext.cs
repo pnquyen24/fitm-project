@@ -9,16 +9,9 @@ namespace FITM_BE.EntityFrameworkCore
         {
         }
 
-        protected DatabaseContext()
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        }
-
         public DbSet<Member> Members { get; set; }
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
+        public DbSet<Song> Songs { get; set; }
         public DbSet<PracticalSchedule> PracticalSchedules { get; set; }
         public DbSet<AttendancePractical> AttendancePracticals { get; set; }
     }

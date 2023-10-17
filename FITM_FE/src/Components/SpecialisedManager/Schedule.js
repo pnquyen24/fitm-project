@@ -268,6 +268,12 @@ function Schedule() {
                         listPlugin,
                         interactionPlugin,
                     ]}
+                    initialView="dayGridMonth"
+                    headerToolbar={{
+                        left: "prev,next today",
+                        center: "title",
+                        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+                    }}
                     events={processReduxData(schedules)}
                     select={handleSelect}
                     eventClick={handleEventClick}

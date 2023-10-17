@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./MemberList.css";
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 import {
-    Table,
-    TableContainer,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Paper,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
+import Button from "@mui/material/Button";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./MemberList.css";
 
 function MemberList() {
     const [memberList, setMemberList] = useState([]);
@@ -55,112 +55,84 @@ function MemberList() {
             });
     }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
-    function viewDetail(id) {
-        navigate("/home/member-manager/member-profile?id=" + id);
-    }
-    function addMember() {
-        navigate("/home/member-manager/create-member");
-    }
-    return (
-        <div className="container_memberList">
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    className="search-input"
-                />
-                <Button
-                    onClick={() => addMember()}
-                    variant="outlined"
-                    size="small"
-                    sx={{}}
-                    className="detail-button create-member "
-                >
-                    Add Member
-                </Button>
-            </div>
-
-            <div>
-                {loading ? (
-                    <div className="loading">Loading...</div>
-                ) : (
-                    <TableContainer
-                        component={Paper}
-                        className="TableContainer"
-                    >
-                        <Table>
-                            <TableHead className="TableHead">
-                                <TableRow>
-                                    <TableCell>#</TableCell>
-                                    <TableCell>FullName</TableCell>
-                                    <TableCell>UserName</TableCell>
-                                    <TableCell>StudentID</TableCell>
-                                    <TableCell>Mail</TableCell>
-                                    <TableCell>Status</TableCell>
-                                    <TableCell>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {memberList.map((request, index) => (
-                                    <TableRow key={request.id}>
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>
-                                            {request.fullName}
-                                        </TableCell>
-                                        <TableCell>
-                                            {request.username}
-                                        </TableCell>
-                                        <TableCell>
-                                            {request.studentID}
-                                        </TableCell>
-                                        <TableCell>{request.email}</TableCell>
-                                        <TableCell
-                                            style={{
-                                                color: request.status
-                                                    ? "green"
-                                                    : "red",
-                                            }}
-                                        >
-                                            {request.status
-                                                ? "Active"
-                                                : "Inactive"}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button
-                                                onClick={() =>
-                                                    viewDetail(request.id)
-                                                }
-                                                variant="outlined"
-                                                size="small"
-                                                className="detail-button"
-                                            >
-                                                View Detail
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )}
-            </div>
-            <div className="button-container">
-                <button
-                    onClick={() => setPage(page - 1)}
-                    disabled={page === 1}
-                    className="pagination-button sub-button"
-                >
-                    Previous Page
-                </button>
-                <button
-                    onClick={() => setPage(page - 2)}
-                    className="pagination-button sub-button"
-                    style={{ display: page - 2 > 0 ? "block" : "none" }}
-                >
-                    Page {page - 2}
-                </button>
+  function viewDetail(id) {
+    navigate("/member-manager/member-profile?id=" + id);
+  }
+  function addMember() {
+    navigate("/member-manager/create-member");
+  }
+  return (
+    <div className="container">
+      <div>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="search-input"
+        />
+        <Button  onClick={() => addMember()} variant="outlined"size="small" sx={{}} className="detail-button create-member ">Add Member</Button>
+      </div>
+      
+      <div>
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <TableContainer component={Paper} className="TableContainer">
+            <Table>
+              <TableHead className="TableHead">
+                <TableRow>
+                  <TableCell>#</TableCell>
+                  <TableCell>FullName</TableCell>
+                  <TableCell>UserName</TableCell>
+                  <TableCell>StudentID</TableCell>
+                  <TableCell>Mail</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {memberList.map((request, index) => (
+                  <TableRow key={request.id}>
+                    <TableCell>{index +1}</TableCell>
+                    <TableCell>{request.fullName}</TableCell>
+                    <TableCell>{request.username}</TableCell>
+                    <TableCell>{request.studentID}</TableCell>
+                    <TableCell>{request.email}</TableCell>
+                    <TableCell style={{ color: request.status ? 'green' : 'red' }}>
+                      {request.status ? 'Active' : 'Inactive'}</TableCell>
+                    <TableCell>
+                      <Button
+                        onClick={() => viewDetail(request.id)}
+                        variant="outlined"
+                        size="small"
+                        className="detail-button"
+                      >
+                        View Detail
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </div>
+      <div className="button-container">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="pagination-button sub-button"
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={() => setPage(page - 2)}
+          className="pagination-button sub-button"
+          style={{ display: page - 2 > 0 ? "block" : "none" }}
+        >
+          Page {page - 2}
+        </button>
 
                 <button
                     onClick={() => setPage(page - 1)}

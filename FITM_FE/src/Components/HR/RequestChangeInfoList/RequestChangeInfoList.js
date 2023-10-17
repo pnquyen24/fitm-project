@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./RequestChangeInfoList.css";
-import Button from "@mui/material/Button";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import Button from '@mui/material/Button';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import {
-    Table,
-    TableContainer,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Paper,
-} from "@mui/material";
+import "./RequestChangeInfoList.css";
 
 function RequestChangeInfoList() {
     const [memberList, setMemberList] = useState([]);
@@ -62,95 +54,69 @@ function RequestChangeInfoList() {
             });
     }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
-    function viewDetail(id) {
-        navigate("/home/member-manager/request-details?id=" + id);
-    }
-    return (
-        <div className="container_RequestChangeInfo">
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    className="search-input"
-                />
-            </div>
-            <div>
-                {loading ? (
-                    <div className="loading">Loading...</div>
-                ) : (
-                    <TableContainer
-                        component={Paper}
-                        className="TableContainer"
-                    >
-                        <Table>
-                            <TableHead className="TableHead">
-                                <TableRow>
-                                    <TableCell>#</TableCell>
-                                    <TableCell>Created By</TableCell>
-                                    <TableCell>StudentID</TableCell>
-                                    <TableCell>Created Date</TableCell>
-                                    <TableCell>Status</TableCell>
-                                    <TableCell>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {memberList.map((request, index) => (
-                                    <TableRow key={request.id}>
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>
-                                            {request.createdBy}
-                                        </TableCell>
-                                        <TableCell>
-                                            {request.studentID}
-                                        </TableCell>
-                                        <TableCell>
-                                            {new Date(
-                                                request.createdTime
-                                            ).toLocaleDateString()}
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${
-                                                status[request.status]
-                                            }`}
-                                        >
-                                            {status[request.status]}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button
-                                                onClick={() =>
-                                                    viewDetail(request.id)
-                                                }
-                                                variant="outlined"
-                                                size="small"
-                                                className="detail-button"
-                                            >
-                                                View Detail
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )}
-            </div>
-            <div className="button-container">
-                <button
-                    onClick={() => setPage(page - 1)}
-                    disabled={page === 1}
-                    className="pagination-button sub-button"
-                >
-                    Previous Page
-                </button>
-                <button
-                    onClick={() => setPage(page - 2)}
-                    className="pagination-button sub-button"
-                    style={{ display: page - 2 > 0 ? "block" : "none" }}
-                >
-                    Page {page - 2}
-                </button>
+  function viewDetail(id) {
+    navigate("/member-manager/request-details?id=" + id)
+  }
+  return (
+    <div className="container">
+      <div>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="search-input"
+        />
+      </div>
+      <div>
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <TableContainer component={Paper} className="TableContainer">
+            <Table>
+              <TableHead className='TableHead'>
+                <TableRow>
+                  <TableCell>#</TableCell>
+                  <TableCell>Created By</TableCell>
+                  <TableCell>StudentID</TableCell>
+                  <TableCell>Created Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {memberList.map((request, index) => (
+                  <TableRow key={request.id}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{request.createdBy}</TableCell>
+                    <TableCell>{request.studentID}</TableCell>
+                    <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>
+                    <TableCell className={`${status[request.status]}`}>{status[request.status]}</TableCell>
+                    <TableCell>
+                      <Button onClick={() => viewDetail(request.id)} variant="outlined" size='small' className='detail-button'>View Detail</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </div>
+      <div className="button-container">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="pagination-button sub-button"
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={() => setPage(page - 2)}
+          className="pagination-button sub-button"
+          style={{ display: (page - 2) > 0 ? "block" : "none" }}
+        >
+          Page {page - 2}
+        </button>
 
                 <button
                     onClick={() => setPage(page - 1)}

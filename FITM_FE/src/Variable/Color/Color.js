@@ -39,22 +39,33 @@ let Colors = [
     },
     {
         // little start
-        color1: "#01011d", //background
-        color2: "#04042e", // field background
-        color3: "#3838aa", // button, ...
-        color4: green, //  hover , active ...
-        color5: "white", //text color
+        color1 : "#01011d", //background
+        color2 : "#080848",  // field background
+        color3 : "#3838aa", // button, ...
+        color4 : green, //  hover , active ...
+        color5 : "white", //text color
+        
     },
     {
         // fire on sky
-        color1: "#f0f8ff", //background
-        color2: "#fff", // field background
-        color3: "#696cff", // button, ...
-        color4: "#ed0b382d", //  hover , active ...
-        color5: "red", //text color
+        color1 : "#f0f8ff", //background
+        color2 : "#fff",  // field background
+        color3 : "#ed0b382d", // button, ...
+        color4 : "#ed0b382d", //  hover , active ...
+        color5 : "red", //text color
     },
+    {
+        // fire on sky
+        color1 : "#f0f8ff", //background
+        color2 : "#fff",  // field background
+        color3 : "#696cff", // button, ...
+        color4 : "#ed0b382d", //  hover , active ...
+        color5 : "red", //text color
+    }
+
 ];
-export let Color = Colors[0];
-export const setColor = (number) => {
+export let Color = Colors[2];
+
+export const setColor = (number) =>{
     Color = Colors[number];
 };
