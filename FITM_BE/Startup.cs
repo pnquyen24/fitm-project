@@ -126,6 +126,12 @@ namespace FITM_BE
                 app.UseSwaggerUI();
             }
 
+            app.ApplicationServices.MigrateDbContext<DatabaseContext>((dbcontext, serviceProvider) =>
+            {
+                var seeding = serviceProvider.GetRequiredService<ISeedingData>();
+                seeding.SeedMember();
+            });
+
             app.UseStaticFiles();
             app.UseRouting();
 
