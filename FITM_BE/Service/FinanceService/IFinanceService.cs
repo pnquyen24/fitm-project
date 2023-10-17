@@ -31,6 +31,6 @@ namespace FITM_BE.Service.FinanceService
 
         public Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId);
 
-        public IEnumerable<BalanceDto> GetFinanceReport();
+        public IEnumerable<FinanceDto> GetFinanceReport();
     }
 }

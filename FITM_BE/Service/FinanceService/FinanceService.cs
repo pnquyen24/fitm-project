@@ -479,18 +479,19 @@ namespace FITM_BE.Service.FinanceService
             return createRequestEditOutcome;
         }
 
-        public IEnumerable<BalanceDto> GetFinanceReport()
+        public IEnumerable<FinanceDto> GetFinanceReport()
         {
             var outcome = _repository.GetAll<Outcome>()
-                .Select(ic => new { Amount = ic.Amount, IsIncome = false, CreatedTime = ic.CreatedTime, Status = ic.FinanceStatus}).OrderBy(ic => ic.Status);
+                .Select(ic => new { Title =ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = false, CreatedTime = ic.CreatedTime, Status = ic.FinanceStatus }).OrderBy(ic => ic.Status);
             var income = _repository.GetAll<Income>()
-                  .Select(ic => new { Amount = ic.Amount, IsIncome = true, CreatedTime = ic.CreatedTime, Status = ic.FinanceStatus }).OrderBy(ic => ic.Status);
+                .Select(ic => new { Title = ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = true, CreatedTime = ic.CreatedTime, Status = ic.FinanceStatus }).OrderBy(ic => ic.Status);
             var mergedData = outcome.Concat(income)
-    .OrderBy(ic => ic.Status).ThenByDescending(c=> c.CreatedTime);
+                .OrderBy(ic => ic.Status).ThenByDescending(c => c.CreatedTime);
 
-            return null;
-
+            // Return the merged data
+            return mergedData.Select(ic => new FinanceDto { Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime});
         }
+
     }
 }
 

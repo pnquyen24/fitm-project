@@ -4,40 +4,42 @@ import './FinanceList.css';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Button } from '@mui/material';
+import { Button, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Pagination } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+});
 
 const FinanceList = () => {
-  const [data, setData] = useState([]);
+  const classes = useStyles();
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [pageSize] = useState(9);
-  const [sort] = useState("");
-  const [sortDirection] = useState(0);
-  const [filterItems] = useState([]);
-  const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
-  let [option, setOption] = useState('All');
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const responseIncome = await fetch('https://localhost:7226/apis/Finance/ViewIncome');
-        const responseOutcome = await fetch('https://localhost:7226/apis/Finance/ViewOutcome');
-        const incomeData = await responseIncome.json();
-        const outcomeData = await responseOutcome.json();
-        const combinedData = [
-          ...incomeData.map((item) => ({ ...item, type: 'Income' })),
-          ...outcomeData.map((item) => ({ ...item, type: 'Outcome' }))
-        ];
-        setData(combinedData);
+        const response = await axios.get(`https://localhost:7226/apis/Finance/GetFinanceReport?page=${page}&pageSize=${pageSize}`);
+        setData(response.data.Items);
+        setTotal(response.data.TotalItems);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
+      setLoading(false);
     };
 
     fetchData();
-  }, []);
+  }, [page, pageSize]);
 
   const getStatusLabel = (status) => {
     if (status === 0) {
@@ -90,73 +92,25 @@ const FinanceList = () => {
     return {};
   };
 
-
-  function ViewOutcomeDetail(id) {
-    navigate("/home/financial-manager/outcome-detail?id=" + id);
+  function viewDetail(id, type) {
+    navigate(`/home/financial-manager/${type.toLowerCase()}-detail?id=${id}`);
   }
 
-  function ViewIncomeDetail(id) {
-    navigate("/home/financial-manager/income-detail?id=" + id);
-  }
+  const handleDelete = async (id, type) => {
+    const confirmDelete = await Swal.fire({
+      title: 'You want to delete ?',
+      icon: 'question',
+      showCancelButton: true,
+      cancelButtonColor: '#DD0000',
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+    });
 
-  //===================================
+    if (!confirmDelete.isConfirmed) return;
 
-  const DeleteIncome = async (id) => {
     try {
-
-      const confirmDelete = await Swal.fire({
-        title: 'You want to delete ?',
-        icon: 'question',
-        showCancelButton: true,
-        cancelButtonColor: '#DD0000',
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy',
-      });
-
-      if (!confirmDelete.isConfirmed) return;
-
-      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`);
-
-
+      const response = await axios.delete(`https://localhost:7226/apis/Finance/Delete${type}?id=${id}`);
       if (response.status === 200) {
-
-        await Swal.fire({
-          icon: 'success',
-          title: 'Delete Successfully !!!',
-          showConfirmButton: true,
-        });
-        window.location.href = '/home/financial-manager/finance-list';
-      }
-    } catch (error) {
-      console.log(error);
-      await Swal.fire({
-        icon: 'error',
-        title: 'Delete Unsuccessfully !!!',
-        showConfirmButton: true,
-      });
-    }
-  };
-
-
-  const DeleteOutcome = async (id) => {
-    try {
-
-      const confirmDelete = await Swal.fire({
-        title: 'You want to delete ?',
-        icon: 'question',
-        showCancelButton: true,
-        cancelButtonColor: '#DD0000',
-        confirmButtonText: 'Xóa',
-        cancelButtonText: 'Hủy',
-      });
-
-      if (!confirmDelete.isConfirmed) return;
-
-      const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
-
-
-      if (response.status === 200) {
-
         Swal.fire({
           icon: 'success',
           title: 'Delete Successfully !!!',
@@ -164,8 +118,7 @@ const FinanceList = () => {
         }).then(() => {
           window.location.href = '/home/financial-manager/finance-list';
         });
-
-        setData(data.filter(item => item.id !== id));
+        setData(data.filter((item) => item.id !== id));
       }
     } catch (error) {
       console.log(error);
@@ -177,7 +130,9 @@ const FinanceList = () => {
     }
   };
 
-  //===================================
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
     <div>
@@ -197,129 +152,70 @@ const FinanceList = () => {
         </Link>
       </div>
 
+      <TableContainer component={Paper}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Type</TableCell>
+              <TableCell>Bill Code</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Detail</TableCell>
+              <TableCell>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={8} align="center">Loading...</TableCell>
+              </TableRow>
+            ) : (
+              data.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell style={getTypeStyle(item.type)}>{item.type}</TableCell>
+                  <TableCell>{item.billCode}</TableCell>
+                  <TableCell>{item.title}</TableCell>
+                  <TableCell>{item.description}</TableCell>
+                  <TableCell>{item.amount}</TableCell>
+                  <TableCell style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      onClick={() => viewDetail(item.id, item.type)}
+                      size="small"
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell>
+                    {item.financeStatus === 0 || item.financeStatus === 1 || item.financeStatus === 3 ? (
+                      <IconButton
+                        onClick={() => handleDelete(item.id, item.type)}
+                        size="small"
+                        color="error"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    ) : (
+                      <span>Can't delete</span>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+          </Table>
+  </TableContainer>
 
-      <table className='finance_table'>
-        <thead className='finance_table_thead'>
-          <tr>
-            <th>Type</th>
-            <th>Bill Code</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Detail</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item,index) => (
-            <tr key={index}>
-              <td style={getTypeStyle(item.type)}>{item.type}</td>
-              <td>{item.billCode}</td>
-              <td>{item.title}</td>
-              <td>{item.description}</td>
-              <td>{item.amount}</td>
-              <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
-              <td>
-                <Button
-                  onClick={() => { item.type === 'Outcome' ? ViewOutcomeDetail(item.id) : ViewIncomeDetail(item.id) }}
-                  variant="outlined"
-                  size="small"
-                  className="detail-button"
-                >
-                  View Detail
-                </Button>
-              </td>
-              <td>
-
-  {item.financeStatus === 0 || item.financeStatus === 1 || item.financeStatus === 3 ? (
-    <Button
-      onClick={() => {
-        if (item.type === 'Outcome') {
-          DeleteOutcome(item.id);
-        } else if (item.type === 'Income') {
-          DeleteIncome(item.id);
-        }
-      }}
-      size="small"
-      className="delete-button" 
-    >
-      <span><ion-icon name="trash-outline"></ion-icon></span>
-    </Button>
-  ) : (
-    <span>Can't delete</span>
-  )}
-</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-
-      <div className="button-container">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className="pagination-button sub-button"
-        >
-          Previous Page
-        </button>
-        <button
-          onClick={() => setPage(page - 2)}
-          className="pagination-button sub-button"
-          style={{ display: page - 2 > 0 ? "block" : "none" }}
-        >
-          Page {page - 2}
-        </button>
-
-        <button
-          onClick={() => setPage(page - 1)}
-          className="pagination-button sub-button"
-          style={{ display: page - 1 > 0 ? "block" : "none" }}
-        >
-          Page {page - 1}
-        </button>
-
-        <button
-          className="pagination-button sub-button main-page"
-        >
-          Page {page}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 1)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * page < total ? "block" : "none" }}
-        >
-          Page {page + 1}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 2)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * (page + 1) < total ? "block" : "none" }}
-        >
-          Page {page + 2}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={pageSize * page > total}
-          className="pagination-button sub-button"
-        >
-          Next Page
-        </button>
-
-        <button
-          onClick={() => setPage(Math.ceil(total / pageSize))}
-          disabled={pageSize * page > total}
-          className="pagination-button sub-button"
-        >
-          Last Page
-        </button>
-      </div>
-    </div>
-  );
+  <Pagination
+    className="pagination"
+    count={Math.ceil(total / pageSize)}
+    page={page}
+    onChange={handleChangePage}
+  />
+</div>
+);
 };
 
 export default FinanceList;
