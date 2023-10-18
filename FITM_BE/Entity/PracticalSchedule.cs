@@ -25,13 +25,5 @@ namespace FITM_BE.Entity
         [Required]
         [StringLength(3)]
         public int Room { get; set; }
-
-        [Required]
-        [StringLength(7)]
-        public string BackgroundColor { get; set; }
-
-        [Required]
-        [StringLength(7)]
-        public string TextColor { get; set; }
     }
 }

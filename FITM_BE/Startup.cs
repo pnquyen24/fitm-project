@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using NLog;
 using FITM_BE.Util;
+using FITM_BE.EntityFrameworkCore.Seed;
 
 namespace FITM_BE
 {
@@ -125,6 +126,12 @@ namespace FITM_BE
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.ApplicationServices.MigrateDbContext<DatabaseContext>((dbcontext, serviceProvider) =>
+            {
+                var seeding = serviceProvider.GetRequiredService<ISeedingData>();
+                seeding.SeedMember();
+            });
 
             app.UseStaticFiles();
             app.UseRouting();

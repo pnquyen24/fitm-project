@@ -39,8 +39,8 @@ function Theme({ Noti = 1 , themeChange, setTheme}) {
         className={`theme-dropDown ${isHide ? "hide" : ""}`}
         style={{ backgroundColor: Color.color5 }}
       >
-        {/**/}
-        {themes.map((theme, index) => (
+        {themes.map((theme, index) => {
+          return (
           <div
             key={index}
             className="theme-choice"
@@ -57,7 +57,8 @@ function Theme({ Noti = 1 , themeChange, setTheme}) {
             ></ion-icon>
             <p> {theme.Theme}</p>
           </div>
-        ))}
+        )
+        })}
       </div>
     </div>
   );

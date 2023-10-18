@@ -17,9 +17,10 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/home/profile" },
     { Title: 'Plan', Icon: 'calendar-outline' , Link: "/home/profile"},
     { Title: 'Add show', Icon: 'add-circle-outline', Link: "/home/profile" },
+    { Title: 'Practical Schedule', Icon: 'calendar', Link: "/practicalSchedule" },
     { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/home/music list" },
-    { Title: 'Finance', Icon: 'cash-outline', Link: "/home/financial-manager/finance-list" },
-    { Title: 'Finance Request List', Icon: 'wallet-outline', Link: "/home/financial-manager/finance-request-list" },
+    { Title: 'Finance', Icon: 'cash-outline', Link: "financial-manager/finance-list" },
+    { Title: 'Finance Request List', Icon: 'wallet-outline', Link: "financial-manager/finance-request-list" },
     ]; 
   useEffect(() => {
   },[Color])
@@ -28,13 +29,14 @@ function SideBar({isOpen, setOpen}) {
     <div className={`sideBar ${isOpen ? "open" : ""}`}  style={{backgroundColor: Color.color2}}>
       <SubInfo></SubInfo>
       {choices.map((choice, index) => (
-        <Link key={index} to={choice.Link} className="sidebar-link"> 
+        <Link key={index} className="sidebar-link"> 
           <Choice
             Title={choice.Title}
             Icon={choice.Icon}
             isOpen={isOpen}
             isSelected={selectedChoice === index}
             onClick={() => handleChoiceClick(index)}
+            _Link={choice.Link}
           ></Choice>
         </Link>
       ))}

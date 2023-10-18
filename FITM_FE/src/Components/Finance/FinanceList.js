@@ -175,15 +175,15 @@ const FinanceList = () => {
       <h1 className='finance_title'>FINANCE REPORT LIST</h1>
 
       <div className='create_finance_top'>
-        <Link to="/home/">
+        <Link to="/">
           <button className='finance_home'><span>BACK TO HOME</span></button>
         </Link>
 
-        <Link to="/home/financial-manager/balance">
+        <Link to="/financial-manager/balance">
           <button className='finance_home'><span>View balance</span></button>
         </Link>
 
-        <Link to="/home/financial-manager/create-finance" className='finance_create_button'>
+        <Link to="/financial-manager/create-finance" className='finance_create_button'>
           <button><span>CREATE FINANCE</span></button>
         </Link>
       </div>
@@ -222,25 +222,25 @@ const FinanceList = () => {
                 </Button>
               </td>
               <td>
+                {item.financeStatus === 0 || item.financeStatus === 3 || item.financeStatus === 1? (
+                  <Button
+                    onClick={() => {
+                      if (item.type === 'Outcome') {
+                        DeleteOutcome(item.id);
+                      } else if (item.type === 'Income') {
+                        DeleteIncome(item.id);
+                      }
+                    }}
+                    size="small"
+                    className="delete-button"
+                  >
+                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                  </Button>
+                ) : (
+                  <span>Can't delete</span>
+                )}
+              </td>
 
-  {item.financeStatus === 0 || item.financeStatus === 1 || item.financeStatus === 3 ? (
-    <Button
-      onClick={() => {
-        if (item.type === 'Outcome') {
-          DeleteOutcome(item.id);
-        } else if (item.type === 'Income') {
-          DeleteIncome(item.id);
-        }
-      }}
-      size="small"
-      className="delete-button" 
-    >
-      <span><ion-icon name="trash-outline"></ion-icon></span>
-    </Button>
-  ) : (
-    <span>Can't delete</span>
-  )}
-</td>
             </tr>
           ))}
         </tbody>

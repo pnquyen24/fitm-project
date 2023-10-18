@@ -68,7 +68,7 @@ namespace FITM_BE.Authentication
         public async Task<string> Login(LoginDto login)
         {
             var member = await _repository.GetAll<Member>()
-                                        .Where(member => member.Status)
+                                          .Where(member => member.Status)
                                           .FirstOrDefaultAsync(member => member.Username.Equals(login.Username));
             if (member == null
                 || _passwordHasher.VerifyHashedPassword(member, member.Password, login.Password) == PasswordVerificationResult.Failed)
@@ -170,6 +170,17 @@ namespace FITM_BE.Authentication
             return "Password is changed!";
         }
 
-       
+        public async Task GenerateDefaultAccount(Member member)
+        {
+            if (!_repository.GetAll<Member>().Any())
+            {
+                var newPassword = GeneratePassword(8, false);
+                var userName = member.FullName.GenerateUserName();
+                member.Username = userName;
+                member.Password = _passwordHasher.HashPassword(member, newPassword);
+                member.Status = true;
+                await _repository.Add(member);
+            }
+        }
     }
 }

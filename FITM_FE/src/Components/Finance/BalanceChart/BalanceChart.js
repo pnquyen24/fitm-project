@@ -10,15 +10,15 @@ import { LineChart } from "@mui/x-charts/LineChart";
 function BalanceChart() {
     const [Data, setData] = useState(null);
     const [startDate, setStartDate] = useState(new Date("2023-10-01"));
-    const [endDate, setEndDate] = useState(new Date("2023-10-31"));
+    const [endDate, setEndDate] = useState(new Date());
     const [tempStartDate, setTempStartDate] = useState(new Date("2023-10-01"));
-    const [tempEndDate, setTempEndDate] = useState(new Date("2023-10-31"));
+    const [tempEndDate, setTempEndDate] = useState(new Date());
     let [dataCategory, setDataCategory] = useState('Balance');
 
     const handleDataCategoryChange = (event) => {
         setDataCategory(event.target.value);
         dataCategory = event.target.value;
-        if (event.target.value === "Income") getIncome(); 
+        if (event.target.value === "Income") getIncome();
         else if (event.target.value === "Outcome") getOutcome();
         else if (event.target.value === "Balance") getBalance();
     };
@@ -33,10 +33,15 @@ function BalanceChart() {
                 },
             })
             .then((response) => {
-                setData(response.data);
+                console.log(response)
+                if(response.data.length === 0){
+                    CustomeAlert.error("Data is null"); 
+                    window.location.reload() ;      
+                }
+                else setData(response.data)
             })
             .catch((error) => {
-                console.error(error);
+                CustomeAlert.error("Data is null");
             });
     }
     function getOutcome() {
@@ -49,10 +54,14 @@ function BalanceChart() {
                 },
             })
             .then((response) => {
-                setData(response.data);
+                if(response.data.length === 0){
+                    CustomeAlert.error("Data is null");   
+                    window.location.reload() ; 
+                }
+                else setData(response.data)
             })
             .catch((error) => {
-                console.error(error);
+                CustomeAlert.error("Data is null");
             });
     }
     function getBalance() {
@@ -68,7 +77,7 @@ function BalanceChart() {
                 setData(response.data);
             })
             .catch((error) => {
-                console.error(error);
+                CustomeAlert.error("Data is null");
             });
     }
 
@@ -84,16 +93,17 @@ function BalanceChart() {
 
     const handleDownloadBalance = () => {
         if (Data.length !== 0) {
-          const ws = XLSX.utils.json_to_sheet(Data);
-          const wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, 'balance_data');
-          XLSX.writeFile(wb, 'balance_data.xlsx');
-          // Tiếp tục xử lý dữ liệu
+            const ws = XLSX.utils.json_to_sheet(Data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'balance_data');
+            XLSX.writeFile(wb, 'balance_data.xlsx');
         } else {
-          alert("Data is null");
-       }
-      };
+            CustomeAlert.error("Data is null");
+        }
+    };
 
+    let responsiveWidth = 0.8 * window.innerWidth;
+    let responsiveHeight = 0.8 * window.innerHeight;
 
     function isValidDate(dateString) {
         const datePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -105,15 +115,26 @@ function BalanceChart() {
     }
 
     function apllyDate(tempStart, tempEnd) {
-        if (tempStart >= tempEnd) {
-            CustomeAlert.warning(`Not valid date: startDate cannot later or equal than endDate`);
+        const maxEndDate = new Date(tempStart);
+        maxEndDate.setDate(maxEndDate.getDate() + 31); // Tính toán ngày kết thúc tối đa
+
+        if (tempStart >= tempEnd ) {
+            CustomeAlert.warning(`Not valid date: startDate cannot be later or equal to endDate`);
             setTempStartDate(startDate);
-            setEndDate(endDate);
+            setTempEndDate(endDate);
             return;
         }
+        if(tempEnd > maxEndDate){
+            CustomeAlert.warning(`Not valid date: Out of range (1 month)`);
+            setTempStartDate(tempStart);
+            setTempEndDate(maxEndDate);
+            return;
+        }
+
         setStartDate(tempStart);
         setEndDate(tempEnd);
-        if (dataCategory=== "Income") getIncome(); 
+
+        if (dataCategory === "Income") getIncome();
         else if (dataCategory === "Outcome") getOutcome();
         else if (dataCategory === "Balance") getBalance();
     }
@@ -139,36 +160,38 @@ function BalanceChart() {
     return (
         <div className="balance-container">
             <div className="balance-buttons-container">
-                    <label>Start Date:</label>
-                    <input
-                        type="date"
-                        value={tempStartDate.toISOString().split("T")[0]}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            if (isValidDate(inputValue)) {
-                                setTempStartDate(new Date(inputValue));
-                            } else {
-                                CustomeAlert.warning("Not a valid date");
-                            }
-                        }}
-                    />
-                    <label>End Date:</label>
-                    <input
-                        type="date"
-                        value={tempEndDate.toISOString().split("T")[0]}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            if (isValidDate(inputValue)) {
-                                setTempEndDate(new Date(inputValue));
-                            } else {
-                                CustomeAlert.warning("Not a valid date");
-                            }
-                        }}
-                    />
-                <Button style={{marginLeft:"10px"}} className="balance-apply-button" ex={{}} onClick={() => apllyDate(tempStartDate, tempEndDate)} variant="contained"  color="info">Apply</Button>
-                <Button style={{marginLeft : "20px",fontSize:"12px",height:"70%"}} ex={{}} onClick={handleDownloadBalance} variant="contained" color="success" >Download As Excel</Button>
+                <label>Start Date:</label>
+                <input
+                    type="date"
+                    value={tempStartDate.toISOString().split("T")[0]}
+                    onChange={(e) => {
+                        const inputValue = e.target.value;
+                        if (isValidDate(inputValue)) {
+                            setTempStartDate(new Date(inputValue));
+                        } else {
+                            CustomeAlert.warning("Not a valid date");
+                        }
+                    }}
+                />
+                <label>End Date:</label>
+                <input
+                    type="date"
+                    max={(new Date()).toISOString().split("T")[0]}
+                    value={tempEndDate.toISOString().split("T")[0]}
+                    onChange={(e) => {
+                        const inputValue = e.target.value;
+                        const maxDate = new Date().toISOString().split("T")[0];
+                        if (isValidDate(inputValue) && inputValue <= maxDate) {
+                            setTempEndDate(new Date(inputValue));
+                        } else {
+                            CustomeAlert.warning("Not a valid date (or later than today)");
+                        }
+                    }}
+                />
+                <Button style={{ marginLeft: "10px" }} className="balance-apply-button" ex={{}} onClick={() => apllyDate(tempStartDate, tempEndDate)} variant="contained" color="info">Apply</Button>
+                <Button style={{ marginLeft: "20px", fontSize: "12px", height: "70%" }} ex={{}} onClick={handleDownloadBalance} variant="contained" color="success" >Download As Excel</Button>
                 <div className="balance-select-button" rx={{}}>
-                    <FormControl variant="outlined" className="select-button" rx={{}}>
+                    <FormControl variant="standard" className="select-button" color="warning" rx={{}}>
                         <Select value={dataCategory} onChange={handleDataCategoryChange}>
                             <MenuItem value="Balance">Balance</MenuItem>
                             <MenuItem value="Income">Income</MenuItem>
@@ -178,35 +201,35 @@ function BalanceChart() {
                 </div>
             </div>
             <div className="chart-container">
-            {Data? (
-                <LineChart
-                    width={1200}
-                    height={670}
-                    series={[
-                        {
-                            data: Data.map((entry) => entry.balance / 1000),
-                            label: selectedSeries.label,
-                            lineColor: selectedSeries.lineColor,
-                            color: selectedSeries.color,
-                        }
-                    ]}
-                    xAxis={[
-                        {
-                            scaleType: "point",
-                            data: Data.map((entry,index) =>
-                                new Date(entry.modifiedTime).toLocaleDateString(undefined, {
-                                    month: "2-digit",
-                                    day: "2-digit"
-                                })),
-                            tickSize: 2
-                        },
-                    ]}
-                />
-            ) : (
-                <div className="balance-waiting">
-                    <h3>Loading.....</h3>
-                </div>
-            )}
+                {Data ? (
+                    <LineChart
+                        width={responsiveWidth}
+                        height={responsiveHeight}
+                        series={[
+                            {
+                                data: Data.map((entry) => entry.balance / 1000),
+                                label: selectedSeries.label,
+                                lineColor: selectedSeries.lineColor,
+                                color: selectedSeries.color,
+                            }
+                        ]}
+                        xAxis={[
+                            {
+                                scaleType: "point",
+                                data: Data.map((entry, index) =>
+                                    new Date(entry.modifiedTime).toLocaleDateString(undefined, {
+                                        month: "2-digit",
+                                        day: "2-digit"
+                                    })),
+                                tickSize: 2
+                            },
+                        ]}
+                    />
+                ) : (
+                    <div className="balance-waiting">
+                        <h3>Loading</h3>
+                    </div>
+                )}
             </div>
         </div>
     );
