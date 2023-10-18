@@ -9,8 +9,6 @@ import {
     selectAllSchedules,
     updateSchedule,
 } from "../../Variable/Redux/Slice/scheduleSlice";
-
-import { useDispatch, useSelector } from "react-redux";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import { useDispatch, useSelector } from "react-redux";
 import {
