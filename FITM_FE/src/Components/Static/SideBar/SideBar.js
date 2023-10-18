@@ -15,8 +15,8 @@ function SideBar({isOpen, setOpen}) {
     { Title: 'Member Management', Icon: 'person-outline', Link: "/member-manager/member-list"},
     { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "/member-manager/request-edit-info-list" },
     { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/profile" },
-    { Title: 'Plan', Icon: 'calendar-outline' , Link: "/profile"},
-    { Title: 'Add show', Icon: 'add-circle-outline', Link: "/profile" },
+    { Title: 'Performance Schedule', Icon: 'calendar-outline' , Link: "/performance"},
+    { Title: 'Add Schedule', Icon: 'add-circle-outline', Link: "/schedule" },
     { Title: 'Practical Schedule', Icon: 'calendar', Link: "/practicalSchedule" },
     { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/music-list" },
     ]; 

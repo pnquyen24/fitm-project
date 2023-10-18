@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import scheduleSlice from "../../Components/SpecialisedManager/scheduleSlice";
+import scheduleSlice from "./Slice/scheduleSlice";
 
 const store = configureStore({
     reducer: {
