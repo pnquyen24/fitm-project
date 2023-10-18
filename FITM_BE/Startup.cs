@@ -128,10 +128,10 @@ namespace FITM_BE
             }
 
             app.ApplicationServices.MigrateDbContext<DatabaseContext>((dbcontext, serviceProvider) =>
-            {
-                var seeding = serviceProvider.GetRequiredService<ISeedingData>();
-                seeding.SeedMember();
-            });
+   {
+       var seeding = serviceProvider.GetRequiredService<ISeedingData>();
+       seeding.SeedMember();
+   });
 
             app.UseStaticFiles();
             app.UseRouting();
@@ -140,7 +140,7 @@ namespace FITM_BE
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapControllerRoute("default", "apis/{controler}/{action}");

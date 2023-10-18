@@ -31,7 +31,7 @@ function SideBar({isOpen, setOpen}) {
     <div className={`sideBar ${isOpen ? "open" : ""}`}  style={{backgroundColor: Color.color2}}>
       <SubInfo></SubInfo>
       {choices.map((choice, index) => (
-        <Link key={index} className="sidebar-link"> 
+        <div key={index} className="sidebar-link"> 
           <Choice
             Title={choice.Title}
             Icon={choice.Icon}
@@ -40,7 +40,7 @@ function SideBar({isOpen, setOpen}) {
             onClick={() => handleChoiceClick(index)}
             _Link={choice.Link}
           ></Choice>
-        </Link>
+        </div>
       ))}
     </div>
   );

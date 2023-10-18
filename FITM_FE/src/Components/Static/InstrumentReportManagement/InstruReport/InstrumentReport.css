@@ -95,6 +95,7 @@
     background-color: rgb(0, 191, 255);
     transition: all 0.3s ease-out 0.1s;
     position: relative;
+    z-index: 10;
     transform: translateY(100px);
 
 
@@ -103,6 +104,7 @@
     background-color: rgb(255, 169, 71);
     transition: all 0.3s ease-out;
     position: relative;
+    z-index: 10;
     transform: translateY(100px);
 
 
@@ -112,6 +114,7 @@
 }
 .InstrumentReport-cover:hover .deny{
     transform: translateY(0px);
+
 }
 .expand{
     position: absolute;
@@ -122,13 +125,16 @@
     transition: all 0.5s ease-in-out;
     z-index: 20;
 }
-.InstrumentReport-cover .accept:active .expand{ 
+.InstrumentReport-cover .accept .expanded{ 
     background-color: rgb(0, 191, 255);
     width: 1500px;
     height: 1500px;
+    z-index: 1000;
 }
-.InstrumentReport-cover .deny:active .expand{ 
+.InstrumentReport-cover .deny .expanded{ 
     background-color: rgb(255, 169, 71);
     width: 1500px;
     height: 1500px;
+    z-index: 1000;
+
 }
