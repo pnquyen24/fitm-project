@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FITM_BE.Entity;
+using FITM_BE.Service.PracticalDetailService;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Util;
 
@@ -7,8 +8,11 @@ namespace FITM_BE.Service.PracticalSchedulService
 {
     public class PracticalScheduleService : ServiceBase, IPracticalScheduleService
     {
-        public PracticalScheduleService(IRepository repository, IMapper mapper) : base(repository, mapper)
+        private readonly IPracticalDetailService _attendancePracticalService;
+
+        public PracticalScheduleService(IRepository repository, IMapper mapper, IPracticalDetailService attendancePracticalService) : base(repository, mapper)
         {
+            _attendancePracticalService = attendancePracticalService;
         }
 
         public IQueryable<PracticalScheduleDto> ViewPracticalSchedules()
@@ -28,6 +32,9 @@ namespace FITM_BE.Service.PracticalSchedulService
         {
             PracticalSchedule newSchedule = _mapper.Map<PracticalSchedule>(practicalScheduleDto);
             newSchedule = await _repository.Add(newSchedule);
+
+            await _attendancePracticalService.CreateAttendanceList(newSchedule.Id);
+
             return _mapper.Map<PracticalScheduleDto>(newSchedule);
         }
 
