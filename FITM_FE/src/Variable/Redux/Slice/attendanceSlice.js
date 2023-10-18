@@ -1,3 +1,4 @@
+import CustomeAlert from "../../../Components/Member/Alert/CustomeAlert";
 import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -23,7 +24,6 @@ export const fetchList = createAsyncThunk(
 export const updateList = createAsyncThunk(
     "attendance/updateSchedule",
     async (updatedSchedule) => {
-        // console.log(updatedSchedule);
         const response = await axiosClient.put(
             UPDATE_ATTENDANCE_LIST_URL,
             updatedSchedule
@@ -51,13 +51,13 @@ const attendanceSlice = createSlice({
             })
             .addCase(updateList.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
-                // console.log(action.payload);
                 state.list = state.list.map((member) => {
                     if (member.id === updatedSchedule.id) {
                         return updatedSchedule;
                     }
                     return member;
                 });
+                CustomeAlert.success("Success");
             });
     },
 });

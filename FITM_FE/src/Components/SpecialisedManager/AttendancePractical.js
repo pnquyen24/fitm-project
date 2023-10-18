@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchList,
@@ -8,9 +7,9 @@ import {
     selectAllAttendance,
     updateList,
 } from "../../Variable/Redux/Slice/attendanceSlice";
-import CustomeLoadingButton from "../Member/Button/CustomeLoadingButton";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import AttendanceTable from "../Member/Table/AttendanceTable";
+import { Button, Card, CardHeader, Typography } from "@mui/material";
 
 function AttendancePractical({ scheduleId }) {
     let index = 0;
@@ -63,20 +62,29 @@ function AttendancePractical({ scheduleId }) {
         } catch {
             CustomeAlert.error(error);
         }
-        CustomeAlert.success("Success");
     }
 
     return (
-        <Paper sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
-            <form action="" onSubmit={handleSubmit}>
-                <AttendanceTable
-                    columns={columns}
-                    rows={rows}
-                    handleChange={handleChange}
-                />
-                <CustomeLoadingButton type="submit">Save</CustomeLoadingButton>
-            </form>
-        </Paper>
+        <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+            <CardHeader
+                title={
+                    <Typography component={"span"} variant="subtitle1">
+                        Attendance Table
+                    </Typography>
+                }
+                action={
+                    <Button variant="contained" onClick={handleSubmit}>
+                        Save
+                    </Button>
+                }
+            />
+
+            <AttendanceTable
+                columns={columns}
+                rows={rows}
+                handleChange={handleChange}
+            />
+        </Card>
     );
 }
 

@@ -9,16 +9,17 @@ import {
     TableRow,
 } from "@mui/material";
 import CustomeFCLabel from "../Label/CustomeFCLabel";
+import "./AttendanceTable.css";
 
 function AttendanceTable({ columns, rows, handleChange }) {
     return (
-        <TableContainer>
+        <TableContainer className="attendance-table">
             <Table stickyHeader>
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => (
                             <TableCell key={column.id}>
-                                {column.label}
+                                {column.label.toUpperCase()}
                             </TableCell>
                         ))}
                     </TableRow>
