@@ -11,6 +11,7 @@ namespace FITM_BE.Util
         public Task<TEntity> Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>;
         public Task<TEntity> Get<TEntity>(int id) where TEntity : Entity<int>;
         public Task<TEntity> Update<TEntity>(TEntity newEntity) where TEntity : Audit;
+        public Task<IEnumerable<TEntity>> UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit;
         public Task Delete<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>;
         public Task Delete<TEntity>(int id) where TEntity : Entity<int>;
     }

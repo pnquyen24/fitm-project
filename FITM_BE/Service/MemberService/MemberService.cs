@@ -89,5 +89,12 @@ namespace FITM_BE.Service.MemberService
             var member = await _repository.Update(profile);
             return _mapper.Map<ProfileDto>(member); 
         }
+
+        // Get member for attendance practical schedule
+        // (get all members because they don't have role id yet)
+        public IQueryable<MemberForAttendanceDto> GetMembersForAttendance()
+        {
+            return _repository.GetAll<Member>().Select(m => _mapper.Map<MemberForAttendanceDto>(m));
+        }
     }
 }
