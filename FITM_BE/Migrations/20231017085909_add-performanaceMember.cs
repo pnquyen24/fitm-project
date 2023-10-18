@@ -11,9 +11,6 @@ namespace FITM_BE.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "PracticalSchedules");
-
             migrationBuilder.AddColumn<int>(
                 name: "PerformanceScheduleId",
                 table: "Songs",

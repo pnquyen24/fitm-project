@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace FITM_BE.Controllers
 {
     [Authorize]
-    public class AttendancePracticalController : ApiBase
+    public class PracticalDetailController : ApiBase
     {
         private readonly IPracticalDetailService _attendancePracticalService;
         private readonly ILoggerManager _logger;
 
-        public AttendancePracticalController(IPracticalDetailService attendancePracticalService, ILoggerManager logger)
+        public PracticalDetailController(IPracticalDetailService attendancePracticalService, ILoggerManager logger)
         {
             _attendancePracticalService = attendancePracticalService;
             _logger = logger;
