@@ -116,15 +116,19 @@ function OutcomeDetail() {
         return {};
       };
 
-    function formatDate() {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); 
-        const day = String(currentDate.getDate()).padStart(2, '0');
+      function formatDate(date) {
+        const formattedDate = new Date(date);
+        const day = formattedDate.getDate();
+        const month = formattedDate.getMonth() + 1;
+        const year = formattedDate.getFullYear();
+      
         if (day === 1 && month === 1 && year === 1) {
-          return 'Not yet';
+          return "Not Yet";
         }
-        return `${day}-${month}-${year}`;
+      
+        const formattedDateString = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year}`;
+      
+        return formattedDateString;
       }
 
     const handleSubmit = () => {
@@ -193,7 +197,7 @@ function OutcomeDetail() {
                                         />
                                     ) : (
                                       outcome.title
-                                    )}
+                                    )} 
                                     </lable>
                                 </div>
 
