@@ -17,11 +17,14 @@ import {
     deleteSchedule,
     getScheduleError,
     updateSchedule,
-} from "./scheduleSlice";
+} from "../../Variable/Redux/Slice/scheduleSlice";
 import DateTimeInput from "../Member/Input/DateTimeInput";
 import CustomeTextField from "../Member/Input/CustomeTextField";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import AddPfmSchedule from "./PerformanceSchedule/AddPfmSchedule";
+
+
 
 function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     const dispatch = useDispatch();
@@ -200,13 +203,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 </Box>
                 <TabPanel value="1">
                     <form action="" onSubmit={handleSubmit}>
-                        {/* <DialogTitle sx={{ m: 0, p: 2 }}>
-                            {isEditCard ? "Edit Schedule" : "Add Schedule"}
-                        </DialogTitle>
-                            dividers
-                        */}
-                        <DialogContent>
-                            {" "}
+                        <DialogContent dividers>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={10}>
                                     <Stack
@@ -371,7 +368,9 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                         </DialogActions>
                     </form>
                 </TabPanel>
-                <TabPanel value="2">Oke</TabPanel>
+                <TabPanel value="2">
+                    <AddPfmSchedule/>
+                </TabPanel>
             </TabContext>
         </Dialog>
     );

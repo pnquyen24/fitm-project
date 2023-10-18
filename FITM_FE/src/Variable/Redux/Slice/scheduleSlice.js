@@ -1,4 +1,4 @@
-import axiosClient from "../../Variable/Api/axiosClient";
+import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const GET_ALL_SCHEDULES_URL = "PracticalSchedule/ViewPracticalSchedules";
