@@ -6,9 +6,26 @@ import {
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import "./Performance.css"
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function Performance() {
+    let [performances, setPerformances] = useState([]);
 
+    useEffect(() => {
+        axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
+            "token"
+        )}`;
+        axios
+            .get("https://localhost:7226/apis/PerformanceSchedule/ViewPerformance")
+            .then((response) => {
+                setPerformances(response.data);
+            })
+            .catch((error) => { });
+    }, []);
+
+    const imageDefault ="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/340660349_784571749933806_5653287607927274901_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=hp791ODD-TIAX8qJiOS&_nc_ht=scontent.fsgn2-4.fna&_nc_e2o=f&oh=00_AfC1piZ6ns0oYsrJ1roMl8_ZJHA2CZm70szVAAYyVU3Jhw&oe=6533C4F1";
+    
     const Img = styled('img')({
         display: 'block',
         maxWidth: '100%',
@@ -18,27 +35,17 @@ function Performance() {
     return (
         <div className="pfm-container">
             <Grid container justifyContent="center" spacing={3}>
-                <PerformanceItem
-                    Place="THPT Quốc Học Quy Nhơn"
-                    Image="https://images.unsplash.com/photo-1566438480900-0609be27a4be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1894&q=80"
-                    Name="Đưa nhạc cụ dân tộc đến với trường THPT"
-                    Date="20/10/2023"
-                    Time="18:00"
-                ></PerformanceItem>
-                <PerformanceItem
-                    Place="Quân Đoàn 3"
-                    Image="https://images.unsplash.com/photo-1670028514318-0ac718c0590d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80"
-                    Name="Army Night"
-                    Date="20/10/2023"
-                    Time="18:00"
-                ></PerformanceItem>
-                <PerformanceItem
-                    Place="THPT Quốc Học Quy Nhơn"
-                    Image="https://images.unsplash.com/photo-1566438480900-0609be27a4be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1894&q=80"
-                    Name="Đưa nhạc cụ dân tộc đến với trường THPT"
-                    Date="20/10/2023"
-                    Time="18:00"
-                ></PerformanceItem>
+                {performances.map((performance, index) => (
+                    <PerformanceItem
+                        key={index}
+                        ID = {performance.id}
+                        Image={performance.backgroundImg == "" ? imageDefault : performance.backgroundImg}
+                        Place={performance.place}
+                        Name={performance.name}
+                        Date={performance.date}
+                        Time={performance.time}
+                    ></PerformanceItem>
+                ))}
             </Grid>
             <Grid container justifyContent="center" alignItems="flex-end">
                 <Stack spacing={2} style={{ marginTop: '20px' }} >
@@ -46,7 +53,6 @@ function Performance() {
                 </Stack>
             </Grid>
         </div>
-
     );
 }
 

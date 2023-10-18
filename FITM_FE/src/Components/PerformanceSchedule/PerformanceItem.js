@@ -19,23 +19,39 @@ import {
     DialogContentText,
     DialogActions,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import "./PerformanceItem.css"
+import axios from "axios";
 
 
 function PerformanceItem(props) {
 
     const [flip, setFlip] = useState(false);
+    // let [performance] = useState({});
+    const [performance, setPerformance] = useState({});
+
+    const handelClickDetails = () => {
+        axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
+            "token"
+        )}`;
+        axios
+            .get(`https://localhost:7226/apis/PerformanceSchedule/ViewPerformanceDetails?pfmID=${props.ID}`)
+            .then((response) => {
+                setPerformance(response.data);
+                console.log(response.data);
+                handleFlip();
+            })
+            .catch((error) => { });
+    };
+
 
     const handleFlip = () => {
         setFlip(!flip);
-        console.log(flip);
     };
-
     return (
         <Grid item xs={2} sm={4} md={4}>
             <div className={flip ? "card flipped" : "card"}>
@@ -44,7 +60,7 @@ function PerformanceItem(props) {
                         sx={{ height: 380 }}
                         image={props.Image}
                     />
-                    <CardContent sx={{ height: 170 }}>
+                    <CardContent sx={{ height: 150 }}>
                         <Typography variant="h5" gutterBottom component="div">
                             {props.Place}
                         </Typography>
@@ -59,44 +75,44 @@ function PerformanceItem(props) {
                         </Typography>
                     </CardContent>
                     <CardActions sx={{ height: 60 }} style={{ marginLeft: '8px' }}>
-                        <Button size="small" variant="contained" color="info" onClick={handleFlip}>Details</Button>
+                        <Button size="small" variant="contained" color="info" onClick={handelClickDetails}>Details</Button>
                         <JoinDialog
-                            Name = {props.Name}
-                            Place = {props.Place}
-                            Date = {props.Date}
-                            Time = {props.Time}
+                            Name={props.Name}
+                            Place={props.Place}
+                            Date={props.Date}
+                            Time={props.Time}
+                            pfmID = {props.ID}
                         ></JoinDialog>
                     </CardActions>
                 </Card>
                 <Card className="front back" >
-                    <CardContent sx={{ height: 550 }}>
+                    <CardContent sx={{ height: 530 }}>
                         <Typography variant="h5" gutterBottom component="div">
-                            {props.Place}
                         </Typography>
                         <Typography variant="h6" gutterBottom color="text.secondary">
-                            {props.Name}
+                            {performance.name}
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
-                            Date: {props.Date}
+                            Date: {performance.date}
                         </Typography>
                         <Typography variant="body1" gutterBottom color="text.secondary">
-                            Time: {props.Time}
+                            Time: {performance.time}
                         </Typography>
                         <Typography variant="body1" gutterBottom color="text.secondary">
                             Details:
                         </Typography>
                         <Box
                             sx={{
-                                height: 380,
+                                height: 360,
                                 overflow: "auto",
                             }}>
                             <CardAccordion
                                 Title="Songs"
-                                Name="Cô Đơn Trên Sofa"
+                                Items={performance.songs}
                             ></CardAccordion>
                             <CardAccordion
                                 Title="Members"
-                                Name="Phạm Ngọc Quyền"
+                                Items={performance.members}
                             ></CardAccordion>
                         </Box>
                     </CardContent>
@@ -106,11 +122,22 @@ function PerformanceItem(props) {
                     </CardActions>
                 </Card>
             </div>
-
-        </Grid>
+        </Grid >
     );
 }
-function CardAccordion(props) {
+
+
+function CardAccordion({ Title, Items, pfmID}) {
+   
+    const itemList = Items && Items.length > 0 ? Items.map((item) => (
+        <ListItem>
+            <ListItemText
+                key={item.id}
+                primary={item.name}
+            />
+        </ListItem>
+    )) : null;
+
     return (
         <div>
             <Accordion gutterBottom>
@@ -119,14 +146,12 @@ function CardAccordion(props) {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography gutterBottom >{props.Title}</Typography>
+                    <Typography gutterBottom >{Title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <List component="nav" aria-label="mailbox folders">
                         <Typography color="text.secondary">
-                            <ListItem >
-                                <ListItemText primary={props.Name} />
-                            </ListItem>
+                        {itemList}
                         </Typography>
                     </List>
                 </AccordionDetails>
@@ -139,13 +164,24 @@ function JoinDialog(props) {
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleJoin = () => {
-        CustomeAlert.success("Joined successfully!");
+        axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
+            "token"
+        )}`;
+        axios
+            .put(`https://localhost:7226/apis/PerformanceSchedule/Join?pfmID=${props.pfmID}`)
+            .then((response) => {
+                CustomeAlert.success("Joined successfully!");
+            })
+            .catch((error) => { 
+                CustomeAlert.error("You joined this performance!");
+            });
+                
         setOpen(false);
     };
     const handleClose = () => {
@@ -155,7 +191,7 @@ function JoinDialog(props) {
     return (
         <div>
             <CardActions sx={{ height: 60 }} style={{ marginLeft: '8px' }}>
-            <Button size="small" variant="contained" color="success" onClick={handleClickOpen}>Join</Button>
+                <Button size="small" variant="contained" color="success" onClick={handleClickOpen}>Join</Button>
             </CardActions>
             <Dialog
                 fullScreen={fullScreen}
@@ -168,7 +204,7 @@ function JoinDialog(props) {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText variant="body1">
-                    Are you sure you will be able to attend the "{props.Name}" show at "{props.Place}" on {props.Date} at {props.Time}?
+                        Are you sure you will be able to attend the "{props.Name}" show at "{props.Place}" on {props.Date} at {props.Time}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -176,7 +212,7 @@ function JoinDialog(props) {
                         Yes!
                     </Button>
                     <Button variant="contained" color="warning" onClick={handleClose} autoFocus>
-                       Close
+                        Close
                     </Button>
                 </DialogActions>
             </Dialog>

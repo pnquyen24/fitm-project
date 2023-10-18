@@ -28,7 +28,16 @@ import CustomeTextField from "../../Member/Input/CustomeTextField";
 
 
 function AddPfmSchedule() {
-
+    
+    //Open, Close PopUp
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    }; 
+    const handleClose = () => {
+        setOpen(false);
+    };
+//---------------------------------------------------
     const [formSchedule, setFormSchedule] = useState();
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -81,75 +90,38 @@ function AddPfmSchedule() {
             <DialogContent>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={12}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
+                        <Stack spacing={1.25}  direction={"column"} useFlexGap={false}>
                             <InputLabel children="Performance Name" />
-                            <CustomeTextField
-                                name="title"
-                                placeholder="Title"
-                                size="small"
-                                type="text"
-                            />
-
+                            <CustomeTextField name="title" placeholder="Name" size="small" type="text"/>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={12}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
-                            <InputLabel children="Place" />
-                            <CustomeTextField
-                                name="title"
-                                placeholder="Title"
-                                size="small"
-                                type="text"
-                            />
-
+                        <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
+                            <InputLabel children="Place"/>
+                            <CustomeTextField name="title" placeholder="Place" size="small" type="text"/>
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
+                        <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
                             <InputLabel children="Date" />
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date"
-                                />
+                                <DatePicker label="Date"/>
                             </LocalizationProvider>
-
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
+                        <Stack spacing={1.25} direction={"column"} useFlexGap={false}>
                             <InputLabel children="Time" />
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <MobileTimePicker label="Time" ampm={false} />
                             </LocalizationProvider>
-
                         </Stack>
                     </Grid>
-
                     <Grid item xs={12} md={12} >
                         <FormControl sx={{ width: "100%" }}>
-
                             <InputLabel id="demo-multiple-checkbox-label" size="small">Songs</InputLabel>
-                            <Select
-                                labelId="demo-multiple-checkbox-label"
-                                size="small"
-                                id="demo-multiple-checkbox"
-                                multiple
+                            <Select labelId="demo-multiple-checkbox-label" size="small" id="demo-multiple-checkbox" 
+                                multiple  
                                 value={songName}
                                 onChange={handleChangePfm}
                                 input={<OutlinedInput label="Songs" />}
@@ -157,12 +129,7 @@ function AddPfmSchedule() {
                                 MenuProps={MenuProps}
                             >
                                 <ListSubheader>
-                                    <TextField
-                                        size="small"
-                                        // Autofocus on textfield
-                                        autoFocus
-                                        placeholder="Type to search..."
-                                        fullWidth
+                                    <TextField size="small" autoFocus placeholder="Type to search..." fullWidth
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -172,7 +139,6 @@ function AddPfmSchedule() {
                                         onChange={(e) => setSearchText(e.target.value)}
                                         onKeyDown={(e) => {
                                             if (e.key !== "Escape") {
-                                                // Prevents autoselecting item while typing (default Select behaviour)
                                                 e.stopPropagation();
                                             }
                                         }}
@@ -190,15 +156,9 @@ function AddPfmSchedule() {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Grid
-                    container
-                    direction={"row"}
-                    columns={12}
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
+                <Grid container direction={"row"} columns={12} alignItems="center"justifyContent="space-between">
                     <Grid>
-                        {false && (
+                        {true && (
                             <Button
                                 children="Call Off"
                                 variant="contained"
@@ -206,18 +166,10 @@ function AddPfmSchedule() {
                             />
                         )}
                     </Grid>
-
                     <Grid alignItems="center">
                         <Stack direction="row" spacing={2}  >
-                            <Button
-                                children="Create"
-                                variant="contained"
-                                color="success"
-                            />
-                            <Button
-                                children="Exit"
-                                variant="outlined"
-                            />
+                            <Button children="Create" variant="contained" color="success"/>
+                            <Button children="Exit" variant="outlined"/>
                         </Stack>
                     </Grid>
                 </Grid>
