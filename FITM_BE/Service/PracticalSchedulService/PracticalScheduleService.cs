@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FITM_BE.Entity;
-using FITM_BE.Service.PracticalDetailService;
+using FITM_BE.Service.AttendancePracticalService;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Util;
 
@@ -8,9 +8,9 @@ namespace FITM_BE.Service.PracticalSchedulService
 {
     public class PracticalScheduleService : ServiceBase, IPracticalScheduleService
     {
-        private readonly IPracticalDetailService _attendancePracticalService;
+        private readonly IAttendancePracticalService _attendancePracticalService;
 
-        public PracticalScheduleService(IRepository repository, IMapper mapper, IPracticalDetailService attendancePracticalService) : base(repository, mapper)
+        public PracticalScheduleService(IRepository repository, IMapper mapper, IAttendancePracticalService attendancePracticalService) : base(repository, mapper)
         {
             _attendancePracticalService = attendancePracticalService;
         }

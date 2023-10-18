@@ -1,6 +1,6 @@
-﻿using FITM_BE.Service.PracticalDetailService;
-using FITM_BE.Service.PracticalDetailService.Dto;
-using FITM_BE.Service.PracticalDetailService.Dtos;
+﻿using FITM_BE.Service.AttendancePracticalService;
+using FITM_BE.Service.AttendancePracticalService.Dto;
+using FITM_BE.Service.AttendancePracticalService.Dtos;
 using FITM_BE.Service.LoggerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +10,10 @@ namespace FITM_BE.Controllers
     [Authorize]
     public class AttendancePracticalController : ApiBase
     {
-        private readonly IPracticalDetailService _attendancePracticalService;
+        private readonly IAttendancePracticalService _attendancePracticalService;
         private readonly ILoggerManager _logger;
 
-        public AttendancePracticalController(IPracticalDetailService attendancePracticalService, ILoggerManager logger)
+        public AttendancePracticalController(IAttendancePracticalService attendancePracticalService, ILoggerManager logger)
         {
             _attendancePracticalService = attendancePracticalService;
             _logger = logger;

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-function UseOpenClosed(initialState = false) {
+function useOpenClosed(initialState = false) {
     const [isOpen, setIsOpen] = useState(initialState);
 
     const handleOpen = useCallback(() => { setIsOpen(true) }, []);
@@ -15,4 +15,4 @@ function UseOpenClosed(initialState = false) {
     };
 }
 
-export default UseOpenClosed;
+export default useOpenClosed;

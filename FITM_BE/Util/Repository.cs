@@ -65,17 +65,12 @@ namespace FITM_BE.Util
             entity.IsDeleted = true;
             entity.ModifiedTime = DateTime.Now;
             entity.ModifyBy = await GetCurrent();
-            _dbContext.Update(entity);
-            await _dbContext.SaveChangesAsync();
-            _dbContext.SaveChangesFailed += (object? sender, SaveChangesFailedEventArgs eventArgs) =>
-            {
-                throw new SystemException();
-            };
+            await Update(entity);
         }
 
         public async Task Delete<TEntity>(int id) where TEntity : Entity<int>
         {
-            await Delete<TEntity, int>(id);
+            await Delete<TEntity>(id);
         }
 
         public async Task<TEntity> Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>

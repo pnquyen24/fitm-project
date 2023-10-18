@@ -43,14 +43,14 @@ function Schedule() {
     const modalInfosEvent = UseOpenClosed(false);
     const calendarRef = useRef(null);
 
-    const [calApi, setCalApi] = useState();
     const [eventInfos, setEventInfos] = useState();
     const [isEditCard, setIsEditCard] = useState();
     const [date, setDate] = useState();
     const [selected, setSelected] = useState(0);
 
+    const calApi = calendarRef.current?.getApi();
+
     useEffect(() => {
-        setCalApi(calendarRef.current?.getApi());
         if (calApi) {
             setDate(calApi.view.title);
         }
@@ -268,6 +268,12 @@ function Schedule() {
                         listPlugin,
                         interactionPlugin,
                     ]}
+                    initialView="dayGridMonth"
+                    headerToolbar={{
+                        left: "prev,next today",
+                        center: "title",
+                        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+                    }}
                     events={processReduxData(schedules)}
                     select={handleSelect}
                     eventClick={handleEventClick}

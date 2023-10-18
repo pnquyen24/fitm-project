@@ -1,4 +1,4 @@
-.fixed-cmn {
+.fixed-cmn{
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -9,8 +9,7 @@
     justify-content: center;
     align-items: center;
 }
-
-.edit-musics-btn {
+.edit-musics-btn{
     border-radius: 5px;
     border: none;
     width: 250px;
@@ -20,8 +19,7 @@
     margin-bottom: 20px;
 
 }
-
-.edit-ms-form {
+.edit-ms-form{
     width: 90vw;
     max-width: 1000px;
     height: 80vh;
@@ -35,16 +33,14 @@
     flex-direction: column;
     justify-content: space-between;
 }
-
-.blur-ms {
+.blur-ms{
     position: absolute;
     width: 100%;
     height: 100%;
     backdrop-filter: blur(5px);
     z-index: 100;
 }
-
-.ms-id {
+.ms-id{
     width: 100%;
     height: 50px;
     border-radius: 5px;
@@ -52,16 +48,14 @@
     box-sizing: border-box;
     padding: 0 10px;
 }
-
-.ms-info {
+.ms-info{
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 10px;
 
 }
-
-.ms-icon {
+.ms-icon{
     width: 70px;
     height: 70px;
     display: flex;
@@ -71,8 +65,7 @@
     border-radius: 5px;
 
 }
-
-.ms-info input {
+.ms-info input{
     flex: 1;
     height: 70px;
     border-radius: 5px;
@@ -80,20 +73,18 @@
     background-color: aliceblue;
     padding: 10px;
 }
-
-.ms-btn button {
+.ms-btn button{
     width: 100%;
     max-width: 150px;
     height: 50px;
     border: none;
     justify-content: space-evenly;
     display: flex;
-
+    
 }
-
-.ms-btn {
+.ms-btn{
     width: 100%;
     display: flex;
     gap: 20px;
-    justify-content: flex-end;
+    justify-content: end;
 }

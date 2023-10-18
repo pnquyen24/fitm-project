@@ -1,4 +1,3 @@
-import CustomeAlert from "../../../Components/Member/Alert/CustomeAlert";
 import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -51,13 +50,12 @@ const attendanceSlice = createSlice({
             })
             .addCase(updateList.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
-                state.list = state.list.map((member) => {
+                state.list = state.attendance.map((member) => {
                     if (member.id === updatedSchedule.id) {
                         return updatedSchedule;
                     }
                     return member;
                 });
-                CustomeAlert.success("Success");
             });
     },
 });
