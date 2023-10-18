@@ -153,6 +153,13 @@ namespace FITM_BE.Controllers
             return acceptOutcome;
         }
 
+        [HttpGet]
+        public IEnumerable<FinanceDto> GetFinanceReport()
+        {
+            var acceptOutcome = _financeService.GetFinanceReport();
+            return acceptOutcome;
+        }
 
+        //==================================== 
     }
 }

@@ -20,6 +20,7 @@ namespace FITM_BE.Entity
         [NotNull]
         [StringLength(10)]
         public string BillCode { get; set; }
+
         public FinanceStatus FinanceStatus { get; set; }
     }
 }

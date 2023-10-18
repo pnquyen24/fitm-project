@@ -4,12 +4,15 @@ using FITM_BE.Authentication;
 using FITM_BE.Entity;
 using FITM_BE.Enums;
 using FITM_BE.Exceptions.UserException;
+using FITM_BE.Service;
 using FITM_BE.Service.EmailService;
+using FITM_BE.Service.FinanceService;
 using FITM_BE.Service.FinanceService.Dtos;
 using FITM_BE.Service.MemberService.Dtos;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
 using FITM_BE.Service.RequestEditInforService.Dtos;
 using FITM_BE.Util;
+using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
@@ -31,7 +34,7 @@ namespace FITM_BE.Service.FinanceService
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime start, DateTime end)
         {
             var query = _repository.GetAll<Income>()
-                .Where(ic =>ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date <= end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
+                .Where(ic => ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date <= end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
                 .AsEnumerable()
                 .GroupBy(ic => ic.ModifiedTime.Value.Date, new DateComparer())
                 .Select(group => new
@@ -100,7 +103,7 @@ namespace FITM_BE.Service.FinanceService
                 .GroupBy(item => item.ModifiedTime.Value.Date)
                 .OrderBy(group => group.Key);
 
-            long currentBalance = CalculateBalanceByBefore(new DateTime(2023,10,1),start);
+            long currentBalance = CalculateBalanceByBefore(new DateTime(2023, 10, 1), start);
             List<BalanceDto> balances = new List<BalanceDto>();
 
             for (var date = start.Date; date <= end.Date; date = date.AddDays(1))
@@ -323,12 +326,11 @@ namespace FITM_BE.Service.FinanceService
             var message = new Message(
                 new string[] { email },
                 "Income Report",
-                $"<p>This is your income:</p>" +
+                $"<p>REPORT:</p>" +
                 $"<ul>" +
+                $"<li>FM has send you a request:</li>" +
                 $"<li>Amount: {title}</li>" +
                 $"<li>Status: {description}</li>" +
-                $"<li>Amount: {amount}</li>" +
-                $"<li>Status: {status}</li>" +
                 $"</ul>"
             );
 
@@ -368,10 +370,9 @@ namespace FITM_BE.Service.FinanceService
                 "Outcome Report",
                 $"<p>This is your outcome:</p>" +
                 $"<ul>" +
+               $"<li>FM has send you a request:</li>" +
                 $"<li>Amount: {title}</li>" +
                 $"<li>Status: {description}</li>" +
-                $"<li>Amount: {amount}</li>" +
-                $"<li>Status: {status}</li>" +
                 $"</ul>"
             );
 
@@ -380,7 +381,7 @@ namespace FITM_BE.Service.FinanceService
 
         //====================================================
 
-       private async Task ReplyRequestMail(string email, int status)
+        private async Task ReplyRequestMail(string email, int status)
         {
             Message message;
 
@@ -390,9 +391,9 @@ namespace FITM_BE.Service.FinanceService
                 (
                new string[]
                     { email },
-                    "FITM FM reply: denied",
-                    "From FITM Human resouces"
-                    + "<p>Your request to change account's information has been denied</p>"
+                    "FITM Chairboard reply: DENIED",
+                    "From FITM Chairboard"
+                    + "<p>Your request to change Finance Request has been denied</p>"
                 );
             }
             else
@@ -401,9 +402,9 @@ namespace FITM_BE.Service.FinanceService
                  (
                 new string[]
                      { email },
-                     "FITM FM reply: Accept",
-                     "<p>From FITM Muman resouces </p>"
-                     + "<p>Your request to change account's information has been accepted</p>"
+                     "FITM Chairboard reply: ACCEPTED",
+                    "From FITM Chairboard"
+                    + "<p>Your request to change Finance Request has been accepted</p>"
                  );
             }
             await _emailSender.SendEmailAsync(message);
@@ -478,22 +479,34 @@ namespace FITM_BE.Service.FinanceService
             return createRequestEditOutcome;
         }
 
-    }
+        public IEnumerable<FinanceDto> GetFinanceReport()
+        {
+            var outcome = _repository.GetAll<Outcome>()
+                .Select(ic => new { Id = ic.Id, Title =ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = false, CreatedTime = ic.CreatedTime, ModifiedTime = ic.ModifiedTime, financeStatus = ic.FinanceStatus, BillCode = ic.BillCode });
+            var income = _repository.GetAll<Income>()
+                .Select(ic => new { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = true, CreatedTime = ic.CreatedTime, ModifiedTime = ic.ModifiedTime, financeStatus = ic.FinanceStatus, BillCode = ic.BillCode });
+            var mergedData = outcome.Concat(income)
+           .Select(ic => new FinanceDto { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime.Value, ModifiedTime = ic.ModifiedTime, financeStatus = ic.financeStatus, BillCode = ic.BillCode, IsIncome = ic.IsIncome});
 
+            // Return the merged data
+            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.CreatedTime).ThenByDescending(c => c.ModifiedTime); ;
+        }
+
+    }
 }
 
 class DateComparer : IEqualityComparer<DateTime?>
+{
+    public bool Equals(DateTime? x, DateTime? y)
     {
-        public bool Equals(DateTime? x, DateTime? y)
-        {
-            if (!x.HasValue || !y.HasValue)
-                return false;
-            return x.Value.Date.Equals(y.Value.Date);
-        }
-
-        public int GetHashCode([DisallowNull] DateTime? obj)
-        {
-            return obj.GetHashCode();
-        }
+        if (!x.HasValue || !y.HasValue)
+            return false;
+        return x.Value.Date.Equals(y.Value.Date);
     }
+
+    public int GetHashCode([DisallowNull] DateTime? obj)
+    {
+        return obj.GetHashCode();
+    }
+}
 

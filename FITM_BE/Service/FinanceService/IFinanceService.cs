@@ -1,6 +1,6 @@
 ﻿using FITM_BE.Service.FinanceService.Dtos;
 using FITM_BE.Entity;
-
+using FITM_BE.Util.Pagging;
 
 namespace FITM_BE.Service.FinanceService
 {
@@ -31,5 +31,6 @@ namespace FITM_BE.Service.FinanceService
 
         public Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId);
 
+        public IEnumerable<FinanceDto> GetFinanceReport();
     }
 }
