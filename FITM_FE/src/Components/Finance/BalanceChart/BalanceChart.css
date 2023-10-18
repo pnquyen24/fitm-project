@@ -7,7 +7,7 @@
 .balance-buttons-container label, input{
     margin-right: 5px;
 }
-.balance-apply-button{
+.balance-apply-button, .balance-back-button{
     height: 70%;
     font-size: 12px;
     padding: 3px; 

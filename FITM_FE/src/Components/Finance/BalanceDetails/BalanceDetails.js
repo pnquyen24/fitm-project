@@ -1,40 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './FinanceList.css';
+import './BalanceDetails.css';
 import { useNavigate } from "react-router-dom";
+import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import Swal from 'sweetalert2';
-import { Button, FormControl, Select, MenuItem, Tooltip } from '@mui/material';
+import * as XLSX from 'xlsx';
+import { Button } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import PaginationComponent from '../../Variable/Paggination/Paggination';
+import PaginationComponent from '../../../Variable/Paggination/Paggination';
 
-const FinanceList = () => {
+const BalanceDetails = () => {
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ITEMS_PER_PAGE] = useState(5);
-  const [data, setData] = useState([]);
-  let [filterValue, setFilterValue] = useState("All");
-  const [filteredData, setFilteredData] = useState([]);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const startDate = searchParams.get('startDate');
+  const endDate = searchParams.get('endDate');
 
   const navigate = useNavigate();
+  const [page, setPage] = React.useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-        const response = await axios.get(`https://localhost:7226/apis/Finance/GetFinanceReport`);
+        const response = await axios.get(`https://localhost:7226/apis/Finance/GetBalanceDetails?start=${startDate}&end=${endDate}`);
         setData(response.data);
-        setFilteredData(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+
     fetchData();
   }, [currentPage]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
-  const paginatedData = filteredData.slice(
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+  const paginatedData = data.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -91,23 +97,6 @@ const FinanceList = () => {
     return {};
   };
 
-  // Filter function to filter data based on selected filter
-  const filterData = () => {
-    if (filterValue === "Income") {
-      return data.filter(item => item.isIncome);
-    } else if (filterValue === "Outcome") {
-      return data.filter(item => !item.isIncome);
-    } else {
-      return data;
-    }
-  };
-
-  // Handle filter change
-  const handleFilterChange = (event) => {
-    filterValue = event.target.value;
-    setFilterValue(filterValue)
-    setFilteredData(filterData());
-  };
 
   function ViewOutcomeDetail(id) {
     navigate("/financial-manager/outcome-detail?id=" + id);
@@ -116,6 +105,16 @@ const FinanceList = () => {
   function ViewIncomeDetail(id) {
     navigate("/financial-manager/income-detail?id=" + id);
   }
+  function handleDownloadBalance() {
+    if (data.length !== 0) {
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'balance_data_detail');
+      XLSX.writeFile(wb, 'balance_data_detail.xlsx');
+    } else {
+      CustomeAlert.error("Data is null");
+    }
+  };
 
   //===================================
 
@@ -201,23 +200,17 @@ const FinanceList = () => {
 
   return (
     <div>
-      <h1 className='finance_title'>FINANCE REPORT LIST</h1>
+      <h1 className='finance_title'>BALANCE REPORT LIST</h1>
 
       <div className='create_finance_top'>
         <Link to="/">
           <button className='finance_home'><span>BACK TO HOME</span></button>
         </Link>
 
-        <div className="filter-dropdown">
-          <Select value={filterValue} onChange={handleFilterChange}>
-            <MenuItem value="All">All</MenuItem>
-            <MenuItem value="Income">Income</MenuItem>
-            <MenuItem value="Outcome">Outcome</MenuItem>
-          </Select>
-        </div>
+        <button className='finance_home' onClick={handleDownloadBalance}><span>Download Detail</span></button>
 
         <Link to="/financial-manager/balance">
-          <button className='finance_home'><span>View balance</span></button>
+          <button className='finance_home'><span>Back to balance</span></button>
         </Link>
 
         <Link to="/financial-manager/create-finance" className='finance_create_button'>
@@ -265,9 +258,9 @@ const FinanceList = () => {
                 {item.financeStatus === 0 || item.financeStatus === 1 || item.financeStatus === 3 ? (
                   <Button
                     onClick={() => {
-                      if (item.isIncome == false) {
+                      if (item.isIncome === false) {
                         DeleteOutcome(item.id);
-                      } else if (item.isIncome == true) {
+                      } else if (item.isIncome === true) {
                         DeleteIncome(item.id);
                       }
                     }}
@@ -287,11 +280,11 @@ const FinanceList = () => {
 
 
       <div style={{ marginTop: '30px' }}>
-        <PaginationComponent data={filteredData} itemPerPage={ITEMS_PER_PAGE} currentPage={currentPage} onPageChange={handlePageChange} />
+        <PaginationComponent data={data} itemPerPage={ITEMS_PER_PAGE} currentPage={currentPage} onPageChange={handlePageChange} />
       </div>
 
     </div>
   );
 };
 
-export default FinanceList;
+export default BalanceDetails;

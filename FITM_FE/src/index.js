@@ -16,6 +16,7 @@ import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
 import FinanceList from "./Components/Finance/FinanceList";
 import BalanceChart from "./Components/Finance/BalanceChart/BalanceChart";
+import BalanceDetails from "./Components/Finance/BalanceDetails/BalanceDetails";
 import IncomeDetail from "./Components/Finance/Income/IncomeDetail";
 import OutcomeDetail from "./Components/Finance/Outcome/OutcomeDetail";
 import CreateFinance from "./Components/Finance/CreateFinance/CreateFinance";
@@ -58,6 +59,7 @@ root.render(
               <Route path="finance-request-list" element={<FinanceRequestList />} />
               <Route path="income-request-detail" element={<IncomeRequestDetail />} />
               <Route path="outcome-request-detail" element={<OutcomeRequestDetail />} />
+              <Route path="balance-chart-details" element={<BalanceDetails />} />
             </Route>
           </Route>
           <Route path="/forgotPassword" element={<ForgotPassword />} />

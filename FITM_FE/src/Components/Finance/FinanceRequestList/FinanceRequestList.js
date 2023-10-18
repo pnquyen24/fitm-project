@@ -4,31 +4,37 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import PaginationComponent from '../../../Variable/Paggination/Paggination';
 import './FinanceRequestList.css';
 
 const FinanceRequestList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ITEMS_PER_PAGE] = useState(5);
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseIncome = await fetch('https://localhost:7226/apis/Finance/ViewIncome');
-        const responseOutcome = await fetch('https://localhost:7226/apis/Finance/ViewOutcome');
-        const incomeData = await responseIncome.json();
-        const outcomeData = await responseOutcome.json();
-        const combinedData = [
-          ...incomeData.map((item) => ({ ...item, type: 'Income' })),
-          ...outcomeData.map((item) => ({ ...item, type: 'Outcome' }))
-        ];
-        setData(combinedData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
+    console.log(data); // This will log the data after it has been fetched and set
+  }, [data]);
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const responseIncome = await fetch('https://localhost:7226/apis/Finance/ViewIncome');
+      const responseOutcome = await fetch('https://localhost:7226/apis/Finance/ViewOutcome');
+      const incomeData = await responseIncome.json();
+      const outcomeData = await responseOutcome.json();
+      const combinedData = [
+        ...incomeData.map((item) => ({ ...item, type: 'Income' })),
+        ...outcomeData.map((item) => ({ ...item, type: 'Outcome' }))
+      ];
+      setData(combinedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const getStatusLabel = (status) => {
     if (status === 0) {
@@ -123,6 +129,15 @@ const FinanceRequestList = () => {
     }
   }
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const paginatedData = data.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
 
   function ViewOutcomeRequestDetail(id) {
     navigate("/financial-manager/outcome-request-detail?id=" + id);
@@ -171,7 +186,7 @@ const FinanceRequestList = () => {
 
   const DeleteOutcome = async (id) => {
     try {
-      
+
       const confirmDelete = await Swal.fire({
         title: 'You want to delete ?',
         icon: 'question',
@@ -185,9 +200,9 @@ const FinanceRequestList = () => {
 
       const response = await axios.delete(`https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`);
 
-    
+
       if (response.status === 200) {
-    
+
         Swal.fire({
           icon: 'success',
           title: 'Delete Successfully !!!',
@@ -195,7 +210,7 @@ const FinanceRequestList = () => {
         }).then(() => {
           window.location.href = '/financial-manager/finance-request-list';
         });
-        
+
         setData(data.filter(item => item.id !== id));
       }
     } catch (error) {
@@ -233,52 +248,48 @@ const FinanceRequestList = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item,index) => {
-            if (item.financeStatus !== 1) return null;
-            return (
-              <tr key={index}>
-                <td style={getTypeStyle(item.type)}>{item.type}</td>
-                <td>{item.title}</td>
-                <td>{item.amount}</td>
-                <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
-                <td>
+          {paginatedData.map((item, index) => (
+            <tr key={index}>
+              <td style={getTypeStyle(item.type)}>{item.type}</td>
+              <td>{item.title}</td>
+              <td>{item.amount}</td>
+              <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
+              <td>
+                <Button
+                  onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
+                  variant="outlined"
+                  size="small"
+                  className="detail-button"
+                >
+                  View Detail
+                </Button>
+              </td>
+              <td>
+                {item.financeStatus === 3 ? (
                   <Button
-                    onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
-                    variant="outlined"
+                    onClick={() => {
+                      if (item.type === 'Outcome') {
+                        DeleteOutcome(item.id);
+                      } else if (item.type === 'Income') {
+                        DeleteIncome(item.id);
+                      }
+                    }}
                     size="small"
-                    className="detail-button"
+                    className="delete-button"
                   >
-                    View Detail
+                    <span><ion-icon name="trash-outline"></ion-icon></span>
                   </Button>
-                </td>
-
-
-                <td>
-                  {item.financeStatus === 3 ? (
-                    <Button
-                      onClick={() => {
-                        if (item.type === 'Outcome') {
-                          DeleteOutcome(item.id);
-                        } else if (item.type === 'Income') {
-                          DeleteIncome(item.id);
-                        }
-                      }}
-                      size="small"
-                      className="delete-button"
-                    >
-                      <span><ion-icon name="trash-outline"></ion-icon></span>
-                    </Button>
-                  ) : (
-                    <span>Can't delete</span>
-                  )}
-                </td>
-
-
-              </tr>
-            );
-          })}
+                ) : (
+                  <span>Can't delete</span>
+                )}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
+      <div style={{ marginTop: '30px' }}>
+        <PaginationComponent data={data} itemPerPage={ITEMS_PER_PAGE} currentPage={currentPage} onPageChange={handlePageChange} />
+      </div>
     </div>
   );
 };

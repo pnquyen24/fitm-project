@@ -22,15 +22,11 @@ namespace FITM_BE.Service.FinanceService
         public Task DeleteOutcome(int id);
         public Task<IncomeListDto> ChangeIncomeStatus(int id);
         public Task<OutcomeListDto> ChangeOutcomeStatus(int id);
-
         public Task<CreateIncomeDto> DenyIncomeRequest(int requestId);
-
         public Task<CreateIncomeDto> AcceptIncomeRequest(int requestId);
-
         public Task<CreateOutcomeDto> DenyOutcomeRequest(int requestId);
-
         public Task<CreateOutcomeDto> AcceptOutcomeRequest(int requestId);
-
         public IEnumerable<FinanceDto> GetFinanceReport();
+        public IEnumerable<FinanceDto> GetBalanceDetail(DateTime start, DateTime end);
     }
 }

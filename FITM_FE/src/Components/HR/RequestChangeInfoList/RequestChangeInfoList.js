@@ -100,7 +100,7 @@ function RequestChangeInfoList() {
               <TableBody>
                 {memberList.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{(index+1)+ (page-1)*pageSize}</TableCell>
+                    <TableCell style={{ width: '50px' }}>{(index+1)+ (page-1)*pageSize}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>

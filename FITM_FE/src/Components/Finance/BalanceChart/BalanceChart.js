@@ -3,8 +3,9 @@ import axios from "axios";
 import CustomeAlert from '../../Member/Alert/CustomeAlert';
 import Button from "@mui/material/Button";
 import * as XLSX from 'xlsx';
+import { Link } from 'react-router-dom';
 import "./BalanceChart.css"
-import { FormControl, Select, MenuItem } from '@mui/material';
+import { FormControl, Select, MenuItem, Tooltip } from '@mui/material';
 import { LineChart } from "@mui/x-charts/LineChart";
 
 function BalanceChart() {
@@ -33,10 +34,9 @@ function BalanceChart() {
                 },
             })
             .then((response) => {
-                console.log(response)
-                if(response.data.length === 0){
-                    CustomeAlert.error("Data is null"); 
-                    window.location.reload() ;      
+                if (response.data.length === 0) {
+                    CustomeAlert.error("Data is null");
+                    window.location.reload();
                 }
                 else setData(response.data)
             })
@@ -54,9 +54,9 @@ function BalanceChart() {
                 },
             })
             .then((response) => {
-                if(response.data.length === 0){
-                    CustomeAlert.error("Data is null");   
-                    window.location.reload() ; 
+                if (response.data.length === 0) {
+                    CustomeAlert.error("Data is null");
+                    window.location.reload();
                 }
                 else setData(response.data)
             })
@@ -118,13 +118,13 @@ function BalanceChart() {
         const maxEndDate = new Date(tempStart);
         maxEndDate.setDate(maxEndDate.getDate() + 31); // Tính toán ngày kết thúc tối đa
 
-        if (tempStart >= tempEnd ) {
+        if (tempStart >= tempEnd) {
             CustomeAlert.warning(`Not valid date: startDate cannot be later or equal to endDate`);
             setTempStartDate(startDate);
             setTempEndDate(endDate);
             return;
         }
-        if(tempEnd > maxEndDate){
+        if (tempEnd > maxEndDate) {
             CustomeAlert.warning(`Not valid date: Out of range (1 month)`);
             setTempStartDate(tempStart);
             setTempEndDate(maxEndDate);
@@ -188,8 +188,17 @@ function BalanceChart() {
                         }
                     }}
                 />
-                <Button style={{ marginLeft: "10px" }} className="balance-apply-button" ex={{}} onClick={() => apllyDate(tempStartDate, tempEndDate)} variant="contained" color="info">Apply</Button>
-                <Button style={{ marginLeft: "20px", fontSize: "12px", height: "70%" }} ex={{}} onClick={handleDownloadBalance} variant="contained" color="success" >Download As Excel</Button>
+                <Button className="balance-apply-button" style={{ margin: "0px 5px 0px 5px" }} ex={{}} onClick={() => apllyDate(tempStartDate, tempEndDate)} variant="contained" color="info">Apply</Button>
+                <Button className="balance-apply-button" style={{ margin: "0px 5px 0px 5px" }} ex={{}} onClick={handleDownloadBalance} variant="contained" color="success" >Download As Excel</Button>
+                <Link to={{
+                    pathname: '/financial-manager/balance-chart-details',
+                    search: `?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
+                }}>
+                    <Button color="warning" variant="contained" style={{ margin: "0px 5px 0px 5px" }} className="balance-back-button" ex={{}}>  <span>Detail</span> </Button>
+                </Link>
+                <Link to="/financial-manager/finance-list">
+                    <Button color="secondary" variant="contained" style={{ margin: "0px 5px 0px 5px" }} className="balance-back-button" ex={{}}>  <span>Back to List</span> </Button>
+                </Link>
                 <div className="balance-select-button" rx={{}}>
                     <FormControl variant="standard" className="select-button" color="warning" rx={{}}>
                         <Select value={dataCategory} onChange={handleDataCategoryChange}>
@@ -221,7 +230,6 @@ function BalanceChart() {
                                         month: "2-digit",
                                         day: "2-digit"
                                     })),
-                                tickSize: 2
                             },
                         ]}
                     />

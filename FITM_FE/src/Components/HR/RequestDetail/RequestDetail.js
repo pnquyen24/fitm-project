@@ -82,7 +82,7 @@ function RequestDetail() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
+                        <TableRow >
                             <TableCell>Student ID</TableCell>
                             <TableCell>{compareData.oldStudentID}</TableCell>
                             <TableCell style={{ color: compareData.newStudentID === compareData.oldStudentID ? "black" : "red" }}>

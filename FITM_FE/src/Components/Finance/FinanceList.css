@@ -5,12 +5,23 @@
   margin-bottom: 20px;
 }
 
-.finance_home {
+.finance_home{
   width: 150px;
   height: 30px;
   border: 1px solid #ccc;
   border-radius: 3px;
   background-color: lightskyblue;
+}
+.filter-dropdown .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+  width: 70px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: lightskyblue;
+  padding: 0;
+  text-align: center;
+  padding-top: 3px;
+  padding-right: 5px;
 }
 
 .finance_home span {
