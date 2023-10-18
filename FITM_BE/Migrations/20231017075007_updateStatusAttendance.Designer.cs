@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FITM_BE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231014153658_AttendancePractical")]
-    partial class AttendancePractical
+    [Migration("20231017075007_updateStatusAttendance")]
+    partial class updateStatusAttendance
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,51 +24,6 @@ namespace FITM_BE.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FITM_BE.Entity.AttendancePractical", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Attendance")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PracticalScheduleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("PracticalScheduleId");
-
-                    b.ToTable("AttendancePracticals");
-                });
 
             modelBuilder.Entity("FITM_BE.Entity.Member", b =>
                 {
@@ -149,7 +104,7 @@ namespace FITM_BE.Migrations
                     b.ToTable("Members");
                 });
 
-            modelBuilder.Entity("FITM_BE.Entity.PracticalSchedule", b =>
+            modelBuilder.Entity("FITM_BE.Entity.PracticalDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,10 +112,50 @@ namespace FITM_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BackgroundColor")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
+                    b.Property<int>("Attendance")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PracticalScheduleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.HasIndex("PracticalScheduleId");
+
+                    b.ToTable("PracticalDetails");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.PracticalSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
@@ -190,11 +185,6 @@ namespace FITM_BE.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TextColor")
-                        .IsRequired()
-                        .HasMaxLength(7)
-                        .HasColumnType("nvarchar(7)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -272,7 +262,83 @@ namespace FITM_BE.Migrations
                     b.ToTable("RequestEditInfo");
                 });
 
-            modelBuilder.Entity("FITM_BE.Entity.AttendancePractical", b =>
+            modelBuilder.Entity("FITM_BE.Entity.Song", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("BackgroundImg")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LinkBeat")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("LinkSheet")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("ModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("Songs");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.Member", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifyBy");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.PracticalDetail", b =>
                 {
                     b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
                         .WithMany()
@@ -305,23 +371,6 @@ namespace FITM_BE.Migrations
                     b.Navigation("PracticalSchedule");
                 });
 
-            modelBuilder.Entity("FITM_BE.Entity.Member", b =>
-                {
-                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("ModifyBy");
-                });
-
             modelBuilder.Entity("FITM_BE.Entity.PracticalSchedule", b =>
                 {
                     b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
@@ -340,6 +389,23 @@ namespace FITM_BE.Migrations
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.RequestEditInfo", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifyBy");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.Song", b =>
                 {
                     b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
                         .WithMany()
