@@ -22,6 +22,9 @@ import DateTimeInput from "../Member/Input/DateTimeInput";
 import CustomeTextField from "../Member/Input/CustomeTextField";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import AddPfmSchedule from "./PerformanceSchedule/AddPfmSchedule";
+
+
 
 function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
     const dispatch = useDispatch();
@@ -365,7 +368,9 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                         </DialogActions>
                     </form>
                 </TabPanel>
-                <TabPanel value="2">Oke</TabPanel>
+                <TabPanel value="2">
+                    <AddPfmSchedule/>
+                </TabPanel>
             </TabContext>
         </Dialog>
     );

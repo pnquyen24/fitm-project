@@ -4,8 +4,23 @@ import Choice from "./Choices/Choice";
 import "./SideBar.css";
 import SubInfo from "./SubInfo/SubInfo";
 
-function SideBar({ isOpen, setOpen }) {
-    const [selectedChoice, setSelectedChoice] = useState(null);
+function SideBar({isOpen, setOpen}) {
+  const [selectedChoice, setSelectedChoice] = useState(null);
+  
+  const handleChoiceClick = (index) => {
+    setSelectedChoice(index);
+  };
+  const choices = [
+    { Title: 'Member Management', Icon: 'person-outline', Link: "/member-manager/member-list"},
+    { Title: 'Change Info Requests', Icon: 'checkbox-outline', Link: "/member-manager/request-edit-info-list" },
+    { Title: 'Report Instrument', Icon: 'warning-outline', Link: "/profile" },
+    { Title: 'Performance Schedule', Icon: 'calendar-outline' , Link: "/performance"},
+    { Title: 'Schedule', Icon: 'add-circle-outline', Link: "/schedule" },
+    { Title: 'Practical Schedule', Icon: 'calendar', Link: "/practicalSchedule" },
+    { Title: 'Music List', Icon: 'musical-notes-outline', Link: "/music-list" },
+    ]; 
+  useEffect(() => {
+  },[Color])
 
     const handleChoiceClick = (index) => {
         setSelectedChoice(index);
