@@ -5,7 +5,7 @@
 
 .user-dropDown {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   right: 10px;
   text-decoration: none;
   list-style: none;
@@ -23,15 +23,16 @@
   padding: 5px;
   border-radius: 2px;
 }
+
 .user-dropDown li:hover {
   background-color: #51515133;
   cursor: pointer;
 }
 
-.hide{
+.hide {
   display: none;
 }
 
-.link-reatjs{
+.link-reatjs {
   text-decoration: none;
 }

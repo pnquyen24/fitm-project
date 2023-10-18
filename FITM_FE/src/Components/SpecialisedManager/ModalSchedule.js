@@ -203,13 +203,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                 </Box>
                 <TabPanel value="1">
                     <form action="" onSubmit={handleSubmit}>
-                        {/* <DialogTitle sx={{ m: 0, p: 2 }}>
-                            {isEditCard ? "Edit Schedule" : "Add Schedule"}
-                        </DialogTitle>
-                            dividers
-                        */}
-                        <DialogContent>
-                            {" "}
+                        <DialogContent dividers>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={10}>
                                     <Stack

@@ -1,12 +1,6 @@
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import listPlugin from "@fullcalendar/list";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import ModalSchedule from "./ModalSchedule";
+import React, { useEffect, useState, useRef } from "react";
 import "./Schedule.css";
+import ModalSchedule from "./ModalSchedule";
 import UseOpenClosed from "./useOpenClosed";
 import {
     fetchSchedules,
@@ -15,18 +9,54 @@ import {
     selectAllSchedules,
     updateSchedule,
 } from "../../Variable/Redux/Slice/scheduleSlice";
+
 import { useDispatch, useSelector } from "react-redux";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    Box,
+    Button,
+    ButtonGroup,
+    Grid,
+    IconButton,
+    Stack,
+    Typography,
+} from "@mui/material";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import CalendarViewMonthIcon from "@mui/icons-material/CalendarViewMonth";
+import CalendarViewWeekIcon from "@mui/icons-material/CalendarViewWeek";
+import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 function Schedule() {
     const dispatch = useDispatch();
     const schedules = useSelector(selectAllSchedules);
     const scheduleStatus = useSelector(getScheduleStatus);
     const error = useSelector(getScheduleError);
-    const modalInfosEvent = UseOpenClosed(false);
 
+    const modalInfosEvent = UseOpenClosed(false);
+    const calendarRef = useRef(null);
+
+    const [calApi, setCalApi] = useState();
     const [eventInfos, setEventInfos] = useState();
     const [isEditCard, setIsEditCard] = useState();
+    const [date, setDate] = useState();
+    const [selected, setSelected] = useState(0);
+
+    useEffect(() => {
+        setCalApi(calendarRef.current?.getApi());
+        if (calApi) {
+            setDate(calApi.view.title);
+        }
+    }, [calApi]);
 
     useEffect(() => {
         if (scheduleStatus === "idle") {
@@ -79,6 +109,44 @@ function Schedule() {
         }
     };
 
+    const handleDateChange = (direction) => {
+        if (calApi) {
+            switch (direction) {
+                case "prevYear":
+                    calApi.prevYear();
+                    break;
+                case "prev":
+                    calApi.prev();
+                    break;
+                case "today":
+                    calApi.today();
+                    break;
+                case "next":
+                    calApi.next();
+                    break;
+                case "nextYear":
+                    calApi.nextYear();
+                    break;
+                case "month":
+                    calApi.changeView("dayGridMonth");
+                    break;
+                case "week":
+                    calApi.changeView("timeGridWeek");
+                    break;
+                case "day":
+                    calApi.changeView("timeGridDay");
+                    break;
+                case "list":
+                    calApi.changeView("listMonth");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        setDate(calApi.view.title);
+    };
+
     return (
         <div id="calendar">
             <Box>
@@ -88,6 +156,104 @@ function Schedule() {
                     eventInfos={eventInfos}
                     isEditCard={isEditCard}
                 />
+                <Grid container spacing={3} className="headerToolBar">
+                    <Grid item>
+                        <Button
+                            disableElevation
+                            size="medium"
+                            sx={{ textTransform: "none" }}
+                            variant="outlined"
+                            onClick={() => handleDateChange("today")}
+                        >
+                            Today
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Stack direction="row" sx={{ alignItems: "center" }}>
+                            <IconButton
+                                color="primary"
+                                size="large"
+                                onClick={() => handleDateChange("prevYear")}
+                            >
+                                <KeyboardDoubleArrowLeftIcon />
+                            </IconButton>
+                            <IconButton
+                                color="primary"
+                                size="large"
+                                onClick={() => handleDateChange("prev")}
+                            >
+                                <KeyboardArrowLeftIcon />
+                            </IconButton>
+                            <Typography component={"h3"}>{date}</Typography>
+                            <IconButton
+                                color="primary"
+                                size="large"
+                                onClick={() => handleDateChange("next")}
+                            >
+                                <KeyboardArrowRightIcon />
+                            </IconButton>
+                            <IconButton
+                                color="primary"
+                                size="large"
+                                onClick={() => handleDateChange("nextYear")}
+                            >
+                                <KeyboardDoubleArrowRightIcon />
+                            </IconButton>
+                        </Stack>
+                    </Grid>
+                    <Grid item>
+                        <ButtonGroup
+                            disableElevation={true}
+                            disableRipple
+                            variant="outlined"
+                        >
+                            <Button
+                                variant={
+                                    selected === 0 ? "contained" : "outlined"
+                                }
+                                onClick={() => {
+                                    handleDateChange("month");
+                                    setSelected(0);
+                                }}
+                            >
+                                <CalendarViewMonthIcon />
+                            </Button>
+                            <Button
+                                variant={
+                                    selected === 1 ? "contained" : "outlined"
+                                }
+                                onClick={() => {
+                                    handleDateChange("week");
+                                    setSelected(1);
+                                }}
+                            >
+                                <CalendarViewWeekIcon />
+                            </Button>
+                            <Button
+                                variant={
+                                    selected === 2 ? "contained" : "outlined"
+                                }
+                                onClick={() => {
+                                    handleDateChange("day");
+                                    setSelected(2);
+                                }}
+                            >
+                                <CalendarViewDayIcon />
+                            </Button>
+                            <Button
+                                variant={
+                                    selected === 3 ? "contained" : "outlined"
+                                }
+                                onClick={() => {
+                                    handleDateChange("list");
+                                    setSelected(3);
+                                }}
+                            >
+                                <FormatListBulletedIcon />
+                            </Button>
+                        </ButtonGroup>
+                    </Grid>
+                </Grid>
                 <FullCalendar
                     dayMaxEvents={true}
                     defaultAllDay={false}
@@ -95,18 +261,15 @@ function Schedule() {
                     height={800}
                     selectable={true}
                     selectMirror={true}
+                    headerToolbar={false}
+                    initialView="dayGridMonth"
+                    ref={calendarRef}
                     plugins={[
                         dayGridPlugin,
                         timeGridPlugin,
                         listPlugin,
                         interactionPlugin,
                     ]}
-                    initialView="dayGridMonth"
-                    headerToolbar={{
-                        left: "prev,next today",
-                        center: "title",
-                        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-                    }}
                     events={processReduxData(schedules)}
                     select={handleSelect}
                     eventClick={handleEventClick}

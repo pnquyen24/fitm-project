@@ -1,52 +1,55 @@
 .loading {
-  font-size: 18px;
-  margin-bottom: 20px;
+    font-size: 18px;
+    margin-bottom: 20px;
 }
 
-.container {
-  width: 100%;
-  float: left;
+.container_request_detail {
+    width: 96%;
+    float: left;
 }
 
 /* Table styles */
 .TableContainerDetail {
-  width: 100%;
-  margin-bottom: 20px;
-  margin-top: 10%;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 10%;
 }
 
 .TableHead {
-  background-color: lightgray;
+    background-color: lightgray;
 }
 
 .buttons-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 20px;
-  margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
-.buttons{
-  margin-left: 20px !important;
-  margin-right: 20px !important;
+.buttons {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
 }
-.accept-button{
-  background-color: green !important;
-  color: white !important;
+
+.accept-button {
+    background-color: green !important;
+    color: white !important;
 }
-.deny-button{
-  background-color: red !important;
-  color: white !important;
+
+.deny-button {
+    background-color: red !important;
+    color: white !important;
 }
+
 .Pending {
-  color: darkorange;
+    color: darkorange;
 }
 
 .Accepted {
-  color: green;
+    color: green;
 }
 
 .Denied {
-  color: red;
+    color: red;
 }

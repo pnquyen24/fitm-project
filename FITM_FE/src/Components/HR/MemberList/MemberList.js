@@ -14,44 +14,46 @@ import { useNavigate } from "react-router-dom";
 import "./MemberList.css";
 
 function MemberList() {
-  const [memberList, setMemberList] = useState([]);
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [pageSize] = useState(9);
-  const [sort] = useState("");
-  const [sortDirection] = useState(0);
-  const [filterItems] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+    const [memberList, setMemberList] = useState([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [pageSize] = useState(9);
+    const [sort] = useState("");
+    const [sortDirection] = useState(0);
+    const [filterItems] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const requestData = {
-      page,
-      pageSize,
-      sort,
-      sortDirection,
-      filterItems,
-      searchText,
-    };
-    setLoading(true);
+    useEffect(() => {
+        const requestData = {
+            page,
+            pageSize,
+            sort,
+            sortDirection,
+            filterItems,
+            searchText,
+        };
+        setLoading(true);
 
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
+        axios.defaults.headers[
+            "Authorization"
+        ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .post("https://localhost:7226/apis/Member/GetAllPagging", requestData)
-      .then((response) => {
-        setMemberList(response.data.results);
-        setTotal(response.data.total);
-      })
-      .catch((error) => {
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
+        axios
+            .post(
+                "https://localhost:7226/apis/Member/GetAllPagging",
+                requestData
+            )
+            .then((response) => {
+                setMemberList(response.data.results);
+                setTotal(response.data.total);
+            })
+            .catch((error) => {})
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
     navigate("/member-manager/member-profile?id=" + id);
@@ -132,54 +134,57 @@ function MemberList() {
           Page {page - 2}
         </button>
 
-        <button
-          onClick={() => setPage(page - 1)}
-          className="pagination-button sub-button"
-          style={{ display: page - 1 > 0 ? "block" : "none" }}
-        >
-          Page {page - 1}
-        </button>
+                <button
+                    onClick={() => setPage(page - 1)}
+                    className="pagination-button sub-button"
+                    style={{ display: page - 1 > 0 ? "block" : "none" }}
+                >
+                    Page {page - 1}
+                </button>
 
-        <button
-          className="pagination-button sub-button main-page"
-        >
-          Page {page}
-        </button>
+                <button className="pagination-button sub-button main-page">
+                    Page {page}
+                </button>
 
-        <button
-          onClick={() => setPage(page + 1)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * page < total ? "block" : "none" }}
-        >
-          Page {page + 1}
-        </button>
+                <button
+                    onClick={() => setPage(page + 1)}
+                    className="pagination-button sub-button"
+                    style={{
+                        display: pageSize * page < total ? "block" : "none",
+                    }}
+                >
+                    Page {page + 1}
+                </button>
 
-        <button
-          onClick={() => setPage(page + 2)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * (page + 1) < total ? "block" : "none" }}
-        >
-          Page {page + 2}
-        </button>
+                <button
+                    onClick={() => setPage(page + 2)}
+                    className="pagination-button sub-button"
+                    style={{
+                        display:
+                            pageSize * (page + 1) < total ? "block" : "none",
+                    }}
+                >
+                    Page {page + 2}
+                </button>
 
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={pageSize * page > total}
-          className="pagination-button sub-button"
-        >
-          Next Page
-        </button>
+                <button
+                    onClick={() => setPage(page + 1)}
+                    disabled={pageSize * page > total}
+                    className="pagination-button sub-button"
+                >
+                    Next Page
+                </button>
 
-        <button
-          onClick={() => setPage(Math.ceil(total / pageSize))}
-          disabled={pageSize * page > total}
-          className="pagination-button sub-button"
-        >
-          Last Page
-        </button>
-      </div>
-    </div>
-  );
+                <button
+                    onClick={() => setPage(Math.ceil(total / pageSize))}
+                    disabled={pageSize * page > total}
+                    className="pagination-button sub-button"
+                >
+                    Last Page
+                </button>
+            </div>
+        </div>
+    );
 }
 
 export default MemberList;

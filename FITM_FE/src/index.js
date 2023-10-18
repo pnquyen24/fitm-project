@@ -14,6 +14,7 @@ import PracticalSchedule from "./Components/SpecialisedManager/Schedule";
 import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
 import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
+import AttendancePractical from "./Components/SpecialisedManager/AttendancePractical";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -37,13 +38,15 @@ root.render(
                             <Route path="create-member" element={<CreateMember />} />
                             <Route path="member-list" element={<MemberList />} />
                             <Route path="member-profile" element={<MemberProfile />} />
-                            <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
+                            <Route path="request-edit-info-list" element={<RequestChangeInfoList />}/>
                             <Route path="request-details" element={<RequestDetail />} />
                         </Route>
                         <Route path="schedule" element={<Schedule />}/>
                         <Route path="performance" element={<Performance/>}/>
                         <Route path="changepassword" element={<ChangePassword />} />
                         <Route path="music-list" element={<Music />} />
+                        <Route path="practical" element={<PracticalSchedule />}/>
+                        <Route path="attendance" element={<AttendancePractical />} />
                     </Route>
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                 </Routes>
