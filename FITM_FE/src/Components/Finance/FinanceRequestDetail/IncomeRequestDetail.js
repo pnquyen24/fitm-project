@@ -268,7 +268,7 @@ function IncomeRequestDetail() {
                             icon: "success",
                             confirmButtonText: "OK"
                           }).then(() => {
-                            window.location.href = "/home/financial-manager/finance-request-list";
+                            window.location.href = "/financial-manager/finance-request-list";
                           });
                         })
                         .catch(error => {

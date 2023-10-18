@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import * as XLSX from 'xlsx';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MemberList.css";
@@ -132,7 +133,7 @@ const handleDownload =  () => {
             <Table>
               <TableHead className="TableHead">
                 <TableRow>
-                  <TableCell>#</TableCell>
+                  <TableCell style={{maxWidth : "50px"}}>#</TableCell>
                   <TableCell>FullName</TableCell>
                   <TableCell>UserName</TableCell>
                   <TableCell>StudentID</TableCell>
@@ -144,7 +145,7 @@ const handleDownload =  () => {
               <TableBody>
                 {memberList.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{(index + 1) + (page - 1) * pageSize}</TableCell>
+                    <TableCell  style={{maxWidth : "50px"}}>{(index + 1) + (page - 1) * pageSize}</TableCell>
                     <TableCell>{request.fullName}</TableCell>
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>

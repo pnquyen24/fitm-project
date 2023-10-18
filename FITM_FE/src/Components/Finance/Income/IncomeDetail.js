@@ -47,7 +47,7 @@ function IncomeDetail() {
             title: 'Send Request Successfully !!!',
             showConfirmButton: true,
           }).then(() => {
-            window.location.href = '/home/financial-manager/finance-list';
+            window.location.href = '/financial-manager/finance-list';
           });
           
         })
@@ -145,7 +145,7 @@ function IncomeDetail() {
                 title: 'Update Successfully !!!',
                 showConfirmButton: true,
               }).then(() => {
-                window.location.href = '/home/financial-manager/finance-list';
+                window.location.href = '/financial-manager/finance-list';
               });
             })
             .catch(error => {
@@ -298,7 +298,7 @@ function IncomeDetail() {
 
 
   {!isEditing && (
-    <Link to="/home/financial-manager/finance-list">
+    <Link to="/financial-manager/finance-list">
       <button className='detail_back'>
         <span>Back to List</span>
       </button>

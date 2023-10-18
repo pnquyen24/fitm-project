@@ -91,11 +91,11 @@ import PaginationComponent from '../../Variable/Paggination/Paggination';
   
   
     function ViewOutcomeDetail(id) {
-      navigate("/home/financial-manager/outcome-detail?id=" + id);
+      navigate("/financial-manager/outcome-detail?id=" + id);
     }
   
     function ViewIncomeDetail(id) {
-      navigate("/home/financial-manager/income-detail?id=" + id);
+      navigate("/financial-manager/income-detail?id=" + id);
     }
   
     //===================================
@@ -124,7 +124,7 @@ import PaginationComponent from '../../Variable/Paggination/Paggination';
             title: 'Delete Successfully !!!',
             showConfirmButton: true,
           });
-          window.location.href = '/home/financial-manager/finance-list';
+          window.location.href = '/financial-manager/finance-list';
         }
       } catch (error) {
         console.log(error);
@@ -161,7 +161,7 @@ import PaginationComponent from '../../Variable/Paggination/Paggination';
             title: 'Delete Successfully !!!',
             showConfirmButton: true,
           }).then(() => {
-            window.location.href = '/home/financial-manager/finance-list';
+            window.location.href = '/financial-manager/finance-list';
           });
   
           setData(data.filter(item => item.id !== id));

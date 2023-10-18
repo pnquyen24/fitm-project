@@ -255,7 +255,7 @@ function OutcomeRequestDetail() {
   
   
     {!isEditing && (
-      <Link to="/home/financial-manager/finance-request-list">
+      <Link to="/financial-manager/finance-request-list">
         <button className='detail_back'>
           <span>Back to List</span>
         </button>

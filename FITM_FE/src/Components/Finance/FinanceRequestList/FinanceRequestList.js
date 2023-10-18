@@ -125,11 +125,11 @@ const FinanceRequestList = () => {
 
 
   function ViewOutcomeRequestDetail(id) {
-    navigate("/home/financial-manager/outcome-request-detail?id=" + id);
+    navigate("/financial-manager/outcome-request-detail?id=" + id);
   }
 
   function ViewIncomeRequestDetail(id) {
-    navigate("/home/financial-manager/income-request-detail?id=" + id);
+    navigate("/financial-manager/income-request-detail?id=" + id);
   }
 
 
@@ -156,7 +156,7 @@ const FinanceRequestList = () => {
           title: 'Delete Successfully !!!',
           showConfirmButton: true,
         });
-        window.location.href = '/home/financial-manager/finance-request-list';
+        window.location.href = '/financial-manager/finance-request-list';
       }
     } catch (error) {
       console.log(error);
@@ -193,7 +193,7 @@ const FinanceRequestList = () => {
           title: 'Delete Successfully !!!',
           showConfirmButton: true,
         }).then(() => {
-          window.location.href = '/home/financial-manager/finance-request-list';
+          window.location.href = '/financial-manager/finance-request-list';
         });
         
         setData(data.filter(item => item.id !== id));
@@ -215,7 +215,7 @@ const FinanceRequestList = () => {
       <h1 className='finance_title'>FINANCE REPORT REQUEST LIST</h1>
 
       <div className='create_finance_top'>
-        <Link to="/home/">
+        <Link to="/">
           <button className='finance_home'><span>BACK TO HOME</span></button>
         </Link>
       </div>

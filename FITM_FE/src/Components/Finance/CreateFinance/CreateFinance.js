@@ -28,7 +28,7 @@ function CreateIncome() {
           title: 'Create Successfully !!!',
           showConfirmButton: true,
         }).then(() => {
-          window.location.href = '/home/financial-manager/finance-list';
+          window.location.href = '/financial-manager/finance-list';
         });
       })
       .catch((error) => {
@@ -163,7 +163,7 @@ function CreateIncome() {
         
 
         <div className="finance_group_button">
-          <Link to="/home/financial-manager/finance-list" className="btn_back">
+          <Link to="/financial-manager/finance-list" className="btn_back">
             BACK
           </Link>
           
