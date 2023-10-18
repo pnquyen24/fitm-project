@@ -89,45 +89,42 @@ const FinanceRequestList = () => {
 
 
   const handleDelete = async (id, type) => {
-    {
-      data.map(item => {
-        const handleDelete = async (id, type) => {
-          try {
-            let deleteUrl = '';
-            if (type === 'Income') {
-              deleteUrl = `https://localhost:7226/apis/Finance/DeleteIncome?id=${item.id}`;
-            } else if (type === 'Outcome') {
-              deleteUrl = `https://localhost:7226/apis/Finance/DeleteOutcome?id=${item.id}`;
-            } else {
-              console.error('Invalid type');
-              return;
-            }
-
-            const response = await axios.delete(deleteUrl);
-
-            if (response.status === 200) {
-              setData(data.filter(item => item.id !== id));
-              Swal.fire({
-                title: 'Success',
-                text: 'Deleted successfully!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              });
-            }
-          } catch (error) {
-            console.error('Error deleting item:', error);
-            Swal.fire({
-              title: 'Error',
-              text: 'Deletion unsuccessful',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
-          }
-        };
-
-      })
+    try {
+      let deleteUrl = '';
+      if (type === 'Income') {
+        deleteUrl = `https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`;
+      } else if (type === 'Outcome') {
+        deleteUrl = `https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`;
+      } else {
+        console.error('Invalid type');
+        return;
+      }
+  
+      const response = await axios.delete(deleteUrl);
+  
+      if (response.status === 200) {
+        setData(data.filter(item => item.id !== id));
+        Swal.fire({
+          title: 'Success',
+          text: 'Deleted successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          window.location.href = '/financial-manager/finance-request-list';
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Deletion unsuccessful',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.href = '/financial-manager/finance-request-list';
+      });
     }
-  }
+  };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -234,8 +231,6 @@ const FinanceRequestList = () => {
           <button className='finance_home'><span>BACK TO HOME</span></button>
         </Link>
       </div>
-
-
       <table className='finance_table'>
         <thead className='finance_table_thead'>
           <tr>
@@ -244,47 +239,30 @@ const FinanceRequestList = () => {
             <th>Amount</th>
             <th>Status</th>
             <th>Detail</th>
-            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((item, index) => (
-            <tr key={index}>
-              <td style={getTypeStyle(item.type)}>{item.type}</td>
-              <td>{item.title}</td>
-              <td>{item.amount}</td>
-              <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
-              <td>
-                <Button
-                  onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
-                  variant="outlined"
-                  size="small"
-                  className="detail-button"
-                >
-                  View Detail
-                </Button>
-              </td>
-              <td>
-                {item.financeStatus === 3 ? (
+          {data.map((item, index) => {
+            if (item.financeStatus !== 1) return null;
+            return (
+              <tr key={index}>
+                <td style={getTypeStyle(item.type)}>{item.type}</td>
+                <td>{item.title}</td>
+                <td>{item.amount}</td>
+                <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
+                <td>
                   <Button
-                    onClick={() => {
-                      if (item.type === 'Outcome') {
-                        DeleteOutcome(item.id);
-                      } else if (item.type === 'Income') {
-                        DeleteIncome(item.id);
-                      }
-                    }}
+                    onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
+                    variant="outlined"
                     size="small"
-                    className="delete-button"
+                    className="detail-button"
                   >
-                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                    View Detail
                   </Button>
-                ) : (
-                  <span>Can't delete</span>
-                )}
-              </td>
-            </tr>
-          ))}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <div style={{ marginTop: '30px' }}>

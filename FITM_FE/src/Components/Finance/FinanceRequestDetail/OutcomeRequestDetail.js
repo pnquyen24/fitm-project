@@ -275,7 +275,7 @@ function OutcomeRequestDetail() {
                               icon: "success",
                               confirmButtonText: "OK"
                             }).then(() => {
-                              window.location.href = "/home/financial-manager/finance-request-list";
+                              window.location.href = "/financial-manager/finance-request-list";
                             });
                           })
                           .catch(error => {
@@ -299,11 +299,11 @@ function OutcomeRequestDetail() {
                           .then(response => {
                             console.log(response);
                             Swal.fire({
-                              title: "Success",
+                              title: "Finance Report Denied !!!",
                               icon: "success",
                               confirmButtonText: "OK"
                             }).then(() => {
-                              window.location.href = "/home/financial-manager/finance-request-list";
+                              window.location.href = "/financial-manager/finance-request-list";
                             });
                           })
                           .catch(error => {

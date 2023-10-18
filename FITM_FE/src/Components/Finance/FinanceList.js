@@ -271,10 +271,9 @@ const FinanceList = () => {
                         DeleteIncome(item.id);
                       }
                     }}
-                    size="small"
                     className="delete-button"
                   >
-                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                    <span className='trash_icon'><ion-icon name="trash-outline"></ion-icon></span>
                   </Button>
                 ) : (
                   <span>Can't delete</span>
