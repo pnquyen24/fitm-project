@@ -20,7 +20,6 @@ namespace FITM_BE.Entity
         [NotNull]
         [StringLength(10)]
         public string BillCode { get; set; }
-        public DateTime CreatedTime { get; set; }
 
         public FinanceStatus FinanceStatus { get; set; }
     }

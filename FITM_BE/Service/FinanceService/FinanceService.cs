@@ -482,14 +482,14 @@ namespace FITM_BE.Service.FinanceService
         public IEnumerable<FinanceDto> GetFinanceReport()
         {
             var outcome = _repository.GetAll<Outcome>()
-                .Select(ic => new { Title =ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = false, CreatedTime = ic.CreatedTime, Status = ic.FinanceStatus }).OrderBy(ic => ic.Status);
+                .Select(ic => new { Id = ic.Id, Title =ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = false, CreatedTime = ic.CreatedTime, ModifiedTime = ic.ModifiedTime, financeStatus = ic.FinanceStatus, BillCode = ic.BillCode });
             var income = _repository.GetAll<Income>()
-                .Select(ic => new { Title = ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = true, CreatedTime = ic.CreatedTime, Status = ic.FinanceStatus }).OrderBy(ic => ic.Status);
+                .Select(ic => new { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, IsIncome = true, CreatedTime = ic.CreatedTime, ModifiedTime = ic.ModifiedTime, financeStatus = ic.FinanceStatus, BillCode = ic.BillCode });
             var mergedData = outcome.Concat(income)
-                .OrderBy(ic => ic.Status).ThenByDescending(c => c.CreatedTime);
+           .Select(ic => new FinanceDto { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime.Value, ModifiedTime = ic.ModifiedTime, financeStatus = ic.financeStatus, BillCode = ic.BillCode, IsIncome = ic.IsIncome});
 
             // Return the merged data
-            return mergedData.Select(ic => new FinanceDto { Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime});
+            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.CreatedTime).ThenByDescending(c => c.ModifiedTime); ;
         }
 
     }

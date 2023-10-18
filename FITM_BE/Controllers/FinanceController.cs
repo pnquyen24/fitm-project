@@ -154,10 +154,10 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        public Task<FinanceDto> GetFinanceReport()
+        public IEnumerable<FinanceDto> GetFinanceReport()
         {
             var acceptOutcome = _financeService.GetFinanceReport();
-            return null;
+            return acceptOutcome;
         }
 
         //==================================== 

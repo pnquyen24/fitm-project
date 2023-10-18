@@ -36,6 +36,9 @@
 .finance_table th, td {
     padding: 8px;
     border: 1px solid #ccc;
+    min-width: 150px;
+    width: 100%;
+    min-height: 300px;
   }
   
 .finance_table thead {
@@ -49,6 +52,7 @@
 
   .finance_table_thead {
     text-align: center;
+    height: 70px;
   }
 
   .finance_table td {

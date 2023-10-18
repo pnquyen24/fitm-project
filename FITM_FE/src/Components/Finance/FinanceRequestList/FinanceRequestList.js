@@ -233,47 +233,50 @@ const FinanceRequestList = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item,index) => (
-            <tr key={index}>
-              <td style={getTypeStyle(item.type)}>{item.type}</td>
-              <td>{item.title}</td>
-              <td>{item.amount}</td>
-              <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
-              <td>
-                <Button
-                  onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
-                  variant="outlined"
-                  size="small"
-                  className="detail-button"
-                >
-                  View Detail
-                </Button>
-              </td>
-
-
-              <td>
-                {item.financeStatus === 3 ? (
+          {data.map((item,index) => {
+            if (item.financeStatus !== 1) return null;
+            return (
+              <tr key={index}>
+                <td style={getTypeStyle(item.type)}>{item.type}</td>
+                <td>{item.title}</td>
+                <td>{item.amount}</td>
+                <td style={getStatusStyle(item.financeStatus)}>{getStatusLabel(item.financeStatus)}</td>
+                <td>
                   <Button
-                    onClick={() => {
-                      if (item.type === 'Outcome') {
-                        DeleteOutcome(item.id);
-                      } else if (item.type === 'Income') {
-                        DeleteIncome(item.id);
-                      }
-                    }}
+                    onClick={() => { item.type === 'Outcome' ? ViewOutcomeRequestDetail(item.id) : ViewIncomeRequestDetail(item.id) }}
+                    variant="outlined"
                     size="small"
-                    className="delete-button"
+                    className="detail-button"
                   >
-                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                    View Detail
                   </Button>
-                ) : (
-                  <span>Can't delete</span>
-                )}
-              </td>
+                </td>
 
 
-            </tr>
-          ))}
+                <td>
+                  {item.financeStatus === 3 ? (
+                    <Button
+                      onClick={() => {
+                        if (item.type === 'Outcome') {
+                          DeleteOutcome(item.id);
+                        } else if (item.type === 'Income') {
+                          DeleteIncome(item.id);
+                        }
+                      }}
+                      size="small"
+                      className="delete-button"
+                    >
+                      <span><ion-icon name="trash-outline"></ion-icon></span>
+                    </Button>
+                  ) : (
+                    <span>Can't delete</span>
+                  )}
+                </td>
+
+
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
