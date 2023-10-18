@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import "./RequestDetail.css";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomeAlert from '../../Member/Alert/CustomeAlert';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import "./RequestDetail.css";
 
 function RequestDetail() {
     const [compareData, setCompareData] = useState([]);
@@ -34,7 +33,7 @@ function RequestDetail() {
     }, [id]);
 
     function BackToList() {
-        navigate("/home/member-manager/request-edit-info-list");
+        navigate("/member-manager/request-edit-info-list");
     }
 
     function AcceptRequest(id) {

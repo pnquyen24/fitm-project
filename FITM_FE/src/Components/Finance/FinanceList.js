@@ -185,15 +185,15 @@ import PaginationComponent from '../../Variable/Paggination/Paggination';
         <h1 className='finance_title'>FINANCE REPORT LIST</h1>
   
         <div className='create_finance_top'>
-          <Link to="/home/">
+          <Link to="/">
             <button className='finance_home'><span>BACK TO HOME</span></button>
           </Link>
   
-          <Link to="/home/financial-manager/balance">
+          <Link to="/financial-manager/balance">
             <button className='finance_home'><span>View balance</span></button>
           </Link>
   
-          <Link to="/home/financial-manager/create-finance" className='finance_create_button'>
+          <Link to="/financial-manager/create-finance" className='finance_create_button'>
             <button><span>CREATE FINANCE</span></button>
           </Link>
         </div>

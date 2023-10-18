@@ -1,6 +1,4 @@
-.balance-container{
-    background-color: rgb(240,248,255);
-}
+
 .balance-buttons-container{
     display: flex;
     align-items: center; 
@@ -23,6 +21,9 @@
 .balance-select-button .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 10px ;
     padding-right: 32px;
+}
+.balance-select-button .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input.MuiSelect-select{
+    color: orange;
 }
 .balance-waiting {
     margin-top: 50px;

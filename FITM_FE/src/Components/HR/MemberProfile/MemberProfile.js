@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "@mui/material/Button";
-import "./MemberProfile.css";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomeAlert from '../../Member/Alert/CustomeAlert';
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import "./MemberProfile.css";
 
 function MemberProfile() {
   const [member, setMember] = useState(null);
@@ -44,7 +43,7 @@ function MemberProfile() {
   };
 
   function BackToList() {
-    navigate("/home/member-manager/member-list");
+    navigate("/member-manager/member-list");
   }
   if (!member) {
     return <div>Loading...</div>;

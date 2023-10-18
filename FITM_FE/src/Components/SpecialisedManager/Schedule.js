@@ -16,9 +16,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import "./Schedule.css";
 import { useDispatch, useSelector } from "react-redux";
 
-function Schedule() {
+function PracticalSchedule() {
     const dispatch = useDispatch();
     const schedules = useSelector(selectAllSchedules);
     const scheduleStatus = useSelector(getScheduleStatus);
@@ -123,4 +124,4 @@ function Schedule() {
     );
 }
 
-export default Schedule;
+export default PracticalSchedule;
