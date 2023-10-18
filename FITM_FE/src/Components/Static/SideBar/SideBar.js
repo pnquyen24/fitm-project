@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Color } from "../../../Variable/Color/Color";
 import Choice from "./Choices/Choice";
 import "./SideBar.css";
@@ -37,40 +36,6 @@ function SideBar({ isOpen, setOpen }) {
             Title: "Practical Schedule",
             Icon: "calendar",
             Link: "/practicalSchedule",
-        },
-        {
-            Title: "Music List",
-            Icon: "musical-notes-outline",
-            Link: "/music-list",
-        },
-    ];
-    useEffect(() => {}, [Color]);
-
-    const handleChoiceClick = (index) => {
-        setSelectedChoice(index);
-    };
-    const choices = [
-        {
-            Title: "Member Management",
-            Icon: "person-outline",
-            Link: "/member-manager/member-list",
-        },
-        {
-            Title: "Change Info Requests",
-            Icon: "checkbox-outline",
-            Link: "/member-manager/request-edit-info-list",
-        },
-        {
-            Title: "Report Instrument",
-            Icon: "warning-outline",
-            Link: "/profile",
-        },
-        { Title: "Attendance", Icon: "calendar-outline", Link: "/attendance" },
-        { Title: "Add show", Icon: "add-circle-outline", Link: "/profile" },
-        {
-            Title: "Schedule",
-            Icon: "calendar",
-            Link: "/schedule",
         },
         {
             Title: "Music List",

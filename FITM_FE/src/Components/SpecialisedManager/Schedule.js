@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Schedule.css";
 import ModalSchedule from "./ModalSchedule";
-import UseOpenClosed from "./useOpenClosed";
+import useOpenClosed from "./useOpenClosed";
 import {
     fetchSchedules,
     getScheduleError,
@@ -40,10 +40,7 @@ function Schedule() {
     const scheduleStatus = useSelector(getScheduleStatus);
     const error = useSelector(getScheduleError);
 
-    const modalInfosEvent = UseOpenClosed(false);
-    const calendarRef = useRef(null);
-
-    const modalInfosEvent = UseOpenClosed(false);
+    const modalInfosEvent = useOpenClosed(false);
     const calendarRef = useRef(null);
 
     const [calApi, setCalApi] = useState();
@@ -52,9 +49,8 @@ function Schedule() {
     const [date, setDate] = useState();
     const [selected, setSelected] = useState(0);
 
-    const calApi = calendarRef.current?.getApi();
-
     useEffect(() => {
+        setCalApi(calendarRef.current?.getApi());
         if (calApi) {
             setDate(calApi.view.title);
         }

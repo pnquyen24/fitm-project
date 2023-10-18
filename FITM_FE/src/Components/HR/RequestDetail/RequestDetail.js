@@ -1,9 +1,17 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import Button from '@mui/material/Button';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from "@mui/material";
+import Button from "@mui/material/Button";
+import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CustomeAlert from '../../Member/Alert/CustomeAlert';
+import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./RequestDetail.css";
 
 function RequestDetail() {
@@ -17,7 +25,7 @@ function RequestDetail() {
         2: "Denied",
     };
 
-    function getData() {
+    const getData = useCallback(() => {
         axios.defaults.headers[
             "Authorization"
         ] = `Bearer ${localStorage.getItem("token")}`;
@@ -31,11 +39,11 @@ function RequestDetail() {
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
-    }
+    }, [id]);
 
     useEffect(() => {
         getData();
-    }, [id]);
+    }, [id, getData]);
 
     function BackToList() {
         navigate("/member-manager/request-edit-info-list");

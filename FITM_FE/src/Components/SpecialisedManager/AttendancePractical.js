@@ -1,12 +1,4 @@
 import { useEffect } from "react";
-import { Paper, Radio, RadioGroup } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import CustomeFCLabel from "../Member/Label/CustomeFCLabel";
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchList,
@@ -15,21 +7,26 @@ import {
     selectAllAttendance,
     updateList,
 } from "../../Variable/Redux/Slice/attendanceSlice";
-import CustomeLoadingButton from "../Member/Button/CustomeLoadingButton";
+import CustomeAlert from "../Member/Alert/CustomeAlert";
+import AttendanceTable from "../Member/Table/AttendanceTable";
+import { Button, Card, CardHeader, Typography } from "@mui/material";
 
 function AttendancePractical({ scheduleId }) {
+    let index = 0;
+
     const dispatch = useDispatch();
     const data = useSelector(selectAllAttendance);
     const status = useSelector(getAttendanceStatus);
-    // const error = useSelector(getAttendanceError);
+    const error = useSelector(getAttendanceError);
 
     useEffect(() => {
         if (status === "idle") {
-            dispatch(fetchList(16));
+            dispatch(fetchList(1));
         }
     }, [scheduleId, status, dispatch]);
 
     const columns = [
+        { id: "index", label: "#" },
         { id: "studentId", label: "Student ID" },
         { id: "fullName", label: "Full Name" },
         {
@@ -43,79 +40,51 @@ function AttendancePractical({ scheduleId }) {
     });
 
     function createData(id, studentId, fullName, attendance) {
-        attendance = attendance ? "true" : "false";
-        return { id, studentId, fullName, attendance };
+        index++;
+        attendance = attendance === 2 ? "true" : "false";
+        return { index, id, studentId, fullName, attendance };
+    }
+
+    function handleChange(e, index) {
+        rows[index - 1].attendance = e.target.value;
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        // dispatch(updateList());
+        const dataToUpdate = rows.map((row) => {
+            return {
+                id: row.id,
+                attendance: row.attendance === "true" ? 2 : 1,
+            };
+        });
+        try {
+            dispatch(updateList(dataToUpdate));
+        } catch {
+            CustomeAlert.error(error);
+        }
     }
 
     return (
-        <Paper sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
-            <form action="" onSubmit={handleSubmit}>
-                <TableContainer>
-                    <Table>
-                        {/*stickyHeader*/}
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell key={column.id}>
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => {
-                                return (
-                                    <TableRow key={row.id}>
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            if (column.id === "attendance") {
-                                                return (
-                                                    <TableCell key={row.id}>
-                                                        <RadioGroup
-                                                            row
-                                                            defaultValue={
-                                                                row.attendance
-                                                            }
-                                                        >
-                                                            <CustomeFCLabel
-                                                                value="false"
-                                                                label="Absent"
-                                                                control={
-                                                                    <Radio />
-                                                                }
-                                                            />
-                                                            <CustomeFCLabel
-                                                                value="true"
-                                                                label="Present"
-                                                                control={
-                                                                    <Radio />
-                                                                }
-                                                            />
-                                                        </RadioGroup>
-                                                    </TableCell>
-                                                );
-                                            }
-                                            return (
-                                                <TableCell key={column.id}>
-                                                    {value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+        <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+            <CardHeader
+                title={
+                    <Typography component={"span"} variant="subtitle1">
+                        Attendance Table
+                    </Typography>
+                }
+                action={
+                    <Button variant="contained" onClick={handleSubmit}>
+                        Save
+                    </Button>
+                }
+            />
 
-                <CustomeLoadingButton type="submit">Save</CustomeLoadingButton>
-            </form>
-        </Paper>
+            <AttendanceTable
+                columns={columns}
+                rows={rows}
+                handleChange={handleChange}
+            />
+        </Card>
     );
 }
 

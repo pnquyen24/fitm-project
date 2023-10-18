@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import scheduleSlice from "../../Components/SpecialisedManager/scheduleSlice";
+import scheduleSlice from "./Slice/scheduleSlice";
 import attendanceSlice from "./Slice/attendanceSlice";
 import colorSlice from "./Slice/colorSlice";
 
