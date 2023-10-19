@@ -329,8 +329,11 @@ namespace FITM_BE.Service.FinanceService
                 $"<p>REPORT:</p>" +
                 $"<ul>" +
                 $"<li>FM has send you a request:</li>" +
-                $"<li>Amount: {title}</li>" +
-                $"<li>Status: {description}</li>" +
+                $"<li>Income Information:</li>" +
+                $"<li>Title: {title}</li>" +
+                $"<li>Description: {description}</li>" +
+                $"<li>Amount: {amount}</li>" +
+                $"<li>Status: {status}</li>" +
                 $"</ul>"
             );
 
@@ -368,11 +371,14 @@ namespace FITM_BE.Service.FinanceService
             var message = new Message(
                 new string[] { email },
                 "Outcome Report",
-                $"<p>This is your outcome:</p>" +
+                $"<p>REPORT:</p>" +
                 $"<ul>" +
-               $"<li>FM has send you a request:</li>" +
-                $"<li>Amount: {title}</li>" +
-                $"<li>Status: {description}</li>" +
+                $"<li>FM has send you a request:</li>" +
+                $"<li>Outcome Information:</li>" +
+                $"<li>Title: {title}</li>" +
+                $"<li>Description: {description}</li>" +
+                $"<li>Amount: {amount}</li>" +
+                $"<li>Status: {status}</li>" +
                 $"</ul>"
             );
 
@@ -503,7 +509,7 @@ namespace FITM_BE.Service.FinanceService
                 .Select(ic => new FinanceDto { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime.Value, ModifiedTime = ic.ModifiedTime, financeStatus = ic.financeStatus, BillCode = ic.BillCode, IsIncome = ic.IsIncome });
 
             // Return the merged data
-            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.CreatedTime).ThenByDescending(c => c.ModifiedTime); ;
+            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.ModifiedTime).ThenByDescending(c => c.CreatedTime); ;
         }
 
     }
