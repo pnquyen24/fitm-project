@@ -13,7 +13,8 @@ namespace FITM_BE.EntityFrameworkCore
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<InstrumentReport> InstrumentReports { get; set; }
-
         public DbSet<PracticalSchedule> PracticalSchedules { get; set; }
+        public DbSet<Instrument> Instruments { get; set; }
+        public DbSet<InstrumentType> InstrumentTypes { get; set; }
     }
 }

@@ -79,7 +79,7 @@ namespace FITM_BE
             services.AddDbContext<DatabaseContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Default"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddAuthentication(action =>
             {
