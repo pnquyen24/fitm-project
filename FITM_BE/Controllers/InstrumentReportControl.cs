@@ -39,5 +39,21 @@ namespace FITM_BE.Controllers
 
             return Ok(result);
         }
+        [HttpDelete("{id}")]
+
+        public async Task<ActionResult<string>> DeleteReport(int id)
+        {
+            try
+            {
+
+                await _instrumentReportService.Delete(id);
+
+                return Ok("Report deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

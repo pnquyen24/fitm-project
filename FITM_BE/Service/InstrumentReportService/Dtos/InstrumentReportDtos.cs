@@ -8,6 +8,8 @@ namespace FITM_BE.Service.InstrumentReportService.Dtos
     [AutoMap(typeof(InstrumentReport), ReverseMap = true)]
     public class InstrumentReportDtos
     {
+        public int Id { get; set; }
+
         [NotNull]
         [StringLength(10)]
         public string InstrumentID { get; set; }

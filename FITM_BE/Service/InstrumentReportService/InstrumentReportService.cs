@@ -34,7 +34,12 @@ namespace FITM_BE.Service.InstrumentReportService
                 throw new NotFoundException("The list is empty");
             }
         }
+        public async Task Delete(int id)
+        {
 
+            await _repository.Delete<InstrumentReport, int>(id);
+
+        }
 
     }
 }
