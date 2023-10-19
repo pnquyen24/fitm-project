@@ -15,6 +15,7 @@ import axios from "axios";
 import * as XLSX from 'xlsx';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import "./MemberList.css";
 
 function MemberList() {
@@ -22,78 +23,73 @@ function MemberList() {
   const [allMember, setAllMember] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [pageSize] = useState(9);
-  const [sort] = useState("");
-  const [sortDirection] = useState(0);
-  const [filterItems] = useState([]);
+  const [pageSize] = useState(8);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   let [option, setOption] = useState('All');
   const navigate = useNavigate();
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    const requestData = {
-      page,
-      pageSize,
-      sort,
-      sortDirection,
-      filterItems,
-      searchText,
-    };
-    setLoading(true);
+    getAllMember();
+  }, []);
 
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
-
-    axios
-      .post("https://localhost:7226/apis/Member/GetAllPagging", requestData)
-      .then((response) => {
-        setMemberList(response.data.results);
-        getAllMember();
-        setTotal(response.data.total);
-      })
-      .catch((error) => {
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
-
-    function getAllMember() {
+  function getAllMember() {
     axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
     axios
-        .get("https://localhost:7226/apis/Member/ExportMembers")
-        .then((response) => {
-            setAllMember(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}
+      .get("https://localhost:7226/apis/Member/ExportMembers")
+      .then((response) => {
+        if (option === "All") { setAllMember(response.data); setFilteredData(response.data) }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
-  
-const handleDownload =  () => {
-   getAllMember(); 
-  if (allMember.length != 0) {
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedData = filteredData.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+
+  const handleDownload = () => {
+    getAllMember();
+    if (allMember.length != 0) {
       const ws = XLSX.utils.json_to_sheet(allMember);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'MemberData');
       XLSX.writeFile(wb, 'FIT-members.xlsx');
-  }
-  else alert("Data is null");
-};
+    }
+    else alert("Data is null");
+  };
 
+
+  // Filter function to filter data based on selected filter
+  const filterData = () => {
+    if (option === "Active") {
+      return allMember.filter(item => item.status);
+    } else if (option === "Inactive") {
+      return allMember.filter(item => !item.status);
+    } else {
+      return allMember;
+    }
+  };
+
+  // Handle filter change
+  const handleFilterChange = (event) => {
+    option = event.target.value;
+    setOption(option)
+    setFilteredData(filterData());
+  };
   function viewDetail(id) {
     navigate("/member-manager/member-profile?id=" + id);
   }
   function addMember() {
     navigate("/member-manager/create-member");
   }
-
-  const handleChange = (event) => {
-    setOption(event.target.value);
-  };
 
   return (
     <div className="container">
@@ -108,21 +104,21 @@ const handleDownload =  () => {
           />
           <div className="select-container">
             <FormControl>
-              <Select  value={option} onChange={handleChange}>
-                <MenuItem value="Active" style={{color:"green"}}>Active</MenuItem>
-                <MenuItem value="Inactive" style={{color:"red"}}>Inactive</MenuItem>
+              <Select value={option} onChange={handleFilterChange}>
                 <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Active" style={{ color: "green" }}>Active</MenuItem>
+                <MenuItem value="Inactive" style={{ color: "red" }}>Inactive</MenuItem>
               </Select>
             </FormControl>
-          </div> 
-          <div className="member-download-button">
-                <Button variant="contained" color="success" onClick={handleDownload}>Download As Excel</Button>
-            </div>
-          <div className="create-member">
-           <Button onClick={() => addMember()} variant="outlined" size="small" sx={{}} className="detail-button">Add Member</Button>
           </div>
-          
-        </div>  
+          <div className="member-download-button">
+            <Button variant="contained" color="success" onClick={handleDownload}>Download As Excel</Button>
+          </div>
+          <div className="create-member">
+            <Button onClick={() => addMember()} variant="outlined" size="small" sx={{}} className="detail-button">Add Member</Button>
+          </div>
+
+        </div>
       </div>
 
       <div>
@@ -143,9 +139,9 @@ const handleDownload =  () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {memberList.map((request, index) => (
+                {paginatedData.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell  style={{ width: '50px' }}>{(index + 1) + (page - 1) * pageSize}</TableCell>
+                    <TableCell style={{ width: '50px' }}>{(index + 1) + (page - 1) * pageSize}</TableCell>
                     <TableCell>{request.fullName}</TableCell>
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
@@ -168,68 +164,9 @@ const handleDownload =  () => {
             </Table>
           </TableContainer>
         )}
-      </div>
-      <div className="button-container">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className="pagination-button sub-button"
-        >
-          Previous Page
-        </button>
-        <button
-          onClick={() => setPage(page - 2)}
-          className="pagination-button sub-button"
-          style={{ display: page - 2 > 0 ? "block" : "none" }}
-        >
-          Page {page - 2}
-        </button>
-
-        <button
-          onClick={() => setPage(page - 1)}
-          className="pagination-button sub-button"
-          style={{ display: page - 1 > 0 ? "block" : "none" }}
-        >
-          Page {page - 1}
-        </button>
-
-        <button
-          className="pagination-button sub-button main-page"
-        >
-          Page {page}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 1)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * page < total ? "block" : "none" }}
-        >
-          Page {page + 1}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 2)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * (page + 1) < total ? "block" : "none" }}
-        >
-          Page {page + 2}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={pageSize * page > total}
-          className="pagination-button sub-button"
-        >
-          Next Page
-        </button>
-
-        <button
-          onClick={() => setPage(Math.ceil(total / pageSize))}
-          disabled={pageSize * page > total}
-          className="pagination-button sub-button"
-        >
-          Last Page
-        </button>
+        <div style={{ marginTop: '30px' }}>
+          <PaginationComponent data={filteredData} itemPerPage={pageSize} currentPage={page} onPageChange={handlePageChange} />
+        </div>
       </div>
     </div>
   );

@@ -209,9 +209,9 @@ const FinanceList = () => {
 
         <div className="filter-dropdown">
           <Select value={filterValue} onChange={handleFilterChange}>
-            <MenuItem value="All">All</MenuItem>
-            <MenuItem value="Income">Income</MenuItem>
-            <MenuItem value="Outcome">Outcome</MenuItem>
+            <MenuItem value="All" style={{color:"gray"}}>All</MenuItem>
+            <MenuItem value="Income" style={{color:"green"}}>Income</MenuItem>
+            <MenuItem value="Outcome" style={{color:"red"}}>Outcome</MenuItem>
           </Select>
         </div>
 
