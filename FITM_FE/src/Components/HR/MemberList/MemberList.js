@@ -24,7 +24,7 @@ function MemberList() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [pageSize] = useState(8);
-  const [searchText, setSearchText] = useState("");
+  let [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   let [option, setOption] = useState('All');
   const navigate = useNavigate();
@@ -80,9 +80,23 @@ function MemberList() {
 
   // Handle filter change
   const handleFilterChange = (event) => {
+    searchText = "";
+    setSearchText(searchText)
     option = event.target.value;
     setOption(option)
     setFilteredData(filterData());
+  };
+
+  // Handle searchtext
+  const handleSearch = (event) => {
+    searchText = event.target.value;
+    setSearchText(searchText)
+    if(searchText === "") {setFilteredData(filterData())}
+    else{
+    const regex = new RegExp(searchText, 'i'); // 'i' flag for case-insensitive matching
+    setFilteredData(() => {
+      return filteredData.filter(member => regex.test(member.fullName));
+    });}
   };
   function viewDetail(id) {
     navigate("/member-manager/member-profile?id=" + id);
@@ -99,7 +113,7 @@ function MemberList() {
             type="text"
             placeholder="Search..."
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={handleSearch}
             className="search-input"
           />
           <div className="select-container">

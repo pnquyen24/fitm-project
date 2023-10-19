@@ -9,7 +9,7 @@ const PaginationComponent = ({ data, currentPage, itemPerPage, onPageChange }) =
   };
 
   return (
-    <Paper elevation={3} style={{ margin: '0 auto', backgroundColor: '#F0F8FF', border: 'none', textAlign: 'center' }}>
+    <Paper elevation={3} style={{ margin: '0 auto', backgroundColor: '#F0F8FF', border: 'none', textAlign: 'center'}}>
       <Stack spacing={2} direction="row">
         <Pagination
           count={totalPages}

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./RequestChangeInfoList.css";
 import PaginationComponent from '../../../Variable/Paggination/Paggination';
 import { FormControl, Select, MenuItem } from '@mui/material';
+import MemberList from '../MemberList/MemberList';
 
 
 
@@ -14,7 +15,7 @@ function RequestChangeInfoList() {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(8);
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  let [searchText, setSearchText] = useState('');
   let [option, setOption] = useState('All');
   const navigate = useNavigate();
   const [filteredData, setFilteredData] = useState([]);
@@ -70,10 +71,25 @@ function RequestChangeInfoList() {
 
   // Handle filter change
   const handleFilterChange = (event) => {
+    searchText = "";
+    setSearchText(searchText)
     option = event.target.value;
     setOption(option)
     setFilteredData(filterData());
   };
+
+  // Handle searchtext
+  const handleSearch = (event) => {
+    searchText = event.target.value;
+    setSearchText(searchText)
+    if(searchText === "") {setFilteredData(filterData())}
+    else{
+    const regex = new RegExp(searchText, 'i'); // 'i' flag for case-insensitive matching
+    setFilteredData(() => {
+      return memberList.filter(member => regex.test(member.createdBy));
+    });}
+  };
+
   function viewDetail(id) {
     navigate("/member-manager/request-details?id=" + id)
   }
@@ -84,7 +100,7 @@ function RequestChangeInfoList() {
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={handleSearch}
           className="search-input"
         />
         <div className="select-container">

@@ -14,7 +14,6 @@ const FinanceRequestList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(data); // This will log the data after it has been fetched and set
   }, [data]);
   useEffect(() => {
     fetchData();
