@@ -21,8 +21,7 @@ const FinanceList = () => {
       try {
         axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
         const response = await axios.get(`https://localhost:7226/apis/Finance/GetFinanceReport`);
-        setData(response.data);
-        setFilteredData(response.data);
+        if(filterValue === "All") {setData(response.data); setFilteredData(response.data)}
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -216,7 +215,8 @@ const FinanceList = () => {
           </Select>
         </div>
 
-        <Link to="/financial-manager/balance">
+        <Link to="/financial-manager/balance
+        ">
           <button className='finance_home'><span>View balance</span></button>
         </Link>
 

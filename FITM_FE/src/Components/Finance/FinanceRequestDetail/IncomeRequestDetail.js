@@ -119,7 +119,7 @@ function IncomeRequestDetail() {
           title: 'Update Successfully !!!',
           showConfirmButton: true,
         }).then(() => {
-          window.location.href = '/home/financial-manager/finance-list';
+          window.location.href = '/financial-manager/finance-list';
         });
       })
       .catch(error => {
@@ -252,7 +252,7 @@ function IncomeRequestDetail() {
 
 
                 {!isEditing && (
-                  <Link to="/home/financial-manager/finance-request-list">
+                  <Link to="/financial-manager/finance-request-list">
                     <button className='detail_back'>
                       <span>Back to List</span>
                     </button>

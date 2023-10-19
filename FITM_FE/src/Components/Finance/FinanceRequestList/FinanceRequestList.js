@@ -30,7 +30,7 @@ const FinanceRequestList = () => {
         ...incomeData.map((item) => ({ ...item, type: 'Income' })),
         ...outcomeData.map((item) => ({ ...item, type: 'Outcome' }))
       ];
-      setData(combinedData);
+      setData(combinedData.filter(data => data.financeStatus === 1));
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -243,7 +243,6 @@ const FinanceRequestList = () => {
         </thead>
         <tbody>
           {data.map((item, index) => {
-            if (item.financeStatus !== 1) return null;
             return (
               <tr key={index}>
                 <td style={getTypeStyle(item.type)}>{item.type}</td>
