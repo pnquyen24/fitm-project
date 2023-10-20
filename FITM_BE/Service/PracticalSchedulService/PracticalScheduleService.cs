@@ -43,8 +43,9 @@ namespace FITM_BE.Service.PracticalSchedulService
             PracticalSchedule schedule = await _repository.Get<PracticalSchedule>(practicalScheduleDto.Id);
             schedule.Title = practicalScheduleDto.Title;
             schedule.Description = practicalScheduleDto.Description;
-            schedule.StartDate = practicalScheduleDto.StartDate;
-            schedule.EndDate = practicalScheduleDto.EndDate;
+            schedule.Date = practicalScheduleDto.Date;
+            schedule.StartTime = practicalScheduleDto.StartTime;
+            schedule.EndTime = practicalScheduleDto.EndTime;
             schedule.Room = practicalScheduleDto.Room;
             PracticalSchedule newSchedule = await _repository.Update(schedule);
             return _mapper.Map<PracticalScheduleDto>(newSchedule);

@@ -23,7 +23,7 @@ import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import CustomeAlert from "../Member/Alert/CustomeAlert";
+import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./PerformanceItem.css";
 import axios from "axios";
 

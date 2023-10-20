@@ -1,13 +1,11 @@
 import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const GET_ATTENDANCE_LIST_URL = "AttendancePractical/ViewAttendanceList";
-const UPDATE_ATTENDANCE_LIST_URL = "AttendancePractical/UpdateAttendanceList";
+const GET_ATTENDANCE_LIST_URL = "PracticalDetail/ViewAttendanceList";
+const UPDATE_ATTENDANCE_LIST_URL = "PracticalDetail/UpdateAttendanceList";
 
 const initialState = {
     list: [],
-    status: "idle",
-    error: null,
 };
 
 export const fetchList = createAsyncThunk(
@@ -31,26 +29,18 @@ export const updateList = createAsyncThunk(
     }
 );
 
-const attendanceSlice = createSlice({
+const attendancePracticalSlice = createSlice({
     name: "attendance",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchList.pending, (state) => {
-                state.status = "loading";
-            })
             .addCase(fetchList.fulfilled, (state, action) => {
                 state.list = action.payload;
-                state.status = "succeeded";
-            })
-            .addCase(fetchList.rejected, (state, action) => {
-                state.error = action.error.message;
-                state.status = "failed";
             })
             .addCase(updateList.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
-                state.list = state.attendance.map((member) => {
+                state.list = state.list.map((member) => {
                     if (member.id === updatedSchedule.id) {
                         return updatedSchedule;
                     }
@@ -60,8 +50,6 @@ const attendanceSlice = createSlice({
     },
 });
 
-export const selectAllAttendance = (state) => state.attendance.list;
-export const getAttendanceStatus = (state) => state.attendance.status;
-export const getAttendanceError = (state) => state.attendance.error;
+export const getAttendancePractical = (state) => state.attendance.list;
 
-export default attendanceSlice.reducer;
+export default attendancePracticalSlice.reducer;

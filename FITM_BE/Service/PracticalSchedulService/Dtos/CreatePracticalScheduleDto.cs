@@ -8,8 +8,9 @@ namespace FITM_BE.Service.PracticalSchedulService.Dtos
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateOnly Date { get; set; }
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
         public int Room { get; set; }
     }
 }

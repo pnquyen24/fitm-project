@@ -9,8 +9,7 @@ const DELETE_SCHEDULE_URL = (id) =>
 
 const initialState = {
     schedules: [],
-    status: "idle",
-    error: null,
+    isModalOpen: false,
 };
 
 export const fetchSchedules = createAsyncThunk(
@@ -55,19 +54,15 @@ export const deleteSchedule = createAsyncThunk(
 const schedulesSlice = createSlice({
     name: "schedule",
     initialState,
-    reducers: {},
+    reducers: {
+        toggleModal: (state, action) => {
+            state.isModalOpen = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchSchedules.pending, (state, action) => {
-                state.status = "loading";
-            })
             .addCase(fetchSchedules.fulfilled, (state, action) => {
                 state.schedules = action.payload;
-                state.status = "succeeded";
-            })
-            .addCase(fetchSchedules.rejected, (state, action) => {
-                state.error = action.error.message;
-                state.status = "failed";
             })
             .addCase(createSchedule.fulfilled, (state, action) => {
                 state.schedules.push(action.payload);
@@ -90,8 +85,9 @@ const schedulesSlice = createSlice({
     },
 });
 
+export const { toggleModal } = schedulesSlice.actions;
+export const getIsModalOpen = (state) => state.schedules.isModalOpen;
+
 export const selectAllSchedules = (state) => state.schedules.schedules;
-export const getScheduleStatus = (state) => state.schedules.status;
-export const getScheduleError = (state) => state.schedules.error;
 
 export default schedulesSlice.reducer;

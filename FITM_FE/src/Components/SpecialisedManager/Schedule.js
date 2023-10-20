@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Schedule.css";
 import ModalSchedule from "./ModalSchedule";
-import useOpenClosed from "./useOpenClosed";
-import {
-    fetchSchedules,
-    getScheduleError,
-    getScheduleStatus,
-    selectAllSchedules,
-    updateSchedule,
-} from "../../Variable/Redux/Slice/scheduleSlice";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import { useDispatch, useSelector } from "react-redux";
+import {
+    fetchSchedules,
+    selectAllSchedules,
+    toggleModal,
+    updateSchedule,
+} from "../../Variable/Redux/Slice/scheduleSlice";
 import {
     Box,
     Button,
@@ -37,10 +35,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 function Schedule() {
     const dispatch = useDispatch();
     const schedules = useSelector(selectAllSchedules);
-    const scheduleStatus = useSelector(getScheduleStatus);
-    const error = useSelector(getScheduleError);
 
-    const modalInfosEvent = useOpenClosed(false);
     const calendarRef = useRef(null);
 
     const [calApi, setCalApi] = useState();
@@ -57,18 +52,16 @@ function Schedule() {
     }, [calApi]);
 
     useEffect(() => {
-        if (scheduleStatus === "idle") {
-            dispatch(fetchSchedules());
-        }
-    }, [scheduleStatus, dispatch]);
+        dispatch(fetchSchedules());
+    }, [dispatch]);
 
     const processReduxData = (data) => {
         return data.map((item) => ({
             id: item.id,
             title: item.title,
             description: item.description,
-            start: item.startDate,
-            end: item.endDate,
+            start: new Date(`${item.date}T${item.startTime}`),
+            end: new Date(`${item.date}T${item.endTime}`),
             room: item.room,
             color: "#1677ff",
             display: "block",
@@ -80,8 +73,11 @@ function Schedule() {
             id: data.event.id,
             title: data.event.title,
             description: data.event.extendedProps.description,
-            startDate: data.event.startStr,
-            endDate: data.event.endStr,
+            date: new Date(data.event.startStr).toISOString().split("T")[0],
+            startTime: new Date(data.event.startStr)
+                .toTimeString()
+                .split(" ")[0],
+            endTime: new Date(data.event.endStr).toTimeString().split(" ")[0],
             room: data.event.extendedProps.room,
         };
     };
@@ -89,13 +85,13 @@ function Schedule() {
     const handleSelect = async (selectInfo) => {
         setEventInfos(selectInfo);
         setIsEditCard(false);
-        modalInfosEvent.handleOpen();
+        dispatch(toggleModal(true));
     };
 
     const handleEventClick = async (clickInfo) => {
         setEventInfos(clickInfo);
         setIsEditCard(true);
-        modalInfosEvent.handleOpen();
+        dispatch(toggleModal(true));
     };
 
     const handleEventChange = async (changeInfo) => {
@@ -103,7 +99,7 @@ function Schedule() {
             const processedData = processCalendarData(changeInfo);
             dispatch(updateSchedule(processedData));
         } catch {
-            CustomeAlert.error(error);
+            CustomeAlert.error("Something error");
         }
     };
 
@@ -149,8 +145,6 @@ function Schedule() {
         <div id="calendar">
             <Box>
                 <ModalSchedule
-                    open={modalInfosEvent.isOpen}
-                    handleClose={modalInfosEvent.handleClose}
                     eventInfos={eventInfos}
                     isEditCard={isEditCard}
                 />
@@ -272,6 +266,9 @@ function Schedule() {
                     select={handleSelect}
                     eventClick={handleEventClick}
                     eventChange={handleEventChange}
+                    selectAllow={(s) =>
+                        ~~(Math.abs(s.end - 864e5 - s.start) / 864e5) < 1
+                    }
                     eventTimeFormat={{
                         hour: "numeric",
                         minute: "2-digit",

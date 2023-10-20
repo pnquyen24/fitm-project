@@ -19,8 +19,9 @@ namespace FITM_BE.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     Room = table.Column<int>(type: "int", maxLength: 3, nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -86,9 +87,9 @@ namespace FITM_BE.Migrations
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PracticalSchedules_StartDate",
+                name: "IX_PracticalSchedules_Date",
                 table: "PracticalSchedules",
-                column: "StartDate");
+                column: "Date");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Songs_CreatedById",

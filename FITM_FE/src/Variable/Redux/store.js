@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import scheduleSlice from "./Slice/scheduleSlice";
-import attendanceSlice from "./Slice/attendanceSlice";
+import attendancePracticalSlice from "./Slice/attendancePracticalSlice";
 import colorSlice from "./Slice/colorSlice";
 
 const store = configureStore({
     reducer: {
         schedules: scheduleSlice,
-        attendance: attendanceSlice,
+        attendance: attendancePracticalSlice,
         color: colorSlice,
     },
 });
