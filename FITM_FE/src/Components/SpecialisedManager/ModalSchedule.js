@@ -8,41 +8,45 @@ import {
     getIsModalOpen,
     toggleModal,
 } from "../../Variable/Redux/Slice/scheduleSlice";
+import ConditionalTabs from "../Member/Schedule/ConditionalTabs";
 
 function ModalSchedule({ eventInfos, isEditCard }) {
     const dispatch = useDispatch();
     const isOpen = useSelector(getIsModalOpen);
+    const type = eventInfos?.event?.extendedProps?.type;
 
-    const [valueTab, setValueTab] = useState("1");
+    const tabs = {
+        practical: {
+            value: "1",
+            label: "Practical Schedule",
+            panel: (
+                <PracticalSchedule
+                    isEditCard={isEditCard}
+                    eventInfos={eventInfos}
+                />
+            ),
+        },
+        performance: {
+            value: "2",
+            label: "Performance Schedule",
+            panel: <AddPfmSchedule />,
+        },
+    };
 
-    function handleChangeTab(event, newValueTab) {
-        setValueTab(newValueTab);
-    }
+    const filteredTabs =
+        type === "practical"
+            ? [tabs.practical]
+            : type === "performance"
+            ? [tabs.performance]
+            : [tabs.practical, tabs.performance];
 
     function handleClose() {
         dispatch(toggleModal(false));
-        setValueTab("1");
     }
 
     return (
         <Dialog open={isOpen} onClose={handleClose} scroll={"paper"}>
-            <TabContext value={valueTab}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <TabList onChange={handleChangeTab}>
-                        <Tab label="Practical Schedule" value="1" />
-                        <Tab label="Performance Schedule" value="2" />
-                    </TabList>
-                </Box>
-                <TabPanel value="1">
-                    <PracticalSchedule
-                        isEditCard={isEditCard}
-                        eventInfos={eventInfos}
-                    />
-                </TabPanel>
-                <TabPanel value="2">
-                    <AddPfmSchedule />
-                </TabPanel>
-            </TabContext>
+            <ConditionalTabs tabs={filteredTabs} />
         </Dialog>
     );
 }
