@@ -1,55 +1,113 @@
 import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const GET_ALL_SCHEDULES_URL = "PracticalSchedule/ViewPracticalSchedules";
-const CREATE_SCHEDULE_URL = "PracticalSchedule/AddPracticalSchedule";
-const UPDATE_SCHEDULE_URL = "PracticalSchedule/UpdatePracticalSchedule";
-const DELETE_SCHEDULE_URL = (id) =>
+//--------------------------------------------------
+//Practical schedule
+const GET_ALL_PRACTICAL_SCHEDULES_URL =
+    "PracticalSchedule/ViewPracticalSchedules";
+const CREATE_PRACTICAL_SCHEDULE_URL = "PracticalSchedule/AddPracticalSchedule";
+const UPDATE_PRACTICAL_SCHEDULE_URL =
+    "PracticalSchedule/UpdatePracticalSchedule";
+const DELETE_PRACTICAL_SCHEDULE_URL = (id) =>
     `PracticalSchedule/DeletePracticalSchedule?id=${id}`;
 
+//Performance schedule
+const GET_ALL_PERFORMANCE_SCHEDULES_URL = "PerformanceSchedule/ViewPerformance";
+const CREATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Create";
+const UPDATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Update";
+const DELETE_PERFORMANCE_SCHEDULE_URL = (pfmID) =>
+    `PerformanceSchedule/Delete?pfmID=${pfmID}`;
+
+//--------------------------------------------------
 const initialState = {
-    schedules: [],
+    practicals: [],
+    performances: [],
     isModalOpen: false,
 };
 
-export const fetchSchedules = createAsyncThunk(
-    "schedules/fetchSchedules",
+//--------------------------------------------------
+//Practical schedule
+export const fetchPracticals = createAsyncThunk(
+    "schedules/fetchPracticals",
     async () => {
-        const response = await axiosClient.get(GET_ALL_SCHEDULES_URL);
+        const response = await axiosClient.get(GET_ALL_PRACTICAL_SCHEDULES_URL);
         return response.data;
     }
 );
 
-export const createSchedule = createAsyncThunk(
-    "schedules/createSchedule",
+export const createPractical = createAsyncThunk(
+    "schedules/createPractical",
     async (newSchedule) => {
         const response = await axiosClient.post(
-            CREATE_SCHEDULE_URL,
+            CREATE_PRACTICAL_SCHEDULE_URL,
             newSchedule
         );
         return response.data;
     }
 );
 
-export const updateSchedule = createAsyncThunk(
-    "schedules/updateSchedule",
+export const updatePractical = createAsyncThunk(
+    "schedules/updatePractical",
     async (updatedSchedule) => {
         const response = await axiosClient.put(
-            UPDATE_SCHEDULE_URL,
+            UPDATE_PRACTICAL_SCHEDULE_URL,
             updatedSchedule
         );
         return response.data;
     }
 );
 
-export const deleteSchedule = createAsyncThunk(
-    "schedules/deleteSchedule",
+export const deletePractical = createAsyncThunk(
+    "schedules/deletePractical",
     async (scheduleId) => {
         const { id } = scheduleId;
-        await axiosClient.delete(DELETE_SCHEDULE_URL(id));
+        await axiosClient.delete(DELETE_PRACTICAL_SCHEDULE_URL(id));
         return scheduleId;
     }
 );
+
+//Performance schedule
+export const fetchPerformances = createAsyncThunk(
+    "schedules/fetchPerformance",
+    async () => {
+        const response = await axiosClient.get(
+            GET_ALL_PERFORMANCE_SCHEDULES_URL
+        );
+        return response.data;
+    }
+);
+
+export const createPerformance = createAsyncThunk(
+    "schedules/createPerformance",
+    async (newSchedule) => {
+        const response = await axiosClient.post(
+            CREATE_PERFORMANCE_SCHEDULE_URL,
+            newSchedule
+        );
+        return response.data;
+    }
+);
+
+export const updatePerformance = createAsyncThunk(
+    "schedules/updatePerformance",
+    async (updatedSchedule) => {
+        const response = await axiosClient.put(
+            UPDATE_PERFORMANCE_SCHEDULE_URL,
+            updatedSchedule
+        );
+        return response.data;
+    }
+);
+
+export const deletePerformance = createAsyncThunk(
+    "schedules/deletePerformance",
+    async (scheduleId) => {
+        const { id } = scheduleId;
+        await axiosClient.delete(DELETE_PERFORMANCE_SCHEDULE_URL(id));
+        return scheduleId;
+    }
+);
+//--------------------------------------------------
 
 const schedulesSlice = createSlice({
     name: "schedule",
@@ -61,24 +119,47 @@ const schedulesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchSchedules.fulfilled, (state, action) => {
-                state.schedules = action.payload;
+            //Practical schedule
+            .addCase(fetchPracticals.fulfilled, (state, action) => {
+                state.practicals = action.payload;
             })
-            .addCase(createSchedule.fulfilled, (state, action) => {
-                state.schedules.push(action.payload);
+            .addCase(createPractical.fulfilled, (state, action) => {
+                state.practicals.push(action.payload);
             })
-            .addCase(updateSchedule.fulfilled, (state, action) => {
+            .addCase(updatePractical.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
-                state.schedules = state.schedules.map((schedule) => {
+                state.practicals = state.practicals.map((schedule) => {
                     if (schedule.id === updatedSchedule.id) {
                         return updatedSchedule;
                     }
                     return schedule;
                 });
             })
-            .addCase(deleteSchedule.fulfilled, (state, action) => {
+            .addCase(deletePractical.fulfilled, (state, action) => {
                 const { id } = action.payload;
-                state.schedules = state.schedules.filter(
+                state.practicals = state.practicals.filter(
+                    (schedule) => schedule.id !== id
+                );
+            })
+            //Performance Schedule
+            .addCase(fetchPerformances.fulfilled, (state, action) => {
+                state.performances = action.payload;
+            })
+            .addCase(createPerformance.fulfilled, (state, action) => {
+                state.performances.push(action.payload);
+            })
+            .addCase(updatePerformance.fulfilled, (state, action) => {
+                const updatedSchedule = action.payload;
+                state.performances = state.performances.map((schedule) => {
+                    if (schedule.id === updatedSchedule.id) {
+                        return updatedSchedule;
+                    }
+                    return schedule;
+                });
+            })
+            .addCase(deletePerformance.fulfilled, (state, action) => {
+                const { id } = action.payload;
+                state.performances = state.performances.filter(
                     (schedule) => schedule.id !== id
                 );
             });
@@ -88,6 +169,7 @@ const schedulesSlice = createSlice({
 export const { toggleModal } = schedulesSlice.actions;
 export const getIsModalOpen = (state) => state.schedules.isModalOpen;
 
-export const selectAllSchedules = (state) => state.schedules.schedules;
+export const selectAllPracticals = (state) => state.schedules.practicals;
+export const selectAllPerformances = (state) => state.schedules.performances;
 
 export default schedulesSlice.reducer;

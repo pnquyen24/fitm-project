@@ -14,10 +14,10 @@ import TimeInput from "../../Member/Input/TimeInput";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import {
-    createSchedule,
-    deleteSchedule,
+    createPractical,
+    deletePractical,
     toggleModal,
-    updateSchedule,
+    updatePractical,
 } from "../../../Variable/Redux/Slice/scheduleSlice";
 
 function PracticalSchedule({ isEditCard, eventInfos }) {
@@ -39,7 +39,6 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
 
     useEffect(() => {
         if (isEditCard) {
-            console.log(eventInfos.event.startStr);
             setFormSchedule({
                 id: eventInfos.event.id,
                 title: eventInfos?.event?.title,
@@ -95,7 +94,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
     function handleAddedEvent() {
         try {
             const newSchedule = getEvent(formSchedule);
-            dispatch(createSchedule(newSchedule));
+            dispatch(createPractical(newSchedule));
             CustomeAlert.success("Added successfully");
         } catch {
             CustomeAlert.error("Something error");
@@ -110,7 +109,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                 id: formSchedule.id,
                 ...getEvent(formSchedule),
             };
-            dispatch(updateSchedule(updatedSchedule));
+            dispatch(updatePractical(updatedSchedule));
             CustomeAlert.success("Updated successfully");
         } catch {
             CustomeAlert.error("Something error");
@@ -121,7 +120,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
 
     function handleDeleteEvent() {
         try {
-            dispatch(deleteSchedule({ id: Number(formSchedule.id) }));
+            dispatch(deletePractical({ id: Number(formSchedule.id) }));
             CustomeAlert.success("Deleted successfully");
         } catch {
             CustomeAlert.error("Something error");

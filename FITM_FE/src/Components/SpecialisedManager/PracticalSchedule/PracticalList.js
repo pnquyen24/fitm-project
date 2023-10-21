@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import {
-    fetchSchedules,
-    selectAllSchedules,
+    fetchPracticals,
+    selectAllPracticals,
 } from "../../../Variable/Redux/Slice/scheduleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Paper from "@mui/material/Paper";
@@ -12,10 +12,10 @@ function PracticalList() {
     let index = 0;
 
     const dispatch = useDispatch();
-    const schedules = useSelector(selectAllSchedules);
+    const schedules = useSelector(selectAllPracticals);
 
     useEffect(() => {
-        dispatch(fetchSchedules());
+        dispatch(fetchPracticals());
     }, [dispatch]);
 
     function createData(id, title, room, startDate, endDate) {

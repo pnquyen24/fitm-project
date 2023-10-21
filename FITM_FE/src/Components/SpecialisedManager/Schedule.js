@@ -4,10 +4,12 @@ import ModalSchedule from "./ModalSchedule";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    fetchSchedules,
-    selectAllSchedules,
+    fetchPerformances,
+    fetchPracticals,
+    selectAllPerformances,
+    selectAllPracticals,
     toggleModal,
-    updateSchedule,
+    updatePractical,
 } from "../../Variable/Redux/Slice/scheduleSlice";
 import { Box } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
@@ -19,7 +21,8 @@ import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 
 function Schedule() {
     const dispatch = useDispatch();
-    const schedules = useSelector(selectAllSchedules);
+    const practicals = useSelector(selectAllPracticals);
+    const performances = useSelector(selectAllPerformances);
 
     const calendarRef = useRef(null);
 
@@ -36,10 +39,11 @@ function Schedule() {
     }, [calApi]);
 
     useEffect(() => {
-        dispatch(fetchSchedules());
+        dispatch(fetchPracticals());
+        dispatch(fetchPerformances());
     }, [dispatch]);
 
-    function processReduxData(data) {
+    function processPracticals(data) {
         return data.map((item) => ({
             id: item.id,
             title: item.title,
@@ -47,7 +51,21 @@ function Schedule() {
             start: new Date(`${item.date}T${item.startTime}`),
             end: new Date(`${item.date}T${item.endTime}`),
             room: item.room,
+            type: "practical",
             color: "#1677ff",
+            display: "block",
+        }));
+    }
+
+    function processPerformances(data) {
+        return data.map((item) => ({
+            id: item.id,
+            name: item.name,
+            place: item.place,
+            start: new Date(`${item.date}T${item.time}`),
+            backgroundImg: item.backgroundImg,
+            type: "performance",
+            color: "#ff0000",
             display: "block",
         }));
     }
@@ -66,6 +84,13 @@ function Schedule() {
         };
     }
 
+    function combineEvent() {
+        return [
+            ...processPracticals(practicals),
+            ...processPerformances(performances),
+        ];
+    }
+
     async function handleSelect(selectInfo) {
         setEventInfos(selectInfo);
         setIsEditCard(false);
@@ -81,7 +106,7 @@ function Schedule() {
     async function handleEventChange(changeInfo) {
         try {
             const processedData = processCalendarData(changeInfo);
-            dispatch(updateSchedule(processedData));
+            dispatch(updatePractical(processedData));
         } catch {
             CustomeAlert.error("Something error");
         }
@@ -145,7 +170,7 @@ function Schedule() {
                         listPlugin,
                         interactionPlugin,
                     ]}
-                    events={processReduxData(schedules)}
+                    events={combineEvent()}
                     select={handleSelect}
                     eventClick={handleEventClick}
                     eventChange={handleEventChange}
