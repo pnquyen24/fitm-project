@@ -9,28 +9,13 @@ import {
     toggleModal,
     updateSchedule,
 } from "../../Variable/Redux/Slice/scheduleSlice";
-import {
-    Box,
-    Button,
-    ButtonGroup,
-    Grid,
-    IconButton,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import CalendarViewMonthIcon from "@mui/icons-material/CalendarViewMonth";
-import CalendarViewWeekIcon from "@mui/icons-material/CalendarViewWeek";
-import CalendarViewDayIcon from "@mui/icons-material/CalendarViewDay";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 
 function Schedule() {
     const dispatch = useDispatch();
@@ -42,7 +27,6 @@ function Schedule() {
     const [eventInfos, setEventInfos] = useState();
     const [isEditCard, setIsEditCard] = useState();
     const [date, setDate] = useState();
-    const [selected, setSelected] = useState(0);
 
     useEffect(() => {
         setCalApi(calendarRef.current?.getApi());
@@ -55,7 +39,7 @@ function Schedule() {
         dispatch(fetchSchedules());
     }, [dispatch]);
 
-    const processReduxData = (data) => {
+    function processReduxData(data) {
         return data.map((item) => ({
             id: item.id,
             title: item.title,
@@ -66,9 +50,9 @@ function Schedule() {
             color: "#1677ff",
             display: "block",
         }));
-    };
+    }
 
-    const processCalendarData = (data) => {
+    function processCalendarData(data) {
         return {
             id: data.event.id,
             title: data.event.title,
@@ -80,66 +64,55 @@ function Schedule() {
             endTime: new Date(data.event.endStr).toTimeString().split(" ")[0],
             room: data.event.extendedProps.room,
         };
-    };
+    }
 
-    const handleSelect = async (selectInfo) => {
+    async function handleSelect(selectInfo) {
         setEventInfos(selectInfo);
         setIsEditCard(false);
         dispatch(toggleModal(true));
-    };
+    }
 
-    const handleEventClick = async (clickInfo) => {
+    async function handleEventClick(clickInfo) {
         setEventInfos(clickInfo);
         setIsEditCard(true);
         dispatch(toggleModal(true));
-    };
+    }
 
-    const handleEventChange = async (changeInfo) => {
+    async function handleEventChange(changeInfo) {
         try {
             const processedData = processCalendarData(changeInfo);
             dispatch(updateSchedule(processedData));
         } catch {
             CustomeAlert.error("Something error");
         }
-    };
+    }
 
-    const handleDateChange = (direction) => {
-        if (calApi) {
-            switch (direction) {
-                case "prevYear":
-                    calApi.prevYear();
-                    break;
-                case "prev":
-                    calApi.prev();
-                    break;
-                case "today":
-                    calApi.today();
-                    break;
-                case "next":
-                    calApi.next();
-                    break;
-                case "nextYear":
-                    calApi.nextYear();
-                    break;
-                case "month":
-                    calApi.changeView("dayGridMonth");
-                    break;
-                case "week":
-                    calApi.changeView("timeGridWeek");
-                    break;
-                case "day":
-                    calApi.changeView("timeGridDay");
-                    break;
-                case "list":
-                    calApi.changeView("listMonth");
-                    break;
-                default:
-                    break;
-            }
-        }
+    function isToday() {
+        const current = new Date();
+        const start = calApi?.view.currentStart;
+        const end = calApi?.view.currentEnd;
+        return current >= start && current < end;
+    }
+
+    function handleDateChange(direction) {
+        if (!calApi) return;
+
+        const actions = {
+            prevYear: () => calApi.prevYear(),
+            prev: () => calApi.prev(),
+            today: () => calApi.today(),
+            next: () => calApi.next(),
+            nextYear: () => calApi.nextYear(),
+            month: () => calApi.changeView("dayGridMonth"),
+            week: () => calApi.changeView("timeGridWeek"),
+            day: () => calApi.changeView("timeGridDay"),
+            list: () => calApi.changeView("listWeek"),
+        };
+
+        actions[direction] && actions[direction]();
 
         setDate(calApi.view.title);
-    };
+    }
 
     return (
         <div id="calendar">
@@ -148,113 +121,23 @@ function Schedule() {
                     eventInfos={eventInfos}
                     isEditCard={isEditCard}
                 />
-                <Grid container spacing={3} className="headerToolBar">
-                    <Grid item>
-                        <Button
-                            disableElevation
-                            size="medium"
-                            sx={{ textTransform: "none" }}
-                            variant="outlined"
-                            onClick={() => handleDateChange("today")}
-                        >
-                            Today
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Stack direction="row" sx={{ alignItems: "center" }}>
-                            <IconButton
-                                color="primary"
-                                size="large"
-                                onClick={() => handleDateChange("prevYear")}
-                            >
-                                <KeyboardDoubleArrowLeftIcon />
-                            </IconButton>
-                            <IconButton
-                                color="primary"
-                                size="large"
-                                onClick={() => handleDateChange("prev")}
-                            >
-                                <KeyboardArrowLeftIcon />
-                            </IconButton>
-                            <Typography component={"h3"}>{date}</Typography>
-                            <IconButton
-                                color="primary"
-                                size="large"
-                                onClick={() => handleDateChange("next")}
-                            >
-                                <KeyboardArrowRightIcon />
-                            </IconButton>
-                            <IconButton
-                                color="primary"
-                                size="large"
-                                onClick={() => handleDateChange("nextYear")}
-                            >
-                                <KeyboardDoubleArrowRightIcon />
-                            </IconButton>
-                        </Stack>
-                    </Grid>
-                    <Grid item>
-                        <ButtonGroup
-                            disableElevation={true}
-                            disableRipple
-                            variant="outlined"
-                        >
-                            <Button
-                                variant={
-                                    selected === 0 ? "contained" : "outlined"
-                                }
-                                onClick={() => {
-                                    handleDateChange("month");
-                                    setSelected(0);
-                                }}
-                            >
-                                <CalendarViewMonthIcon />
-                            </Button>
-                            <Button
-                                variant={
-                                    selected === 1 ? "contained" : "outlined"
-                                }
-                                onClick={() => {
-                                    handleDateChange("week");
-                                    setSelected(1);
-                                }}
-                            >
-                                <CalendarViewWeekIcon />
-                            </Button>
-                            <Button
-                                variant={
-                                    selected === 2 ? "contained" : "outlined"
-                                }
-                                onClick={() => {
-                                    handleDateChange("day");
-                                    setSelected(2);
-                                }}
-                            >
-                                <CalendarViewDayIcon />
-                            </Button>
-                            <Button
-                                variant={
-                                    selected === 3 ? "contained" : "outlined"
-                                }
-                                onClick={() => {
-                                    handleDateChange("list");
-                                    setSelected(3);
-                                }}
-                            >
-                                <FormatListBulletedIcon />
-                            </Button>
-                        </ButtonGroup>
-                    </Grid>
-                </Grid>
+                <HeaderCalendar
+                    date={date}
+                    isToday={isToday}
+                    handleDateChange={handleDateChange}
+                />
                 <FullCalendar
-                    dayMaxEvents={true}
-                    defaultAllDay={false}
-                    editable={true}
                     height={800}
+                    dayMaxEvents={true}
+                    editable={true}
                     selectable={true}
                     selectMirror={true}
+                    defaultAllDay={false}
                     headerToolbar={false}
                     initialView="dayGridMonth"
+                    selectAllow={(s) =>
+                        ~~(Math.abs(s.end - 864e5 - s.start) / 864e5) < 1
+                    }
                     ref={calendarRef}
                     plugins={[
                         dayGridPlugin,
@@ -266,9 +149,6 @@ function Schedule() {
                     select={handleSelect}
                     eventClick={handleEventClick}
                     eventChange={handleEventChange}
-                    selectAllow={(s) =>
-                        ~~(Math.abs(s.end - 864e5 - s.start) / 864e5) < 1
-                    }
                     eventTimeFormat={{
                         hour: "numeric",
                         minute: "2-digit",
