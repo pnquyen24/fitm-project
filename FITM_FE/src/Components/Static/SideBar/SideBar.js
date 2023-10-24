@@ -33,9 +33,9 @@ function SideBar({ isOpen, setOpen }) {
         },
         { Title: "Schedule", Icon: "add-circle-outline", Link: "/schedule" },
         {
-            Title: "Practical Schedule",
+            Title: "Attendance Practical",
             Icon: "calendar",
-            Link: "/practicalSchedule",
+            Link: "/attendance",
         },
         {
             Title: "Music List",

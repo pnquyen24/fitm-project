@@ -53,7 +53,6 @@ function PerformanceItem(props) {
         setFlip(!flip);
     };
 
-
     async function attendance() {
         axios.defaults.headers[
             "Authorization"
@@ -67,8 +66,6 @@ function PerformanceItem(props) {
 
         }
         // console.log(membersPerformance);
-
-        
     }
 
     function getMembers(data) {

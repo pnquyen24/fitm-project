@@ -2,28 +2,26 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchList,
-    getAttendanceError,
-    getAttendanceStatus,
-    selectAllAttendance,
+    getAttendancePractical,
     updateList,
-} from "../../Variable/Redux/Slice/attendanceSlice";
-import CustomeAlert from "../Member/Alert/CustomeAlert";
-import AttendanceTable from "../Member/Table/AttendanceTable";
+} from "../../../Variable/Redux/Slice/attendancePracticalSlice";
+import CustomeAlert from "../../Member/Alert/CustomeAlert";
+import AttendanceTable from "../../Member/Table/AttendanceTable/AttendanceTable";
 import { Button, Card, CardHeader, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
-function AttendancePractical({ scheduleId }) {
-    let index = 0;
-
+function AttendancePractical() {
     const dispatch = useDispatch();
-    const data = useSelector(selectAllAttendance);
-    const status = useSelector(getAttendanceStatus);
-    const error = useSelector(getAttendanceError);
+    const data = useSelector(getAttendancePractical);
+
+    const location = useLocation();
+
+    let index = 0;
+    let scheduleId = location.state?.scheduleId;
 
     useEffect(() => {
-        if (status === "idle") {
-            dispatch(fetchList(1));
-        }
-    }, [scheduleId, status, dispatch]);
+        dispatch(fetchList(scheduleId));
+    }, [dispatch, scheduleId]);
 
     const columns = [
         { id: "index", label: "#" },
@@ -60,8 +58,9 @@ function AttendancePractical({ scheduleId }) {
         try {
             dispatch(updateList(dataToUpdate));
         } catch {
-            CustomeAlert.error(error);
+            CustomeAlert.error("Something error");
         }
+        CustomeAlert.success("Success");
     }
 
     return (

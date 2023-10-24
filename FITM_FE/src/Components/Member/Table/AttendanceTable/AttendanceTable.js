@@ -8,7 +8,7 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import CustomeFCLabel from "../Label/CustomeFCLabel";
+import CustomeFCLabel from "../../Label/CustomeFCLabel";
 import "./AttendanceTable.css";
 
 function AttendanceTable({ columns, rows, handleChange }) {
