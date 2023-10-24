@@ -28,9 +28,9 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
         id: null,
         title: "",
         description: "",
-        date: null,
-        startTime: null,
-        endTime: null,
+        date: eventInfos?.startStr,
+        startTime: new Date(0, 0, 0, 17, 30),
+        endTime: new Date(0, 0, 0, 19, 0),
         room: null,
     };
 
@@ -47,15 +47,6 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                 startTime: eventInfos?.event?.startStr,
                 endTime: eventInfos?.event?.endStr,
                 room: eventInfos?.event?.extendedProps?.room,
-            });
-        } else {
-            setFormSchedule({
-                title: "",
-                description: "",
-                date: eventInfos?.startStr,
-                startTime: new Date(0, 0, 0, 17, 30),
-                endTime: new Date(0, 0, 0, 19, 0),
-                room: null,
             });
         }
     }, [eventInfos, isEditCard]);

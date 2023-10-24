@@ -91,19 +91,24 @@ function Schedule() {
         ];
     }
 
-    async function handleSelect(selectInfo) {
+    function handleSelect(selectInfo) {
+        const current = new Date();
+        if (selectInfo.end < current) {
+            CustomeAlert.warning("Can not create schedule");
+            return;
+        }
         setEventInfos(selectInfo);
         setIsEditCard(false);
         dispatch(toggleModal(true));
     }
 
-    async function handleEventClick(clickInfo) {
+    function handleEventClick(clickInfo) {
         setEventInfos(clickInfo);
         setIsEditCard(true);
         dispatch(toggleModal(true));
     }
 
-    async function handleEventChange(changeInfo) {
+    function handleEventChange(changeInfo) {
         try {
             const processedData = processCalendarData(changeInfo);
             dispatch(updatePractical(processedData));

@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { Box, Dialog, Tab } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Dialog } from "@mui/material";
 import AddPfmSchedule from "./PerformanceSchedule/AddPfmSchedule";
 import PracticalSchedule from "./PracticalSchedule/PracticalSchedule";
 import { useDispatch, useSelector } from "react-redux";
