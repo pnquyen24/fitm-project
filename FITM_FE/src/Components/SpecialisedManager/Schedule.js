@@ -60,6 +60,7 @@ function Schedule() {
     function processPerformances(data) {
         return data.map((item) => ({
             id: item.id,
+            title: item.name,
             name: item.name,
             place: item.place,
             start: new Date(`${item.date}T${item.time}`),
@@ -159,7 +160,7 @@ function Schedule() {
                 <FullCalendar
                     height={800}
                     dayMaxEvents={true}
-                    editable={true}
+                    editable={false}
                     selectable={true}
                     selectMirror={true}
                     defaultAllDay={false}

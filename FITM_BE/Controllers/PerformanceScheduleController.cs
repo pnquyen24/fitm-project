@@ -28,6 +28,13 @@ namespace FITM_BE.Controllers
         {
             return _performanceScheduleService.ViewPerformance();
         }
+        
+        [HttpGet]
+        [Authorize]
+        public IQueryable<PerformanceDTO> ViewAllPerformance()
+        {
+            return _performanceScheduleService.ViewAllPerformance();
+        }
 
         [HttpGet]
         [Authorize]

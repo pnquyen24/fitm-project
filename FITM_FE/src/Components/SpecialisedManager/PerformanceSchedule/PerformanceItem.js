@@ -142,7 +142,7 @@ function PerformanceItem(props) {
                             gutterBottom
                             color="text.secondary"
                         >
-                            Time: {performance.time.substring(0,5)}
+                            Time: {performance.time}
                         </Typography>
                         <Typography
                             variant="body1"

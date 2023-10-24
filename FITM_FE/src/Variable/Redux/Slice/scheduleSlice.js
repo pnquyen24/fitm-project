@@ -1,3 +1,4 @@
+import CustomeAlert from "../../../Components/Member/Alert/CustomeAlert";
 import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -12,7 +13,7 @@ const DELETE_PRACTICAL_SCHEDULE_URL = (id) =>
     `PracticalSchedule/DeletePracticalSchedule?id=${id}`;
 
 //Performance schedule
-const GET_ALL_PERFORMANCE_SCHEDULES_URL = "PerformanceSchedule/ViewPerformance";
+const GET_ALL_PERFORMANCE_SCHEDULES_URL = "PerformanceSchedule/ViewAllPerformance";
 const CREATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Create";
 const UPDATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Update";
 const DELETE_PERFORMANCE_SCHEDULE_URL = (pfmID) =>
@@ -148,6 +149,9 @@ const schedulesSlice = createSlice({
             .addCase(createPerformance.fulfilled, (state, action) => {
                 state.performances.push(action.payload);
             })
+            .addCase(createPerformance.rejected, (state, action) => {
+                CustomeAlert.error("Created Error");
+            })
             .addCase(updatePerformance.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
                 state.performances = state.performances.map((schedule) => {
@@ -156,13 +160,22 @@ const schedulesSlice = createSlice({
                     }
                     return schedule;
                 });
+                CustomeAlert.success("Updated successfully");
+            })
+            .addCase(updatePerformance.rejected, (state, action) => {
+                CustomeAlert.error("Updated Error");
             })
             .addCase(deletePerformance.fulfilled, (state, action) => {
                 const { id } = action.payload;
                 state.performances = state.performances.filter(
                     (schedule) => schedule.id !== id
                 );
+                CustomeAlert.success("Deleted Successfully");
+            })
+            .addCase(deletePerformance.rejected, (state, action) => {
+                CustomeAlert.error("Deleted Error");
             });
+            
     },
 });
 

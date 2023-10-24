@@ -1,5 +1,4 @@
 import { Dialog } from "@mui/material";
-import AddPfmSchedule from "./PerformanceSchedule/AddPfmSchedule";
 import PracticalSchedule from "./PracticalSchedule/PracticalSchedule";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,6 +6,7 @@ import {
     toggleModal,
 } from "../../Variable/Redux/Slice/scheduleSlice";
 import ConditionalTabs from "../Member/Schedule/ConditionalTabs";
+import PerformanceSchedule from "./PerformanceSchedule/PerformanceSchedule";
 
 function ModalSchedule({ eventInfos, isEditCard }) {
     const dispatch = useDispatch();
@@ -27,7 +27,10 @@ function ModalSchedule({ eventInfos, isEditCard }) {
         performance: {
             value: "2",
             label: "Performance Schedule",
-            panel: <AddPfmSchedule />,
+            panel: <PerformanceSchedule
+                isEditCard={isEditCard}
+                eventInfos={eventInfos}
+            />,
         },
     };
 
@@ -35,8 +38,8 @@ function ModalSchedule({ eventInfos, isEditCard }) {
         type === "practical"
             ? [tabs.practical]
             : type === "performance"
-            ? [tabs.performance]
-            : [tabs.practical, tabs.performance];
+                ? [tabs.performance]
+                : [tabs.practical, tabs.performance];
 
     function handleClose() {
         dispatch(toggleModal(false));
