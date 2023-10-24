@@ -65,5 +65,19 @@ namespace FITM_BE.Controllers
         {
             await _performanceScheduleService.CallOffPerformance(pfmID);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<PerformanceViewAttendDTO?> ViewListMember(int pfmID)
+        {
+            return  await _performanceScheduleService.ViewListMembers(pfmID);
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task AttendancePerformance(PerformanceAttendanceDTO pfmAttend)
+        {
+            await _performanceScheduleService.AttendancePerformance(pfmAttend);
+        }
     }
 }

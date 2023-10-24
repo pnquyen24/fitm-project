@@ -70,7 +70,7 @@ namespace FITM_BE.Util
 
         public async Task Delete<TEntity>(int id) where TEntity : Entity<int>
         {
-            await Delete<TEntity>(id);
+            await Delete<TEntity, int>(id);
         }
 
         public async Task<TEntity> Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>

@@ -20,6 +20,7 @@ import { Provider } from "react-redux";
 import store from "./Variable/Redux/store";
 import Performance from "./Components/SpecialisedManager/PerformanceSchedule/Performance";
 import Schedule from "./Components/SpecialisedManager/Schedule";
+import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
 
 let Authented = true;
@@ -41,6 +42,7 @@ root.render(
                             )
                         }
                     >
+                        <Route path="" element={<Performance />} />
                         <Route path="profile" element={<Profile />} />
                         <Route
                             path="request-edit-info-list"
@@ -80,6 +82,7 @@ root.render(
                             path="attendance"
                             element={<AttendancePractical />}
                         />
+                        <Route path="attendancePerformance" element={<AttendancePerformance />} />
                     </Route>
                     <Route
                         path="/forgotPassword"

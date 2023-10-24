@@ -22,7 +22,7 @@ import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 function Schedule() {
     const dispatch = useDispatch();
     const practicals = useSelector(selectAllPracticals);
-    const performances = useSelector(selectAllPerformances);
+    const performances = useSelector(getPerformances);
 
     const calendarRef = useRef(null);
 
@@ -55,7 +55,6 @@ function Schedule() {
             color: "#1677ff",
             display: "block",
         }));
-    }
 
     function processPerformances(data) {
         return data.map((item) => ({
@@ -142,6 +141,11 @@ function Schedule() {
         actions[direction] && actions[direction]();
 
         setDate(calApi.view.title);
+    }
+
+    const combineEvents = () =>{
+        processReduxData(schedules);
+        processReduxPerformance(performances);
     }
 
     return (

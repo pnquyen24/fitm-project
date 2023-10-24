@@ -26,11 +26,12 @@ import { useTheme } from "@mui/material/styles";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./PerformanceItem.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PerformanceItem(props) {
     const [flip, setFlip] = useState(false);
-    // let [performance] = useState({});
     const [performance, setPerformance] = useState({});
+    const navigate = useNavigate();
 
     const handelClickDetails = () => {
         axios.defaults.headers[
@@ -45,12 +46,36 @@ function PerformanceItem(props) {
                 console.log(response.data);
                 handleFlip();
             })
-            .catch((error) => {});
+            .catch((error) => { });
     };
 
     const handleFlip = () => {
         setFlip(!flip);
     };
+
+    async function attendance() {
+        axios.defaults.headers[
+            "Authorization"
+        ] = `Bearer ${localStorage.getItem("token")}`;
+        try {
+            const response = await axios.get(
+                `https://localhost:7226/apis/PerformanceSchedule/ViewListMember?pfmID=${props.ID}`
+            )
+            getMembers(response.data);
+        } catch (error) {
+
+        }
+        // console.log(membersPerformance);
+    }
+
+    function getMembers(data) {
+        navigate("/attendancePerformance", {
+            state: {
+                data: data,
+            },
+        });
+    }
+
     return (
         <Grid item xs={2} sm={4} md={4}>
             <div className={flip ? "card flipped" : "card"}>
@@ -117,7 +142,7 @@ function PerformanceItem(props) {
                             gutterBottom
                             color="text.secondary"
                         >
-                            Time: {performance.time}
+                            Time: {performance.time.substring(0,5)}
                         </Typography>
                         <Typography
                             variant="body1"
@@ -158,6 +183,7 @@ function PerformanceItem(props) {
                             size="small"
                             variant="contained"
                             color="success"
+                            onClick={attendance}
                         >
                             Attendance
                         </Button>
@@ -172,10 +198,10 @@ function CardAccordion({ Title, Items, pfmID }) {
     const itemList =
         Items && Items.length > 0
             ? Items.map((item) => (
-                  <ListItem>
-                      <ListItemText key={item.id} primary={item.name} />
-                  </ListItem>
-              ))
+                <ListItem>
+                    <ListItemText key={item.id} primary={item.name} />
+                </ListItem>
+            ))
             : null;
 
     return (

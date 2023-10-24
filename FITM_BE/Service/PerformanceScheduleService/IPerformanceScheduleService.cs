@@ -12,5 +12,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
         Task DeletePerformance(int pfmID);
         Task JoinPerformance(int pfmID, int MemberID);
         Task CallOffPerformance(int pfmID);
+        Task<PerformanceViewAttendDTO?> ViewListMembers(int pfmID);
+        Task AttendancePerformance(PerformanceAttendanceDTO pfmAttend);
     }
 }
