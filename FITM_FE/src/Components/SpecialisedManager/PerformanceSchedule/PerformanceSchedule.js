@@ -40,7 +40,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         autoFocus: true,
     };
 
-    const songToUpdate = {
+    const performanceToCreate = {
         id: 0,
         name: "",
         place: "",
@@ -53,7 +53,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     const [songs, setSongs] = useState([]);
     const [songName, setSongName] = useState([]);
     const [songIds] = useState([]);
-    const [formSchedule, setFormSchedule] = useState(songToUpdate);
+    const [formSchedule, setFormSchedule] = useState(performanceToCreate);
     const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
@@ -119,7 +119,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
             songIDs: songIds
         };
     }
-
     //Handle when submit ("Add" or "Update" button)
     function handleSubmit(e) {
 
@@ -246,12 +245,8 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <InputLabel />
                             <CustomeTextField
                                 error={Boolean(formErrors.name)}
-                                helperText={
-                                    Boolean(formErrors.name) &&
-                                    formErrors.name
-                                }
                                 name="name"
-                                placeholder="Name"
+                                label={Boolean(formErrors.name)? "Name is required" : "Name"}
                                 size="small"
                                 type="text"
                                 onChange={(event) =>
@@ -269,12 +264,8 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <InputLabel />
                             <CustomeTextField
                                 error={Boolean(formErrors.place)}
-                                helperText={
-                                    Boolean(formErrors.place) &&
-                                    formErrors.place
-                                }
                                 name="place"
-                                placeholder="Place"
+                                label={Boolean(formErrors.place)? "Place is required and < 30 charater" :"Place"}
                                 size="small"
                                 type="text"
                                 onChange={(event) =>
@@ -359,7 +350,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <InputLabel />
                             <CustomeTextField
                                 name="backgroundImg"
-                                placeholder="Image"
+                                label="Image"
                                 size="small"
                                 type="text"
                                 onChange={(event) =>

@@ -19,6 +19,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./Variable/Redux/store";
 import Performance from "./Components/SpecialisedManager/PerformanceSchedule/Performance";
+import PerformanceTable from "./Components/SpecialisedManager/PerformanceSchedule/PerformanceTable";
 import Schedule from "./Components/SpecialisedManager/Schedule";
 import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
@@ -72,7 +73,7 @@ root.render(
                         </Route>
                         <Route path="schedule" element={<Schedule />} />
                         <Route path="practical" element={<PracticalList />} />
-                        <Route path="performance" element={<Performance />} />
+                        <Route path="performance" element={<PerformanceTable />} />
                         <Route
                             path="changepassword"
                             element={<ChangePassword />}
