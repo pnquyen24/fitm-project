@@ -23,8 +23,7 @@ function Performance() {
     }, []);
 
     const imageDefault =
-        "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/340660349_784571749933806_5653287607927274901_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=hp791ODD-TIAX8qJiOS&_nc_ht=scontent.fsgn2-4.fna&_nc_e2o=f&oh=00_AfC1piZ6ns0oYsrJ1roMl8_ZJHA2CZm70szVAAYyVU3Jhw&oe=6533C4F1";
-
+    "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     // const Img = styled('img')({
     //     display: 'block',
     //     maxWidth: '100%',

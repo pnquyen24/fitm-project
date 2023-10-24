@@ -1,14 +1,23 @@
 import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+//------------------------------------------------------------------------
 const GET_ALL_SCHEDULES_URL = "PracticalSchedule/ViewPracticalSchedules";
 const CREATE_SCHEDULE_URL = "PracticalSchedule/AddPracticalSchedule";
 const UPDATE_SCHEDULE_URL = "PracticalSchedule/UpdatePracticalSchedule";
 const DELETE_SCHEDULE_URL = (id) =>
     `PracticalSchedule/DeletePracticalSchedule?id=${id}`;
-
+//------------------------------------------------------------------------
+const GET_PERFORMANCES_URL = "PerformanceSchedule/ViewPerformance";
+const CREATE_PERFORMANCE_URL = "PerformanceSchedule/Create";
+const UPDATE_PERFORMANCE_URL = "PerformanceSchedule/Update";
+const DELETE_PERFORMANCE_URL = (id) =>
+    `PerformanceSchedule/Delete?id=${id}`;
+//------------------------------------------------------------------------
 const initialState = {
     schedules: [],
+    performances: [],
+    isModelOpen: false,
     status: "idle",
     error: null,
 };
@@ -17,6 +26,14 @@ export const fetchSchedules = createAsyncThunk(
     "schedules/fetchSchedules",
     async () => {
         const response = await axiosClient.get(GET_ALL_SCHEDULES_URL);
+        return response.data;
+    }
+);
+
+export const fetchPerformances = createAsyncThunk(
+    "performances/fetchPerformances",
+    async () => {
+        const response = await axiosClient.get(GET_PERFORMANCES_URL);
         return response.data;
     }
 );
@@ -55,9 +72,18 @@ export const deleteSchedule = createAsyncThunk(
 const schedulesSlice = createSlice({
     name: "schedule",
     initialState,
-    reducers: {},
+    reducers: {
+        toggleModal: (state, action) => {
+            state.isModelOpen = action.payload
+        }
+
+    },
     extraReducers: (builder) => {
         builder
+            .addCase(fetchPerformances.fulfilled, (state, action) => {
+                state.performances = action.payload;
+                state.status = "succeeded";
+            })
             .addCase(fetchSchedules.pending, (state, action) => {
                 state.status = "loading";
             })
@@ -90,8 +116,12 @@ const schedulesSlice = createSlice({
     },
 });
 
+export const {toggleModal} = schedulesSlice.actions;
+export const getIsModalOpen = (state) => state.schedules.isModelOpen;
 export const selectAllSchedules = (state) => state.schedules.schedules;
 export const getScheduleStatus = (state) => state.schedules.status;
 export const getScheduleError = (state) => state.schedules.error;
+
+export const getPerformances = (state) => state.schedules.performances;
 
 export default schedulesSlice.reducer;

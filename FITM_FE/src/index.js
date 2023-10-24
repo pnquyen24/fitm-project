@@ -19,8 +19,9 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./Variable/Redux/store";
-import Performance from "./Components/PerformanceSchedule/Performance";
+import Performance from "./Components/SpecialisedManager/PerformanceSchedule/Performance";
 import Schedule from "./Components/SpecialisedManager/Schedule";
+import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 
 let Authented = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -32,21 +33,23 @@ root.render(
                 <Routes>
                     <Route path="login" element={<Login />} />
                     <Route path="/*" element={Authented ? <App></App> : <LandingPage></LandingPage>}>
+                        <Route path="" element={<Performance />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
                         <Route path="member-manager" >
                             <Route path="create-member" element={<CreateMember />} />
                             <Route path="member-list" element={<MemberList />} />
                             <Route path="member-profile" element={<MemberProfile />} />
-                            <Route path="request-edit-info-list" element={<RequestChangeInfoList />}/>
+                            <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
                             <Route path="request-details" element={<RequestDetail />} />
                         </Route>
-                        <Route path="schedule" element={<Schedule />}/>
-                        <Route path="performance" element={<Performance/>}/>
+                        <Route path="schedule" element={<Schedule />} />
                         <Route path="changepassword" element={<ChangePassword />} />
                         <Route path="music-list" element={<Music />} />
-                        <Route path="practical" element={<PracticalSchedule />}/>
-                        <Route path="attendance" element={<AttendancePractical />} />
+                        <Route path="practical" element={<PracticalSchedule />} />
+                        <Route path="attendancePractical" element={<AttendancePractical />} />
+                        <Route path="practical" element={<PracticalSchedule />} />
+                        <Route path="attendancePerformance" element={<AttendancePerformance />} />
                     </Route>
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                 </Routes>

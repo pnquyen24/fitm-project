@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Schedule.css";
 import ModalSchedule from "./ModalSchedule";
-import useOpenClosed from "./useOpenClosed";
 import {
+    fetchPerformances,
     fetchSchedules,
+    getPerformances,
     getScheduleError,
     getScheduleStatus,
     selectAllSchedules,
+    toggleModal,
     updateSchedule,
 } from "../../Variable/Redux/Slice/scheduleSlice";
 import CustomeAlert from "../Member/Alert/CustomeAlert";
@@ -36,11 +38,11 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 function Schedule() {
     const dispatch = useDispatch();
+    const performances = useSelector(getPerformances);
     const schedules = useSelector(selectAllSchedules);
     const scheduleStatus = useSelector(getScheduleStatus);
     const error = useSelector(getScheduleError);
 
-    const modalInfosEvent = useOpenClosed(false);
     const calendarRef = useRef(null);
 
     const [calApi, setCalApi] = useState();
@@ -59,6 +61,7 @@ function Schedule() {
     useEffect(() => {
         if (scheduleStatus === "idle") {
             dispatch(fetchSchedules());
+            dispatch(fetchPerformances());
         }
     }, [scheduleStatus, dispatch]);
 
@@ -70,6 +73,20 @@ function Schedule() {
             start: item.startDate,
             end: item.endDate,
             room: item.room,
+            color: "#1677ff",
+            display: "block",
+        }));
+    };
+    
+    const processReduxPerformance = (data) => {
+        console.log(data);
+        return data.map((item) => ({
+            id: item.id,
+            name: item.name,
+            place: item.place,
+            date: item.date,
+            time: item.time,
+            backgroundImg: item.backgroundImg,
             color: "#1677ff",
             display: "block",
         }));
@@ -89,13 +106,13 @@ function Schedule() {
     const handleSelect = async (selectInfo) => {
         setEventInfos(selectInfo);
         setIsEditCard(false);
-        modalInfosEvent.handleOpen();
+        dispatch(toggleModal(true));
     };
 
     const handleEventClick = async (clickInfo) => {
         setEventInfos(clickInfo);
         setIsEditCard(true);
-        modalInfosEvent.handleOpen();
+        dispatch(toggleModal(true));
     };
 
     const handleEventChange = async (changeInfo) => {
@@ -145,12 +162,15 @@ function Schedule() {
         setDate(calApi.view.title);
     };
 
+    const combineEvents = () =>{
+        processReduxData(schedules);
+        processReduxPerformance(performances);
+    }
+
     return (
         <div id="calendar">
             <Box>
                 <ModalSchedule
-                    open={modalInfosEvent.isOpen}
-                    handleClose={modalInfosEvent.handleClose}
                     eventInfos={eventInfos}
                     isEditCard={isEditCard}
                 />
@@ -268,7 +288,7 @@ function Schedule() {
                         listPlugin,
                         interactionPlugin,
                     ]}
-                    events={processReduxData(schedules)}
+                    events={processReduxPerformance(performances)}
                     select={handleSelect}
                     eventClick={handleEventClick}
                     eventChange={handleEventChange}

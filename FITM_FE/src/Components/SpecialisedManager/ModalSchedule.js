@@ -15,7 +15,9 @@ import {
 import {
     createSchedule,
     deleteSchedule,
+    getIsModalOpen,
     getScheduleError,
+    toggleModal,
     updateSchedule,
 } from "../../Variable/Redux/Slice/scheduleSlice";
 import DateTimeInput from "../Member/Input/DateTimeInput";
@@ -26,8 +28,9 @@ import AddPfmSchedule from "./PerformanceSchedule/AddPfmSchedule";
 
 
 
-function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
+function ModalSchedule({eventInfos, isEditCard}) {
     const dispatch = useDispatch();
+    const isOpen = useSelector(getIsModalOpen);
     const error = useSelector(getScheduleError);
 
     const intialValues = {
@@ -69,6 +72,11 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
             endDate: formSchedule.endDate,
             room: formSchedule.room,
         };
+    }
+
+    function handleClose(){
+        dispatch(toggleModal(false));
+        setValueTab("1");
     }
 
     function resetAndCloseModal() {
@@ -189,7 +197,7 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
 
     return (
         <Dialog
-            open={Boolean(open)}
+            open={isOpen}
             onClose={handleClose}
             scroll={"paper"}
             fullWidth
@@ -369,7 +377,10 @@ function ModalSchedule({ handleClose, open, eventInfos, isEditCard }) {
                     </form>
                 </TabPanel>
                 <TabPanel value="2">
-                    <AddPfmSchedule/>
+                    <AddPfmSchedule
+                        eventInfos={eventInfos}
+                        isEditCard={isEditCard}
+                    />
                 </TabPanel>
             </TabContext>
         </Dialog>

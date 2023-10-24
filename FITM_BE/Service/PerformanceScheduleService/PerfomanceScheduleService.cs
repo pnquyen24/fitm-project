@@ -178,12 +178,62 @@ namespace FITM_BE.Service.PerformanceScheduleService
             var pfm = await _repository.GetAll<PerformanceSchedule>()
                                    .Where(pfm => pfm.Id == pfmID)
                                    .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
-                                   .Where(pfm => pfm.Status  != Enums.PerformaceStatus.CallOff)
+                                   .Where(pfm => pfm.Status != Enums.PerformaceStatus.CallOff)
                                    .Include(pfm => pfm.Songs).FirstOrDefaultAsync();
 
             if (pfm is not null)
-            {
+            {   
                 pfm.Status = Enums.PerformaceStatus.CallOff;
+                await _repository.Update(pfm);
+            }
+            else
+            {
+                throw new NotFoundException($"{nameof(PerformanceSchedule)} not found");
+            }
+        }
+
+        public async Task<PerformanceViewAttendDTO?> ViewListMembers(int pfmID)
+        {
+            var pfmAttendance = _repository.GetAll<PerformanceSchedule>()
+                               .Where(pfm => pfm.Id == pfmID)
+                               .Include(pfm => pfm.Members)
+                               .ThenInclude(member => member.Member)
+                               .Select(pfm => new PerformanceViewAttendDTO
+                               {
+
+                                   PerformanceId = pfm.Id,
+                                   Members = pfm.Members.Select(member => new MemberForAttendanceDto
+                                   {
+                                       Id = member.Member.Id,
+                                       StudentID = member.Member.StudentID,
+                                       FullName = member.Member.FullName,
+                                       Attendance = member.AttendanceStatus
+                                   }).ToList()
+
+                               });
+
+            return await pfmAttendance.FirstOrDefaultAsync();
+        }
+
+        public async Task AttendancePerformance(PerformanceAttendanceDTO pfmAttend)
+        {
+            var pfm = await _repository.GetAll<PerformanceSchedule>()
+                                   .Where(pfm => pfm.Id == pfmAttend.PerformanceId)
+                                   .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
+                                   .Include(pfm => pfm.Members).FirstOrDefaultAsync();
+
+            if (pfm is not null)
+            {
+
+                pfm.Members.Clear();
+
+                pfm.Members = pfmAttend.Members.Select(member => new PerformanceMember
+                {
+                    MemberId = member.Id,
+                    AttendanceStatus = member.Attendance
+
+                }).ToList();
+
                 await _repository.Update(pfm);
             }
             else
