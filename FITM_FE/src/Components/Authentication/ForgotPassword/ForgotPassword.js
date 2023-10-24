@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./ForgotPassword.css";
 import { Link, Stack, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";

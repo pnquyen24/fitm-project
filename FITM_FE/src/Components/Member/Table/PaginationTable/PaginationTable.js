@@ -79,6 +79,20 @@ function PaginationTable({ rows, columns }) {
                                                         </Button>
                                                     </TableCell>
                                                 );
+                                                // return (
+                                                //     <TableCell key={row.id}>
+                                                //         <Button
+                                                //             variant="contained"
+                                                //             onClick={() =>
+                                                //                 handleClick(
+                                                //                     row.id
+                                                //                 )
+                                                //             }
+                                                //         >
+                                                //             Attendance
+                                                //         </Button>
+                                                //     </TableCell>
+                                                // );
                                             }
                                             return (
                                                 <TableCell key={column.id}>
