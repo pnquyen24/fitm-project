@@ -10,7 +10,6 @@ import {
     ListItemText,
     Select,
     Checkbox,
-    ListSubheader,
     Button,
     DialogActions,
 } from "@mui/material";
@@ -25,9 +24,9 @@ import axios from "axios";
 import dayjs from "dayjs";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import { useDispatch } from "react-redux";
-import { toggleModal } from "../../../Variable/Redux/Slice/scheduleSlice";
+import { createPerformance, deletePerformance, toggleModal, updatePerformance } from "../../../Variable/Redux/Slice/scheduleSlice";
 
-function AddPfmSchedule({ isEditCard, eventInfos }) {
+function PerformanceSchedule({ isEditCard, eventInfos }) {
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -41,9 +40,35 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
         autoFocus: true,
     };
 
+    const songToUpdate = {
+        id: 0,
+        name: "",
+        place: "",
+        date: eventInfos?.startStr,
+        time: new Date(0, 0, 0, 20, 0),
+        backgroundImg: "",
+        songIDs: []
+    };
+
     const [songs, setSongs] = useState([]);
     const [songName, setSongName] = useState([]);
     const [songIds] = useState([]);
+    const [formSchedule, setFormSchedule] = useState(songToUpdate);
+    const [formErrors, setFormErrors] = useState({});
+
+    useEffect(() => {
+        if (isEditCard) {
+            setFormSchedule({
+                id: eventInfos?.event?.id,
+                name: eventInfos?.event?.extendedProps?.name,
+                place: eventInfos?.event?.extendedProps?.place,
+                date: eventInfos?.event?.startStr,
+                time: eventInfos?.event?.startStr,
+                backgroundImg: eventInfos?.event?.extendedProps?.backgroundImg,
+                songIDs: [],
+            });
+        }
+    }, [eventInfos, isEditCard]);
 
     const handleChangePfm = (event) => {
         const {
@@ -84,38 +109,6 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
         console.log(songIds);
     }
 
-    useEffect(() => {
-        if (isEditCard) {
-            setFormSchedule({
-                name: eventInfos?.event?.extendedProps?.name,
-                place: eventInfos?.event?.extendedProps?.place,
-                date: eventInfos?.event?.extendedProps?.date,
-                time: eventInfos?.event?.extendedProps?.time,
-                backgroundImg: eventInfos?.event?.extendedProps?.backgroundImg,
-                songIDs:eventInfos?.event?.extendedProps?.songIDs,
-            });
-        } else {
-            setFormSchedule({
-                name: "",
-                place: "",
-                date: eventInfos?.startStr,
-                time: "",
-                backgroundImg: "",
-                songIDs: []
-            });
-        }
-    }, [eventInfos, isEditCard]);
-
-    const songToUpdate = {
-        name: "",
-        place: "",
-        date: "",
-        time: "",
-        backgroundImg: "",
-        songIDs: []
-    };
-
-    const [formSchedule, setFormSchedule] = useState(songToUpdate);
     function getEvent(formSchedule) {
         return {
             name: formSchedule.name,
@@ -127,25 +120,67 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
         };
     }
 
+    //Handle when submit ("Add" or "Update" button)
+    function handleSubmit(e) {
 
-    const handleCreate = (e) => {
-        e.preventDefault();
-        const newSchedule = getEvent(formSchedule);
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .post("https://localhost:7226/apis/PerformanceSchedule/Create", newSchedule, {
-                headers: { "Content-Type": "application/json" },
-            })
-            .then((response) =>
-                CustomeAlert.success("Saved successfully!")
-            )
-            .catch(() => {
-                CustomeAlert.error("Save failed!")
-            });
+        const errors = validate(formSchedule);
+        setFormErrors(errors);
+        console.log(formErrors);
 
-        console.log(newSchedule);
+        if (Object.keys(errors).length === 0) {
+            if (isEditCard) {
+                handleUpdateEvent();
+            } else {
+                handleCreateEvent();
+            }
+        }
+    }
+    const handleUpdateEvent = (e) => {
+        try {
+            const updatedSchedule = {
+                id: formSchedule.id,
+                ...getEvent(formSchedule),
+            };
+            console.log(updatedSchedule);
+            dispatch(updatePerformance(updatedSchedule));
+        } catch {
+            CustomeAlert.error("Something error");
+        } finally {
+            resetAndCloseModal();
+        }
+    }
+
+    const handleCreateEvent = (e) => {
+        try {
+            const newSchedule = getEvent(formSchedule);
+            dispatch(createPerformance(newSchedule));
+        } catch {
+            CustomeAlert.error("Something error");
+        } finally {
+            resetAndCloseModal();
+        }
+    }
+
+    function handleDeleteEvent() {
+        try {
+            dispatch(deletePerformance({ id: Number(formSchedule.id) }));
+        } catch {
+            CustomeAlert.error("Something error");
+        } finally {
+            resetAndCloseModal();
+        }
+    }
+
+    function resetAndCloseModal() {
+        setFormSchedule({
+            ...formSchedule,
+            name: "",
+            place: "",
+            time: "",
+            backgroundImg: "",
+            songIDs: []
+        });
+        handleClose();
     }
 
     const handleChange = (name, event) => {
@@ -167,15 +202,20 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
         });
     };
 
+    //--------------------------------------------------
+    //Validate value
+    function validate(values) {
+        let errors = {};
 
-
-    // const containsText = (text, searchText) =>
-    //     text?.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
-
-    // const displayedOptions = useMemo(
-    //     () => convertData().filter((option) => containsText(option.name, searchText)),
-    //     [songs, searchText]
-    // );
+        if (values.name.length === 0) {
+            errors.name = "Name is required";
+        } 
+        if (values.place.length === 0 || values.place.length >= 30) {
+            errors.place = "Place limited to 30 characters or less";
+        }
+        return errors;
+    }
+    //--------------------------------------------------
 
     useEffect(() => {
         axios.get("https://localhost:7226/apis/Song/GetAllSongs")
@@ -189,7 +229,7 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
 
     //Close Modal
     const dispatch = useDispatch();
-    function handleClose(){
+    function handleClose() {
         dispatch(toggleModal(false));
     }
 
@@ -203,15 +243,20 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                             direction={"column"}
                             useFlexGap={false}
                         >
-                            <InputLabel/>
+                            <InputLabel />
                             <CustomeTextField
+                                error={Boolean(formErrors.name)}
+                                helperText={
+                                    Boolean(formErrors.name) &&
+                                    formErrors.name
+                                }
                                 name="name"
                                 placeholder="Name"
                                 size="small"
                                 type="text"
                                 onChange={(event) =>
                                     handleChange("name", event)
-                                }
+                                } value={formSchedule.name}
                             />
                         </Stack>
                     </Grid>
@@ -221,8 +266,13 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                             direction={"column"}
                             useFlexGap={false}
                         >
-                            <InputLabel/>
+                            <InputLabel />
                             <CustomeTextField
+                                error={Boolean(formErrors.place)}
+                                helperText={
+                                    Boolean(formErrors.place) &&
+                                    formErrors.place
+                                }
                                 name="place"
                                 placeholder="Place"
                                 size="small"
@@ -230,6 +280,7 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                                 onChange={(event) =>
                                     handleChange("place", event)
                                 }
+                                value={formSchedule.place}
                             />
                         </Stack>
                     </Grid>
@@ -247,8 +298,8 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                                         handleChange("date", event)
                                     }
                                     value={dayjs(
-                                                formSchedule.date
-                                            )}
+                                        formSchedule.date
+                                    )}
                                 />
                             </LocalizationProvider>
                         </Stack>
@@ -265,11 +316,16 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                                     ampm={false}
                                     onChange={(event) =>
                                         handleChange("time", event)
-                                    } />
+
+                                    }
+                                    value={dayjs(
+                                        formSchedule.time
+                                    )}
+                                />
                             </LocalizationProvider>
                         </Stack>
                     </Grid>
-                   
+
                     <Grid item xs={12} md={12}>
                         <FormControl sx={{ width: "100%" }}>
                             <InputLabel
@@ -289,27 +345,7 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                                 renderValue={(selected) => selected.join(", ")}
                                 MenuProps={MenuProps}
                             >
-                                <ListSubheader>
-                                    {/* <TextField
-                                        size="small"
-                                        autoFocus
-                                        placeholder="Type to search..."
-                                        fullWidth
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start"></InputAdornment>
-                                            ),
-                                        }}
-                                        // onChange={(e) =>
-                                        //     setSearchText(e.target.value)
-                                        // }
-                                        onKeyDown={(e) => {
-                                            if (e.key !== "Escape") {
-                                                e.stopPropagation();
-                                            }
-                                        }}
-                                    /> */}
-                                </ListSubheader>
+
                                 {itemList}
                             </Select>
                         </FormControl>
@@ -320,7 +356,7 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                             direction={"column"}
                             useFlexGap={false}
                         >
-                            <InputLabel/>
+                            <InputLabel />
                             <CustomeTextField
                                 name="backgroundImg"
                                 placeholder="Image"
@@ -329,12 +365,13 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                                 onChange={(event) =>
                                     handleChange("backgroundImg", event)
                                 }
+                                value={formSchedule.backgroundImg}
                             />
                         </Stack>
                     </Grid>
                 </Grid>
             </DialogContent>
-            <DialogActions sx ={{paddingLeft: 3, paddingRight: 3}}>
+            <DialogActions sx={{ paddingLeft: 3, paddingRight: 3 }}>
                 <Grid
                     container
                     direction={"row"}
@@ -343,23 +380,24 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
                     justifyContent="space-between"
                 >
                     <Grid>
-                        {true && (
+                        {isEditCard && (
                             <Button
-                                children="Call Off"
+                                children="Delete"
                                 variant="contained"
                                 color="error"
+                                onClick={handleDeleteEvent}
                             />
                         )}
                     </Grid>
                     <Grid alignItems="center">
                         <Stack direction="row" spacing={2}>
                             <Button
-                                children="Create"
+                                children={isEditCard ? "Update" : "Create"}
                                 variant="contained"
                                 color="success"
-                                onClick={handleCreate}
+                                onClick={handleSubmit}
                             />
-                            <Button children="Exit" variant="outlined" onClick={handleClose}/>
+                            <Button children="Exit" variant="contained" onClick={handleClose} />
                         </Stack>
                     </Grid>
                 </Grid>
@@ -368,4 +406,4 @@ function AddPfmSchedule({ isEditCard, eventInfos }) {
     );
 }
 
-export default AddPfmSchedule;
+export default PerformanceSchedule;

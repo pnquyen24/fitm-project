@@ -38,8 +38,22 @@ namespace FITM_BE.Service.PerformanceScheduleService
                 throw new ArgumentException("Date is invalid");
             }
         }
+		public IQueryable<PerformanceDTO> ViewAllPerformance()
+		{
+			return _repository.GetAll<PerformanceSchedule>()
+							  .Select(pfm => new PerformanceDTO
+							  {
+								  Id = pfm.Id,
+								  Name = pfm.Name,
+								  Place = pfm.Place,
+								  Date = pfm.Date,
+								  Time = pfm.Time,
+								  BackgroundImg = pfm.BackgroundImg,
+							  });
 
-        public IQueryable<PerformanceDTO> ViewPerformance()
+		}
+
+		public IQueryable<PerformanceDTO> ViewPerformance()
         {
             return _repository.GetAll<PerformanceSchedule>()
                               .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
@@ -128,7 +142,8 @@ namespace FITM_BE.Service.PerformanceScheduleService
         {
             var pfm = await _repository.GetAll<PerformanceSchedule>()
                                   .Where(pfm => pfm.Id == pfmID)
-                                  .FirstOrDefaultAsync();
+								  .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
+								  .FirstOrDefaultAsync();
 
             if (pfm is null)
             {

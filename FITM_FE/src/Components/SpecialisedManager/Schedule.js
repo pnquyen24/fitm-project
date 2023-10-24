@@ -59,6 +59,7 @@ function Schedule() {
     function processPerformances(data) {
         return data.map((item) => ({
             id: item.id,
+            title: item.name,
             name: item.name,
             place: item.place,
             start: new Date(`${item.date}T${item.time}`),
