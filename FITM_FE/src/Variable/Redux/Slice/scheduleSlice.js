@@ -172,6 +172,4 @@ export const getIsModalOpen = (state) => state.schedules.isModalOpen;
 export const selectAllPracticals = (state) => state.schedules.practicals;
 export const selectAllPerformances = (state) => state.schedules.performances;
 
-export const getPerformances = (state) => state.schedules.performances;
-
 export default schedulesSlice.reducer;

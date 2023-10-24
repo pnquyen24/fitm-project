@@ -22,7 +22,7 @@ import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 function Schedule() {
     const dispatch = useDispatch();
     const practicals = useSelector(selectAllPracticals);
-    const performances = useSelector(getPerformances);
+    const performances = useSelector(selectAllPerformances);
 
     const calendarRef = useRef(null);
 
