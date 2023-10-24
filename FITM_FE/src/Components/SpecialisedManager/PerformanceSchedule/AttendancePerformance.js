@@ -1,4 +1,4 @@
-import AttendanceTable from "../../Member/Table/AttendanceTable";
+import AttendanceTable from "../../Member/Table/AttendanceTable/AttendanceTable";
 import { Button, Card, CardHeader, Typography } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -7,8 +7,8 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 function AttendancePerformance() {
     const location = useLocation();
 
-    let members = location.state.data.members
-    let performanceId = location.state.data.performanceId
+    let members = location.state.data.members;
+    let performanceId = location.state.data.performanceId;
 
     let index = 0;
 
@@ -23,7 +23,12 @@ function AttendancePerformance() {
     ];
 
     const rows = members?.map((member) => {
-        return createData(member.id, member.studentID, member.fullName, member.attendance);
+        return createData(
+            member.id,
+            member.studentID,
+            member.fullName,
+            member.attendance
+        );
     });
 
     function createData(memberId, studentId, fullName, attendance) {
@@ -37,9 +42,8 @@ function AttendancePerformance() {
     }
 
     const dataToUpdate = {
-        performanceId
+        performanceId,
     };
-
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -53,14 +57,16 @@ function AttendancePerformance() {
         ] = `Bearer ${localStorage.getItem("token")}`;
 
         axios
-            .put("https://localhost:7226/apis/PerformanceSchedule/AttendancePerformance", dataToUpdate, {
-                headers: { "Content-Type": "application/json" },
-            })
-            .then((response) =>
-                CustomeAlert.success("Saved successfully!")
+            .put(
+                "https://localhost:7226/apis/PerformanceSchedule/AttendancePerformance",
+                dataToUpdate,
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
             )
+            .then((response) => CustomeAlert.success("Saved successfully!"))
             .catch(() => {
-                CustomeAlert.error("Save failed!")
+                CustomeAlert.error("Save failed!");
             });
 
         console.log(dataToUpdate);

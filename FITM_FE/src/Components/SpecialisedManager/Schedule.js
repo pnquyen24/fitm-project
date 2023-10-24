@@ -55,6 +55,7 @@ function Schedule() {
             color: "#1677ff",
             display: "block",
         }));
+    }
 
     function processPerformances(data) {
         return data.map((item) => ({
@@ -141,11 +142,6 @@ function Schedule() {
         actions[direction] && actions[direction]();
 
         setDate(calApi.view.title);
-    }
-
-    const combineEvents = () =>{
-        processReduxData(schedules);
-        processReduxPerformance(performances);
     }
 
     return (
