@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
     Button,
     DialogActions,
@@ -11,6 +10,7 @@ import {
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import TimeInput from "../../Member/Input/TimeInput";
+import DateInput from "../../Member/Input/DateInput";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import {
@@ -22,7 +22,6 @@ import {
 
 function PracticalSchedule({ isEditCard, eventInfos }) {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const intialValues = {
         id: null,
@@ -82,7 +81,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
 
     //--------------------------------------------------
     //CRUD event method
-    function handleAddedEvent() {
+    function handleCreate() {
         try {
             const newSchedule = getEvent(formSchedule);
             dispatch(createPractical(newSchedule));
@@ -94,7 +93,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
         }
     }
 
-    function handleUpdatedEvent() {
+    function handleUpdate() {
         try {
             const updatedSchedule = {
                 id: formSchedule.id,
@@ -109,7 +108,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
         }
     }
 
-    function handleDeleteEvent() {
+    function handleDelete() {
         try {
             dispatch(deletePractical({ id: Number(formSchedule.id) }));
             CustomeAlert.success("Deleted successfully");
@@ -129,6 +128,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
             case "room":
                 value = parseInt(event.target.value);
                 break;
+            case "date":
             case "startTime":
             case "endTime":
                 value = event;
@@ -143,7 +143,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
         });
     };
     //--------------------------------------------------
-    //Handle when submit ("Add" or "Update" button)
+    //Handle when submit ("Create" or "Update" button)
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -152,9 +152,9 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
 
         if (Object.keys(errors).length === 0) {
             if (isEditCard) {
-                handleUpdatedEvent();
+                handleUpdate();
             } else {
-                handleAddedEvent();
+                handleCreate();
             }
         }
     }
@@ -185,16 +185,6 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
         }
 
         return errors;
-    }
-    //--------------------------------------------------
-    //Handle navigation ("Attendance" button)
-    function handleNavigate() {
-        navigate("/attendance", {
-            state: {
-                scheduleId: formSchedule.id,
-            },
-        });
-        handleClose();
     }
     //--------------------------------------------------
     //Return
@@ -268,16 +258,10 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     <Grid item xs={12} md={4}>
                         <Stack>
                             <InputLabel children="Date" />
-                            <CustomeTextField
-                                size="small"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                value={String(
-                                    new Date(
-                                        formSchedule.date
-                                    ).toLocaleDateString("en-GB")
-                                )}
+                            <DateInput
+                                readonly={!isEditCard}
+                                onChange={(event) => handleInput("date", event)}
+                                value={dayjs(formSchedule.date)}
                             />
                         </Stack>
                     </Grid>
@@ -321,26 +305,20 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                                 <Button
                                     children="Delete"
                                     variant="contained"
-                                    onClick={handleDeleteEvent}
+                                    onClick={handleDelete}
                                 />
-                                <Button
-                                    variant="contained"
-                                    onClick={handleNavigate}
-                                >
-                                    Attendance
-                                </Button>
                             </Stack>
                         )}
                     </Grid>
                     <Grid alignItems="center">
                         <Stack direction="row" spacing={2}>
                             <Button
-                                children="Cancel"
+                                children="Exit"
                                 variant="contained"
                                 onClick={handleClose}
                             />
                             <Button
-                                children={isEditCard ? "Update" : "Add"}
+                                children={isEditCard ? "Update" : "Create"}
                                 variant="contained"
                                 onClick={handleSubmit}
                             />

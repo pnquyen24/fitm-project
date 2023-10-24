@@ -9,7 +9,6 @@ import {
     selectAllPerformances,
     selectAllPracticals,
     toggleModal,
-    updatePractical,
 } from "../../Variable/Redux/Slice/scheduleSlice";
 import { Box } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
@@ -64,25 +63,12 @@ function Schedule() {
             name: item.name,
             place: item.place,
             start: new Date(`${item.date}T${item.time}`),
+            music: item.songIDs,
             backgroundImg: item.backgroundImg,
             type: "performance",
             color: "#ff0000",
             display: "block",
         }));
-    }
-
-    function processCalendarData(data) {
-        return {
-            id: data.event.id,
-            title: data.event.title,
-            description: data.event.extendedProps.description,
-            date: new Date(data.event.startStr).toISOString().split("T")[0],
-            startTime: new Date(data.event.startStr)
-                .toTimeString()
-                .split(" ")[0],
-            endTime: new Date(data.event.endStr).toTimeString().split(" ")[0],
-            room: data.event.extendedProps.room,
-        };
     }
 
     function combineEvent() {
@@ -107,15 +93,6 @@ function Schedule() {
         setEventInfos(clickInfo);
         setIsEditCard(true);
         dispatch(toggleModal(true));
-    }
-
-    function handleEventChange(changeInfo) {
-        try {
-            const processedData = processCalendarData(changeInfo);
-            dispatch(updatePractical(processedData));
-        } catch {
-            CustomeAlert.error("Something error");
-        }
     }
 
     function isToday() {
@@ -160,9 +137,9 @@ function Schedule() {
                 <FullCalendar
                     height={800}
                     dayMaxEvents={true}
-                    editable={false}
-                    selectable={true}
                     selectMirror={true}
+                    selectable={true}
+                    editable={false}
                     defaultAllDay={false}
                     headerToolbar={false}
                     initialView="dayGridMonth"
@@ -179,7 +156,7 @@ function Schedule() {
                     events={combineEvent()}
                     select={handleSelect}
                     eventClick={handleEventClick}
-                    eventChange={handleEventChange}
+                    eventChange="false"
                     eventTimeFormat={{
                         hour: "numeric",
                         minute: "2-digit",
