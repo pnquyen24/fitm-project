@@ -1,11 +1,13 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import PaginationTable from "../../Member/Table/PaginationTable/PaginationTable";
 import {
     fetchPracticals,
     selectAllPracticals,
 } from "../../../Variable/Redux/Slice/scheduleSlice";
-import { useDispatch, useSelector } from "react-redux";
 import Paper from "@mui/material/Paper";
-import PaginationTable from "../../Member/Table/PaginationTable/PaginationTable";
+import { Button } from "@mui/material";
 import moment from "moment/moment";
 
 function PracticalList() {
@@ -14,22 +16,27 @@ function PracticalList() {
     const dispatch = useDispatch();
     const schedules = useSelector(selectAllPracticals);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         dispatch(fetchPracticals());
     }, [dispatch]);
 
-    function createData(id, title, room, startDate, endDate) {
+    function createData(id, title, room, date, startTime, endTime) {
         index++;
-        const start = moment(startDate).format("DD/MM/YYYY HH:mm");
-        const end = moment(endDate).format("DD/MM/YYYY HH:mm");
         return {
             index,
             id,
             title,
             room,
-            startDate: start,
-            endDate: end,
-            attendance: id,
+            date: moment(date).format("DD-MM-YYYY"),
+            startTime: startTime.replace(/:\d{2}$/, ""),
+            endTime: endTime.replace(/:\d{2}$/, ""),
+            attendance: (
+                <Button variant="contained" onClick={() => handleClick(id)}>
+                    Attendance
+                </Button>
+            ),
         };
     }
 
@@ -37,8 +44,9 @@ function PracticalList() {
         { id: "index", label: "#" },
         { id: "title", label: "Title" },
         { id: "room", label: "Room" },
-        { id: "startDate", label: "Start Date" },
-        { id: "endDate", label: "End Date" },
+        { id: "date", label: "Date" },
+        { id: "startTime", label: "Start Time" },
+        { id: "endTime", label: "End Time" },
         { id: "attendance", label: "Attendance" },
     ];
 
@@ -47,15 +55,26 @@ function PracticalList() {
             row.id,
             row.title,
             row.room,
-            row.startDate,
-            row.endDate
+            row.date,
+            row.startTime,
+            row.endTime
         );
     });
 
+    function handleClick(id) {
+        navigate("./attendancePractical", {
+            state: {
+                scheduleId: id,
+            },
+        });
+    }
+
     return (
-        <Paper sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
-            <PaginationTable rows={rows} columns={columns} />
-        </Paper>
+        <>
+            <Paper sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+                <PaginationTable rows={rows} columns={columns} />
+            </Paper>
+        </>
     );
 }
 

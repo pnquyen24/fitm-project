@@ -9,6 +9,7 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import AttendanceTable from "../../Member/Table/AttendanceTable/AttendanceTable";
 import { Button, Card, CardHeader, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import Breadcrumb from "../../Member/Breadcrumb/Breadcrumb";
 
 function AttendancePractical() {
     const dispatch = useDispatch();
@@ -65,6 +66,7 @@ function AttendancePractical() {
 
     return (
         <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+            <Breadcrumb />
             <CardHeader
                 title={
                     <Typography component={"span"} variant="subtitle1">

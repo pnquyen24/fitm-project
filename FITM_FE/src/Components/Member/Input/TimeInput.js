@@ -40,7 +40,6 @@ function TimeInput(props) {
                 viewRenderers={{
                     hours: renderTimeViewClock,
                     minutes: renderTimeViewClock,
-                    seconds: renderTimeViewClock,
                 }}
                 slotProps={{
                     textField: {

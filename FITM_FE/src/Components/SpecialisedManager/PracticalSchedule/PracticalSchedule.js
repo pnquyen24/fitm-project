@@ -8,7 +8,6 @@ import {
     Stack,
 } from "@mui/material";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
-import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import TimeInput from "../../Member/Input/TimeInput";
 import DateInput from "../../Member/Input/DateInput";
 import dayjs from "dayjs";
@@ -82,41 +81,23 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
     //--------------------------------------------------
     //CRUD event method
     function handleCreate() {
-        try {
-            const newSchedule = getEvent(formSchedule);
-            dispatch(createPractical(newSchedule));
-            CustomeAlert.success("Added successfully");
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
-            resetAndCloseModal();
-        }
+        const newSchedule = getEvent(formSchedule);
+        dispatch(createPractical(newSchedule));
+        resetAndCloseModal();
     }
 
     function handleUpdate() {
-        try {
-            const updatedSchedule = {
-                id: formSchedule.id,
-                ...getEvent(formSchedule),
-            };
-            dispatch(updatePractical(updatedSchedule));
-            CustomeAlert.success("Updated successfully");
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
-            resetAndCloseModal();
-        }
+        const updatedSchedule = {
+            id: formSchedule.id,
+            ...getEvent(formSchedule),
+        };
+        dispatch(updatePractical(updatedSchedule));
+        resetAndCloseModal();
     }
 
     function handleDelete() {
-        try {
-            dispatch(deletePractical({ id: Number(formSchedule.id) }));
-            CustomeAlert.success("Deleted successfully");
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
-            resetAndCloseModal();
-        }
+        dispatch(deletePractical({ id: Number(formSchedule.id) }));
+        resetAndCloseModal();
     }
     //--------------------------------------------------
     //Handle input value
