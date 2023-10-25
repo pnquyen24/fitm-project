@@ -82,8 +82,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         );
     };
 
-
-
     const itemList =
         songs && songs.length > 0
             ? songs.map((song) => (
