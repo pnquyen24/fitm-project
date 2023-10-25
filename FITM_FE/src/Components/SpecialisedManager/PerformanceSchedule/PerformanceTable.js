@@ -1,18 +1,12 @@
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
     IconButton,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
+    TablePagination,
     TableRow,
-    useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -21,11 +15,26 @@ import Paper from '@mui/material/Paper';
 import { DeleteSharp, EditCalendarSharp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
-import { useTheme } from "@mui/material/styles";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import TimerIcon from '@mui/icons-material/Timer';
+import moment from "moment/moment";
+
 function PerformanceTable() {
 
     let [performances, setPerformances] = useState([]);
     const navigate = useNavigate();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(8);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     useEffect(() => {
         axios.defaults.headers[
@@ -46,13 +55,57 @@ function PerformanceTable() {
             "Authorization"
         ] = `Bearer ${localStorage.getItem("token")}`;
 
-        const response = await axios.get(
-            `https://localhost:7226/apis/PerformanceSchedule/ViewListMember?pfmID=${pfmId}`
-        ).then((response) => {
-            getMembers(response.data);
-        }).catch(() => {
-            CustomeAlert.warning("Something was wrong")
-        });
+        await axios
+            .get(
+                `https://localhost:7226/apis/PerformanceSchedule/ViewListMember?pfmID=${pfmId}`
+            ).then((response) => {
+                getMembers(response.data);
+            }).catch(() => {
+                CustomeAlert.warning("Something was wrong")
+            });
+    }
+
+    const handleCallOff = (pfmId) => {
+        CustomeAlert.confirm("Call Off This Performance", "Call Off", "Ẽixt").then(
+            (result) => {
+                if (result.isConfirmed) {
+                    axios.defaults.headers[
+                        "Authorization"
+                    ] = `Bearer ${localStorage.getItem("token")}`;
+
+                    axios
+                        .put(
+                            `https://localhost:7226/apis/PerformanceSchedule/CallOff?pfmID=${pfmId}`
+                        ).then((response) => {
+                            CustomeAlert.success("Call Off Successfully");
+                        }).catch((error) => {
+                            CustomeAlert.error("Call Off Error");
+                        });
+                } else if (result.isDenied) {
+                    CustomeAlert.error("Performance Do Not Call Off");
+                } else {
+                    CustomeAlert.error("Call Off Error");
+                }
+            }
+        );
+
+
+    };
+
+    const statusPerformance = (status) => {
+        if (status === 0)
+            return <TimerIcon
+                color="secondary">
+            </TimerIcon>;
+        if (status === 1)
+            return <CancelIcon
+                color="error">
+            </CancelIcon>;
+        if (status === 3)
+            return <CheckCircleIcon
+                color="success"
+            ></CheckCircleIcon>;
+
     }
 
     function getMembers(data) {
@@ -63,6 +116,15 @@ function PerformanceTable() {
         });
     }
 
+    function dateCustomer(dateString) {
+        return moment(dateString).format("DD/MM/YYYY");
+    }
+
+    function timeCustomer(timeString) {
+        return moment(timeString, "HH:mm").format("HH:mm");
+    }
+
+
     return (
         <div className="table-container">
             <TableContainer component={Paper}>
@@ -70,43 +132,39 @@ function PerformanceTable() {
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
-                            <TableCell align="lefl">Name</TableCell>
-                            <TableCell align="lefl">Place</TableCell>
-                            <TableCell align="lefl">Date</TableCell>
-                            <TableCell align="lefl">Time</TableCell>
-                            <TableCell align="lefl">Status</TableCell>
-                            <TableCell align="lefl">Actions</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Place</TableCell>
+                            <TableCell align="left">Date</TableCell>
+                            <TableCell align="left">Time</TableCell>
+                            <TableCell align="left">Status</TableCell>
+                            <TableCell align="left">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {performances.map((performance, index) => (
+                        {performances.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                        ).map((performance, index) => (
                             <TableRow
                                 key={performance.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {index}
+                                    {++index}
                                 </TableCell>
-                                <TableCell align="lefl">{performance.name}</TableCell>
-                                <TableCell align="lefl">{performance.place}</TableCell>
-                                <TableCell align="lefl">{performance.date}</TableCell>
-                                <TableCell align="lefl">{performance.time.substring(0, 5)}</TableCell>
-                                <TableCell align="lefl">{performance.status}</TableCell>
-                                <TableCell align="lefl">
+                                <TableCell align="left">{performance.name}</TableCell>
+                                <TableCell align="left">{performance.place}</TableCell>
+                                <TableCell align="left">{dateCustomer(performance.date)}</TableCell>
+                                <TableCell align="left">{timeCustomer(performance.time)}</TableCell>
+                                <TableCell align="left">{statusPerformance(performance.status)}</TableCell>
+                                <TableCell align="left">
                                     <IconButton aria-label="delete"
                                         onClick={(e) => attendance(performance.id)}
                                     >
                                         <EditCalendarSharp color="primary" />
                                     </IconButton>
-                                    <IconButton aria-label="delete">
-                                        <CallOffDialog
-                                            Name={performance.name}
-                                            Place={performance.place}
-                                            Date={performance.date}
-                                            Time={performance.time.substring(0, 5)}
-                                            pfmId={performance.id}
-                                        >
-                                        </CallOffDialog>
+                                    <IconButton aria-label="delete" onClick={handleCallOff}>
+                                        <DeleteSharp color="error" />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>
@@ -114,79 +172,16 @@ function PerformanceTable() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[8, 15, 50]}
+                component="div"
+                count={performances.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </div >
-    );
-}
-function CallOffDialog(props) {
-    const [open, setOpen] = useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleCallOff = () => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-
-        const response = axios.put(
-            `https://localhost:7226/apis/PerformanceSchedule/CallOff?pfmID=${props.pfmId}`
-        ).then((response) => {
-            CustomeAlert.success("Call Off Successfully");
-        }).catch((error) => {
-            CustomeAlert.error("Call Off Error")
-        });
-
-        setOpen(false);
-    };
-
-    const handleClose = () => {
-        CustomeAlert.warning("Call off failed!");
-        setOpen(false);
-    };
-    return (
-        <div>
-            <IconButton aria-label="delete"
-                onClick={handleClickOpen}>
-                <DeleteSharp color="error" />
-            </IconButton>
-            <Dialog
-                fullScreen={fullScreen}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="responsive-dialog-title"
-            >
-                <DialogTitle id="responsive-dialog-title">
-                    {"Call Off Show"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText variant="body1">
-                        Are you sure to call off the "
-                        {props.Name}" show at {props.Place} on {props.Date} at {props.Time}?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="contained"
-                        color="success"
-                        autoFocus
-                        onClick={handleCallOff}
-                    >
-                        Yes
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        onClick={handleClose}
-                        autoFocus
-                    >
-                        Close
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
     );
 }
 export default PerformanceTable

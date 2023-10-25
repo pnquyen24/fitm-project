@@ -26,12 +26,11 @@ import { useTheme } from "@mui/material/styles";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./PerformanceItem.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import moment from "moment/moment";
 
 function PerformanceItem(props) {
     const [flip, setFlip] = useState(false);
     const [performance, setPerformance] = useState({});
-    const navigate = useNavigate();
 
     const handelClickDetails = () => {
         axios.defaults.headers[
@@ -53,29 +52,13 @@ function PerformanceItem(props) {
         setFlip(!flip);
     };
 
-    async function attendance() {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        try {
-            const response = await axios.get(
-                `https://localhost:7226/apis/PerformanceSchedule/ViewListMember?pfmID=${props.ID}`
-            )
-            getMembers(response.data);
-        } catch (error) {
-
-        }
-        // console.log(membersPerformance);
+    function dateCustomer(dateString) {
+        return moment(dateString).format("DD/MM/YYYY");
     }
 
-    function getMembers(data) {
-        navigate("/attendancePerformance", {
-            state: {
-                data: data,
-            },
-        });
+    function timeCustomer(timeString) {
+        return moment(timeString, "HH:mm").format("HH:mm");
     }
-
     return (
         <Grid item xs={2} sm={4} md={4}>
             <div className={flip ? "card flipped" : "card"}>
@@ -93,10 +76,10 @@ function PerformanceItem(props) {
                             {props.Name}
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
-                            Date: {props.Date}
+                            Date: {dateCustomer(props.Date)}
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
-                            Time: {props.Time}
+                            Time: {timeCustomer(props.Time)}
                         </Typography>
                     </CardContent>
                     <CardActions
@@ -114,8 +97,8 @@ function PerformanceItem(props) {
                         <JoinDialog
                             Name={props.Name}
                             Place={props.Place}
-                            Date={props.Date}
-                            Time={props.Time}
+                            Date={dateCustomer(props.Date)}
+                            Time={timeCustomer(props.Time)}
                             pfmID={props.ID}
                         ></JoinDialog>
                     </CardActions>
@@ -135,14 +118,14 @@ function PerformanceItem(props) {
                             {performance.name}
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
-                            Date: {performance.date}
+                            Date: {dateCustomer(performance.date)}
                         </Typography>
                         <Typography
                             variant="body1"
                             gutterBottom
                             color="text.secondary"
                         >
-                            Time: {performance.time}
+                            Time: {timeCustomer(performance.time)}
                         </Typography>
                         <Typography
                             variant="body1"
@@ -178,14 +161,6 @@ function PerformanceItem(props) {
                             onClick={handleFlip}
                         >
                             Back
-                        </Button>
-                        <Button
-                            size="small"
-                            variant="contained"
-                            color="success"
-                            onClick={attendance}
-                        >
-                            Attendance
                         </Button>
                     </CardActions>
                 </Card>
@@ -280,8 +255,7 @@ function JoinDialog(props) {
                 <DialogContent>
                     <DialogContentText variant="body1">
                         Are you sure you will be able to attend the "
-                        {props.Name}" show at "{props.Place}" on {props.Date} at{" "}
-                        {props.Time}?
+                        {props.Name}" show at {props.Place} on {props.Date} at {props.Time}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

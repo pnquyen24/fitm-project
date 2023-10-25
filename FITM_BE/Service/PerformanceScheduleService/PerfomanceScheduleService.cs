@@ -41,8 +41,9 @@ namespace FITM_BE.Service.PerformanceScheduleService
 		public IQueryable<PerformanceDTO> ViewAllPerformance()
 		{
 			return _repository.GetAll<PerformanceSchedule>()
-							  .OrderByDescending(pfm => pfm.Status)
+							  .OrderBy(pfm => pfm.Status)
 							  .ThenByDescending(pfm => pfm.Date)
+							  .ThenByDescending(pfm => pfm.Time)
 							  .Select(pfm => new PerformanceDTO
 							  {
 								  Id = pfm.Id,
@@ -61,8 +62,9 @@ namespace FITM_BE.Service.PerformanceScheduleService
 			return _repository.GetAll<PerformanceSchedule>()
 							  .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
 							  .Where(pfm => pfm.Status.Equals(Enums.PerformaceStatus.NotYet))
-							  .OrderByDescending(pfm => pfm.Status)
+							  .OrderBy(pfm => pfm.Status)
 							  .ThenByDescending(pfm => pfm.Date)
+							  .ThenByDescending(pfm => pfm.Time)
 							  .Select(pfm => new PerformanceDTO
 							  {
 								  Id = pfm.Id,
