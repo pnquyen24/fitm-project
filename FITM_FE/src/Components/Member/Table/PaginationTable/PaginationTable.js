@@ -1,5 +1,4 @@
 import {
-    Button,
     Table,
     TableBody,
     TableCell,
@@ -10,13 +9,10 @@ import {
 } from "@mui/material";
 import "./PaginationTable.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function PaginationTable({ rows, columns }) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-
-    const navigate = useNavigate();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -26,14 +22,6 @@ function PaginationTable({ rows, columns }) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
-    function handleClick(id) {
-        navigate("/attendance", {
-            state: {
-                scheduleId: id,
-            },
-        });
-    }
 
     return (
         <>
@@ -64,36 +52,6 @@ function PaginationTable({ rows, columns }) {
                                     >
                                         {columns.map((column) => {
                                             const value = row[column.id];
-                                            if (column.id === "attendance") {
-                                                return (
-                                                    <TableCell key={row.id}>
-                                                        <Button
-                                                            variant="contained"
-                                                            onClick={() =>
-                                                                handleClick(
-                                                                    row.id
-                                                                )
-                                                            }
-                                                        >
-                                                            Attendance
-                                                        </Button>
-                                                    </TableCell>
-                                                );
-                                                // return (
-                                                //     <TableCell key={row.id}>
-                                                //         <Button
-                                                //             variant="contained"
-                                                //             onClick={() =>
-                                                //                 handleClick(
-                                                //                     row.id
-                                                //                 )
-                                                //             }
-                                                //         >
-                                                //             Attendance
-                                                //         </Button>
-                                                //     </TableCell>
-                                                // );
-                                            }
                                             return (
                                                 <TableCell key={column.id}>
                                                     {value}
@@ -107,7 +65,7 @@ function PaginationTable({ rows, columns }) {
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
+                rowsPerPageOptions={[5, 10, 25, 50]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}

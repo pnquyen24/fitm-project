@@ -24,10 +24,14 @@ import axios from "axios";
 import dayjs from "dayjs";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import { useDispatch } from "react-redux";
-import { createPerformance, deletePerformance, toggleModal, updatePerformance } from "../../../Variable/Redux/Slice/scheduleSlice";
+import {
+    createPerformance,
+    deletePerformance,
+    toggleModal,
+    updatePerformance,
+} from "../../../Variable/Redux/Slice/scheduleSlice";
 
 function PerformanceSchedule({ isEditCard, eventInfos }) {
-
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -50,7 +54,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         date: eventInfos?.startStr,
         time: new Date(0, 0, 0, 20, 0),
         backgroundImg: "",
-        songIDs: []
+        songIDs: [],
     };
 
     const [songs, setSongs] = useState([]);
@@ -77,9 +81,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         const {
             target: { value },
         } = event;
-        setSongName(
-            typeof value === "string" ? value.split(",") : value
-        );
+        setSongName(typeof value === "string" ? value.split(",") : value);
     };
 
     const itemList =
@@ -112,15 +114,14 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         return {
             name: formSchedule.name,
             place: formSchedule.place,
-            date: new Date(formSchedule.date).toISOString().split('T')[0],
-            time: new Date(formSchedule.time).toTimeString().split(' ')[0],
+            date: new Date(formSchedule.date).toISOString().split("T")[0],
+            time: new Date(formSchedule.time).toTimeString().split(" ")[0],
             backgroundImg: formSchedule.backgroundImg,
-            songIDs: songIds
+            songIDs: songIds,
         };
     }
     //Handle when submit ("Add" or "Update" button)
     function handleSubmit(e) {
-
         const errors = validate(formSchedule);
         setFormErrors(errors);
         console.log(formErrors);
@@ -146,7 +147,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         } finally {
             resetAndCloseModal();
         }
-    }
+    };
 
     const handleCreateEvent = (e) => {
         try {
@@ -157,7 +158,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         } finally {
             resetAndCloseModal();
         }
-    }
+    };
 
     function handleDeleteEvent() {
         try {
@@ -176,7 +177,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
             place: "",
             time: "",
             backgroundImg: "",
-            songIDs: []
+            songIDs: [],
         });
         handleClose();
     }
@@ -216,7 +217,8 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     //--------------------------------------------------
 
     useEffect(() => {
-        axios.get("https://localhost:7226/apis/Song/GetAllSongs")
+        axios
+            .get("https://localhost:7226/apis/Song/GetAllSongs")
             .then((response) => {
                 setSongs(response.data);
             })
@@ -245,12 +247,17 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <CustomeTextField
                                 error={Boolean(formErrors.name)}
                                 name="name"
-                                label={Boolean(formErrors.name)? "Name is required" : "Name"}
+                                label={
+                                    Boolean(formErrors.name)
+                                        ? "Name is required"
+                                        : "Name"
+                                }
                                 size="small"
                                 type="text"
                                 onChange={(event) =>
                                     handleChange("name", event)
-                                } value={formSchedule.name}
+                                }
+                                value={formSchedule.name}
                             />
                         </Stack>
                     </Grid>
@@ -264,7 +271,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <CustomeTextField
                                 error={Boolean(formErrors.place)}
                                 name="place"
-                                label={Boolean(formErrors.place)? "Place is required and < 30 charater" : "Place"}
+                                label={Boolean(formErrors.place)? "Place is required and < 30 character" : "Place"}
                                 size="small"
                                 type="text"
                                 onChange={(event) =>
@@ -287,9 +294,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                                     onChange={(event) =>
                                         handleChange("date", event)
                                     }
-                                    value={dayjs(
-                                        formSchedule.date
-                                    )}
+                                    value={dayjs(formSchedule.date)}
                                 />
                             </LocalizationProvider>
                         </Stack>
@@ -301,16 +306,14 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             useFlexGap={false}
                         >
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <MobileTimePicker label="Time"
+                                <MobileTimePicker
+                                    label="Time"
                                     format="HH:mm"
                                     ampm={false}
                                     onChange={(event) =>
                                         handleChange("time", event)
-
                                     }
-                                    value={dayjs(
-                                        formSchedule.time
-                                    )}
+                                    value={dayjs(formSchedule.time)}
                                 />
                             </LocalizationProvider>
                         </Stack>
@@ -335,7 +338,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                                 renderValue={(selected) => selected.join(", ")}
                                 MenuProps={MenuProps}
                             >
-
                                 {itemList}
                             </Select>
                         </FormControl>
@@ -387,7 +389,11 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                                 color="success"
                                 onClick={handleSubmit}
                             />
-                            <Button children="Exit" variant="contained" onClick={handleClose} />
+                            <Button
+                                children="Exit"
+                                variant="contained"
+                                onClick={handleClose}
+                            />
                         </Stack>
                     </Grid>
                 </Grid>

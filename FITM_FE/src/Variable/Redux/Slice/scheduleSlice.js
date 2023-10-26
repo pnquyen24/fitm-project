@@ -13,7 +13,8 @@ const DELETE_PRACTICAL_SCHEDULE_URL = (id) =>
     `PracticalSchedule/DeletePracticalSchedule?id=${id}`;
 
 //Performance schedule
-const GET_ALL_PERFORMANCE_SCHEDULES_URL = "PerformanceSchedule/ViewAllPerformance";
+const GET_ALL_PERFORMANCE_SCHEDULES_URL =
+    "PerformanceSchedule/ViewAllPerformance";
 const CREATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Create";
 const UPDATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Update";
 const DELETE_PERFORMANCE_SCHEDULE_URL = (pfmID) =>
@@ -175,7 +176,6 @@ const schedulesSlice = createSlice({
             .addCase(deletePerformance.rejected, (state, action) => {
                 CustomeAlert.error("Deleted Error");
             });
-            
     },
 });
 

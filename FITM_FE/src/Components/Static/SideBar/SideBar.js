@@ -11,37 +11,13 @@ function SideBar({ isOpen, setOpen }) {
         setSelectedChoice(index);
     };
     const choices = [
-        {
-            Title: "Member Management",
-            Icon: "person-outline",
-            Link: "/member-manager/member-list",
-        },
-        {
-            Title: "Change Info Requests",
-            Icon: "checkbox-outline",
-            Link: "/member-manager/request-edit-info-list",
-        },
-        {
-            Title: "Report Instrument",
-            Icon: "warning-outline",
-            Link: "/profile",
-        },
-        {
-            Title: "Performance Schedule",
-            Icon: "calendar-outline",
-            Link: "/performance",
-        },
+        { Title: "Member Management", Icon: "person-outline", Link: "/member-manager/member-list" },
+        { Title: "Change Info Requests", Icon: "checkbox-outline", Link: "/member-manager/request-edit-info-list" },
+        { Title: "Report Instrument", Icon: "warning-outline", Link: "/profile" },
         { Title: "Schedule", Icon: "add-circle-outline", Link: "/schedule" },
-        {
-            Title: "Attendance Practical",
-            Icon: "calendar",
-            Link: "/attendance",
-        },
-        {
-            Title: "Music List",
-            Icon: "musical-notes-outline",
-            Link: "/music-list",
-        },
+        { Title: "Performance Schedule", Icon: "calendar-outline", Link: "/performance" },
+        { Title: "Practical Schedule", Icon: "calendar", Link: "/practical" },
+        { Title: "Music List", Icon: "musical-notes-outline", Link: "/music-list" },
     ];
     useEffect(() => {}, []);
 

@@ -33,62 +33,29 @@ root.render(
             <BrowserRouter>
                 <Routes>
                     <Route path="login" element={<Login />} />
-                    <Route
-                        path="/*"
-                        element={
-                            Authented ? (
-                                <App></App>
-                            ) : (
-                                <LandingPage></LandingPage>
-                            )
-                        }
-                    >
+                    <Route path="/*" element={ Authented 
+                        ? ( <App></App> ) 
+                        : ( <LandingPage></LandingPage> )
+                    }>
                         <Route path="" element={<Performance />} />
                         <Route path="profile" element={<Profile />} />
-                        <Route
-                            path="request-edit-info-list"
-                            element={<RequestChangeInfoList />}
-                        />
+                        <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
                         <Route path="member-manager">
-                            <Route
-                                path="create-member"
-                                element={<CreateMember />}
-                            />
-                            <Route
-                                path="member-list"
-                                element={<MemberList />}
-                            />
-                            <Route
-                                path="member-profile"
-                                element={<MemberProfile />}
-                            />
-                            <Route
-                                path="request-edit-info-list"
-                                element={<RequestChangeInfoList />}
-                            />
-                            <Route
-                                path="request-details"
-                                element={<RequestDetail />}
-                            />
+                            <Route path="create-member" element={<CreateMember />} />
+                            <Route path="member-list" element={<MemberList />} />
+                            <Route path="member-profile" element={<MemberProfile />} />
+                            <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
+                            <Route path="request-details" element={<RequestDetail />} />
                         </Route>
                         <Route path="schedule" element={<Schedule />} />
                         <Route path="practical" element={<PracticalList />} />
+                        <Route path="practical/attendancePractical" element={<AttendancePractical/>} />
                         <Route path="performance" element={<PerformanceTable />} />
-                        <Route
-                            path="changepassword"
-                            element={<ChangePassword />}
-                        />
-                        <Route path="music-list" element={<Music />} />
-                        <Route
-                            path="attendance"
-                            element={<AttendancePractical />}
-                        />
                         <Route path="attendancePerformance" element={<AttendancePerformance />} />
+                        <Route path="changepassword" element={<ChangePassword />} />
+                        <Route path="music-list" element={<Music />} />
                     </Route>
-                    <Route
-                        path="/forgotPassword"
-                        element={<ForgotPassword />}
-                    />
+                    <Route path="/forgotPassword" element={<ForgotPassword />} />
                 </Routes>
             </BrowserRouter>
         </Provider>
