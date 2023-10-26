@@ -20,6 +20,7 @@ import { Provider } from "react-redux";
 import store from "./Variable/Redux/store";
 import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrument";
 import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
+import Instrument from "./Components/Static/Instrument/Instrument";
 
 let Authented = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -45,7 +46,7 @@ root.render(
             <Route path="music-list" element={<Music />}/>
             <Route path="report-instrument" element={<InstrumentReport />}/>
             <Route path="instrument-report-management" element={<InstrumentReportManagement />}/>
-
+            <Route path="instrument" element={<Instrument/>}/>
 
           </Route>
           <Route path="/forgotPassword" element={<ForgotPassword />} />
