@@ -11,6 +11,7 @@ namespace FITM_BE.Service.PerformanceScheduleService.Dtos
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }
         public string BackgroundImg { get; set; }
+		public List<SongPerformanceDTO>? Songs { get; set; }
 		public PerformaceStatus Status { get; set; }
 
 	}

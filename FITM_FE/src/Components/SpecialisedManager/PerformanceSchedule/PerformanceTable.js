@@ -66,7 +66,7 @@ function PerformanceTable() {
     }
 
     const handleCallOff = (pfmId) => {
-        CustomeAlert.confirm("Call Off This Performance", "Call Off", "Ẽixt").then(
+        CustomeAlert.confirm("Call Off This Performance", "Call Off", "Exit").then(
             (result) => {
                 if (result.isConfirmed) {
                     axios.defaults.headers[
@@ -82,7 +82,7 @@ function PerformanceTable() {
                             CustomeAlert.error("Call Off Error");
                         });
                 } else if (result.isDenied) {
-                    CustomeAlert.error("Performance Do Not Call Off");
+                    CustomeAlert.error("Can't Call Off");
                 } else {
                     CustomeAlert.error("Call Off Error");
                 }
@@ -163,7 +163,7 @@ function PerformanceTable() {
                                     >
                                         <EditCalendarSharp color="primary" />
                                     </IconButton>
-                                    <IconButton aria-label="delete" onClick={handleCallOff}>
+                                    <IconButton aria-label="delete" onClick={(e) => handleCallOff(performance.id)}>
                                         <DeleteSharp color="error" />
                                     </IconButton>
                                 </TableCell>

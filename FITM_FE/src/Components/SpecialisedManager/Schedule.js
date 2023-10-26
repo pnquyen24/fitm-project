@@ -63,7 +63,7 @@ function Schedule() {
             name: item.name,
             place: item.place,
             start: new Date(`${item.date}T${item.time}`),
-            music: item.songIDs,
+            songs: item.songs,
             backgroundImg: item.backgroundImg,
             type: "performance",
             color: "#ff0000",

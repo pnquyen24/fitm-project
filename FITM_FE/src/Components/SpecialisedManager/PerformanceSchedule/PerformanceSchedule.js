@@ -44,6 +44,9 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         autoFocus: true,
     };
 
+    const songIdExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.id);
+    const songNameExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.name);
+
     const performanceToCreate = {
         id: 0,
         name: "",
@@ -55,9 +58,9 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     };
 
     const [songs, setSongs] = useState([]);
-    const [songName, setSongName] = useState([]);
-    const [songIds] = useState([]);
     const [formSchedule, setFormSchedule] = useState(performanceToCreate);
+    const [songIds] = useState(songIdExist && songIdExist.length > 0? songIdExist: []);
+    const [songName, setSongName] = useState(songNameExist && songNameExist.length > 0? songNameExist: []);
     const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
@@ -69,8 +72,8 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                 date: eventInfos?.event?.startStr,
                 time: eventInfos?.event?.startStr,
                 backgroundImg: eventInfos?.event?.extendedProps?.backgroundImg,
-                songIDs: [],
             });
+
         }
     }, [eventInfos, isEditCard]);
 
@@ -84,30 +87,28 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     const itemList =
         songs && songs.length > 0
             ? songs.map((song) => (
-                  <MenuItem
-                      onClick={(e) => handleSelectSong(song.id)}
-                      key={song.id}
-                      value={song.name}
-                  >
-                      <Checkbox checked={songName.indexOf(song.name) > -1} />
-                      <ListItemText primary={song.name} />
-                  </MenuItem>
-              ))
+                <MenuItem
+                    onClick={(e) => handleSelectSong(song.id)}
+                    key={song.id} value={song.name}>
+                    <Checkbox
+                        checked={
+                            songIds?.indexOf(song.id) > -1
+                        }
+                    />
+                    <ListItemText primary={song.name} />
+                </MenuItem>
+            ))
             : null;
 
     const handleSelectSong = (songId) => {
         const songIndex = songIds.indexOf(songId);
 
         if (songIndex === -1) {
-            // Add the song ID to the array
             songIds.push(songId);
         } else {
-            // Remove the song ID from the array
             songIds.splice(songIndex, 1);
         }
-
-        console.log(songIds);
-    };
+    }
 
     function getEvent(formSchedule) {
         return {
@@ -270,11 +271,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <CustomeTextField
                                 error={Boolean(formErrors.place)}
                                 name="place"
-                                label={
-                                    Boolean(formErrors.place)
-                                        ? "Place is required and < 30 character"
-                                        : "Place"
-                                }
+                                label={Boolean(formErrors.place)? "Place is required and < 30 character" : "Place"}
                                 size="small"
                                 type="text"
                                 onChange={(event) =>

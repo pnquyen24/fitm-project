@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Execution;
 using FITM_BE.Entity;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.MemberService.Dtos;
@@ -6,6 +7,7 @@ using FITM_BE.Service.PerformanceScheduleService.Dtos;
 using FITM_BE.Service.SongService.Dtos;
 using FITM_BE.Util;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace FITM_BE.Service.PerformanceScheduleService
 {
@@ -41,6 +43,8 @@ namespace FITM_BE.Service.PerformanceScheduleService
 		public IQueryable<PerformanceDTO> ViewAllPerformance()
 		{
 			return _repository.GetAll<PerformanceSchedule>()
+							  .Include(pfm => pfm.Songs)
+							  .ThenInclude(song => song.Song)
 							  .OrderBy(pfm => pfm.Status)
 							  .ThenByDescending(pfm => pfm.Date)
 							  .ThenByDescending(pfm => pfm.Time)
@@ -53,6 +57,11 @@ namespace FITM_BE.Service.PerformanceScheduleService
 								  Time = pfm.Time,
 								  Status = pfm.Status,
 								  BackgroundImg = pfm.BackgroundImg,
+								  Songs = pfm.Songs.Select(song => new SongPerformanceDTO
+								  {
+									  Id = song.Song.Id,
+									  Name = song.Song.Name,
+								  }).ToList()
 							  });
 
 		}
