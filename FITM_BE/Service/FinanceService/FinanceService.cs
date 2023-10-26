@@ -34,50 +34,52 @@ namespace FITM_BE.Service.FinanceService
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime start, DateTime end)
         {
             var query = _repository.GetAll<Income>()
-                .Where(ic => ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date <= end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
+                .Where(ic => ic.ModifiedTime.Value.Date >= start.Date)
+                .Where(ic => ic.ModifiedTime.Value.Date <= end.Date)
+                .Where(ic => ic.FinanceStatus == FinanceStatus.Accepted)
+                .OrderBy(ic => ic.ModifiedTime)
                 .AsEnumerable()
                 .GroupBy(ic => ic.ModifiedTime.Value.Date, new DateComparer())
                 .Select(group => new
                 {
                     ModifiedTime = group.Key,
                     TotalAmount = group.Sum(ic => ic.Amount),
-                }).OrderBy(ic => ic.ModifiedTime);
+                })
+                .Select(item => new IncomeDto
+                {
+                    ModifiedTime = (DateTime)item.ModifiedTime,
+                    FinanceStatus = FinanceStatus.Accepted,
+                    TotalAmount = item.TotalAmount,
+                    Balance = item.TotalAmount
+                });
 
-            var groupedIncomes = from item in query
-                                 select new IncomeDto
-                                 {
-                                     ModifiedTime = (DateTime)item.ModifiedTime,
-                                     FinanceStatus = FinanceStatus.Accepted,
-                                     TotalAmount = item.TotalAmount,
-                                     Balance = item.TotalAmount
-                                 };
-
-            return groupedIncomes;
+            return query;
         }
 
 
         public IEnumerable<OutcomeDto> GetAcceptedOutcomeByTime(DateTime start, DateTime end)
         {
             var query = _repository.GetAll<Outcome>()
-                .Where(oc => oc.ModifiedTime.Value.Date >= start.Date && oc.ModifiedTime.Value.Date <= end.Date && oc.FinanceStatus == FinanceStatus.Accepted)
+                .Where(ic => ic.ModifiedTime.Value.Date >= start.Date)
+                .Where(ic => ic.ModifiedTime.Value.Date <= end.Date)
+                .Where(ic => ic.FinanceStatus == FinanceStatus.Accepted)
+                .OrderBy(ic => ic.ModifiedTime)
                 .AsEnumerable()
-                .GroupBy(oc => oc.ModifiedTime.Value.Date, new DateComparer())
+                .GroupBy(ic => ic.ModifiedTime.Value.Date, new DateComparer())
                 .Select(group => new
                 {
                     ModifiedTime = group.Key,
-                    TotalAmount = group.Sum(oc => oc.Amount)
-                }).OrderBy(oc => oc.ModifiedTime);
+                    TotalAmount = group.Sum(ic => ic.Amount),
+                })
+                .Select(item => new OutcomeDto
+                {
+                    ModifiedTime = (DateTime)item.ModifiedTime,
+                    FinanceStatus = FinanceStatus.Accepted,
+                    TotalAmount = item.TotalAmount,
+                    Balance = item.TotalAmount
+                });
 
-            var groupedIncomes = from item in query
-                                 select new OutcomeDto
-                                 {
-                                     ModifiedTime = (DateTime)item.ModifiedTime,
-                                     FinanceStatus = FinanceStatus.Accepted,
-                                     TotalAmount = item.TotalAmount,
-                                     Balance = (item.TotalAmount)
-                                 };
-
-            return groupedIncomes;
+            return query;
         }
 
         public IEnumerable<BalanceDto> CalculateBalanceByDate(DateTime start, DateTime end)
@@ -128,47 +130,25 @@ namespace FITM_BE.Service.FinanceService
         private long CalculateBalanceByBefore(DateTime start, DateTime end)
         {
             var combinedData = _repository.GetAll<Income>()
-           .Where(ic => ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date <= end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
-           .Select(ic => new
-           {
-               ModifiedTime = ic.ModifiedTime,
-               TotalAmount = ic.Amount,
-               IsIncome = true
-           })
-           .Union(_repository.GetAll<Outcome>()
-               .Where(oc => oc.ModifiedTime.Value.Date >= start.Date && oc.ModifiedTime.Value.Date <= end.Date && oc.FinanceStatus == FinanceStatus.Accepted)
-               .Select(oc => new
-               {
-                   ModifiedTime = oc.ModifiedTime,
-                   TotalAmount = oc.Amount,
-                   IsIncome = false
-               })).ToList();
-
-            var groupedData = combinedData
-                .GroupBy(item => item.ModifiedTime.Value.Date)
-                .OrderBy(group => group.Key);
-
-            long currentBalance = 0;
-            List<BalanceDto> balances = new List<BalanceDto>();
-
-            for (var date = start.Date; date < end.Date; date = date.AddDays(1))
+            .Where(ic => ic.ModifiedTime.Value.Date >= start.Date && ic.ModifiedTime.Value.Date < end.Date && ic.FinanceStatus == FinanceStatus.Accepted)
+            .Select(ic => new
             {
-                var group = groupedData.FirstOrDefault(g => g.Key == date);
-                var incomeTotal = group?.Where(item => item.IsIncome).Sum(item => item.TotalAmount) ?? 0;
-                var outcomeTotal = group?.Where(item => !item.IsIncome).Sum(item => item.TotalAmount) ?? 0;
-
-                currentBalance += incomeTotal - outcomeTotal;
-
-                balances.Add(new BalanceDto
+                ModifiedTime = ic.ModifiedTime,
+                TotalAmount = ic.Amount,
+                IsIncome = true
+            })
+            .Union(_repository.GetAll<Outcome>()
+                .Where(oc => oc.ModifiedTime.Value.Date >= start.Date && oc.ModifiedTime.Value.Date < end.Date && oc.FinanceStatus == FinanceStatus.Accepted)
+                .Select(oc => new
                 {
-                    ModifiedTime = date,
-                    TotalIncome = incomeTotal,
-                    TotalOutcome = outcomeTotal,
-                    Balance = currentBalance
-                });
-            }
+                    ModifiedTime = oc.ModifiedTime,
+                    TotalAmount = oc.Amount,
+                    IsIncome = false
+                }));
 
-            return currentBalance;
+            long balance = combinedData.Sum(data => data.IsIncome ? data.TotalAmount : -data.TotalAmount);
+
+           return balance ;
         }
 
         public IEnumerable<BalanceDto> CalculateBalanceByDate1(DateTime start, DateTime end)

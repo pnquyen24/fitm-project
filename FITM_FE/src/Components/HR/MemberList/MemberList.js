@@ -13,7 +13,7 @@ import {
 import Button from "@mui/material/Button";
 import axios from "axios";
 import * as XLSX from 'xlsx';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Link } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import "./MemberList.css";
@@ -42,7 +42,6 @@ function MemberList() {
         if (option === "All") { setAllMember(response.data); setFilteredData(response.data) }
       })
       .catch((error) => {
-        console.error(error);
       });
   }
 
@@ -104,7 +103,9 @@ function MemberList() {
   function addMember() {
     navigate("/member-manager/create-member");
   }
-
+  function requestList() {
+    navigate("/member-manager/request-edit-info-list");
+  }
   return (
     <div className="container">
       <div>
@@ -128,6 +129,9 @@ function MemberList() {
           <div className="member-download-button">
             <Button variant="contained" color="success" onClick={handleDownload}>Download As Excel</Button>
           </div>
+          <div className='member-download-button'>
+           <Button onClick={() => requestList()} variant="contained" color="info"  sx={{}}>Request Change Info List</Button>
+          </div> 
           <div className="create-member">
             <Button onClick={() => addMember()} variant="outlined" size="small" sx={{}} className="detail-button">Add Member</Button>
           </div>

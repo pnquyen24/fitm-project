@@ -35,7 +35,6 @@ function RequestChangeInfoList() {
         if (option === "All") { setMemberList(response.data); setFilteredData(response.data) }
       })
       .catch((error) => {
-        console.error(error);
       })
       .finally(() => {
         setLoading(false);
@@ -93,6 +92,9 @@ function RequestChangeInfoList() {
   function viewDetail(id) {
     navigate("/member-manager/request-details?id=" + id)
   }
+  function toMemberList() {
+    navigate("/member-manager/member-list");
+  }
   return (
     <div className="container">
       <div className="menu-container">
@@ -113,6 +115,7 @@ function RequestChangeInfoList() {
             </Select>
           </FormControl>
         </div>
+        <Button onClick={() => toMemberList()} variant="contained" color="info" size='medium' sx={{marginLeft: "10px",height:"50%",padding : "px 10px"}}>Request Change Info List</Button>
       </div>
       <div>
         {loading ? (

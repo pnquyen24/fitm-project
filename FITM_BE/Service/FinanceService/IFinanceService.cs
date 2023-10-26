@@ -8,7 +8,6 @@ namespace FITM_BE.Service.FinanceService
     {
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime start, DateTime end);
         public IEnumerable<OutcomeDto> GetAcceptedOutcomeByTime(DateTime start, DateTime end);
-
         public IEnumerable<BalanceDto> CalculateBalanceByDate(DateTime start, DateTime end);
         public IQueryable<IncomeListDto> ViewIncome();
         public Task<IncomeListDto> GetIncome(int id);
