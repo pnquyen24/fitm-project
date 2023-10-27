@@ -31,5 +31,11 @@ namespace FITM_BE.Controllers
             var updatedList = await _attendancePracticalService.UpdateAttendanceList(attendanceListDto);
             return Ok(updatedList);
         }
+
+        [HttpGet]
+        public IEnumerable<ProductivityDto> ViewProductivity()
+        {
+            return _attendancePracticalService.ViewProductivity();
+        }
     }
 }

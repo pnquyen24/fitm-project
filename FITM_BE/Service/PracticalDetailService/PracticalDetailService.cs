@@ -4,6 +4,7 @@ using FITM_BE.Service.PracticalDetailService.Dto;
 using FITM_BE.Service.PracticalDetailService.Dtos;
 using FITM_BE.Service.MemberService;
 using FITM_BE.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace FITM_BE.Service.PracticalDetailService
 {
@@ -78,6 +79,22 @@ namespace FITM_BE.Service.PracticalDetailService
             var resultToReturn = updatedList.Select(m => _mapper.Map<PracticalDetailDto>(m));
 
             return resultToReturn;
+        }
+
+        public IEnumerable<ProductivityDto> ViewProductivity()
+        {
+            var list = _repository.GetAll<PracticalDetail>()
+                    .Include(prtD => prtD.Member)
+                    .Include(prtD => prtD.PracticalSchedule)
+                    .GroupBy(prtD => prtD.Member)
+                    .Select(prtD => new ProductivityDto
+                    {
+                        StudentId = prtD.Key.StudentID,
+                        FullName = prtD.Key.FullName,
+                        TotalPresentPractices = prtD.Where(p => p.Attendance == Enums.AttendanceStatus.Present).Count(),
+                        TotalPractices = prtD.Count()
+                    });
+            return list;
         }
     }
 }

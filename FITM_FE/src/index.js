@@ -23,6 +23,7 @@ import PerformanceTable from "./Components/SpecialisedManager/PerformanceSchedul
 import Schedule from "./Components/SpecialisedManager/Schedule";
 import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
+import PracticalProductivity from "./Components/SpecialisedManager/PracticalSchedule/PracticalProductivity";
 
 let Authented = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -50,6 +51,7 @@ root.render(
                         <Route path="schedule" element={<Schedule />} />
                         <Route path="practical" element={<PracticalList />} />
                         <Route path="practical/attendancePractical" element={<AttendancePractical/>} />
+                        <Route path="practical-productivity" element={<PracticalProductivity/>} />
                         <Route path="performance" element={<PerformanceTable />} />
                         <Route path="attendancePerformance" element={<AttendancePerformance />} />
                         <Route path="changepassword" element={<ChangePassword />} />
