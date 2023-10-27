@@ -294,14 +294,14 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     <Grid alignItems="center">
                         <Stack direction="row" spacing={2}>
                             <Button
-                                children="Exit"
-                                variant="contained"
-                                onClick={handleClose}
-                            />
-                            <Button
                                 children={isEditCard ? "Update" : "Create"}
                                 variant="contained"
                                 onClick={handleSubmit}
+                            />
+                            <Button
+                                children="Exit"
+                                variant="contained"
+                                onClick={handleClose}
                             />
                         </Stack>
                     </Grid>
