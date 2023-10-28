@@ -4,96 +4,58 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./RequestChangeInfoList.css";
-import PaginationComponent from '../../../Variable/Paggination/Paggination';
-import { FormControl, Select, MenuItem } from '@mui/material';
-import MemberList from '../MemberList/MemberList';
-
-
 
 function RequestChangeInfoList() {
-  const [memberList, setMemberList] = useState([]);
-  const [page, setPage] = useState(1);
-  const [pageSize] = useState(8);
-  const [loading, setLoading] = useState(false);
-  let [searchText, setSearchText] = useState('');
-  let [option, setOption] = useState('All');
-  const navigate = useNavigate();
-  const [filteredData, setFilteredData] = useState([]);
-  const status = {
-    0: "Pending",
-    1: "Accepted",
-    2: "Denied"
-  }
+    const [memberList, setMemberList] = useState([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [pageSize] = useState(9);
+    const [sort] = useState("");
+    const [sortDirection] = useState(0);
+    const [filterItems] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const status = {
+        0: "Pending",
+        1: "Accepted",
+        2: "Denied",
+    };
 
-  useEffect(() => {
+    useEffect(() => {
+        const requestData = {
+            page,
+            pageSize,
+            sort,
+            sortDirection,
+            filterItems,
+            searchText,
+        };
+        setLoading(true);
 
-    axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+        axios.defaults.headers[
+            "Authorization"
+        ] = `Bearer ${localStorage.getItem("token")}`;
 
-    axios
-      .get('https://localhost:7226/apis/RequestEditInfo/GetAll')
-      .then((response) => {
-        if (option === "All") { setMemberList(response.data); setFilteredData(response.data) }
-      })
-      .catch((error) => {
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  const handleChange = (event) => {
-    setOption(event.target.value);
-  };
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
-
-  const paginatedData = filteredData.slice(
-    (page - 1) * pageSize,
-    page * pageSize
-  );
-
-  // Filter function to filter data based on selected filter
-  const filterData = () => {
-    if (option === "Accepted" ) {
-      return memberList.filter(item => item.status === 1);
-    } else if (option === "Denied") {
-      return memberList.filter(item => item.status === 2);
-    } else if (option === "Pending") {
-      return memberList.filter(item => item.status === 0);
-    }
-    else {
-      return memberList;
-    }
-  };
-
-  // Handle filter change
-  const handleFilterChange = (event) => {
-    searchText = "";
-    setSearchText(searchText)
-    option = event.target.value;
-    setOption(option)
-    setFilteredData(filterData());
-  };
-
-  // Handle searchtext
-  const handleSearch = (event) => {
-    searchText = event.target.value;
-    setSearchText(searchText)
-    if(searchText === "") {setFilteredData(filterData())}
-    else{
-    const regex = new RegExp(searchText, 'i'); // 'i' flag for case-insensitive matching
-    setFilteredData(() => {
-      return memberList.filter(member => regex.test(member.createdBy));
-    });}
-  };
+        axios
+            .post(
+                "https://localhost:7226/apis/RequestEditInfo/GetAllPagging",
+                requestData
+            )
+            .then((response) => {
+                setMemberList(response.data.results);
+                setTotal(response.data.total);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
 
   function viewDetail(id) {
     navigate("/member-manager/request-details?id=" + id)
-  }
-  function toMemberList() {
-    navigate("/member-manager/member-list");
   }
   return (
     <div className="container">
@@ -151,11 +113,73 @@ function RequestChangeInfoList() {
           </TableContainer>
         )}
       </div>
-      <div style={{ marginTop: '30px' }}>
-        <PaginationComponent data={filteredData} itemPerPage={pageSize} currentPage={page} onPageChange={handlePageChange} />
-      </div>
-    </div>
-  );
+      <div className="button-container">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="pagination-button sub-button"
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={() => setPage(page - 2)}
+          className="pagination-button sub-button"
+          style={{ display: (page - 2) > 0 ? "block" : "none" }}
+        >
+          Page {page - 2}
+        </button>
+
+                <button
+                    onClick={() => setPage(page - 1)}
+                    className="pagination-button sub-button"
+                    style={{ display: page - 1 > 0 ? "block" : "none" }}
+                >
+                    Page {page - 1}
+                </button>
+
+                <button className="pagination-button sub-button main-page">
+                    Page {page}
+                </button>
+
+                <button
+                    onClick={() => setPage(page + 1)}
+                    className="pagination-button sub-button"
+                    style={{
+                        display: pageSize * page < total ? "block" : "none",
+                    }}
+                >
+                    Page {page + 1}
+                </button>
+
+                <button
+                    onClick={() => setPage(page + 2)}
+                    className="pagination-button sub-button"
+                    style={{
+                        display:
+                            pageSize * (page + 1) < total ? "block" : "none",
+                    }}
+                >
+                    Page {page + 2}
+                </button>
+
+                <button
+                    onClick={() => setPage(page + 1)}
+                    disabled={pageSize * page >= total}
+                    className="pagination-button sub-button"
+                >
+                    Next Page
+                </button>
+
+                <button
+                    onClick={() => setPage(Math.ceil(total / pageSize))}
+                    disabled={pageSize * page >= total}
+                    className="pagination-button sub-button"
+                >
+                    Last Page
+                </button>
+            </div>
+        </div>
+    );
 }
 
 export default RequestChangeInfoList;
