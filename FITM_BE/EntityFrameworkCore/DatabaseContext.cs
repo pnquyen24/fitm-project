@@ -28,6 +28,10 @@ namespace FITM_BE.EntityFrameworkCore
         public DbSet<PerformanceSchedule> PerformanceSchedules { get; set; }
         public DbSet<PerformanceMember> PerformanceMembers { get; set; }
         public DbSet<PerformanceSong> PerformanceSongs { get; set; }
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Outcome> Outcomes { get; set; }
+        public DbSet<Instrument> Instruments { get; set; }
+        public DbSet<InstrumentType> InstrumentTypes { get; set; }
 
         public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
         {
@@ -43,9 +47,5 @@ namespace FITM_BE.EntityFrameworkCore
                 timeSpan => TimeOnly.FromTimeSpan(timeSpan))
             { }
         }
-        public DbSet<Income> Incomes { get; set; }
-        public DbSet<Outcome> Outcomes { get; set; }
-        public DbSet<Instrument> Instruments { get; set; }
-        public DbSet<InstrumentType> InstrumentTypes { get; set; }
     }
 }

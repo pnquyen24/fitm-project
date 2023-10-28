@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using NLog;
 using FITM_BE.Util;
 using FITM_BE.EntityFrameworkCore.Seed;
+using System.Text;
 
 namespace FITM_BE
 {
