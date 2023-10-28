@@ -126,8 +126,6 @@ function Schedule() {
         <div id="calendar">
             <Box>
                 <ModalSchedule
-                    open={modalInfosEvent.isOpen}
-                    handleClose={modalInfosEvent.handleClose}
                     eventInfos={eventInfos}
                     isEditCard={isEditCard}
                 />
@@ -137,9 +135,6 @@ function Schedule() {
                     handleDateChange={handleDateChange}
                 />
                 <FullCalendar
-                    dayMaxEvents={true}
-                    defaultAllDay={false}
-                    editable={true}
                     height={800}
                     dayMaxEvents={true}
                     selectMirror={true}

@@ -27,10 +27,12 @@ function ModalSchedule({ eventInfos, isEditCard }) {
         performance: {
             value: "2",
             label: "Performance Schedule",
-            panel: <PerformanceSchedule
-                isEditCard={isEditCard}
-                eventInfos={eventInfos}
-            />,
+            panel: (
+                <PerformanceSchedule
+                    isEditCard={isEditCard}
+                    eventInfos={eventInfos}
+                />
+            ),
         },
     };
 
@@ -38,8 +40,8 @@ function ModalSchedule({ eventInfos, isEditCard }) {
         type === "practical"
             ? [tabs.practical]
             : type === "performance"
-                ? [tabs.performance]
-                : [tabs.practical, tabs.performance];
+            ? [tabs.performance]
+            : [tabs.practical, tabs.performance];
 
     function handleClose() {
         dispatch(toggleModal(false));

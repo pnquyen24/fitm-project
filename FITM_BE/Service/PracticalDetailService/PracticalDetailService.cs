@@ -4,79 +4,64 @@ using FITM_BE.Service.PracticalDetailService.Dto;
 using FITM_BE.Service.PracticalDetailService.Dtos;
 using FITM_BE.Service.MemberService;
 using FITM_BE.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace FITM_BE.Service.PracticalDetailService
 {
     public class PracticalDetailService : ServiceBase, IPracticalDetailService
     {
-        private readonly IMemberService _memberService;
-
         public PracticalDetailService(IRepository repository, IMapper mapper, IMemberService memberService) : base(repository, mapper)
         {
-            _memberService = memberService;
         }
 
         public IEnumerable<ViewAttendanceDto> ViewAttendanceList(int scheduleId)
         {
-            var attendancePracticalDtos = _repository
-                .GetAll<PracticalDetail>()
-                .Where(m => m.PracticalScheduleId == scheduleId)
-                .Select(m => _mapper.Map<ViewAttendanceDto>(m))
-                .ToList();
-
-            var members = _memberService.GetMembersForAttendance().ToList();
-
-            foreach (var attendance in attendancePracticalDtos)
-            {
-                var member = members.FirstOrDefault(m => m.Id == attendance.MemberId);
-
-                if (member != null)
-                {
-                    attendance.StudentId = member.StudentID;
-                    attendance.FullName = member.FullName;
-                }
-            }
-            return attendancePracticalDtos;
+            return _repository.GetAll<PracticalDetail>()
+                                    .Where(prtD => prtD.PracticalScheduleId == scheduleId)
+                                    .Include(prtD => prtD.Member)
+                                    .Select(prtD => new ViewAttendanceDto
+                                    {
+                                        Id = prtD.Id,
+                                        PracticalScheduleId = prtD.PracticalScheduleId,
+                                        MemberId = prtD.MemberId,
+                                        StudentId = prtD.Member.StudentID,
+                                        FullName = prtD.Member.FullName,
+                                        Attendance = prtD.Attendance
+                                    });
         }
 
-        public async Task<IEnumerable<PracticalDetailDto>> CreateAttendanceList(int scheduleId)
+        public async Task CreateAttendanceList(int scheduleId)
         {
-            var members = _memberService.GetMembersForAttendance();
-            var attendanceDtos = members.Select(m => new CreateAttendanceDto
-            {
-                PracticalScheduleId = scheduleId,
-                MemberId = m.Id
-            });
+            var memberList = _repository.GetAll<Member>()
+                                        .Select(member => new CreateAttendanceDto
+                                        {
+                                            PracticalScheduleId = scheduleId,
+                                            MemberId = member.Id
+                                        });
+            var attendanceList = memberList.Select(member => _mapper.Map<PracticalDetail>(member));
 
-            var attendanceList = attendanceDtos.Select(m => _mapper.Map<PracticalDetail>(m));
-            var newList = await _repository.AddRange(attendanceList);
-
-            var resultToReturn = newList.Select(m => _mapper.Map<PracticalDetailDto>(m));
-
-            return resultToReturn;
+            await _repository.AddRange(attendanceList);
         }
 
-        public async Task<IEnumerable<PracticalDetailDto>> UpdateAttendanceList(IEnumerable<UpdateAttendanceDto> attendanceListDto)
+        public async Task<IEnumerable<PracticalDetailDto>> UpdateAttendanceStatus(IEnumerable<UpdateAttendanceDto> attendanceListDto)
         {
-            var ids = attendanceListDto.Select(m => m.Id);
-            var attendanceList = _repository
-                .GetAll<PracticalDetail>()
-                .Where(m => ids.Contains(m.Id))
-                .ToList();
+            var updateDict = attendanceListDto.ToDictionary(dto => dto.Id, dto => dto.Attendance);
+            var updateIds = updateDict.Keys.ToList();
 
-            foreach (var member in attendanceList)
+            var attendanceToUpdate = _repository.GetAll<PracticalDetail>()
+                                            .Where(prtD => updateIds.Contains(prtD.Id))
+                                            .ToList();
+            foreach (var row in attendanceToUpdate)
             {
-                var updateMember = attendanceListDto.FirstOrDefault(m => m.Id == member.Id);
-
-                if (updateMember != null)
+                if (updateDict.TryGetValue(row.Id, out var attendance))
                 {
-                    member.Attendance = updateMember.Attendance;
+                    row.Attendance = attendance;
                 }
             }
 
-            var updatedList = await _repository.UpdateRange(attendanceList);
-            var resultToReturn = updatedList.Select(m => _mapper.Map<PracticalDetailDto>(m));
+            await _repository.UpdateRange(attendanceToUpdate);
 
+            var resultToReturn = attendanceToUpdate.Select(row => _mapper.Map<PracticalDetailDto>(row));
             return resultToReturn;
         }
     }
