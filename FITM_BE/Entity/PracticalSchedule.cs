@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FITM_BE.Entity
 {
-    [Index(nameof(StartDate))]
+    [Index(nameof(Date))]
     public class PracticalSchedule : Entity<int>
     {
         [Required]
@@ -13,14 +13,18 @@ namespace FITM_BE.Entity
 
         [StringLength(200)]
         public string? Description { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateOnly Date { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
+        public TimeOnly StartTime { get; set; }
         
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime StartDate { get; set; }
-        
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; }
+        public TimeOnly EndTime { get; set; }
 
         [Required]
         [StringLength(3)]

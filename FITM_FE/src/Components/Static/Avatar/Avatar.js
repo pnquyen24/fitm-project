@@ -22,8 +22,6 @@ function Avatar({ scale = 1 }) {
       // Redirect to the login page using the Navigate hook.
       navigate("/login");
     } catch (error) {
-      console.log("loi");
-      console.log(error);
     }
   }
 

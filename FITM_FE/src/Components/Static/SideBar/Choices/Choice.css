@@ -15,9 +15,10 @@
 
 .choice ion-icon {
     font-size: 1.2rem;
-  }
+}
 
-  span , ion-icon {
+span,
+ion-icon {
     user-select: none;
 }
 

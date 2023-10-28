@@ -22,7 +22,7 @@ namespace FITM_BE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FITM_BE.Entity.Instrument", b =>
+            modelBuilder.Entity("FITM_BE.Entity.Income", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,217 +30,13 @@ namespace FITM_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("Instruments");
-                });
-
-            modelBuilder.Entity("FITM_BE.Entity.InstrumentReport", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Desciption")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("InstrumentID")
+                    b.Property<string>("BillCode")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MemberID")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("MemberID");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.ToTable("InstrumentReports");
-                });
-
-            modelBuilder.Entity("FITM_BE.Entity.InstrumentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SortName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("SortName");
-
-                    b.ToTable("InstrumentTypes");
-                });
-
-            modelBuilder.Entity("FITM_BE.Entity.Member", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BankName")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("BankNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("StudentID")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("StudentID");
-
-                    b.ToTable("Members");
-                });
-
-            modelBuilder.Entity("FITM_BE.Entity.PracticalSchedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
@@ -249,162 +45,288 @@ namespace FITM_BE.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Room")
-                        .HasMaxLength(3)
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("StartDate");
-
-                    b.ToTable("PracticalSchedules");
-                });
-
-            modelBuilder.Entity("FITM_BE.Entity.RequestEditInfo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FinanceStatus")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("BankName")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("BankNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int?>("CreatedById")
+                    b.Property<int?>("ModifiedById")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedTime")
+                    b.Property<DateTime?>("ModifiedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentID")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("Status");
+                    b.HasIndex("Title");
 
-                    b.ToTable("RequestEditInfo");
+                    b.ToTable("Incomes");
                 });
+
+            modelBuilder.Entity("FITM_BE.Entity.Member", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<string>("Avatar")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("BankName")
+                    .HasMaxLength(15)
+                    .HasColumnType("nvarchar(15)");
+
+                b.Property<string>("BankNumber")
+                    .HasMaxLength(20)
+                    .HasColumnType("nvarchar(20)");
+
+                b.Property<int?>("CreatedById")
+                    .HasColumnType("int");
+
+                b.Property<DateTime?>("CreatedTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<DateTime>("DOB")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasColumnType("nvarchar(30)");
+
+                b.Property<string>("FullName")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
+
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("bit");
+
+                b.Property<int?>("ModifiedById")
+                    .HasColumnType("int");
+
+                b.Property<DateTime?>("ModifiedTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Password")
+                    .IsRequired()
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
+
+                b.Property<string>("PhoneNumber")
+                    .HasMaxLength(11)
+                    .HasColumnType("nvarchar(11)");
+
+                b.Property<bool>("Status")
+                    .HasColumnType("bit");
+
+                b.Property<string>("StudentID")
+                    .HasMaxLength(10)
+                    .HasColumnType("nvarchar(10)");
+
+                b.Property<string>("Username")
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnType("nvarchar(20)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CreatedById");
+
+                b.HasIndex("ModifiedById");
+
+                b.HasIndex("StudentID");
+
+                b.ToTable("Members");
+            });
+
+            modelBuilder.Entity("FITM_BE.Entity.PracticalSchedule", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<int?>("CreatedById")
+                    .HasColumnType("int");
+
+                b.Property<DateTime?>("CreatedTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Description")
+                    .HasMaxLength(200)
+                    .HasColumnType("nvarchar(200)");
+
+                b.Property<DateTime>("EndDate")
+                    .HasColumnType("datetime2");
+
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("bit");
+
+                b.Property<int?>("ModifiedById")
+                    .HasColumnType("int");
+
+                b.Property<DateTime?>("ModifiedTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<int>("Room")
+                    .HasMaxLength(3)
+                    .HasColumnType("int");
+
+                b.Property<DateTime>("StartDate")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CreatedById");
+
+                b.HasIndex("ModifiedById");
+
+                b.HasIndex("StartDate");
+
+                b.ToTable("PracticalSchedules");
+            });
+
+            modelBuilder.Entity("FITM_BE.Entity.RequestEditInfo", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<string>("BankName")
+                    .HasMaxLength(15)
+                    .HasColumnType("nvarchar(15)");
+
+                b.Property<string>("BankNumber")
+                    .HasMaxLength(20)
+                    .HasColumnType("nvarchar(20)");
+
+                b.Property<int?>("CreatedById")
+                    .HasColumnType("int");
+
+                b.Property<DateTime?>("CreatedTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<DateTime?>("DOB")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Email")
+                    .HasMaxLength(30)
+                    .HasColumnType("nvarchar(30)");
+
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("bit");
+
+                b.Property<int?>("ModifiedById")
+                    .HasColumnType("int");
+
+                b.Property<DateTime?>("ModifiedTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("PhoneNumber")
+                    .HasMaxLength(11)
+                    .HasColumnType("nvarchar(11)");
+
+                b.Property<int>("Status")
+                    .HasColumnType("int");
+
+                b.Property<string>("StudentID")
+                    .HasMaxLength(10)
+                    .HasColumnType("nvarchar(10)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CreatedById");
+
+                b.HasIndex("ModifiedById");
+
+                b.HasIndex("Status");
+
+                b.ToTable("RequestEditInfo");
+            });
 
             modelBuilder.Entity("FITM_BE.Entity.Song", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                b.Property<string>("Author")
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("BackgroundImg")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                b.Property<string>("BackgroundImg")
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnType("nvarchar(500)");
 
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
+                b.Property<int?>("CreatedById")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedTime")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("CreatedTime")
+                    .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsDeleted")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("LinkBeat")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                b.Property<string>("LinkBeat")
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("LinkSheet")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                b.Property<string>("LinkSheet")
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnType("nvarchar(500)");
 
-                    b.Property<int?>("ModifiedById")
-                        .HasColumnType("int");
+                b.Property<int?>("ModifiedById")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime?>("ModifiedTime")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("ModifiedTime")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                b.HasIndex("CreatedById");
 
-                    b.HasIndex("ModifiedById");
+                b.HasIndex("ModifiedById");
 
-                    b.HasIndex("Name");
+                b.HasIndex("Name");
 
-                    b.ToTable("Songs");
-                });
+                b.ToTable("Songs");
+            });
 
             modelBuilder.Entity("FITM_BE.Entity.Instrument", b =>
                 {
@@ -466,6 +388,23 @@ namespace FITM_BE.Migrations
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.Member", b =>
+            {
+                b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                    .WithMany()
+                    .HasForeignKey("CreatedById")
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                    .WithMany()
+                    .HasForeignKey("ModifiedById")
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                b.Navigation("CreatedBy");
+
+                b.Navigation("ModifyBy");
+            });
+
+            modelBuilder.Entity("FITM_BE.Entity.Outcome", b =>
                 {
                     b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
                         .WithMany()
@@ -483,55 +422,55 @@ namespace FITM_BE.Migrations
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.PracticalSchedule", b =>
-                {
-                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+            {
+                b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                    .WithMany()
+                    .HasForeignKey("CreatedById")
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+                b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                    .WithMany()
+                    .HasForeignKey("ModifiedById")
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("CreatedBy");
+                b.Navigation("CreatedBy");
 
-                    b.Navigation("ModifyBy");
-                });
+                b.Navigation("ModifyBy");
+            });
 
             modelBuilder.Entity("FITM_BE.Entity.RequestEditInfo", b =>
-                {
-                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+            {
+                b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                    .WithMany()
+                    .HasForeignKey("CreatedById")
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+                b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                    .WithMany()
+                    .HasForeignKey("ModifiedById")
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("CreatedBy");
+                b.Navigation("CreatedBy");
 
-                    b.Navigation("ModifyBy");
-                });
+                b.Navigation("ModifyBy");
+            });
 
             modelBuilder.Entity("FITM_BE.Entity.Song", b =>
-                {
-                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+            {
+                b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                    .WithMany()
+                    .HasForeignKey("CreatedById")
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.NoAction);
+                b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                    .WithMany()
+                    .HasForeignKey("ModifiedById")
+                    .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("CreatedBy");
+                b.Navigation("CreatedBy");
 
-                    b.Navigation("ModifyBy");
-                });
+                b.Navigation("ModifyBy");
+            });
 #pragma warning restore 612, 618
         }
     }

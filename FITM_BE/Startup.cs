@@ -1,13 +1,13 @@
 ﻿using FITM_BE.Authorization.Permission;
 using FITM_BE.DependencyInjection;
 using FITM_BE.EntityFrameworkCore;
+using FITM_BE.EntityFrameworkCore.Seed;
 using FITM_BE.Service.EmailService;
-using FITM_BE.Service.LoggerService;
+using FITM_BE.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using NLog;
 using FITM_BE.Util;
 using FITM_BE.EntityFrameworkCore.Seed;

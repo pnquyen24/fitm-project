@@ -1,65 +1,71 @@
 .loading {
     font-size: 18px;
     margin-bottom: 20px;
-  }
-  
-  .container {
-    width: 100%;
+}
+
+.container_RequestChangeInfo {
+    width: 96%;
     float: left;
-  }
-  
-  /* Table styles */
-  .TableContainer {
+}
+
+/* Table styles */
+.TableContainer {
     width: 100%;
     margin-bottom: 20px;
-  }
-  .css-1ygcj2i-MuiTableCell-root , .css-1ex1afd-MuiTableCell-root{
+}
+
+.container_RequestChangeInfo .css-1ygcj2i-MuiTableCell-root,
+.container_RequestChangeInfo .css-1ex1afd-MuiTableCell-root {
     text-align: center !important;
-  }
-  .TableHead {
+}
+
+.TableHead {
     background-color: lightgray;
-  }
-  .css-1ygcj2i-MuiTableCell-root{
+}
+
+.css-1ygcj2i-MuiTableCell-root {
     font-weight: bold !important;
-  }
-  .button-container,
-  .pagination-button {
+}
+
+.button-container,
+.pagination-button {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 20px;
     margin-right: 20px;
-  }
-  
-  .search-input {
+}
+
+.search-input {
     margin-top: 5px;
     margin-bottom: 10px;
-  }
-  
-  .detail-button:hover {
+}
+
+.detail-button:hover {
     background-color: rgb(240, 248, 255);
     color: black;
     cursor: pointer;
-  }
-  
-  .sub-button {
+}
+
+.sub-button {
     background-color: rgb(240, 248, 255);
     border: none;
-  }
-  
-  .main-page {
+}
+
+.main-page {
     text-decoration: underline;
     margin-left: 20px;
     margin-right: 20px;
-  }
-  .MuiTableCell-root.Pending {
-    color: darkorange ;
-  }
-  
-  .MuiTableCell-root.Denied {
-    color: red ;
-  }
+}
 
-  .MuiTableCell-root.Accepted {
+.MuiTableCell-root.Pending {
+    color: darkorange;
+}
+
+.MuiTableCell-root.Denied {
+    color: red;
+}
+
+.MuiTableCell-root.Accepted {
     color: green;
-  }
+}

@@ -1,77 +1,126 @@
+import React, { useEffect, useState, useRef } from "react";
+import "./Schedule.css";
+import ModalSchedule from "./ModalSchedule";
+import CustomeAlert from "../Member/Alert/CustomeAlert";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    fetchPerformances,
+    fetchPracticals,
+    selectAllPerformances,
+    selectAllPracticals,
+    toggleModal,
+} from "../../Variable/Redux/Slice/scheduleSlice";
+import { Box } from "@mui/material";
+import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import { Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import ModalSchedule from "./ModalSchedule";
-import "./Schedule.css";
-import { fetchSchedules, getScheduleError, getScheduleStatus, selectAllSchedules, updateSchedule } from "./scheduleSlice";
-import UseOpenClosed from "./useOpenClosed"
-import { useDispatch, useSelector } from "react-redux";
-import CustomeAlert from "../Member/Alert/CustomeAlert";
+import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 
-function PracticalSchedule() {
+function Schedule() {
     const dispatch = useDispatch();
-    const schedules = useSelector(selectAllSchedules);
-    const scheduleStatus = useSelector(getScheduleStatus);
-    const error = useSelector(getScheduleError);
-    const modalInfosEvent = UseOpenClosed(false);
+    const practicals = useSelector(selectAllPracticals);
+    const performances = useSelector(selectAllPerformances);
 
+    const calendarRef = useRef(null);
+
+    const [calApi, setCalApi] = useState();
     const [eventInfos, setEventInfos] = useState();
     const [isEditCard, setIsEditCard] = useState();
+    const [date, setDate] = useState();
 
     useEffect(() => {
-        if (scheduleStatus === "idle") {
-            dispatch(fetchSchedules());
+        setCalApi(calendarRef.current?.getApi());
+        if (calApi) {
+            setDate(calApi.view.title);
         }
-    }, [scheduleStatus, dispatch]);
+    }, [calApi]);
 
-    const processReduxData = (data) => {
+    useEffect(() => {
+        dispatch(fetchPracticals());
+        dispatch(fetchPerformances());
+    }, [dispatch]);
+
+    function processPracticals(data) {
         return data.map((item) => ({
             id: item.id,
             title: item.title,
             description: item.description,
-            start: item.startDate,
-            end: item.endDate,
+            start: new Date(`${item.date}T${item.startTime}`),
+            end: new Date(`${item.date}T${item.endTime}`),
             room: item.room,
+            type: "practical",
             color: "#1677ff",
             display: "block",
         }));
-    };
+    }
 
-    const processCalendarData = (data) => {
-        return {
-            id: data.event.id,
-            title: data.event.title,
-            description: data.event.extendedProps.description,
-            startDate: data.event.startStr,
-            endDate: data.event.endStr,
-            room: data.event.extendedProps.room,
-        };
-    };
+    function processPerformances(data) {
+        return data.map((item) => ({
+            id: item.id,
+            title: item.name,
+            name: item.name,
+            place: item.place,
+            start: new Date(`${item.date}T${item.time}`),
+            songs: item.songs,
+            backgroundImg: item.backgroundImg,
+            type: "performance",
+            color: "#ff0000",
+            display: "block",
+        }));
+    }
 
-    const handleSelect = async (selectInfo) => {
+    function combineEvent() {
+        return [
+            ...processPracticals(practicals),
+            ...processPerformances(performances),
+        ];
+    }
+
+    function handleSelect(selectInfo) {
+        const current = new Date();
+        if (selectInfo.end < current) {
+            CustomeAlert.warning("Can not create schedule");
+            return;
+        }
         setEventInfos(selectInfo);
         setIsEditCard(false);
-        modalInfosEvent.handleOpen();
-    };
+        dispatch(toggleModal(true));
+    }
 
-    const handleEventClick = async (clickInfo) => {
+    function handleEventClick(clickInfo) {
         setEventInfos(clickInfo);
         setIsEditCard(true);
-        modalInfosEvent.handleOpen();
-    };
+        dispatch(toggleModal(true));
+    }
 
-    const handleEventChange = async (changeInfo) => {
-        try {
-            const processedData = processCalendarData(changeInfo);
-            dispatch(updateSchedule(processedData));
-        } catch {
-            CustomeAlert.error(error);
-        }
-    };
+    function isToday() {
+        const current = new Date();
+        const start = calApi?.view.currentStart;
+        const end = calApi?.view.currentEnd;
+        return current >= start && current < end;
+    }
+
+    function handleDateChange(direction) {
+        if (!calApi) return;
+
+        const actions = {
+            prevYear: () => calApi.prevYear(),
+            prev: () => calApi.prev(),
+            today: () => calApi.today(),
+            next: () => calApi.next(),
+            nextYear: () => calApi.nextYear(),
+            month: () => calApi.changeView("dayGridMonth"),
+            week: () => calApi.changeView("timeGridWeek"),
+            day: () => calApi.changeView("timeGridDay"),
+            list: () => calApi.changeView("listWeek"),
+        };
+
+        actions[direction] && actions[direction]();
+
+        setDate(calApi.view.title);
+    }
 
     return (
         <div id="calendar">
@@ -82,29 +131,37 @@ function PracticalSchedule() {
                     eventInfos={eventInfos}
                     isEditCard={isEditCard}
                 />
+                <HeaderCalendar
+                    date={date}
+                    isToday={isToday}
+                    handleDateChange={handleDateChange}
+                />
                 <FullCalendar
                     dayMaxEvents={true}
                     defaultAllDay={false}
                     editable={true}
                     height={800}
-                    selectable={true}
+                    dayMaxEvents={true}
                     selectMirror={true}
+                    selectable={true}
+                    editable={false}
+                    defaultAllDay={false}
+                    headerToolbar={false}
+                    initialView="dayGridMonth"
+                    selectAllow={(s) =>
+                        ~~(Math.abs(s.end - 864e5 - s.start) / 864e5) < 1
+                    }
+                    ref={calendarRef}
                     plugins={[
                         dayGridPlugin,
                         timeGridPlugin,
                         listPlugin,
                         interactionPlugin,
                     ]}
-                    initialView="dayGridMonth"
-                    headerToolbar={{
-                        left: "prev,next today",
-                        center: "title",
-                        right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-                    }}
-                    events={processReduxData(schedules)}
+                    events={combineEvent()}
                     select={handleSelect}
                     eventClick={handleEventClick}
-                    eventChange={handleEventChange}
+                    eventChange="false"
                     eventTimeFormat={{
                         hour: "numeric",
                         minute: "2-digit",
@@ -117,4 +174,4 @@ function PracticalSchedule() {
     );
 }
 
-export default PracticalSchedule;
+export default Schedule;

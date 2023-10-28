@@ -35,6 +35,16 @@ namespace FITM_BE.Util
 
         public async Task<IEnumerable<TEntity>> AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit
         {
+            var currentUser = await GetCurrent();
+            var currentTime = DateTime.Now;
+
+            entities = entities.Select(e =>
+            {
+                e.CreatedBy = currentUser;
+                e.CreatedTime = currentTime;
+                return e;
+            });
+
             await _dbContext.Set<TEntity>().AddRangeAsync(entities);
             await _dbContext.SaveChangesAsync();
             _dbContext.SaveChangesFailed += (object? sender, SaveChangesFailedEventArgs eventArgs) =>
@@ -60,7 +70,7 @@ namespace FITM_BE.Util
 
         public async Task Delete<TEntity>(int id) where TEntity : Entity<int>
         {
-            await Delete<TEntity>(id);
+            await Delete<TEntity, int>(id);
         }
 
         public async Task<TEntity> Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>
@@ -98,6 +108,29 @@ namespace FITM_BE.Util
                 throw new SystemException();
             };
             return newEntity;
+        }
+
+        public async Task<IEnumerable<TEntity>> UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit
+        {
+            var currentUser = await GetCurrent();
+            var currentTime = DateTime.Now;
+
+            entities = entities.Select(e =>
+            {
+                e.ModifyBy = currentUser;
+                e.ModifiedTime = currentTime;
+                return e;
+            });
+
+            _dbContext.UpdateRange(entities);
+            await _dbContext.SaveChangesAsync();
+
+            _dbContext.SaveChangesFailed += (sender, e) =>
+            {
+                throw new SystemException(e.Exception.Message);
+            };
+
+            return entities;
         }
 
         private async Task<Member?> GetCurrent()

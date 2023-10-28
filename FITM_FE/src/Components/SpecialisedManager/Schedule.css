@@ -1,7 +1,7 @@
 #calendar {
     width: 96%;
     height: 100vh;
-    margin-top: 2%;
+    margin-top: 3%;
     background-color: #f0f8ff;
 }
 
@@ -41,10 +41,28 @@ a.fc-col-header-cell-cushion {
     margin-top: 12px;
     margin-bottom: 12px;
 }
-.css-1vz5lb3-MuiChartsTooltip-container{
-    width:200px;
-}
-.css-2hvfka-MuiChartsTooltip-table{
-    width:200px;
 
+.headerToolBar {
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+}
+
+h3.MuiTypography-root {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.33;
+    margin: 0 18px;
+}
+
+.MuiTabPanel-root {
+    padding: 0 !important;
+}
+
+.MuiButton-contained {
+    background-color: #1677FF !important;
+}
+
+.MuiButton-outlined {
+    color: #1677FF;
 }
