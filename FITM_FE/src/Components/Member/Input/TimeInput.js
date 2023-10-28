@@ -1,11 +1,11 @@
 import React from "react";
-import styled from '@mui/material/styles/styled';
+import styled from "@mui/material/styles/styled";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import "dayjs/locale/en-gb";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 
-const CssDateTimeInput = styled(DateTimePicker)({
+const CssTimeInput = styled(TimePicker)({
     "& label": {
         color: "#ccc",
         "&.Mui-focused": {
@@ -13,9 +13,10 @@ const CssDateTimeInput = styled(DateTimePicker)({
         },
         "&.Mui-error": {
             color: "red",
-        }
+        },
     },
     "& .MuiInputBase-root": {
+        margin: "16px 0 8px 0",
         "& fieldset": {
             borderColor: "#ccc",
         },
@@ -26,20 +27,24 @@ const CssDateTimeInput = styled(DateTimePicker)({
             borderColor: "#696cff",
         },
         "&.Mui-error fieldset": {
-            borderColor: "red"
-        }
-    }
+            borderColor: "red",
+        },
+    },
 });
 
-function DateTimeInput(props) {
+function TimeInput(props) {
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-            <CssDateTimeInput
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <CssTimeInput
                 ampm={false}
+                viewRenderers={{
+                    hours: renderTimeViewClock,
+                    minutes: renderTimeViewClock,
+                }}
                 slotProps={{
                     textField: {
-                        size: "small"
-                    }
+                        size: "small",
+                    },
                 }}
                 {...props}
             />
@@ -47,4 +52,4 @@ function DateTimeInput(props) {
     );
 }
 
-export default DateTimeInput;
+export default TimeInput;

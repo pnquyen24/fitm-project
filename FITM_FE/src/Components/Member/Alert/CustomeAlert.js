@@ -34,6 +34,14 @@ const CustomeAlert = {
             background: color,
         });
     },
+    confirm: (title, confirmText, denyText) => {
+        return Swal.fire({
+            title: title,
+            showDenyButton: true,
+            confirmButtonText: confirmText,
+            denyButtonText: denyText,
+        });
+    },
 };
 
 export default CustomeAlert;
