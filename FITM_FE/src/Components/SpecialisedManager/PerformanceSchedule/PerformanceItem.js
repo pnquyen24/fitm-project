@@ -42,10 +42,9 @@ function PerformanceItem(props) {
             )
             .then((response) => {
                 setPerformance(response.data);
-                console.log(response.data);
                 handleFlip();
             })
-            .catch((error) => { });
+            .catch((error) => {});
     };
 
     const handleFlip = () => {
@@ -173,10 +172,10 @@ function CardAccordion({ Title, Items, pfmID }) {
     const itemList =
         Items && Items.length > 0
             ? Items.map((item) => (
-                <ListItem>
-                    <ListItemText key={item.id} primary={item.name} />
-                </ListItem>
-            ))
+                  <ListItem>
+                      <ListItemText key={item.id} primary={item.name} />
+                  </ListItem>
+              ))
             : null;
 
     return (
@@ -255,7 +254,8 @@ function JoinDialog(props) {
                 <DialogContent>
                     <DialogContentText variant="body1">
                         Are you sure you will be able to attend the "
-                        {props.Name}" show at {props.Place} on {props.Date} at {props.Time}?
+                        {props.Name}" show at {props.Place} on {props.Date} at{" "}
+                        {props.Time}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

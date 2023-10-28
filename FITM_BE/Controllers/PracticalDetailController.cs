@@ -26,9 +26,9 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAttendanceList([FromBody] IEnumerable<UpdateAttendanceDto> attendanceListDto)
+        public async Task<IActionResult> UpdateAttendanceStatus([FromBody] IEnumerable<UpdateAttendanceDto> attendanceListDto)
         {
-            var updatedList = await _attendancePracticalService.UpdateAttendanceList(attendanceListDto);
+            var updatedList = await _attendancePracticalService.UpdateAttendanceStatus(attendanceListDto);
             return Ok(updatedList);
         }
     }

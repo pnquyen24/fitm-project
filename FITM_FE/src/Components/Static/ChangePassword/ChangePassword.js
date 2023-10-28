@@ -12,30 +12,15 @@ function ChangePassword({ isOpen, setOpen }) {
     let [isValidPassword, setValidPassword] = useState(false);
 
     function hasUpperCase(string) {
-        for (let i = 0; i < string.length; i++) {
-            if (string[i] >= "A" && string[i] <= "Z") {
-                return true;
-            }
-        }
-        return false;
+        return /[A-Z]/.test(string);
     }
 
     function hasLowerCase(string) {
-        for (let i = 0; i < string.length; i++) {
-            if (string[i] >= "a" && string[i] <= "z") {
-                return true;
-            }
-        }
-        return false;
+        return /[a-z]/.test(string);
     }
 
     function hasNumber(string) {
-        for (let i = 0; i < string.length; i++) {
-            if (string[i] >= "0" && string[i] <= "9") {
-                return true;
-            }
-        }
-        return false;
+        return /\d/.test(string);
     }
 
     useEffect(() => {

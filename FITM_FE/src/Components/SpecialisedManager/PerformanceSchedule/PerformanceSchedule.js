@@ -44,8 +44,12 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         autoFocus: true,
     };
 
-    const songIdExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.id);
-    const songNameExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.name);
+    const songIdExist = eventInfos?.event?.extendedProps?.songs?.map(
+        (song) => song.id
+    );
+    const songNameExist = eventInfos?.event?.extendedProps?.songs?.map(
+        (song) => song.name
+    );
 
     const performanceToCreate = {
         id: 0,
@@ -59,8 +63,12 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
 
     const [songs, setSongs] = useState([]);
     const [formSchedule, setFormSchedule] = useState(performanceToCreate);
-    const [songIds] = useState(songIdExist && songIdExist.length > 0? songIdExist: []);
-    const [songName, setSongName] = useState(songNameExist && songNameExist.length > 0? songNameExist: []);
+    const [songIds] = useState(
+        songIdExist && songIdExist.length > 0 ? songIdExist : []
+    );
+    const [songName, setSongName] = useState(
+        songNameExist && songNameExist.length > 0 ? songNameExist : []
+    );
     const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
@@ -73,7 +81,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                 time: eventInfos?.event?.startStr,
                 backgroundImg: eventInfos?.event?.extendedProps?.backgroundImg,
             });
-
         }
     }, [eventInfos, isEditCard]);
 
@@ -87,17 +94,15 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     const itemList =
         songs && songs.length > 0
             ? songs.map((song) => (
-                <MenuItem
-                    onClick={(e) => handleSelectSong(song.id)}
-                    key={song.id} value={song.name}>
-                    <Checkbox
-                        checked={
-                            songIds?.indexOf(song.id) > -1
-                        }
-                    />
-                    <ListItemText primary={song.name} />
-                </MenuItem>
-            ))
+                  <MenuItem
+                      onClick={(e) => handleSelectSong(song.id)}
+                      key={song.id}
+                      value={song.name}
+                  >
+                      <Checkbox checked={songIds?.indexOf(song.id) > -1} />
+                      <ListItemText primary={song.name} />
+                  </MenuItem>
+              ))
             : null;
 
     const handleSelectSong = (songId) => {
@@ -108,7 +113,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         } else {
             songIds.splice(songIndex, 1);
         }
-    }
+    };
 
     function getEvent(formSchedule) {
         return {
@@ -124,7 +129,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     function handleSubmit(e) {
         const errors = validate(formSchedule);
         setFormErrors(errors);
-        console.log(formErrors);
 
         if (Object.keys(errors).length === 0) {
             if (isEditCard) {
@@ -140,7 +144,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                 id: formSchedule.id,
                 ...getEvent(formSchedule),
             };
-            console.log(updatedSchedule);
             dispatch(updatePerformance(updatedSchedule));
         } catch {
             CustomeAlert.error("Something error");
@@ -222,9 +225,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
             .then((response) => {
                 setSongs(response.data);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => {});
     }, []);
 
     //Close Modal
@@ -271,7 +272,11 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             <CustomeTextField
                                 error={Boolean(formErrors.place)}
                                 name="place"
-                                label={Boolean(formErrors.place)? "Place is required and < 30 character" : "Place"}
+                                label={
+                                    Boolean(formErrors.place)
+                                        ? "Place is required and < 30 character"
+                                        : "Place"
+                                }
                                 size="small"
                                 type="text"
                                 onChange={(event) =>

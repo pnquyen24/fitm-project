@@ -37,9 +37,6 @@ function Song({ id, name, author, beat, sheet, background }) {
         }
     }
 
-    console.log(
-        `linear-gradient(to right, rgba(0, 0, 0, 0.703), rgba(0, 0, 0, 0.221)),  url("${background}");`
-    );
     return (
         <div
             className="song"
