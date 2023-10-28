@@ -22,6 +22,7 @@ namespace FITM_BE.EntityFrameworkCore
         public DbSet<Member> Members { get; set; }
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
         public DbSet<Song> Songs { get; set; }
+        public DbSet<InstrumentReport> InstrumentReports { get; set; }
         public DbSet<PracticalSchedule> PracticalSchedules { get; set; }
         public DbSet<PracticalDetail> PracticalDetails { get; set; }
         public DbSet<PerformanceSchedule> PerformanceSchedules { get; set; }
@@ -44,5 +45,7 @@ namespace FITM_BE.EntityFrameworkCore
         }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Outcome> Outcomes { get; set; }
+        public DbSet<Instrument> Instruments { get; set; }
+        public DbSet<InstrumentType> InstrumentTypes { get; set; }
     }
 }

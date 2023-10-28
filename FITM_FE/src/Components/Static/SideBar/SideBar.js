@@ -20,6 +20,9 @@ function SideBar({ isOpen, setOpen }) {
         { Title: "Music List", Icon: "musical-notes-outline", Link: "/music-list" },
         { Title: 'Finance', Icon: 'cash-outline', Link: "financial-manager/finance-list" },
         { Title: 'Finance Request List', Icon: 'wallet-outline', Link: "financial-manager/finance-request-list" },
+        { Title: 'Instrument Report', Icon: 'warning-outline', Link: "/report-instrument" },
+        { Title: 'Instrument Report Management', Icon: 'file-tray-full-outline', Link: "/instrument-report-management" },
+        { Title: 'Instrument', Icon: 'file-tray-full', Link: "/instrument" },
     ];
     useEffect(() => {}, []);
 

@@ -328,6 +328,65 @@ namespace FITM_BE.Migrations
                 b.ToTable("Songs");
             });
 
+            modelBuilder.Entity("FITM_BE.Entity.Instrument", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.InstrumentType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifyBy");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.InstrumentReport", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifyBy");
+                });
+
+            modelBuilder.Entity("FITM_BE.Entity.InstrumentType", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("FITM_BE.Entity.Member", "ModifyBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ModifyBy");
+                });
+
             modelBuilder.Entity("FITM_BE.Entity.Member", b =>
             {
                 b.HasOne("FITM_BE.Entity.Member", "CreatedBy")

@@ -32,6 +32,9 @@ import PerformanceTable from "./Components/SpecialisedManager/PerformanceSchedul
 import Schedule from "./Components/SpecialisedManager/Schedule";
 import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
+import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrument";
+import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
+import Instrument from "./Components/Static/Instrument/Instrument";
 
 let Authented = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -74,6 +77,9 @@ root.render(
                             <Route path="outcome-request-detail" element={<OutcomeRequestDetail />} />
                             <Route path="balance-chart-details" element={<BalanceDetails />} />
                         </Route>
+                        <Route path="report-instrument" element={<InstrumentReport />} />
+                        <Route path="instrument-report-management" element={<InstrumentReportManagement />} />
+                        <Route path="instrument" element={<Instrument />} />
                     </Route>
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                 </Routes>
