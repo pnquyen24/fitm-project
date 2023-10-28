@@ -43,10 +43,8 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
     await axios
       .delete(`https://localhost:7226/apis/Song/DeleteSong/${idInput}`)
       .then((response) => {
-        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error.message);
       });
 
       getAllSongs();
@@ -66,7 +64,6 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
     await axios
       .put(`https://localhost:7226/apis/Song/UpdateSong/${idInput}`, updateSong)
       .then((response) => {
-        console.log(response.data);
       })
       .catch((error) => {});
       getAllSongs();
@@ -86,7 +83,6 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
     await axios
       .post(`https://localhost:7226/apis/Song/CreateSong`, NewSong)
       .then((response) => {
-        console.log(response.data);
       })
       .catch((error) => {});
       getAllSongs();

@@ -59,14 +59,25 @@ function RequestChangeInfoList() {
   }
   return (
     <div className="container">
-      <div>
+      <div className="menu-container">
         <input
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={handleSearch}
           className="search-input"
         />
+        <div className="select-container">
+          <FormControl>
+            <Select value={option} onChange={handleFilterChange}>
+              <MenuItem value="All" style={{ color: "gray" }}>ALL</MenuItem>
+              <MenuItem value="Pending" style={{ color: "orange" }}>Pending</MenuItem>
+              <MenuItem value="Accepted" style={{ color: "green" }}>Accepted</MenuItem>
+              <MenuItem value="Denied" style={{ color: "red" }}>Denied</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <Button onClick={() => toMemberList()} variant="contained" color="info" size='medium' sx={{marginLeft: "10px",height:"50%",padding : "px 10px"}}>Request Change Info List</Button>
       </div>
       <div>
         {loading ? (
@@ -85,9 +96,9 @@ function RequestChangeInfoList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {memberList.map((request, index) => (
+                {paginatedData.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{index + 1}</TableCell>
+                    <TableCell style={{ width: '50px' }}>{(index + 1) + (page - 1) * pageSize}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>

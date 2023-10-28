@@ -13,6 +13,15 @@ import LandingPage from "./Components/LandingPage/LP";
 import ChangePassword from "./Components/Static/ChangePassword/ChangePassword";
 import Music from "./Components/Static/Music/Music";
 import Profile from "./Components/Static/Profile/Profile";
+import FinanceList from "./Components/Finance/FinanceList";
+import BalanceChart from "./Components/Finance/BalanceChart/BalanceChart";
+import BalanceDetails from "./Components/Finance/BalanceDetails/BalanceDetails";
+import IncomeDetail from "./Components/Finance/Income/IncomeDetail";
+import OutcomeDetail from "./Components/Finance/Outcome/OutcomeDetail";
+import CreateFinance from "./Components/Finance/CreateFinance/CreateFinance";
+import FinanceRequestList from "./Components/Finance/FinanceRequestList/FinanceRequestList";
+import IncomeRequestDetail from "./Components/Finance/FinanceRequestDetail/IncomeRequestDetail";
+import OutcomeRequestDetail from "./Components/Finance/FinanceRequestDetail/OutcomeRequestDetail";
 import AttendancePractical from "./Components/SpecialisedManager/PracticalSchedule/AttendancePractical";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -54,6 +63,17 @@ root.render(
                         <Route path="attendancePerformance" element={<AttendancePerformance />} />
                         <Route path="changepassword" element={<ChangePassword />} />
                         <Route path="music-list" element={<Music />} />
+                        <Route path="financial-manager" >
+                            <Route path="finance-list" element={<FinanceList />} />
+                            <Route path="balance" element={<BalanceChart />} />
+                            <Route path="income-detail" element={<IncomeDetail />} />
+                            <Route path="outcome-detail" element={<OutcomeDetail />} />
+                            <Route path="create-finance" element={<CreateFinance />} />
+                            <Route path="finance-request-list" element={<FinanceRequestList />} />
+                            <Route path="income-request-detail" element={<IncomeRequestDetail />} />
+                            <Route path="outcome-request-detail" element={<OutcomeRequestDetail />} />
+                            <Route path="balance-chart-details" element={<BalanceDetails />} />
+                        </Route>
                     </Route>
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                 </Routes>

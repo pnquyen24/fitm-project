@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
-using System.Text;
+using FITM_BE.Util;
+using FITM_BE.EntityFrameworkCore.Seed;
 
 namespace FITM_BE
 {

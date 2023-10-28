@@ -42,5 +42,7 @@ namespace FITM_BE.EntityFrameworkCore
                 timeSpan => TimeOnly.FromTimeSpan(timeSpan))
             { }
         }
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Outcome> Outcomes { get; set; }
     }
 }

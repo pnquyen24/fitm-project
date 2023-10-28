@@ -18,6 +18,8 @@ function SideBar({ isOpen, setOpen }) {
         { Title: "Performance Schedule", Icon: "calendar-outline", Link: "/performance" },
         { Title: "Practical Schedule", Icon: "calendar", Link: "/practical" },
         { Title: "Music List", Icon: "musical-notes-outline", Link: "/music-list" },
+        { Title: 'Finance', Icon: 'cash-outline', Link: "financial-manager/finance-list" },
+        { Title: 'Finance Request List', Icon: 'wallet-outline', Link: "financial-manager/finance-request-list" },
     ];
     useEffect(() => {}, []);
 

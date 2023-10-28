@@ -50,10 +50,7 @@ function Profile({ memberId }) {
 
     // Function to handle form submission
     const handleSubmit = () => {
-        if (!isValidEmail(tempMember.email)) {
-            console.log("Invalid email format");
-            return;
-        }
+        if (!isValidEmail(tempMember.email)) { return; }
         // Prepare the data to be sent in the request
         const requestData = {
             studentID: tempMember.studentID,
