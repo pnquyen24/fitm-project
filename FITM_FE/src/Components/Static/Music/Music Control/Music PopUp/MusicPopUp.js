@@ -21,7 +21,6 @@ function MusicPopup({ editMusic, setEditMusic, getAllSongs }) {
   };
 
   const getSongById = (inputValue) => {
-    console.log(`https://localhost:7226/apis/Song/GetSongById/${inputValue}`);
     axios
       .get(`https://localhost:7226/apis/Song/GetSongById/${inputValue}`)
       .then((response) => {

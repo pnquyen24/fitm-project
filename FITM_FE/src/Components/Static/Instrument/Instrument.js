@@ -25,7 +25,7 @@ function Instrument(){
         }
       ]
     return (
-        <div className="InstrumentReportManagement-cover" style={{flexDirection: columns}}>
+        <div className="InstrumentReportManagement-cover" >
             <Button>Add Instrument</Button>
             {instrumentTypes.map(type => (
                 <Accordion>

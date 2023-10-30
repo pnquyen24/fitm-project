@@ -163,7 +163,7 @@ const FinanceList = () => {
   //===================================
 
   return (
-    <div>
+    <div className="finance">
       <h1 className="finance_title">FINANCE REPORT LIST</h1>
 
       <div className="create_finance_top">

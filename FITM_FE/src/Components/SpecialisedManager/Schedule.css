@@ -56,11 +56,11 @@ h3.MuiTypography-root {
 }
 
 .MuiTabPanel-root {
-    padding: 0 !important;
+    padding: 0 ;
 }
 
 .MuiButton-contained {
-    background-color: #1677FF !important;
+    background-color: #1677FF ;
 }
 
 .MuiButton-outlined {
