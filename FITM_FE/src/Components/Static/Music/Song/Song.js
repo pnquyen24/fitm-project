@@ -36,7 +36,6 @@ function Song({ id, name, author, beat, sheet, background }) {
             }
         }
     }
-  
     return (
         <div
             className="song"

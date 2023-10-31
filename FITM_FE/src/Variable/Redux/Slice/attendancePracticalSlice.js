@@ -3,11 +3,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const GET_ATTENDANCE_LIST_URL = "PracticalDetail/ViewAttendanceList";
 const UPDATE_ATTENDANCE_LIST_URL = "PracticalDetail/UpdateAttendanceList";
-const GET_PRACTICAL_PRODUCTIVITY_LIST_URL = "PracticalDetail/ViewProductivity";
 
 const initialState = {
     list: [],
-    productivityList: [],
 };
 
 export const fetchList = createAsyncThunk(
@@ -31,16 +29,6 @@ export const updateList = createAsyncThunk(
     }
 );
 
-export const getProductivityList = createAsyncThunk(
-    "attendance/getProductivityList",
-    async () => {
-        const response = await axiosClient.get(
-            GET_PRACTICAL_PRODUCTIVITY_LIST_URL
-        );
-        return response.data;
-    }
-);
-
 const attendancePracticalSlice = createSlice({
     name: "attendance",
     initialState,
@@ -58,15 +46,10 @@ const attendancePracticalSlice = createSlice({
                     }
                     return member;
                 });
-            })
-            .addCase(getProductivityList.fulfilled, (state, action) => {
-                state.productivityList = action.payload;
             });
     },
 });
 
 export const getAttendancePractical = (state) => state.attendance.list;
-export const getPracticalProductivity = (state) =>
-    state.attendance.productivityList;
 
 export default attendancePracticalSlice.reducer;

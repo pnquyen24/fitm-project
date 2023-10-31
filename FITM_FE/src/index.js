@@ -62,7 +62,6 @@ root.render(
                         <Route path="schedule" element={<Schedule />} />
                         <Route path="practical" element={<PracticalList />} />
                         <Route path="practical/attendancePractical" element={<AttendancePractical/>} />
-                        <Route path="practical-productivity" element={<PracticalProductivity/>} />
                         <Route path="performance" element={<PerformanceTable />} />
                         <Route path="attendancePerformance" element={<AttendancePerformance />} />
                         <Route path="changepassword" element={<ChangePassword />} />
