@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./ForgotPassword.css"
+import "./ForgotPassword.css";
 import { Link, Stack, Typography } from "@mui/material";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Swal from "sweetalert2";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeLoadingButton from "../../Member/Button/CustomeLoadingButton";
 import { Link as RouterLink } from "react-router-dom";
+import axiosClient from "../../../Variable/Api/axiosClient";
 
-const baseURL = "https://localhost:7226/apis/Account/ForgotPassword";
-const isEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+const baseURL = "Account/ForgotPassword";
+const isEmail = (email) =>
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
 function ForgotPassword() {
     const [email, setEmail] = useState("");
@@ -19,25 +20,25 @@ function ForgotPassword() {
 
     async function callApi() {
         try {
-            const response = await axios.post(
+            const response = await axiosClient.post(
                 baseURL,
-                email.toLowerCase(),
-                { headers: { "Content-Type": "application/json" } });
+                email.toLowerCase()
+            );
             checkStatus(response);
         } catch (error) {
             if (error.response.status === 404) {
-                Swal.fire("Error!", "Email not found", "error")
+                Swal.fire("Error!", "Email not found", "error");
             } else {
-                Swal.fire("Error!", "Something went wrong", "error")
+                Swal.fire("Error!", "Something went wrong", "error");
             }
         }
     }
 
     function checkStatus(result) {
         if (result.status === 200) {
-            Swal.fire("Success!", "Send email success", "success")
+            Swal.fire("Success!", "Send email success", "success");
         } else {
-            Swal.fire("Error!", result.message, "error")
+            Swal.fire("Error!", result.message, "error");
         }
     }
 
@@ -70,19 +71,29 @@ function ForgotPassword() {
         setLoading(true);
         await callApi();
         setLoading(false);
-    }
+    };
 
     return (
         <div id="forgotPassword">
             <div className="background"></div>
             <div className="form">
-                <Stack className="container" borderRadius={2} padding={3} spacing={3}>
+                <Stack
+                    className="container"
+                    borderRadius={2}
+                    padding={3}
+                    spacing={3}
+                >
                     <Stack spacing={1}>
                         <Typography className="title" variant="h5" align="left">
                             Forgot Password? 🔒
                         </Typography>
-                        <Typography className="subTitle" variant="h7" align="left">
-                            Enter your email and we'll send you instructions to reset your password
+                        <Typography
+                            className="subTitle"
+                            variant="h7"
+                            align="left"
+                        >
+                            Enter your email and we'll send you instructions to
+                            reset your password
                         </Typography>
                     </Stack>
                     <form action="" onSubmit={handleSubmit}>
@@ -110,12 +121,13 @@ function ForgotPassword() {
                                 variant="subtitle2"
                                 component={RouterLink}
                             >
-                                <ArrowBackIosNewIcon sx={{ width: "16px" }} />{'Back to login'}
+                                <ArrowBackIosNewIcon sx={{ width: "16px" }} />
+                                {"Back to login"}
                             </Link>
                         </Stack>
                     </form>
                 </Stack>
-            </div >
+            </div>
         </div>
     );
 }

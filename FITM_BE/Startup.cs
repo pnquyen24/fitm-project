@@ -1,15 +1,17 @@
 ﻿using FITM_BE.Authorization.Permission;
 using FITM_BE.DependencyInjection;
 using FITM_BE.EntityFrameworkCore;
+using FITM_BE.EntityFrameworkCore.Seed;
 using FITM_BE.Service.EmailService;
-using FITM_BE.Service.LoggerService;
+using FITM_BE.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using NLog;
 using FITM_BE.Util;
+using FITM_BE.EntityFrameworkCore.Seed;
+using System.Text;
 
 namespace FITM_BE
 {
@@ -78,7 +80,7 @@ namespace FITM_BE
             services.AddDbContext<DatabaseContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Default"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddAuthentication(action =>
             {
@@ -126,6 +128,12 @@ namespace FITM_BE
                 app.UseSwaggerUI();
             }
 
+            app.ApplicationServices.MigrateDbContext<DatabaseContext>((dbcontext, serviceProvider) =>
+   {
+       var seeding = serviceProvider.GetRequiredService<ISeedingData>();
+       seeding.SeedMember();
+   });
+
             app.UseStaticFiles();
             app.UseRouting();
 
@@ -133,7 +141,7 @@ namespace FITM_BE
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapControllerRoute("default", "apis/{controler}/{action}");

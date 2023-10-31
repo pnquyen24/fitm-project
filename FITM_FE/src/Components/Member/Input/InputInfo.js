@@ -5,7 +5,6 @@ function InputInfo() {
   let [noti, setNoti] = useState("");
   let [Click, setClick] = useState("");
   useEffect(() => {
-    console.log("here");
     if (input.length < 8) {
       setNoti("chưa hợp lệ");
     } else setNoti("hợp lệ");

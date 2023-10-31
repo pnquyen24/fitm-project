@@ -1,0 +1,12 @@
+.InstrumentReportManagement-cover {
+  margin-top: 20px;
+  width: 96%;
+  display: flex;
+  min-height: 85%;
+  box-sizing: border-box;
+  gap: 20px;
+  justify-content: space-between;
+  position: relative;
+  color: rgb(86, 86, 86);
+  flex-wrap: wrap;
+}

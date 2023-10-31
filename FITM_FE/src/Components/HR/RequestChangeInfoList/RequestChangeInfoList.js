@@ -4,20 +4,21 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./RequestChangeInfoList.css";
+import PaginationComponent from '../../../Variable/Paggination/Paggination';
+import { FormControl, Select, MenuItem } from '@mui/material';
+import MemberList from '../MemberList/MemberList';
 
 
 
 function RequestChangeInfoList() {
   const [memberList, setMemberList] = useState([]);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [pageSize] = useState(9);
-  const [sort] = useState('');
-  const [sortDirection] = useState(0);
-  const [filterItems] = useState([]);
-  const [searchText, setSearchText] = useState('');
+  const [pageSize] = useState(8);
   const [loading, setLoading] = useState(false);
+  let [searchText, setSearchText] = useState('');
+  let [option, setOption] = useState('All');
   const navigate = useNavigate();
+  const [filteredData, setFilteredData] = useState([]);
   const status = {
     0: "Pending",
     1: "Accepted",
@@ -25,45 +26,96 @@ function RequestChangeInfoList() {
   }
 
   useEffect(() => {
-    const requestData = {
-      page,
-      pageSize,
-      sort,
-      sortDirection,
-      filterItems,
-      searchText,
-    };
-    setLoading(true);
 
     axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
     axios
-      .post('https://localhost:7226/apis/RequestEditInfo/GetAllPagging', requestData)
+      .get('https://localhost:7226/apis/RequestEditInfo/GetAll')
       .then((response) => {
-        setMemberList(response.data.results);
-        setTotal(response.data.total);
+        if (option === "All") { setMemberList(response.data); setFilteredData(response.data) }
       })
       .catch((error) => {
-        console.error(error);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [page, pageSize, sort, sortDirection, filterItems, searchText]);
+  }, []);
+
+  const handleChange = (event) => {
+    setOption(event.target.value);
+  };
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const paginatedData = filteredData.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+
+  // Filter function to filter data based on selected filter
+  const filterData = () => {
+    if (option === "Accepted" ) {
+      return memberList.filter(item => item.status === 1);
+    } else if (option === "Denied") {
+      return memberList.filter(item => item.status === 2);
+    } else if (option === "Pending") {
+      return memberList.filter(item => item.status === 0);
+    }
+    else {
+      return memberList;
+    }
+  };
+
+  // Handle filter change
+  const handleFilterChange = (event) => {
+    searchText = "";
+    setSearchText(searchText)
+    option = event.target.value;
+    setOption(option)
+    setFilteredData(filterData());
+  };
+
+  // Handle searchtext
+  const handleSearch = (event) => {
+    searchText = event.target.value;
+    setSearchText(searchText)
+    if(searchText === "") {setFilteredData(filterData())}
+    else{
+    const regex = new RegExp(searchText, 'i'); // 'i' flag for case-insensitive matching
+    setFilteredData(() => {
+      return memberList.filter(member => regex.test(member.createdBy));
+    });}
+  };
 
   function viewDetail(id) {
     navigate("/member-manager/request-details?id=" + id)
   }
+  function toMemberList() {
+    navigate("/member-manager/member-list");
+  }
   return (
-    <div className="container">
-      <div>
+    <div className="membercontainer">
+      <div className="menu-container" style={{display:"flex"}}>
         <input
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={handleSearch}
           className="search-input"
         />
+        <div className="select-container" style={{marginTop :"10px"}}>
+          <FormControl>
+            <Select value={option} onChange={handleFilterChange}>
+              <MenuItem value="All" style={{ color: "gray" }}>ALL</MenuItem>
+              <MenuItem value="Pending" style={{ color: "orange" }}>Pending</MenuItem>
+              <MenuItem value="Accepted" style={{ color: "green" }}>Accepted</MenuItem>
+              <MenuItem value="Denied" style={{ color: "red" }}>Denied</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <Button onClick={() => toMemberList()} variant="contained" color="info" size='medium' sx={{marginLeft: "10px",height:"50%",padding : "px 10px"}}>Request Change Info List</Button>
       </div>
       <div>
         {loading ? (
@@ -82,9 +134,9 @@ function RequestChangeInfoList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {memberList.map((request, index) => (
+                {paginatedData.map((request, index) => (
                   <TableRow key={request.id}>
-                    <TableCell>{index + 1}</TableCell>
+                    <TableCell style={{ width: '50px' }}>{(index + 1) + (page - 1) * pageSize}</TableCell>
                     <TableCell>{request.createdBy}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{new Date(request.createdTime).toLocaleDateString()}</TableCell>
@@ -99,63 +151,8 @@ function RequestChangeInfoList() {
           </TableContainer>
         )}
       </div>
-      <div className="button-container">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className="pagination-button sub-button"
-        >
-          Previous Page
-        </button>
-        <button
-          onClick={() => setPage(page - 2)}
-          className="pagination-button sub-button"
-          style={{ display: (page - 2) > 0 ? "block" : "none" }}
-        >
-          Page {page - 2}
-        </button>
-
-        <button
-          onClick={() => setPage(page - 1)}
-          className="pagination-button sub-button"
-          style={{ display: (page - 1) > 0 ? "block" : "none" }}
-        >Page {page - 1}</button>
-
-
-        <button
-          className="pagination-button sub-button main-page"
-        >
-          Page {page}
-        </button>
-
-        <button
-          onClick={() => setPage(page + 1)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * (page) < total ? "block" : "none" }}
-        >Page {page + 1}</button>
-
-
-        <button
-          onClick={() => setPage(page + 2)}
-          className="pagination-button sub-button"
-          style={{ display: pageSize * (page + 1) < total ? "block" : "none" }}
-        >Page {page + 2}</button>
-
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={pageSize * page >= total}
-          className="pagination-button sub-button"
-        >
-          Next Page
-        </button>
-
-        <button
-          onClick={() => setPage(Math.ceil(total / pageSize))}
-          disabled={pageSize * page >= total}
-          className="pagination-button sub-button"
-        >
-          Last Page
-        </button>
+      <div style={{ marginTop: '30px' }}>
+        <PaginationComponent data={filteredData} itemPerPage={pageSize} currentPage={page} onPageChange={handlePageChange} />
       </div>
     </div>
   );
