@@ -69,7 +69,6 @@ function AttendancePerformance() {
                 CustomeAlert.error("Save failed!");
             });
 
-        console.log(dataToUpdate);
     }
 
     return (

@@ -107,9 +107,9 @@ function MemberList() {
     navigate("/member-manager/request-edit-info-list");
   }
   return (
-    <div className="container">
+    <div className="membercontainer">
       <div>
-        <div className="menu-container">
+        <div className="menu-container" style={{display: "flex"}}>
           <input
             type="text"
             placeholder="Search..."
@@ -117,7 +117,7 @@ function MemberList() {
             onChange={handleSearch}
             className="search-input"
           />
-          <div className="select-container">
+          <div className="select-container pagination-button">
             <FormControl>
               <Select value={option} onChange={handleFilterChange}>
                 <MenuItem value="All">All</MenuItem>
@@ -126,13 +126,13 @@ function MemberList() {
               </Select>
             </FormControl>
           </div>
-          <div className="member-download-button">
+          <div className="member-download-button pagination-button">
             <Button variant="contained" color="success" onClick={handleDownload}>Download As Excel</Button>
           </div>
-          <div className='member-download-button'>
+          <div className='member-download-button pagination-button'>
            <Button onClick={() => requestList()} variant="contained" color="info"  sx={{}}>Request Change Info List</Button>
           </div> 
-          <div className="create-member">
+          <div className="create-member pagination-button">
             <Button onClick={() => addMember()} variant="outlined" size="small" sx={{}} className="detail-button">Add Member</Button>
           </div>
 

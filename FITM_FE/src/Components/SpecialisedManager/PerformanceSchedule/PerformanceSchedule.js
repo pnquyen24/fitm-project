@@ -124,7 +124,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     function handleSubmit(e) {
         const errors = validate(formSchedule);
         setFormErrors(errors);
-        console.log(formErrors);
 
         if (Object.keys(errors).length === 0) {
             if (isEditCard) {
@@ -140,7 +139,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                 id: formSchedule.id,
                 ...getEvent(formSchedule),
             };
-            console.log(updatedSchedule);
             dispatch(updatePerformance(updatedSchedule));
         } catch {
             CustomeAlert.error("Something error");
@@ -223,7 +221,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                 setSongs(response.data);
             })
             .catch((error) => {
-                console.log(error);
+
             });
     }, []);
 

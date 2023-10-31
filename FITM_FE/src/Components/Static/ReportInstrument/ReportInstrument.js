@@ -39,7 +39,7 @@ function InstrumentReport() {
         await axios
           .post(`https://localhost:7226/apis/InstrumentReportControl/CreateIstrumentReport`, Report)
           .then((response) => {
-            console.log(response.data);
+
           })
           .catch((error) => {
             console.error("lỗi lòi mắt em ơi")

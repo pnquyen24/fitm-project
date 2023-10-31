@@ -42,7 +42,6 @@ function PerformanceItem(props) {
             )
             .then((response) => {
                 setPerformance(response.data);
-                console.log(response.data);
                 handleFlip();
             })
             .catch((error) => { });
