@@ -221,7 +221,6 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                 setSongs(response.data);
             })
             .catch((error) => {
-
             });
     }, []);
 
