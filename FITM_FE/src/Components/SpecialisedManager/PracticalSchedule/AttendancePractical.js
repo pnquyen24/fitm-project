@@ -12,6 +12,8 @@ import { useLocation } from "react-router-dom";
 import Breadcrumb from "../../Member/Breadcrumb/Breadcrumb";
 
 function AttendancePractical() {
+    document.title = "Attendance Practical";
+
     const dispatch = useDispatch();
     const data = useSelector(getAttendancePractical);
 

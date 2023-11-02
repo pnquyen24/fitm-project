@@ -6,6 +6,8 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./CreateMember.css";
 
 function CreateMember() {
+    document.title = "Create Member";
+
     const [formData, setFormData] = useState({
         fullName: "",
         studentid: "",

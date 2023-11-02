@@ -4,6 +4,8 @@ import InstrumentReport from "./InstruReport/InstrumentReport";
 import "./InstrumentReportManagement.css";
 
 function InstrumentReportManagement() {
+  document.title = "Instrument Report Management";
+
   let [reports, setReports] = useState([]);
 
   useEffect(() => {

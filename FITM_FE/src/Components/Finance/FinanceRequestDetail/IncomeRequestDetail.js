@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import "./IncomeRequestDetail.css";
 
 function IncomeRequestDetail() {
+  document.title = "Income Request Detail";
+
   const [income, setIncome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempIncome, setTempIncome] = useState(null);

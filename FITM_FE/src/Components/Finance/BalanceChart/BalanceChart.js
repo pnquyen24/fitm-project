@@ -9,6 +9,8 @@ import { FormControl, Select, MenuItem, Tooltip } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 
 function BalanceChart() {
+  document.title = "Balance Chart";
+
   const [Data, setData] = useState(null);
   const [startDate, setStartDate] = useState(new Date("2023-10-01"));
   const [endDate, setEndDate] = useState(new Date());

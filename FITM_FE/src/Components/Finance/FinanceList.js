@@ -10,6 +10,8 @@ import {getStatusStyle} from "./SupportFunctions/SupportFunction";
 import PaginationComponent from "../../Variable/Paggination/Paggination";
 
 const FinanceList = () => {
+  document.title = "Finace";
+
   const [currentPage, setCurrentPage] = useState(1);
   const [ITEMS_PER_PAGE] = useState(5);
   const [data, setData] = useState([]);

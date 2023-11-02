@@ -3,6 +3,7 @@ import { Color } from "../../../../Variable/Color/Color";
 import MusicPopup from "./Music PopUp/MusicPopUp";
 
 function MusicControl({ getAllSongs, setEditMusic, editMusic }) {
+
     const handleEditClick = () => {
         setEditMusic(true);
     };

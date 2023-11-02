@@ -19,6 +19,8 @@ import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import "./MemberList.css";
 
 function MemberList() {
+  document.title = "Member List";
+
   const [memberList, setMemberList] = useState([]);
   const [allMember, setAllMember] = useState([]);
   const [page, setPage] = useState(1);
@@ -31,6 +33,7 @@ function MemberList() {
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
+
     getAllMember();
   }, []);
 

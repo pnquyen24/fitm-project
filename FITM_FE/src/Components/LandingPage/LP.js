@@ -9,6 +9,8 @@ function LandingPage() {
   const [position, setPosition] = useState(1);
 
   useEffect(() => {
+    document.title = "FIT";
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
       if (window.scrollY >= 9) {
@@ -39,6 +41,7 @@ function LandingPage() {
   }, []);
 
   return (
+
     <div className="landingPage">
       {scrolled === true ? (
         <div className="fix-header-cover">

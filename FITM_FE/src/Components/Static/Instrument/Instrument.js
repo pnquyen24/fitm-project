@@ -1,6 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Button, List, ListItem, Stack, Typography } from "@mui/material";
 
 function Instrument(){
+    document.title = "Instrument";
 
     const status = ["New", "Broken", "Fixed"]
       

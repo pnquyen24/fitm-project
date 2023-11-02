@@ -10,6 +10,8 @@ import {getStatusStyle} from "../SupportFunctions/SupportFunction";
 import Swal from "sweetalert2";
 
 function OutcomeRequestDetail() {
+  document.title = "Outcome Request Detail";
+
   const [outcome, setOutcome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempOutcome, setTempOutcome] = useState(null);
