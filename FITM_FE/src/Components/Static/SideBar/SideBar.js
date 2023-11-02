@@ -23,6 +23,7 @@ function SideBar({ isOpen, setOpen }) {
         { Title: 'Instrument Report Management', Icon: 'file-tray-full-outline', Link: "/instrument-report-management" },
         { Title: 'Instrument', Icon: 'file-tray-full', Link: "/instrument" },
         { Title: 'Developers', Icon: 'information-circle-outline', Link: "/about-us" },
+        { Title: 'Developers', Icon: 'information-circle-outline', Link: "/about-us" },
         {
             Title: "Support Fee",
             Icon: "musical-notes-outline",
