@@ -156,7 +156,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
             errors.description = "Description limited to 30 characters or less";
         }
 
-        const roomRegex = /^(50[1-9]|5\d|520)$/;
+        const roomRegex = /^(50[1-9]|51[0-9]|520)$/;
         if (!values.room) {
             errors.room = "Required";
         } else if (!roomRegex.test(values.room)) {
