@@ -19,10 +19,11 @@ import listPlugin from "@fullcalendar/list";
 import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 
 function Schedule() {
+    document.title = "Schedule";
+
     const dispatch = useDispatch();
     const practicals = useSelector(selectAllPracticals);
     const performances = useSelector(selectAllPerformances);
-
     const calendarRef = useRef(null);
 
     const [calApi, setCalApi] = useState();

@@ -4,6 +4,8 @@ import axios from "axios";
 import "./ChangePassword.css";
 
 function ChangePassword({ isOpen, setOpen }) {
+    document.title = "Change Password";
+
     let [inputOldPassword, setInputOldPassword] = useState("");
     let [inputNewPassword, setInputNewPassword] = useState("");
     let [inputVerifyPassword, setInputVerifyPassword] = useState("");

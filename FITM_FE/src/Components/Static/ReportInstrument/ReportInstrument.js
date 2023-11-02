@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 
 
 function InstrumentReport() {
+  document.title = "Instrument Report";
+
     const [member, setMember] = useState(null);
 
   useEffect(() => {

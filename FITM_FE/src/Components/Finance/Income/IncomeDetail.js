@@ -9,6 +9,8 @@ import {getStatusStyle} from "../SupportFunctions/SupportFunction";
 import "./IncomeDetail.css";
 
 function IncomeDetail() {
+  document.title = "Income Datail ";
+
   const [income, setIncome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempIncome, setTempIncome] = useState(null);

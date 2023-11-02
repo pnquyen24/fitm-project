@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import './CreateFinance.css';
 
 function CreateIncome() {
+  document.title = "Create Income";
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',

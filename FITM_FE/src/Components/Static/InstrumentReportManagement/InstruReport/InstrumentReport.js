@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import "./InstrumentReport.css";
 
 function InstrumentReport ({ id, instrumentId, userId, description }){
+    document.title = "Instrument Report";
+
     let [decision,setDecision]= useState("");
 
     useEffect(() => {

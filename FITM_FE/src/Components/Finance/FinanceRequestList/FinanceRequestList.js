@@ -10,6 +10,8 @@ import { getStatusStyle } from "../SupportFunctions/SupportFunction";
 import "./FinanceRequestList.css";
 
 const FinanceRequestList = () => {
+  document.title = "Finnance Request List";
+
   const [currentPage, setCurrentPage] = useState(1);
   const [ITEMS_PER_PAGE] = useState(5);
   const [data, setData] = useState([]);

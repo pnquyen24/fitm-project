@@ -21,6 +21,7 @@ import './login.css';
 
 function Login() {
     const navigate = useNavigate();
+    document.title = "Login";
 
     function onLoginHandle() {
         if (username === "" || password === "") {
