@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
@@ -14,24 +13,20 @@ function OutcomeDetail() {
   const [outcome, setOutcome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempOutcome, setTempOutcome] = useState(null);
-  const [error, setError] = useState(null);
+  const error= useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const outcomeId = new URLSearchParams(location.search).get("id");
 
-  function getData() {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
-    axios
-      .get(`https://localhost:7226/apis/Finance/GetOutcome?id=` + outcomeId)
-      .then((response) => {
-        setOutcome(response.data);
-      })
-      .catch((error) => {});
-  }
   useEffect(() => {
-    getData();
+      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
+        "token"
+      )}`;
+      axios
+        .get(`https://localhost:7226/apis/Finance/GetOutcome?id=` + outcomeId)
+        .then((response) => {
+          setOutcome(response.data);
+        })
+        .catch((error) => {});
   }, [outcomeId]);
 
   const toggleEditing = () => {

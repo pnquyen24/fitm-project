@@ -1,0 +1,26 @@
+.about-container{
+    display: flex;
+    height: 100vh;
+    padding-top: 5vh;
+    background-color: rgb(245,245,245);
+}
+.about-navigation{
+    height: 80%;
+    margin-top: 5%;
+}
+.about-navigation button{
+    height: 70px;
+    width: 70px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-image: url('https://png.pngtree.com/png-clipart/20230928/ourmid/pngtree-young-man-working-and-studying-on-laptop-computer-png-image_10170726.png');
+    background-size: contain;
+    border-radius: 70px;
+    margin-left: 6vh;
+    margin-bottom: 20px;
+    border: none;
+}
+.about-content{
+    width: 90%;
+}

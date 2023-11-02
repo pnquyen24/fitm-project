@@ -5,16 +5,16 @@ import Button from "@mui/material/Button";
 import * as XLSX from "xlsx";
 import { Link } from "react-router-dom";
 import "./BalanceChart.css";
-import { FormControl, Select, MenuItem, Tooltip } from "@mui/material";
+import { FormControl, Select, MenuItem } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 
 function BalanceChart() {
-  document.title = "Balance Chart";
-
+  const today = new Date();
+  today.setDate(today.getDate() - 30);
   const [Data, setData] = useState(null);
-  const [startDate, setStartDate] = useState(new Date("2023-10-01"));
+  const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(new Date());
-  const [tempStartDate, setTempStartDate] = useState(new Date("2023-10-01"));
+  const [tempStartDate, setTempStartDate] = useState(today);
   const [tempEndDate, setTempEndDate] = useState(new Date());
   let [dataCategory, setDataCategory] = useState("Balance");
 

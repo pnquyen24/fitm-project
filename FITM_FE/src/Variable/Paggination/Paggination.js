@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, Stack, Paper } from '@mui/material';
+import { Pagination, Stack } from '@mui/material';
 
 const PaginationComponent = ({ data, currentPage, itemPerPage, onPageChange }) => {
   const totalPages = Math.ceil(data.length / itemPerPage);
@@ -9,8 +9,7 @@ const PaginationComponent = ({ data, currentPage, itemPerPage, onPageChange }) =
   };
 
   return (
-    <Paper elevation={3} style={{ margin: '0 auto', backgroundColor: '#F0F8FF', border: 'none', textAlign: 'center'}}>
-      <Stack spacing={2} direction="row">
+      <Stack spacing={2} direction="row" style={{marginLeft:"40%"}}>
         <Pagination
           count={totalPages}
           color="primary"
@@ -22,7 +21,6 @@ const PaginationComponent = ({ data, currentPage, itemPerPage, onPageChange }) =
           hideNextButton={currentPage === totalPages}  // Hide the next button on the last page
         />
       </Stack>
-    </Paper>
   );
 };
 

@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
@@ -12,14 +11,13 @@ function IncomeRequestDetail() {
   document.title = "Income Request Detail";
 
   const [income, setIncome] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const isEditing= useState(false);
   const [tempIncome, setTempIncome] = useState(null);
-  const [error, setError] = useState(null);
+  const error = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const incomeId = new URLSearchParams(location.search).get("id");
 
-  function getData() {
+  useEffect(() => {
     axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
       "token"
     )}`;
@@ -29,19 +27,7 @@ function IncomeRequestDetail() {
         setIncome(response.data);
       })
       .catch((error) => {});
-  }
-  useEffect(() => {
-    getData();
   }, [incomeId]);
-
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-    if (!isEditing) {
-      setTempIncome(income);
-    }
-  };
-
-
 
   function formatDate(date) {
     const formattedDate = new Date(date);
@@ -60,38 +46,6 @@ function IncomeRequestDetail() {
     return formattedDateString;
   }
 
-  const handleSubmit = () => {
-    const updateData =
-    {
-      id: incomeId,
-      title: tempIncome.title,
-      description: tempIncome.description,
-      amount: tempIncome.amount,
-      billCode: tempIncome.billCode
-    };
-
-    axios
-      .put(
-        "https://localhost:7226/apis/Finance/UpdateIncome?id=" + incomeId,
-        updateData
-      )
-      .then((response) => {
-        Swal.fire({
-          icon: "success",
-          title: "Update Successfully !!!",
-          showConfirmButton: true,
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-list";
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Update Unsuccessfully !!!",
-          showConfirmButton: true,
-        });
-      });
-  };
   function AcceptIncomeRequest() {
     axios
       .post(
@@ -143,7 +97,7 @@ function IncomeRequestDetail() {
   }
 
   return (
-    <div className="card">
+    <div className="finance-card">
       <div>
         <div className="in_request_card">
           <div>

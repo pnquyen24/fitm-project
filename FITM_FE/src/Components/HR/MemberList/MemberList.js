@@ -13,40 +13,34 @@ import {
 import Button from "@mui/material/Button";
 import axios from "axios";
 import * as XLSX from 'xlsx';
-import React, { useEffect, useState, Link } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import "./MemberList.css";
 
 function MemberList() {
-  document.title = "Member List";
-
   const [memberList, setMemberList] = useState([]);
   const [allMember, setAllMember] = useState([]);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const [pageSize] = useState(8);
   let [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
   let [option, setOption] = useState('All');
   const navigate = useNavigate();
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-
-    getAllMember();
+      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+      axios
+        .get("https://localhost:7226/apis/Member/ExportMembers")
+        .then((response) => {
+          if (option === "All") { setAllMember(response.data); setFilteredData(response.data) }
+        })
+        .catch((error) => {
+          setLoading(true);
+        });
   }, []);
 
-  function getAllMember() {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-    axios
-      .get("https://localhost:7226/apis/Member/ExportMembers")
-      .then((response) => {
-        if (option === "All") { setAllMember(response.data); setFilteredData(response.data) }
-      })
-      .catch((error) => {
-      });
-  }
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -58,8 +52,7 @@ function MemberList() {
   );
 
   const handleDownload = () => {
-    getAllMember();
-    if (allMember.length != 0) {
+    if (allMember.length !== 0) {
       const ws = XLSX.utils.json_to_sheet(allMember);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'MemberData');
@@ -135,8 +128,8 @@ function MemberList() {
           <div className='member-download-button pagination-button'>
            <Button onClick={() => requestList()} variant="contained" color="info"  sx={{}}>Request Change Info List</Button>
           </div> 
-          <div className="create-member pagination-button">
-            <Button onClick={() => addMember()} variant="outlined" size="small" sx={{}} className="detail-button">Add Member</Button>
+          <div className="pagination-button create-member ">
+            <Button onClick={() => addMember()} variant="contained"  color="primary" sx={{}} className="detail-button">Add Member</Button>
           </div>
 
         </div>
