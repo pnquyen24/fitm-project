@@ -45,7 +45,7 @@ function Schedule() {
 
     function processPracticals(data) {
         return data.map((item) => ({
-            id: item.id,
+            scheduleId: item.id,
             title: item.title,
             description: item.description,
             start: new Date(`${item.date}T${item.startTime}`),
@@ -59,7 +59,7 @@ function Schedule() {
 
     function processPerformances(data) {
         return data.map((item) => ({
-            id: item.id,
+            scheduleId: item.id,
             title: item.name,
             name: item.name,
             place: item.place,
