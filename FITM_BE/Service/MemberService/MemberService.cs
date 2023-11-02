@@ -74,7 +74,7 @@ namespace FITM_BE.Service.MemberService
         public IQueryable<ProfileDto> getAllProfile()
         {
             IQueryable<ProfileDto> profileDtos =
-                 _repository.GetAll<Member>().Select(request => _mapper.Map<ProfileDto>(request));
+                 _repository.GetAll<Member>().OrderByDescending(m => m.Status).Select(request => _mapper.Map<ProfileDto>(request));
             return profileDtos;
         }
         public async Task<ProfileDto> Get(int id)

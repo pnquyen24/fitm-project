@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
 import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import { getStatusStyle } from "../SupportFunctions/SupportFunction";
@@ -46,50 +52,9 @@ const FinanceRequestList = () => {
     return {};
   };
 
-  const handleDelete = async (id, type) => {
-    try {
-      let deleteUrl = "";
-      if (type === "Income") {
-        deleteUrl = `https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`;
-      } else if (type === "Outcome") {
-        deleteUrl = `https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`;
-      } else {
-        return;
-      }
-
-      const response = await axios.delete(deleteUrl);
-
-      if (response.status === 200) {
-        setData(data.filter((item) => item.id !== id));
-        Swal.fire({
-          title: "Success",
-          text: "Deleted successfully!",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-request-list";
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        title: "Error",
-        text: "Deletion unsuccessful",
-        icon: "error",
-        confirmButtonText: "OK",
-      }).then(() => {
-        window.location.href = "/financial-manager/finance-request-list";
-      });
-    }
-  };
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
-  const paginatedData = data.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
 
   function ViewOutcomeRequestDetail(id) {
     navigate("/financial-manager/outcome-request-detail?id=" + id);
@@ -101,111 +66,34 @@ const FinanceRequestList = () => {
 
   //===================================
 
-  const DeleteIncome = async (id) => {
-    try {
-      const confirmDelete = await Swal.fire({
-        title: "You want to delete ?",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonColor: "#DD0000",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Cancel",
-      });
-
-      if (!confirmDelete.isConfirmed) return;
-
-      const response = await axios.delete(
-        `https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`
-      );
-
-      if (response.status === 200) {
-        await Swal.fire({
-          icon: "success",
-          title: "Delete Successfully !!!",
-          showConfirmButton: true,
-        });
-        window.location.href = "/financial-manager/finance-request-list";
-      }
-    } catch (error) {
-      await Swal.fire({
-        icon: "error",
-        title: "Delete Unsuccessfully !!!",
-        showConfirmButton: true,
-      });
-    }
-  };
-
-  const DeleteOutcome = async (id) => {
-    try {
-      const confirmDelete = await Swal.fire({
-        title: "You want to delete ?",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonColor: "#DD0000",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Cancel",
-      });
-
-      if (!confirmDelete.isConfirmed) return;
-
-      const response = await axios.delete(
-        `https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`
-      );
-
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Delete Successfully !!!",
-          showConfirmButton: true,
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-request-list";
-        });
-
-        setData(data.filter((item) => item.id !== id));
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Delete Unsuccessfully !!!",
-        showConfirmButton: true,
-      });
-    }
-  };
-
-  //===================================
-
   return (
-    <div>
-      <h1 className="finance_title">FINANCE REPORT REQUEST LIST</h1>
-
-      <div className="create_finance_top">
+    <div className="finance">
+      <div className="create_finance_top" style={{marginTop:"20px"}}>
         <Link to="/">
-          <button className="finance_home">
-            <span>BACK TO HOME</span>
-          </button>
+          <Button variant="contained" color="primary">BACK TO HOME</Button>
         </Link>
       </div>
-      <table className="finance_table">
-        <thead className="finance_table_thead">
-          <tr>
-            <th>Type</th>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Detail</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className="finance_table">
+        <TableHead className="finance_table_thead">
+          <TableRow>
+            <TableCell>Type</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Detail</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {data.map((item, index) => {
             return (
               <tr key={index}>
-                <td style={getTypeStyle(item.IsIncome)}>{item.IsIncome ? "Income": "Outcome"}</td>
-                <td>{item.title}</td>
-                <td>{item.amount}</td>
-                <td style={getStatusStyle(item.financeStatus)}>
+                <TableCell style={getTypeStyle(item.IsIncome)}>{item.IsIncome ? "Income": "Outcome"}</TableCell>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.amount}</TableCell>
+                <TableCell style={getStatusStyle(item.financeStatus)}>
                   {getStatusLabel(item.financeStatus)}
-                </td>
-                <td>
+                </TableCell>
+                <TableCell>
                   <Button
                     onClick={() => {
                       item.type === "Outcome"
@@ -218,12 +106,12 @@ const FinanceRequestList = () => {
                   >
                     View Detail
                   </Button>
-                </td>
+                </TableCell>
               </tr>
             );
           })}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
       <div style={{ marginTop: "30px" }}>
         <PaginationComponent
           data={data}

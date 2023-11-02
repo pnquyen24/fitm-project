@@ -13,7 +13,6 @@ function SideBar({ isOpen, setOpen }) {
     const choices = [
         { Title: "Member Management", Icon: "person-outline", Link: "/member-manager/member-list" },
         { Title: "Change Info Requests", Icon: "checkbox-outline", Link: "/member-manager/request-edit-info-list" },
-        { Title: "Report Instrument", Icon: "warning-outline", Link: "/profile" },
         { Title: "Schedule", Icon: "add-circle-outline", Link: "/schedule" },
         { Title: "Performance Schedule", Icon: "calendar-outline", Link: "/performance" },
         { Title: "Practical Schedule", Icon: "calendar", Link: "/practical" },
@@ -23,6 +22,7 @@ function SideBar({ isOpen, setOpen }) {
         { Title: 'Instrument Report', Icon: 'warning-outline', Link: "/report-instrument" },
         { Title: 'Instrument Report Management', Icon: 'file-tray-full-outline', Link: "/instrument-report-management" },
         { Title: 'Instrument', Icon: 'file-tray-full', Link: "/instrument" },
+        { Title: 'Developers', Icon: 'information-circle-outline', Link: "/about-us" },
         {
             Title: "Support Fee",
             Icon: "musical-notes-outline",

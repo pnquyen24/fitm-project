@@ -23,6 +23,7 @@ import FinanceRequestList from "./Components/Finance/FinanceRequestList/FinanceR
 import IncomeRequestDetail from "./Components/Finance/FinanceRequestDetail/IncomeRequestDetail";
 import OutcomeRequestDetail from "./Components/Finance/FinanceRequestDetail/OutcomeRequestDetail";
 import AttendancePractical from "./Components/SpecialisedManager/PracticalSchedule/AttendancePractical";
+import AboutUs from "./Components/Static/AboutUs/AboutUs";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -81,6 +82,7 @@ root.render(
                         <Route path="instrument-report-management" element={<InstrumentReportManagement />} />
                         <Route path="instrument" element={<Instrument />} />
                     </Route>
+                    <Route path="/about-us" element={<AboutUs />}/>
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
                 </Routes>
             </BrowserRouter>
