@@ -19,6 +19,7 @@ import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import "./MemberList.css";
 
 function MemberList() {
+  const [memberList, setMemberList] = useState([]);
   const [allMember, setAllMember] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(8);

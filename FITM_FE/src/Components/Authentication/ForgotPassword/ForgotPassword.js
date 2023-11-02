@@ -17,6 +17,7 @@ function ForgotPassword() {
     const [inputError, setInputError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [textError, setTextError] = useState("");
+    document.title = "Forgot Password";
 
     async function callApi() {
         try {

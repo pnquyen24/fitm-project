@@ -11,6 +11,8 @@ import { Button } from "@mui/material";
 import moment from "moment/moment";
 
 function PracticalList() {
+    document.title = "Practical List";
+
     let index = 0;
 
     const dispatch = useDispatch();

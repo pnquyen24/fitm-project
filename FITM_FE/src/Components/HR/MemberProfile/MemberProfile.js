@@ -7,6 +7,8 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./MemberProfile.css";
 
 function MemberProfile() {
+  document.title = "Member Profile";
+
     const [member, setMember] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 function SupportFeePerformance() {
+    document.title = "Support Fee Performance";
 
     const [members, setMembers] = useState([]);
 

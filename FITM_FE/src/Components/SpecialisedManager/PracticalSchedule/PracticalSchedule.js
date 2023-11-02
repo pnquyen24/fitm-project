@@ -20,6 +20,8 @@ import {
 } from "../../../Variable/Redux/Slice/scheduleSlice";
 
 function PracticalSchedule({ isEditCard, eventInfos }) {
+    document.title = "Practical Schedule";
+
     const dispatch = useDispatch();
 
     const intialValues = {

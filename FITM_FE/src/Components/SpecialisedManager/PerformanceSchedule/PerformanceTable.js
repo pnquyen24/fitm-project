@@ -21,6 +21,8 @@ import TimerIcon from '@mui/icons-material/Timer';
 import moment from "moment/moment";
 
 function PerformanceTable() {
+    document.title = "Performance Table";
+
 
     let [performances, setPerformances] = useState([]);
     const navigate = useNavigate();

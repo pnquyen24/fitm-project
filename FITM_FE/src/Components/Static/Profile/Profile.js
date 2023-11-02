@@ -4,6 +4,10 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./Profile.css";
 
 function Profile({ memberId }) {
+
+    document.title = "Profile";
+
+
     const [member, setMember] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [tempMember, setTempMember] = useState(null);

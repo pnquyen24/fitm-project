@@ -5,6 +5,7 @@ import "./SideBar.css";
 import SubInfo from "./SubInfo/SubInfo";
 
 function SideBar({ isOpen, setOpen }) {
+
     const [selectedChoice, setSelectedChoice] = useState(null);
 
     const handleChoiceClick = (index) => {

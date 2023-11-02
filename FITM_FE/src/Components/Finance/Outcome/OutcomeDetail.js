@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 import "./OutcomeDetail.css";
 
 function OutcomeDetail() {
+  document.title = "OutCome Detail";
+
   const [outcome, setOutcome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempOutcome, setTempOutcome] = useState(null);

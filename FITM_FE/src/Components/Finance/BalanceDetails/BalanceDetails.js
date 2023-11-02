@@ -20,6 +20,8 @@ import axios from "axios";
 import PaginationComponent from "../../../Variable/Paggination/Paggination";
 
 const BalanceDetails = () => {
+  document.title = "Balance Details";
+
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ITEMS_PER_PAGE] = useState(5);
