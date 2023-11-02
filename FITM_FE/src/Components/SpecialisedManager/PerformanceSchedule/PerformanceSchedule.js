@@ -13,7 +13,6 @@ import {
     Button,
     DialogActions,
 } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -25,7 +24,6 @@ import {
     updatePerformance,
 } from "../../../Variable/Redux/Slice/scheduleSlice";
 import DateInput from "../../Member/Input/DateInput";
-import { LocalizationProvider, MobileTimePicker } from "@mui/x-date-pickers";
 import TimeInput from "../../Member/Input/TimeInput";
 
 function PerformanceSchedule({ isEditCard, eventInfos }) {
