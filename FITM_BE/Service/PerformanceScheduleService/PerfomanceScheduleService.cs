@@ -72,8 +72,9 @@ namespace FITM_BE.Service.PerformanceScheduleService
 							  .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
 							  .Where(pfm => pfm.Status.Equals(Enums.PerformaceStatus.NotYet))
 							  .OrderBy(pfm => pfm.Status)
-							  .ThenByDescending(pfm => pfm.Date)
+							  .ThenBy(pfm => pfm.Date)
 							  .ThenByDescending(pfm => pfm.Time)
+							  .Take(3)
 							  .Select(pfm => new PerformanceDTO
 							  {
 								  Id = pfm.Id,
@@ -95,6 +96,9 @@ namespace FITM_BE.Service.PerformanceScheduleService
 							   .ThenInclude(song => song.Song)
 							   .Include(pfm => pfm.Members)
 							   .ThenInclude(member => member.Member)
+							   .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
+							   .Where(pfm => pfm.Status.Equals(Enums.PerformaceStatus.NotYet))
+							   .Take(3)
 							   .Select(pfm => new PerformanceDetail
 							   {
 								   Id = pfm.Id,
@@ -250,7 +254,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
 		{
 			var pfm = await _repository.GetAll<PerformanceSchedule>()
 								   .Where(pfm => pfm.Id == pfmAttend.PerformanceId)
-								   .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
+								   .Where(pfm => pfm.Date.CompareTo(currentDate) == 0)
 								   .Include(pfm => pfm.Members).FirstOrDefaultAsync();
 
 			if (pfm is not null)
@@ -265,12 +269,36 @@ namespace FITM_BE.Service.PerformanceScheduleService
 
 				}).ToList();
 
+				pfm.Status = Enums.PerformaceStatus.Done;
+
 				await _repository.Update(pfm);
 			}
 			else
 			{
 				throw new NotFoundException($"{nameof(PerformanceSchedule)} not found");
 			}
+		}
+
+		public IQueryable<PerformanceCountDTO> CountPerformanceOfMember()
+		{
+			var members = _repository.GetAll<PerformanceMember>()
+									 .Include(pfm => pfm.Member)
+									 .Include(pfm => pfm.PerformanceSchedule)
+									 //.Where(pfm => pfm.PerformanceSchedule.Date < DateOnly.MaxValue)
+									 .Where(pfm => pfm.AttendanceStatus == Enums.AttendanceStatus.Present)
+									 .GroupBy(pfm => pfm.Member)
+									 .Select(pfm => new PerformanceCountDTO
+									 {
+										 MemberID = pfm.Key.Id,
+										 StudentID = pfm.Key.StudentID,
+										 MemberFullName = pfm.Key.FullName,
+										 BankName = pfm.Key.BankName,
+										 BankNumber = pfm.Key.BankNumber,
+										 TotalPerformance = pfm.Count()
+
+									 });
+
+			return members;
 		}
 	}
 }

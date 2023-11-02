@@ -1,9 +1,8 @@
-﻿using FITM_BE.Entity;
-using FITM_BE.Service.PerformanceScheduleService.Dtos;
+﻿using FITM_BE.Service.PerformanceScheduleService.Dtos;
 
 namespace FITM_BE.Service.PerformanceScheduleService
 {
-    public interface IPerformanceScheduleService
+	public interface IPerformanceScheduleService
     {
         Task CreatePerformance(PerformanceCreateDTO pfmDTO);
         Task<PerformanceDetail?> ViewPerformanceDetail(int pfmID);
@@ -15,5 +14,6 @@ namespace FITM_BE.Service.PerformanceScheduleService
         Task CallOffPerformance(int pfmID);
         Task<PerformanceViewAttendDTO?> ViewListMembers(int pfmID);
         Task AttendancePerformance(PerformanceAttendanceDTO pfmAttend);
-    }
+        IQueryable<PerformanceCountDTO> CountPerformanceOfMember();
+	}
 }

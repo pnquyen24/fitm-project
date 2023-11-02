@@ -148,7 +148,8 @@ const schedulesSlice = createSlice({
                 state.performances = action.payload;
             })
             .addCase(createPerformance.fulfilled, (state, action) => {
-                state.performances.push(action.payload);
+                state.performances.push(action.payload)
+                CustomeAlert.success("Created Successfuly!");
             })
             .addCase(createPerformance.rejected, (state, action) => {
                 CustomeAlert.error("Created Error");

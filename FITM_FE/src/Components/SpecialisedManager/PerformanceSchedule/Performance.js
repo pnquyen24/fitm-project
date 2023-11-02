@@ -49,11 +49,6 @@ function Performance() {
                     ></PerformanceItem>
                 ))}
             </Grid>
-            <Grid container justifyContent="center" alignItems="flex-end">
-                <Stack spacing={2} style={{ marginTop: "20px" }}>
-                    <Pagination count={10} shape="rounded" color="primary" />
-                </Stack>
-            </Grid>
         </div>
     );
 }

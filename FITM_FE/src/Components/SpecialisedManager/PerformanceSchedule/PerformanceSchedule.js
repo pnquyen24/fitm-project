@@ -30,6 +30,7 @@ import {
     toggleModal,
     updatePerformance,
 } from "../../../Variable/Redux/Slice/scheduleSlice";
+import DateInput from "../../Member/Input/DateInput";
 
 function PerformanceSchedule({ isEditCard, eventInfos }) {
     const ITEM_HEIGHT = 48;
@@ -44,6 +45,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         autoFocus: true,
     };
 
+    const dispatch = useDispatch();
     const songIdExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.id);
     const songNameExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.name);
 
@@ -109,6 +111,10 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
             songIds.splice(songIndex, 1);
         }
     }
+    
+    function handleClose() {
+        dispatch(toggleModal(false));
+    }
 
     function getEvent(formSchedule) {
         return {
@@ -134,38 +140,23 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         }
     }
     const handleUpdateEvent = (e) => {
-        try {
             const updatedSchedule = {
                 id: formSchedule.id,
                 ...getEvent(formSchedule),
             };
             dispatch(updatePerformance(updatedSchedule));
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
             resetAndCloseModal();
-        }
     };
 
     const handleCreateEvent = (e) => {
-        try {
             const newSchedule = getEvent(formSchedule);
             dispatch(createPerformance(newSchedule));
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
             resetAndCloseModal();
-        }
     };
 
     function handleDeleteEvent() {
-        try {
             dispatch(deletePerformance({ id: Number(formSchedule.id) }));
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
             resetAndCloseModal();
-        }
     }
 
     function resetAndCloseModal() {
@@ -225,11 +216,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
             });
     }, []);
 
-    //Close Modal
-    const dispatch = useDispatch();
-    function handleClose() {
-        dispatch(toggleModal(false));
-    }
+  
 
     return (
         <form>
@@ -286,9 +273,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                             useFlexGap={false}
                         >
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    format="DD-MM-YYYY"
-                                    label="Date"
+                                <DateInput
                                     onChange={(event) =>
                                         handleChange("date", event)
                                     }

@@ -101,7 +101,7 @@ function PerformanceTable() {
             return <CancelIcon
                 color="error">
             </CancelIcon>;
-        if (status === 3)
+        if (status === 2)
             return <CheckCircleIcon
                 color="success"
             ></CheckCircleIcon>;
@@ -129,7 +129,7 @@ function PerformanceTable() {
         <div className="table-container">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
+                    <TableHead >
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="left">Name</TableCell>

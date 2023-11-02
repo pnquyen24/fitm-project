@@ -23,6 +23,11 @@ function SideBar({ isOpen, setOpen }) {
         { Title: 'Instrument Report', Icon: 'warning-outline', Link: "/report-instrument" },
         { Title: 'Instrument Report Management', Icon: 'file-tray-full-outline', Link: "/instrument-report-management" },
         { Title: 'Instrument', Icon: 'file-tray-full', Link: "/instrument" },
+        {
+            Title: "Support Fee",
+            Icon: "musical-notes-outline",
+            Link: "/support-fee",
+        },
     ];
     useEffect(() => {}, []);
 

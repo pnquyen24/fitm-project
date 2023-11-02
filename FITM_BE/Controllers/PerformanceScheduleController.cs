@@ -17,9 +17,11 @@ namespace FITM_BE.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task Create(PerformanceCreateDTO pfmDTO)
+        public async Task<IActionResult> Create(PerformanceCreateDTO pfmDTO)
         {
             await _performanceScheduleService.CreatePerformance(pfmDTO);
+
+            return Ok(pfmDTO);
         }
 
         [HttpGet]
@@ -45,10 +47,11 @@ namespace FITM_BE.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task Update(PerformanceUpdateDTO pfmDTO)
+        public async Task<IActionResult> Update(PerformanceUpdateDTO pfmDTO)
         {
             await _performanceScheduleService.UpdatePerformance(pfmDTO);
-        }
+			return Ok(pfmDTO);
+		}
 
         [HttpDelete]
         [Authorize]
@@ -78,6 +81,13 @@ namespace FITM_BE.Controllers
         public async Task<PerformanceViewAttendDTO?> ViewListMember(int pfmID)
         {
             return  await _performanceScheduleService.ViewListMembers(pfmID);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IQueryable<PerformanceCountDTO> CountPerformanceOfMember()
+        {
+            return  _performanceScheduleService.CountPerformanceOfMember();
         }
 
         [HttpPut]
