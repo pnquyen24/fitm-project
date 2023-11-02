@@ -16,7 +16,7 @@ namespace FITM_BE.Service.InstrumentService
         {
             var type = await _repository.GetAll<InstrumentType>()
                 .FirstOrDefaultAsync(type => type.FullName.ToLower() == input.Name.ToLower()
-                && type.SortName.ToLower() == input.SortName.ToLower());
+                && type.ShortName.ToLower() == input.ShortName.ToLower());
 
             dynamic instrument;
 
@@ -25,7 +25,7 @@ namespace FITM_BE.Service.InstrumentService
                 type = new InstrumentType
                 {
                     FullName = input.Name,
-                    SortName = input.SortName,
+                    ShortName = input.ShortName,
                 };
                 type.Instruments = new List<Instrument> { new Instrument
                 {
@@ -63,7 +63,11 @@ namespace FITM_BE.Service.InstrumentService
                     Id = data.Key.Id,
                     Name = data.Key.FullName,
                     Count = data.Count(),
-                    ItemIds = data.Select(item => item.Id).ToList()
+                    ItemIds = data.Select(item => new InstrumentItemDto
+                    {
+                        Id = item.Id,
+                        Status = item.Status,
+                    }).ToList()
                 });
             return query;
         }
@@ -72,13 +76,13 @@ namespace FITM_BE.Service.InstrumentService
         {
             var type = await _repository.GetAll<InstrumentType>()
                 .FirstOrDefaultAsync(type => type.FullName.ToLower().Equals(input.Name.ToLower())
-                && type.SortName.ToLower().Equals(input.SortName.ToLower()));
+                && type.ShortName.ToLower().Equals(input.ShortName.ToLower()));
             if (type == null)
             {
                 type = new InstrumentType
                 {
                     FullName = input.Name,
-                    SortName = input.SortName,
+                    ShortName = input.ShortName,
                 };
                 type.Instruments = new List<Instrument> { new Instrument
                 {
