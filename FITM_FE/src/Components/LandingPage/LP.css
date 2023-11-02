@@ -25,8 +25,7 @@
     box-sizing: border-box;
 
 }
-.landingPage .fix-hea
-der-cover
+.landingPage .fix-header-cover
 {   position: fixed;
     background-color: white;
     top : 0 ;
@@ -555,7 +554,5 @@ der-cover
     gap: 20px;
 }
 .contact-social a{
-
     color: black;
 }
-

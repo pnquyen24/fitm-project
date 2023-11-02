@@ -22,7 +22,6 @@ function Schedule() {
     const dispatch = useDispatch();
     const practicals = useSelector(selectAllPracticals);
     const performances = useSelector(selectAllPerformances);
-
     const calendarRef = useRef(null);
 
     const [calApi, setCalApi] = useState();

@@ -37,7 +37,7 @@ import InstrumentReportManagement from "./Components/Static/InstrumentReportMana
 import Instrument from "./Components/Static/Instrument/Instrument";
 import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
 
-let Authented = true;
+let Authented = false;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
