@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 import "./FinanceList.css";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Button, Select, MenuItem } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import Button from "@mui/material/Button";
 import axios from "axios";
 import getStatusLabel from "./SupportFunctions/SupportFunction";
 import {getStatusStyle} from "./SupportFunctions/SupportFunction";
@@ -164,17 +173,17 @@ const FinanceList = () => {
 
   return (
     <div className="finance">
-      <h1 className="finance_title">FINANCE REPORT LIST</h1>
+      <div className="finance_title"></div>
 
       <div className="create_finance_top">
         <Link to="/">
-          <button className="finance_home">
+          <Button variant="contained" color="primary">
             <span>BACK TO HOME</span>
-          </button>
+          </Button>
         </Link>
 
         <div className="filter-dropdown">
-          <Select value={filterValue} onChange={handleFilterChange}>
+          <Select value={filterValue} style={{padding:"0 0 0 0"}} onChange={handleFilterChange}>
             <MenuItem value={All} style={{ color: "gray" }}>
               All
             </MenuItem>
@@ -191,48 +200,47 @@ const FinanceList = () => {
           to="/financial-manager/balance
         "
         >
-          <button className="finance_home">
-            <span>View balance</span>
-          </button>
+          <Button variant="contained" color="primary">
+             View balance
+          </Button>
         </Link>
 
         <Link
           to="/financial-manager/create-finance"
-          className="finance_create_button"
         >
-          <button>
-            <span>CREATE FINANCE</span>
-          </button>
+          <Button variant="contained" color="primary">
+            CREATE Finance
+          </Button>
         </Link>
       </div>
 
-      <table className="finance_table" style={{ maxWidth: "500px" }}>
-        <thead className="finance_table_thead">
-          <tr>
-            <th>Type</th>
-            <th>Bill Code</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Detail</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className="finance_table">
+        <TableHead className="finance_table_thead">
+          <TableRow>
+            <TableCell>Type</TableCell>
+            <TableCell>Bill Code</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Detail</TableCell>
+            <TableCell>Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {paginatedData.map((item, index) => (
-            <tr key={index}>
-              <td style={getTypeStyle(item.isIncome ? "Income" : "Outcome")}>
+            <TableRow key={index}>
+              <TableCell style={getTypeStyle(item.isIncome ? "Income" : "Outcome")}>
                 {item.isIncome ? "Income" : "Outcome"}
-              </td>
-              <td>{item.billCode}</td>
-              <td>{item.title}</td>
-              <td>{item.description}</td>
-              <td>{item.amount}</td>
-            <td style={getStatusStyle(item.financeStatus)}>
+              </TableCell>
+              <TableCell>{item.billCode}</TableCell>
+              <TableCell>{item.title}</TableCell>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>{item.amount}</TableCell>
+            <TableCell style={getStatusStyle(item.financeStatus)}>
                 {getStatusLabel(item.financeStatus)}
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 <Button
                   onClick={() => {
                     item.isIncome
@@ -245,17 +253,17 @@ const FinanceList = () => {
                 >
                   View Detail
                 </Button>
-              </td>
+              </TableCell>
 
-              <td>
+              <TableCell>
                 {item.financeStatus === 0 ||
                 item.financeStatus === 1 ||
                 item.financeStatus === 3 ? (
                   <Button
                     onClick={() => {
-                      if (item.isIncome == false) {
+                      if (item.isIncome === false) {
                         DeleteOutcome(item.id);
-                      } else if (item.isIncome == true) {
+                      } else if (item.isIncome === true) {
                         DeleteIncome(item.id);
                       }
                     }}
@@ -268,11 +276,11 @@ const FinanceList = () => {
                 ) : (
                   <span>Can't delete</span>
                 )}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
 
       <div style={{ marginTop: "30px" }}>
         <PaginationComponent

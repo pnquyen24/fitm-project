@@ -32,7 +32,8 @@ namespace FITM_BE.Service.RequestEditInforService
         {
             IQueryable<CreateRequestEditInfoDto> requestEditInfoDtos =
                  _repository.GetAll<RequestEditInfo>()
-                 .OrderByDescending(request => request.CreatedTime)
+                 .OrderBy(x => x.Status)
+                 .ThenByDescending(request => request.CreatedTime)
                  .Select(request => new CreateRequestEditInfoDto
                  {
                      Id = request.Id,
