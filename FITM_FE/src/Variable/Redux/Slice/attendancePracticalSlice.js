@@ -2,7 +2,7 @@ import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const GET_ATTENDANCE_LIST_URL = "PracticalDetail/ViewAttendanceList";
-const UPDATE_ATTENDANCE_LIST_URL = "PracticalDetail/UpdateAttendanceList";
+const UPDATE_ATTENDANCE_LIST_URL = "PracticalDetail/UpdateAttendanceStatus";
 const GET_PRACTICAL_PRODUCTIVITY_LIST_URL = "PracticalDetail/ViewProductivity";
 
 const initialState = {
@@ -44,17 +44,31 @@ export const getProductivityList = createAsyncThunk(
 const attendancePracticalSlice = createSlice({
     name: "attendance",
     initialState,
-    reducers: {},
+    reducers: {
+        setAttendance: (state, action) => {
+            const { id, attendance } = action.payload;
+            const member = state.list.find((item) => item.id === id);
+            if (member) {
+                member.attendance = attendance;
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchList.fulfilled, (state, action) => {
                 state.list = action.payload;
             })
             .addCase(updateList.fulfilled, (state, action) => {
-                const updatedSchedule = action.payload;
+                const updatedList = action.payload;
                 state.list = state.list.map((member) => {
-                    if (member.id === updatedSchedule.id) {
-                        return updatedSchedule;
+                    const update = updatedList.find(
+                        (item) => item.id === member.id
+                    );
+                    if (update) {
+                        return {
+                            ...member,
+                            attendance: update.attendance,
+                        };
                     }
                     return member;
                 });
@@ -64,6 +78,8 @@ const attendancePracticalSlice = createSlice({
             });
     },
 });
+
+export const { setAttendance } = attendancePracticalSlice.actions;
 
 export const getAttendancePractical = (state) => state.attendance.list;
 export const getPracticalProductivity = (state) =>
