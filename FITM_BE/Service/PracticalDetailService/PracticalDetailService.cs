@@ -64,5 +64,21 @@ namespace FITM_BE.Service.PracticalDetailService
             var resultToReturn = attendanceToUpdate.Select(row => _mapper.Map<PracticalDetailDto>(row));
             return resultToReturn;
         }
+
+        public IEnumerable<ProductivityDto> ViewProductivity()
+        {
+            var list = _repository.GetAll<PracticalDetail>()
+                    .Include(prtD => prtD.Member)
+                    .Include(prtD => prtD.PracticalSchedule)
+                    .GroupBy(prtD => prtD.Member)
+                    .Select(prtD => new ProductivityDto
+                    {
+                        StudentId = prtD.Key.StudentID,
+                        FullName = prtD.Key.FullName,
+                        TotalPresentPractices = prtD.Where(p => p.Attendance == Enums.AttendanceStatus.Present).Count(),
+                        TotalPractices = prtD.Count()
+                    });
+            return list;
+        }
     }
 }

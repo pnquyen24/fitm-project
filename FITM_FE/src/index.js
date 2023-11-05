@@ -33,6 +33,7 @@ import PerformanceTable from "./Components/SpecialisedManager/PerformanceSchedul
 import Schedule from "./Components/SpecialisedManager/Schedule";
 import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
+import PracticalProductivity from "./Components/SpecialisedManager/PracticalSchedule/PracticalProductivity";
 import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrument";
 import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
 import Instrument from "./Components/Static/Instrument/Instrument";
@@ -63,6 +64,7 @@ root.render(
                         <Route path="schedule" element={<Schedule />} />
                         <Route path="practical" element={<PracticalList />} />
                         <Route path="practical/attendancePractical" element={<AttendancePractical/>} />
+                        <Route path="practical-productivity" element={<PracticalProductivity />} />
                         <Route path="performance" element={<PerformanceTable />} />
                         <Route path="attendancePerformance" element={<AttendancePerformance />} />
                         <Route path="changepassword" element={<ChangePassword />} />

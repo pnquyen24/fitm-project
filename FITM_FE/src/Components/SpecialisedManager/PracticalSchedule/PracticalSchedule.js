@@ -40,7 +40,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
     useEffect(() => {
         if (isEditCard) {
             setFormSchedule({
-                id: eventInfos.event.id,
+                id: eventInfos?.event?.extendedProps?.scheduleId,
                 title: eventInfos?.event?.title,
                 description: eventInfos?.event?.extendedProps?.description,
                 date: eventInfos?.event?.startStr,
@@ -156,7 +156,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
             errors.description = "Description limited to 30 characters or less";
         }
 
-        const roomRegex = /^50[1-9]|51[0-9]|520$/;
+        const roomRegex = /^(50[1-9]|51[0-9]|520)$/;
         if (!values.room) {
             errors.room = "Required";
         } else if (!roomRegex.test(values.room)) {
@@ -177,7 +177,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={10}>
                         <Stack>
-                            <InputLabel children="Title" />
+                            <InputLabel>Title</InputLabel>
                             <CustomeTextField
                                 error={Boolean(formErrors.title)}
                                 helperText={
@@ -197,7 +197,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     </Grid>
                     <Grid item xs={12} md={2}>
                         <Stack>
-                            <InputLabel children="Room" />
+                            <InputLabel>Room</InputLabel>
                             <CustomeTextField
                                 error={Boolean(formErrors.room)}
                                 helperText={
@@ -218,7 +218,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     </Grid>
                     <Grid item xs={12}>
                         <Stack>
-                            <InputLabel children="Description" />
+                            <InputLabel>Description</InputLabel>
                             <CustomeTextField
                                 error={Boolean(formErrors.description)}
                                 helperText={
@@ -240,7 +240,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Stack>
-                            <InputLabel children="Date" />
+                            <InputLabel>Date</InputLabel>
                             <DateInput
                                 readonly={!isEditCard}
                                 onChange={(event) => handleInput("date", event)}
@@ -250,7 +250,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Stack>
-                            <InputLabel children="Start Time" />
+                            <InputLabel>Start Time</InputLabel>
                             <TimeInput
                                 onChange={(event) =>
                                     handleInput("startTime", event)
@@ -261,7 +261,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Stack>
-                            <InputLabel children="End Time" />
+                            <InputLabel>End Time</InputLabel>
                             <TimeInput
                                 minTime={dayjs(formSchedule.startTime)}
                                 onChange={(event) =>
@@ -274,7 +274,7 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                 </Grid>
             </DialogContent>
 
-            <DialogActions>
+            <DialogActions sx={{ paddingLeft: 3, paddingRight: 3 }}>
                 <Grid
                     container
                     direction={"row"}
@@ -282,29 +282,31 @@ function PracticalSchedule({ isEditCard, eventInfos }) {
                     alignItems="center"
                     justifyContent="space-between"
                 >
-                    <Grid alignItems="center">
+                    <Grid>
                         {isEditCard && (
                             <Stack direction="row" spacing={2}>
                                 <Button
-                                    children="Delete"
+                                    color="error"
                                     variant="contained"
                                     onClick={handleDelete}
-                                />
+                                >
+                                    Delete
+                                </Button>
                             </Stack>
                         )}
                     </Grid>
-                    <Grid alignItems="center">
+                    <Grid>
                         <Stack direction="row" spacing={2}>
                             <Button
-                                children="Exit"
-                                variant="contained"
-                                onClick={handleClose}
-                            />
-                            <Button
-                                children={isEditCard ? "Update" : "Create"}
+                                color="success"
                                 variant="contained"
                                 onClick={handleSubmit}
-                            />
+                            >
+                                {isEditCard ? "Update" : "Create"}
+                            </Button>
+                            <Button variant="contained" onClick={handleClose}>
+                                Exit
+                            </Button>
                         </Stack>
                     </Grid>
                 </Grid>
