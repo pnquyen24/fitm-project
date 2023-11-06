@@ -1,5 +1,5 @@
 import PerformanceItem from "./PerformanceItem";
-import { Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 // import { styled } from "@mui/material/styles";
 import "./Performance.css";
 import axios from "axios";
@@ -25,7 +25,7 @@ function Performance() {
     }, []);
 
     const imageDefault =
-    "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
     // const Img = styled('img')({
     //     display: 'block',
     //     maxWidth: '100%',

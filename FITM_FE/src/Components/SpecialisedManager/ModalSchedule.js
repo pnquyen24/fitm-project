@@ -36,19 +36,30 @@ function ModalSchedule({ eventInfos, isEditCard }) {
         },
     };
 
-    const filteredTabs =
-        type === "practical"
-            ? [tabs.practical]
-            : type === "performance"
-            ? [tabs.performance]
-            : [tabs.practical, tabs.performance];
+    const filteredTabs = getTabs();
+
+    function getTabs() {
+        if (type === "practical") {
+            return [tabs.practical];
+        }
+        if (type === "performance") {
+            return [tabs.performance];
+        } else {
+            return [tabs.practical, tabs.performance];
+        }
+    }
 
     function handleClose() {
         dispatch(toggleModal(false));
     }
 
     return (
-        <Dialog open={isOpen} onClose={handleClose} scroll={"paper"}>
+        <Dialog
+            id="schedule-dialog"
+            open={isOpen}
+            onClose={handleClose}
+            scroll={"paper"}
+        >
             <ConditionalTabs tabs={filteredTabs} />
         </Dialog>
     );

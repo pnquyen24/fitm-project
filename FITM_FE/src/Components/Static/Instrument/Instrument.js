@@ -1,57 +1,63 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, List, ListItem, Stack, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    getAllInstruments,
+    getInstruments,
+} from "../../../Variable/Redux/Slice/instrumentSlice";
+import { IconButton, Paper, Stack } from "@mui/material";
+import PaginationTable from "../../Member/Table/PaginationTable/PaginationTable";
+import { Delete, Edit } from "@mui/icons-material";
 
-function Instrument(){
+function Instrument() {
     document.title = "Instrument";
 
-    const status = ["New", "Broken", "Fixed"]
-      
-      const instrumentTypes = [
-        {
-            Name: "Dan Tranh",
-            ShortName: "DT",
-            instruments: [
-                {Id: 1, Status: 0},
-                {Id: 2, Status: 1},
-                {Id: 3, Status: 2},
-            ]
-        },
-        {
-            Name: "Dan Nguyet",
-            ShortName: "DN",
-            instruments: [
-                {Id: 4, Status: 0},
-                {Id: 5, Status: 0},
-                {Id: 6, Status: 0},
-            ]
-        }
-      ]
+    let index = 0;
+
+    const dispatch = useDispatch();
+    const instruments = useSelector(getInstruments);
+
+    useEffect(() => {
+        dispatch(getAllInstruments());
+    }, [dispatch]);
+
+    const columns = [
+        { id: "index", label: "#" },
+        { id: "name", label: "Name" },
+        { id: "count", label: "Count" },
+        { id: "action", label: "Action" },
+    ];
+
+    const rows = instruments.map((row) => {
+        return createData(row.id, row.name, row.count, row.action);
+    });
+
+    function createData(id, name, count) {
+        index++;
+        return {
+            index,
+            id,
+            name,
+            count,
+            action: (
+                <Stack direction="row" spacing={2}>
+                    <IconButton>
+                        <Edit color="primary" />
+                    </IconButton>
+                    <IconButton>
+                        <Delete color="error" />
+                    </IconButton>
+                </Stack>
+            ),
+        };
+    }
+
     return (
-        <div className="InstrumentReportManagement-cover" >
-            <Button>Add Instrument</Button>
-            {instrumentTypes.map(type => (
-                <Accordion>
-                    <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography>{type.Name} ({type.ShortName})</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            <List>
-                                {type.instruments.map(instrument => (
-                                    <ListItem>
-                                        <Stack direction="row" spacing="12">
-                                            {instrument.Id}
-                                            {status[instrument.Status]}
-                                            <Button>Update</Button>
-                                        </Stack>
-                                    </ListItem>
-                                ))}
-                                </List>
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
-            ))}
-        </div>
-    )
+        <>
+            <Paper sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+                <PaginationTable rows={rows} columns={columns} />
+            </Paper>
+        </>
+    );
 }
 
 export default Instrument;
