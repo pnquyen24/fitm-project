@@ -86,15 +86,15 @@ function CreateMember() {
                 <br />
 
                 <div className="create_id_dob">
-                    <label htmlFor="studentid" className="form-label">
+                    <label htmlFor="studentId" className="form-label">
                         Student ID:
                     </label>
                     <input
                         type="text"
                         id="studentid"
-                        maxLength={10}
-                        name="studentid"
-                        value={formData.studentid}
+                        maxLength={10}  
+                        name="studentId"
+                        value={formData.studentId}
                         onChange={handleChange}
                         className="form-input"
                         required
@@ -131,13 +131,13 @@ function CreateMember() {
                 />
                 <br />
 
-                <label htmlFor="phonenumber" className="form-label">
+                <label htmlFor="phoneNumber" className="form-label">
                     Phone Number:
                 </label>
                 <input
                     type="tel"
                     id="phonenumber"
-                    name="phonenumber"
+                    name="phoneNumber"
                     maxLength={11}
                     minLength={10}
                     value={formData.phoneNumber}
@@ -164,7 +164,7 @@ function CreateMember() {
                     <input
                         type="text"
                         id="banknumber"
-                        name="banknumber"
+                        name="bankNumber"
                         value={formData.bankNumber}
                         onChange={handleChange}
                         className="form-input"
@@ -177,7 +177,7 @@ function CreateMember() {
                     <input
                         type="text"
                         id="bankname"
-                        name="bankname"
+                        name="bankName"
                         value={formData.bankName}
                         onChange={handleChange}
                         className="form-input"

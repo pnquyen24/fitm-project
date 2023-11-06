@@ -109,6 +109,7 @@ function CreateIncome() {
             type="number"
             id="amount"
             name="amount"
+            min={10000}
             value={formData.amount}
             placeholder='Finance Amount'
             onChange={handleChange}
@@ -164,10 +165,6 @@ function CreateIncome() {
           </div>
 
           </div>
-
-
-        
-
         <div className="finance_group_button">
           <Link to="/financial-manager/finance-list" className="btn_back">
             BACK
