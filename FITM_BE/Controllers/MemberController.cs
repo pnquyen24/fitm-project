@@ -1,16 +1,14 @@
-﻿using FITM_BE.Service.MemberService;
+﻿using FITM_BE.Authorization.Utils;
+using FITM_BE.Service.MemberService;
 using FITM_BE.Service.MemberService.Dtos;
+using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FITM_BE.Entity;
-using FITM_BE.Service;
 using System.Security.Claims;
-using Org.BouncyCastle.Bcpg;
-using FITM_BE.Util.Pagging;
 
 namespace FITM_BE.Controllers
 {
-    //[Authorize]
+    [Policy(nameof(MemberController))]
     public class MemberController : ApiBase
     {
         private readonly IMemberService _memberService;

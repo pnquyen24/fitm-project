@@ -1,12 +1,12 @@
-﻿using FITM_BE.Service.LoggerService;
+﻿using FITM_BE.Authorization.Utils;
+using FITM_BE.Service.LoggerService;
 using FITM_BE.Service.PracticalSchedulService;
 using FITM_BE.Service.PracticalSchedulService.Dtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
 {
-    [Authorize]
+    [Policy(nameof(PracticalScheduleController))]
     public class PracticalScheduleController : ApiBase
     {
         private readonly IPracticalScheduleService _practicalScheduleService;

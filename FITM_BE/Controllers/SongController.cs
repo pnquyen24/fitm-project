@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
-using FITM_BE.Entity;
+using FITM_BE.Authorization.Utils;
 using FITM_BE.Service.SongService;
 using FITM_BE.Service.SongService.Dtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FITM_BE.Controllers
 {
-    
+    [Policy(nameof(SongController))]
     public class SongController : ApiBase
     {
         private readonly ISongService _songService;

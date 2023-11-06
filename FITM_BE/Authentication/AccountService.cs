@@ -40,7 +40,7 @@ namespace FITM_BE.Authentication
                                             .ToList()
                                             .Where(member => Regex.IsMatch(member.Username.Replace(userName, ""), @"^\d*$"))
                                             .Count();
-            if (countDuplicate > 0)
+            if ( countDuplicate > 0 )
                 userName += countDuplicate;
 
             member.Username = userName;
@@ -49,13 +49,13 @@ namespace FITM_BE.Authentication
 
         public string GeneratePassword(int length, bool isRandom)
         {
-            if (isRandom)
+            if ( isRandom )
             {
                 const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@*";
                 StringBuilder sb = new();
                 Random random = new();
 
-                for (int i = 0; i < length; i++)
+                for ( int i = 0; i < length; i++ )
                 {
                     sb.Append(chars[random.Next(chars.Length)]);
                 }
@@ -68,21 +68,24 @@ namespace FITM_BE.Authentication
         public async Task<string> Login(LoginDto login)
         {
             var member = await _repository.GetAll<Member>()
-                                          .Where(member => member.Status)
-                                          .FirstOrDefaultAsync(member => member.Username.Equals(login.Username));
-            if (member == null
-                || _passwordHasher.VerifyHashedPassword(member, member.Password, login.Password) == PasswordVerificationResult.Failed)
+                .Include(member => member.Roles)
+                .Where(member => member.Status)
+                .FirstOrDefaultAsync(member => member.Username.Equals(login.Username));
+            if ( member == null
+                || _passwordHasher.VerifyHashedPassword(member, member.Password, login.Password) == PasswordVerificationResult.Failed )
             {
                 throw new InvalidException("Username or password incorrect");
             }
 
-            var claims = new Claim[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, _configuration.GetValue<string>("Jwt:Subject")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("UserId", member.Id.ToString()),
                 new Claim("Username", member.Username),
             };
+
+            claims.AddRange(member.Roles.Select(role => new Claim(ClaimTypes.Role, role.RoleName)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Jwt:Key")));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -101,21 +104,19 @@ namespace FITM_BE.Authentication
         {
             try
             {
-                Member? member = await CheckExistEmail(email);
-                if (member == null)
-                {
-                    throw new NotFoundException();
-                }
+                Member? member = await CheckExistEmail(email) ?? throw new NotFoundException();
                 string newPassword = GeneratePassword(8, true);
                 string hashedPassword = _passwordHasher.HashPassword(member, newPassword);
                 member.Password = hashedPassword;
                 await _repository.Update(member);
                 await SendEmail(email, newPassword);
-            } catch (NotFoundException ex)
+            }
+            catch ( NotFoundException ex )
             {
                 _logger.LogError($"Member not found error: {ex}");
                 throw;
-            } catch (Exception ex)
+            }
+            catch ( Exception ex )
             {
                 _logger.LogError($"Unknown error while reset password: {ex}");
                 throw;
@@ -144,7 +145,8 @@ namespace FITM_BE.Authentication
                     "This is new your password: " + password
                 );
                 await _emailSender.SendEmailAsync(message);
-            } catch (Exception ex)
+            }
+            catch ( Exception ex )
             {
                 _logger.LogError($"Error sending email: {ex}");
                 throw;
@@ -156,7 +158,7 @@ namespace FITM_BE.Authentication
             var member = await _repository.Get<Member>(accountChangePasswordDTO.Id);
             var hashResultCompare = _passwordHasher.VerifyHashedPassword(member, member.Password, accountChangePasswordDTO.OldPassword);
 
-            if (hashResultCompare == PasswordVerificationResult.Failed)
+            if ( hashResultCompare == PasswordVerificationResult.Failed )
             {
                 throw new InvalidException();
             }
@@ -170,17 +172,13 @@ namespace FITM_BE.Authentication
             return "Password is changed!";
         }
 
-        public async Task GenerateDefaultAccount(Member member)
+        public void GenerateDefaultAccount(ref Member member)
         {
-            if (!_repository.GetAll<Member>().Any())
-            {
-                var newPassword = GeneratePassword(8, false);
-                var userName = member.FullName.GenerateUserName();
-                member.Username = userName;
-                member.Password = _passwordHasher.HashPassword(member, newPassword);
-                member.Status = true;
-                await _repository.Add(member);
-            }
+            var newPassword = GeneratePassword(8, false);
+            var userName = member.FullName.GenerateUserName();
+            member.Username = userName;
+            member.Password = _passwordHasher.HashPassword(member, newPassword);
+            member.Status = true;
         }
     }
 }

@@ -38,6 +38,7 @@ import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrum
 import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
 import Instrument from "./Components/Static/Instrument/Instrument";
 import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
+import RoleModify from "./Components/Authorization/Role";
 
 let Authented = false;
 if (localStorage.getItem("token") !== null) {
@@ -66,6 +67,7 @@ root.render(
                         <Route path="member-profile" element={<MemberProfile />} />
                         <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
                         <Route path="request-details" element={<RequestDetail />} />
+                        <Route path="modify-role" element={<RoleModify />} />
                     </Route>
                     <Route path="schedule" element={<Schedule />} />
                     <Route path="practical" element={<PracticalList />} />

@@ -1,4 +1,5 @@
-﻿using FITM_BE.Entity;
+﻿using FITM_BE.Authorization.Role;
+using FITM_BE.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -19,6 +20,15 @@ namespace FITM_BE.EntityFrameworkCore
                 .HaveConversion<TimeOnlyConverter>();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>(option =>
+            {
+                option.Ignore(role => role.CreatedBy);
+                option.Ignore(role => role.ModifyBy);
+            });
+        }
+
         public DbSet<Member> Members { get; set; }
         public DbSet<RequestEditInfo> RequestEditInfo { get; set; }
         public DbSet<Song> Songs { get; set; }
@@ -32,6 +42,7 @@ namespace FITM_BE.EntityFrameworkCore
         public DbSet<Outcome> Outcomes { get; set; }
         public DbSet<Instrument> Instruments { get; set; }
         public DbSet<InstrumentType> InstrumentTypes { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
         {

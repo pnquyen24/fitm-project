@@ -1,16 +1,16 @@
-﻿using FITM_BE.Authorization.Permission;
+﻿using FITM_BE.Authorization.Utils;
 using FITM_BE.DependencyInjection;
 using FITM_BE.EntityFrameworkCore;
 using FITM_BE.EntityFrameworkCore.Seed;
+using FITM_BE.Middlewares;
 using FITM_BE.Service.EmailService;
 using FITM_BE.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
-using FITM_BE.Util;
-using FITM_BE.EntityFrameworkCore.Seed;
 using System.Text;
 
 namespace FITM_BE
@@ -24,7 +24,10 @@ namespace FITM_BE
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration
+        {
+            get;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -74,9 +77,6 @@ namespace FITM_BE
             });
 
             services.AddHttpContextAccessor();
-
-            services.AddSingleton<PermissionCollection>();
-
             services.AddDbContext<DatabaseContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Default"));
@@ -104,6 +104,16 @@ namespace FITM_BE
                 };
             });
 
+            services.AddSingleton<IAuthorizationHandler, PolicyHandler>();
+            services.AddSingleton<IAuthorizationPolicyProvider, FITMPolicyProvider>();
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                .RequireAuthenticatedUser()
+                .Build();
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy(_corsName, options =>
@@ -122,22 +132,25 @@ namespace FITM_BE
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if ( env.IsDevelopment() )
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.ApplicationServices.MigrateDbContext<DatabaseContext>((dbcontext, serviceProvider) =>
-   {
-       var seeding = serviceProvider.GetRequiredService<ISeedingData>();
-       seeding.SeedMember();
-   });
+            app.ApplicationServices.MigrateDbContext<DatabaseContext>(async (dbcontext, serviceProvider) =>
+            {
+                var seeding = serviceProvider.GetRequiredService<ISeedingData>();
+                seeding.SeedRole(dbcontext, serviceProvider);
+                seeding.SeedMember(dbcontext, serviceProvider);
+            });
 
             app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCors(_corsName);
+
+            app.UseMiddleware<ErrorHandleMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

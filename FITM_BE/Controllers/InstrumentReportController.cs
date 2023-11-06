@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FITM_BE.Authorization.Utils;
 using FITM_BE.Service.InstrumentReportService;
 using FITM_BE.Service.InstrumentReportService.Dtos;
 using FITM_BE.Service.SongService;
@@ -7,12 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
 {
-    public class InstrumentReportControl : ApiBase
+    [Policy(nameof(InstrumentReportController))]
+    public class InstrumentReportController : ApiBase
     {
         private readonly IInstrumentReportService _instrumentReportService;
         private readonly IMapper _mapper;
 
-        public InstrumentReportControl(IInstrumentReportService instrumentReportService, IMapper mapper)
+        public InstrumentReportController(IInstrumentReportService instrumentReportService, IMapper mapper)
         {
             _instrumentReportService = instrumentReportService;
             _mapper = mapper;
