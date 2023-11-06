@@ -100,8 +100,8 @@
 .main-avatar{
     width: 200px;
     height: 200px;
-    background-size: cover;
+    background-size: 120%;
     background-position: center center;
     border-radius: 50%;
-    background-image: url("C:\Users\acer\Documents\1Proj\Backend\.NET\FIT\FITM_FE\public\IMG\88129659_p0_master1200.jpg");
+    background-image: url("C:\Users\acer\Documents\1Proj\Backend\.NET\FIT\FITM_FE\public\IMG\main_avt.png");
 }
