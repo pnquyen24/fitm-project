@@ -10,12 +10,12 @@ function CreateMember() {
 
     const [formData, setFormData] = useState({
         fullName: "",
-        studentid: "",
-        birthday: "",
+        studentId: "",
+        DOB: "",
         email: "",
-        phonenumber: "",
-        banknumber: "",
-        bankname: "",
+        phoneNumber: "",
+        bankNumber: "",
+        bankName: "",
     });
 
     const handleSubmit = (event) => {
@@ -108,8 +108,8 @@ function CreateMember() {
                         type="date"
                         id="birthday"
                         max={getCurrentDate()}
-                        name="birthday"
-                        value={formData.birthday}
+                        name="DOB"
+                        value={formData.DOB}
                         onChange={handleChange}
                         className="form-input"
                         required
@@ -140,7 +140,7 @@ function CreateMember() {
                     name="phonenumber"
                     maxLength={11}
                     minLength={10}
-                    value={formData.phonenumber}
+                    value={formData.phoneNumber}
                     onChange={handleChange}
                     className="form-input"
                     required
@@ -165,7 +165,7 @@ function CreateMember() {
                         type="text"
                         id="banknumber"
                         name="banknumber"
-                        value={formData.banknumber}
+                        value={formData.bankNumber}
                         onChange={handleChange}
                         className="form-input"
                     />
@@ -178,7 +178,7 @@ function CreateMember() {
                         type="text"
                         id="bankname"
                         name="bankname"
-                        value={formData.bankname}
+                        value={formData.bankName}
                         onChange={handleChange}
                         className="form-input"
                     />
