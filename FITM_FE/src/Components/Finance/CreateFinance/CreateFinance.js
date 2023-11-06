@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './CreateFinance.css';
 
 function CreateIncome() {
   document.title = "Create Income";
 
+  const location = useLocation();
+
+  let outcome = location.state?.outcome;
+  console.log(outcome);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    amount: '',
+    amount: outcome || '',
     billCode: '',
-    type: 'income', 
+    type: outcome?'outcome' :'income', 
   });
 
   const handleSubmit = (event) => {

@@ -1,5 +1,5 @@
 import PerformanceItem from "./PerformanceItem";
-import { Grid, Stack, Pagination } from "@mui/material";
+import { Grid} from "@mui/material";
 // import { styled } from "@mui/material/styles";
 import "./Performance.css";
 import axios from "axios";
