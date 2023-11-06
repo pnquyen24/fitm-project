@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPassword";
@@ -37,15 +38,38 @@ import InstrumentReportManagement from "./Components/Static/InstrumentReportMana
 import Instrument from "./Components/Static/Instrument/Instrument";
 import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
 
-let Authented = true;
+let Authented =false;
+checkLoginStatus();
+async function checkLoginStatus() {
+    if (localStorage.getItem("token") !== null) {
+      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+      try {
+        const response = await axios.get(`https://localhost:7226/Acount/CheckLogin`);
+        Authented = true;
+
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        Authented = false;
+        return false;
+      }
+    } else {
+        Authented = false;
+      return false;
+    }
+  }
+  
+  console.log(Authented);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
+    
         <Provider store={store}>
             <BrowserRouter>
                 <Routes>
                     <Route path="login" element={<Login />} />
-                    <Route path="/*" element={ Authented 
+                    <Route path="/*" element={ await checkLoginStatus()
                         ? ( <App></App> ) 
                         : ( <LandingPage></LandingPage> )
                     }>

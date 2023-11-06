@@ -45,7 +45,8 @@
     
 }
 .landingPage .login-btn{
-    width: 100px;
+    padding: 10px 30px;
+    text-decoration: none;
     border: none;
     height: 40px;
     background-color: rgb(255, 66, 66);

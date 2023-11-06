@@ -36,7 +36,8 @@ function Login() {
                 localStorage.setItem("saved", isRemember ? "saved" : "")
             })
             .then(() => {
-                navigate("/")
+                window.location.href = "/";
+
             })
             .catch(error => {
                 setIsOpen(true)

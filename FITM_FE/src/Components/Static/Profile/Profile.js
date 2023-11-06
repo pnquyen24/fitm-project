@@ -91,11 +91,10 @@ function Profile({ memberId }) {
                 <div className="row">
                     <div className="col-md-5 border-right">
                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img
-                                className="rounded-circle mt-5"
+                            <div
+                                className="main-avatar"
                                 width="150px"
-                                src="{member.avatar}"
-                                alt="avatar"
+
                             />
                             <span className="font-weight-bold">
                                 {member.fullName}

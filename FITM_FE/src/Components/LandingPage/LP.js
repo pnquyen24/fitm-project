@@ -97,7 +97,7 @@ function LandingPage() {
               </div>
             </div>
             <div className="right-header">
-              <button className="login-btn">Login</button>
+              <a href="/login" className="login-btn">Login</a>
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@ function LandingPage() {
             </div>
           </div>
           <div className="right-header">
-            <button className="login-btn">Login</button>
+            <a href="/login" className="login-btn">Login</a>
           </div>
         </div>
         <div className="banner">
