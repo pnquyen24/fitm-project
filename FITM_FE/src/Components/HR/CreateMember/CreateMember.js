@@ -146,9 +146,9 @@ function CreateMember() {
                     required
                 />
                 <br />
-                {formData.phonenumber.length !== 0 &&
-                (formData.phonenumber.length < 10 ||
-                    formData.phonenumber.length > 11) ? (
+                {formData.phoneNumber.length !== 0 &&
+                (formData.phoneNumber.length < 10 ||
+                    formData.phoneNumber.length > 11) ? (
                     <span className="form-error">
                         Phone number must be exactly 10 - 11 digits
                     </span>
