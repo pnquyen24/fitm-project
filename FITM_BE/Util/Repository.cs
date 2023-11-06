@@ -133,6 +133,27 @@ namespace FITM_BE.Util
             return entities;
         }
 
+        public async Task DeleteRange<TEntity>(IEnumerable<int> ids) where TEntity : Entity<int>
+        {
+            var entities = _dbContext.Set<TEntity>()
+                .Where(entity => entity.IsDeleted)
+                .Where(entity => ids.Contains(entity.Id));
+            if ( !entities.Any() )
+            {
+                throw new NotFoundException($"{typeof(TEntity).Name} not found");
+            }
+            var now = DateTime.Now;
+            await entities.ForEachAsync(async entity =>
+            {
+                entity.IsDeleted = true;
+                entity.ModifiedTime = now;
+                entity.ModifyBy = await GetCurrent();
+            });
+
+            _dbContext.UpdateRange(entities);
+            await _dbContext.SaveChangesAsync();
+        }
+
         private async Task<Member?> GetCurrent()
         {
             if (_httpContextAccessor.HttpContext != null && int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID"), out int userID))

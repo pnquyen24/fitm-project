@@ -1,4 +1,5 @@
-﻿using FITM_BE.Service.PerformanceScheduleService;
+﻿using FITM_BE.Authorization.Utils;
+using FITM_BE.Service.PerformanceScheduleService;
 using FITM_BE.Service.PerformanceScheduleService.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
+    [Policy(nameof(PerformanceScheduleController))]
     public class PerformanceScheduleController : ApiBase
     {
         private readonly IPerformanceScheduleService _performanceScheduleService;

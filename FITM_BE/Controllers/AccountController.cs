@@ -1,5 +1,6 @@
 ﻿using FITM_BE.Authentication;
 using FITM_BE.Authentication.Dtos;
+using FITM_BE.Authorization.Utils;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.LoggerService;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
+    [Policy(nameof(AccountController))]
     public class AccountController : ApiBase
     {
         private readonly ILoggerManager logger;
@@ -21,18 +23,18 @@ namespace FITM_BE.Controllers
 
         //ForgotPassword function
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword([FromBody]string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
             try
             {
                 await accountService.ForgotPassword(email);
                 return Ok();
-            } 
-            catch (NotFoundException ex)
+            }
+            catch ( NotFoundException ex )
             {
                 return NotFound(ex.Message);
-            } 
-            catch (Exception ex)
+            }
+            catch ( Exception ex )
             {
                 logger.LogError($"Exception in ForgotPassword: {ex}");
                 return StatusCode(500);
@@ -40,15 +42,15 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize()]
         public async Task<string> ChangePassword(AccountChangePasswordDTO changeAccountDTO)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userId);
-            
+
             changeAccountDTO.Id = userId;
-            
+
             var s = await accountService.ChangePassword(changeAccountDTO);
-            
+
             return s;
         }
     }

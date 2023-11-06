@@ -1,4 +1,5 @@
-﻿using FITM_BE.Entity.Core;
+﻿using FITM_BE.Authorization.Role;
+using FITM_BE.Entity.Core;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -41,5 +42,6 @@ namespace FITM_BE.Entity
         public string? Avatar { get; set; }
 
         public bool Status { get; set; }
+        public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
     }
 }

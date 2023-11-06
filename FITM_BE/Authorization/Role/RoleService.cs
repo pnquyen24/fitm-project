@@ -1,66 +1,59 @@
 ﻿using AutoMapper;
-using FITM_BE.Authorization.Permission;
+using FITM_BE.Authorization.Role.Dtos;
+using FITM_BE.Entity;
+using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service;
 using FITM_BE.Util;
+using FITM_BE.Util.Pagging;
+using Microsoft.EntityFrameworkCore;
+using NetCore.AutoRegisterDi;
 
 namespace FITM_BE.Authorization.Role
 {
+    [RegisterAsTransient]
     public class RoleService : ServiceBase, IRoleService
     {
-        private readonly PermissionCollection _permissions;
-
-        public RoleService(IRepository repository, IMapper mapper, PermissionCollection permissions) : base(repository, mapper)
+        public RoleService(IRepository repository, IMapper mapper) : base(repository, mapper)
         {
-            _permissions = permissions;
         }
 
-        public Task<RoleDetailDTO> AddPermission(IEnumerable<PermissionDTO> permissions)
+        public async Task AddRole(AddRoleDTO input)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<RoleDetailDTO> Create(RoleDetailDTO newRole)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<RoleDetailDTO> Get(int id)
-        {
-            var role = await _repository.Get<Role>(id);
-            return new RoleDetailDTO
-            {
-                Name = role.RoleName,
-                DisplayName = role.DisplayName,
-                Permissions = role.PermissionName.Where(permissionName => _permissions.PermisssionList.Any(permission => permission.FullName == permissionName))
-                                                 .Select(permissionName =>
-                {
-                    var permission = _permissions.PermisssionList.FirstOrDefault(permission => permission.FullName == permissionName);
-                    return new PermissionDTO
-                    {
-                        FullName = permission.FullName,
-                        Name = permission.DisplayName
-                    };
-                })
-            };
+            var member = await _repository.GetAll<Member>()
+                .Include(member => member.Roles)
+                .FirstOrDefaultAsync(member => member.Id == input.UserId)
+                ?? throw new NotFoundException("Member not found");
+            var roles = _repository.GetAll<Role>()
+                .Where(role => input.RoleIds.Contains(role.Id));
+            member.Roles = roles.ToList();
+            await _repository.Update(member);
         }
 
         public IQueryable<RoleDTO> GetAll()
         {
             return _repository.GetAll<Role>().Select(role => new RoleDTO
             {
+                Id = role.Id,
                 Name = role.RoleName,
-                DisplayName = role.DisplayName
             });
         }
 
-        public Task<RoleDetailDTO> Update(RoleDTO newRole)
+        public MemberRoleDTO GetRoleMember(int memberId)
         {
-            throw new NotImplementedException();
+            var query = _repository.GetAll<Member>()
+                .Include(_member => _member.Roles)
+                .FirstOrDefault(member => member.Id == memberId) ?? throw new NotFoundException("Member not found");
+            return new MemberRoleDTO
+            {
+                Id = query.Id,
+                Name = query.FullName,
+                Username = query.Username,
+                Roles = query.Roles.Select(role => new RoleDTO
+                {
+                    Id = role.Id,
+                    Name = role.RoleName
+                })
+            };
         }
     }
 }

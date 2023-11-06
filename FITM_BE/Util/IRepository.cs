@@ -1,5 +1,4 @@
-﻿using FITM_BE.DependencyInjection;
-using FITM_BE.Entity.Core;
+﻿using FITM_BE.Entity.Core;
 
 namespace FITM_BE.Util
 {
@@ -14,5 +13,6 @@ namespace FITM_BE.Util
         public Task<IEnumerable<TEntity>> UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit;
         public Task Delete<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>;
         public Task Delete<TEntity>(int id) where TEntity : Entity<int>;
+        public Task DeleteRange<TEntity>(IEnumerable<int> ids)where TEntity : Entity<int>;
     }
 }

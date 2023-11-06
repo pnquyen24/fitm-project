@@ -40,7 +40,7 @@ function Login() {
             })
             .catch(error => {
                 setIsOpen(true)
-                setErrorMessage(error.message)
+                setErrorMessage(error.response.data.message)
             })
     }
 
