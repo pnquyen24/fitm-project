@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 
 function AttendancePerformance() {
+    document.title = "Attendance Performance";
+
     const location = useLocation();
 
     let members = location.state.data.members;

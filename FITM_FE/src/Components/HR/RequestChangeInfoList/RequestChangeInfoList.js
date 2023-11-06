@@ -9,6 +9,8 @@ import { FormControl, Select, MenuItem } from '@mui/material';
 
 
 function RequestChangeInfoList() {
+  document.title = "Change Info List";
+
   const [memberList, setMemberList] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(8);

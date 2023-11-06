@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.Execution;
 using FITM_BE.Entity;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.MemberService.Dtos;
@@ -7,7 +6,6 @@ using FITM_BE.Service.PerformanceScheduleService.Dtos;
 using FITM_BE.Service.SongService.Dtos;
 using FITM_BE.Util;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
 
 namespace FITM_BE.Service.PerformanceScheduleService
 {
@@ -46,7 +44,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
 							  .Include(pfm => pfm.Songs)
 							  .ThenInclude(song => song.Song)
 							  .OrderBy(pfm => pfm.Status)
-							  .ThenByDescending(pfm => pfm.Date)
+							  .ThenBy(pfm => pfm.Date)
 							  .ThenByDescending(pfm => pfm.Time)
 							  .Select(pfm => new PerformanceDTO
 							  {
@@ -279,12 +277,13 @@ namespace FITM_BE.Service.PerformanceScheduleService
 			}
 		}
 
-		public IQueryable<PerformanceCountDTO> CountPerformanceOfMember()
+		public IQueryable<PerformanceCountDTO> CountPerformanceOfMember(int monthRange)
 		{
 			var members = _repository.GetAll<PerformanceMember>()
 									 .Include(pfm => pfm.Member)
 									 .Include(pfm => pfm.PerformanceSchedule)
-									 //.Where(pfm => pfm.PerformanceSchedule.Date < DateOnly.MaxValue)
+									 .AsEnumerable()
+									 .Where(pfm => pfm.PerformanceSchedule.Date.Month == monthRange)
 									 .Where(pfm => pfm.AttendanceStatus == Enums.AttendanceStatus.Present)
 									 .GroupBy(pfm => pfm.Member)
 									 .Select(pfm => new PerformanceCountDTO
@@ -296,7 +295,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
 										 BankNumber = pfm.Key.BankNumber,
 										 TotalPerformance = pfm.Count()
 
-									 });
+									 }).AsQueryable();
 
 			return members;
 		}

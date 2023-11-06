@@ -14,6 +14,6 @@ namespace FITM_BE.Service.PerformanceScheduleService
         Task CallOffPerformance(int pfmID);
         Task<PerformanceViewAttendDTO?> ViewListMembers(int pfmID);
         Task AttendancePerformance(PerformanceAttendanceDTO pfmAttend);
-        IQueryable<PerformanceCountDTO> CountPerformanceOfMember();
+        IQueryable<PerformanceCountDTO> CountPerformanceOfMember(int monthRange);
 	}
 }

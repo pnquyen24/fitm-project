@@ -19,10 +19,11 @@ import listPlugin from "@fullcalendar/list";
 import HeaderCalendar from "../Member/Schedule/HeaderCalendar/HeaderCalendar";
 
 function Schedule() {
+    document.title = "Schedule";
+
     const dispatch = useDispatch();
     const practicals = useSelector(selectAllPracticals);
     const performances = useSelector(selectAllPerformances);
-
     const calendarRef = useRef(null);
 
     const [calApi, setCalApi] = useState();
@@ -44,7 +45,7 @@ function Schedule() {
 
     function processPracticals(data) {
         return data.map((item) => ({
-            id: item.id,
+            scheduleId: item.id,
             title: item.title,
             description: item.description,
             start: new Date(`${item.date}T${item.startTime}`),
@@ -58,7 +59,7 @@ function Schedule() {
 
     function processPerformances(data) {
         return data.map((item) => ({
-            id: item.id,
+            scheduleId: item.id,
             title: item.name,
             name: item.name,
             place: item.place,

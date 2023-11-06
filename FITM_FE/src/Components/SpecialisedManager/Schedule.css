@@ -55,12 +55,12 @@ h3.MuiTypography-root {
     margin: 0 18px;
 }
 
-.MuiTabPanel-root {
-    padding: 0 ;
+#schedule-dialog .MuiTabPanel-root {
+    padding: 0;
 }
 
-.MuiButton-contained {
-    background-color: #1677FF ;
+#calendar .MuiButton-contained {
+    background-color: #1677FF;
 }
 
 .MuiButton-outlined {
