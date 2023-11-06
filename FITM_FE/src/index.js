@@ -39,7 +39,7 @@ import InstrumentReportManagement from "./Components/Static/InstrumentReportMana
 import Instrument from "./Components/Static/Instrument/Instrument";
 import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
 
-let Authented = false;
+let Authented = true;
 if (localStorage.getItem("token") !== null) {
     Authented = true;
 } else {
