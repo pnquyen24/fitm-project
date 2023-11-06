@@ -20,7 +20,6 @@ namespace FITM_BE.Controllers
         public async Task<IActionResult> Create(PerformanceCreateDTO pfmDTO)
         {
             await _performanceScheduleService.CreatePerformance(pfmDTO);
-
             return Ok(pfmDTO);
         }
 
@@ -50,8 +49,8 @@ namespace FITM_BE.Controllers
         public async Task<IActionResult> Update(PerformanceUpdateDTO pfmDTO)
         {
             await _performanceScheduleService.UpdatePerformance(pfmDTO);
-			return Ok(pfmDTO);
-		}
+	    return Ok(pfmDTO);
+	}
 
         [HttpDelete]
         [Authorize]
@@ -65,7 +64,6 @@ namespace FITM_BE.Controllers
         public async Task Join(int pfmID)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userID);
-
             await _performanceScheduleService.JoinPerformance(pfmID, userID);
         } 
 
