@@ -85,9 +85,9 @@ namespace FITM_BE.Controllers
 
         [HttpGet]
         [Authorize]
-        public IQueryable<PerformanceCountDTO> CountPerformanceOfMember()
+        public IQueryable<PerformanceCountDTO> CountPerformanceOfMember(int monthRange)
         {
-            return  _performanceScheduleService.CountPerformanceOfMember();
+            return  _performanceScheduleService.CountPerformanceOfMember(monthRange);
         }
 
         [HttpPut]
