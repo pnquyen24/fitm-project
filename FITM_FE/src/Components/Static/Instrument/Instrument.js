@@ -1,56 +1,112 @@
-import { Accordion, AccordionDetails, AccordionSummary, Button, List, ListItem, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    deleteInstruments,
+    getAllInstruments,
+    getInstruments,
+    toggleModalInstrument,
+} from "../../../Variable/Redux/Slice/instrumentSlice";
+import {
+    Button,
+    Card,
+    CardHeader,
+    IconButton,
+    Stack,
+    Typography,
+} from "@mui/material";
+import PaginationTable from "../../Member/Table/PaginationTable/PaginationTable";
+import CustomeAlert from "../../Member/Alert/CustomeAlert";
+import { Delete, Edit } from "@mui/icons-material";
+import ModalInstrument from "./ModalInstrument";
 
-function Instrument(){
+function Instrument() {
+    document.title = "Instrument";
 
-    const status = ["New", "Broken", "Fixed"]
-      
-      const instrumentTypes = [
-        {
-            Name: "Dan Tranh",
-            ShortName: "DT",
-            instruments: [
-                {Id: 1, Status: 0},
-                {Id: 2, Status: 1},
-                {Id: 3, Status: 2},
-            ]
-        },
-        {
-            Name: "Dan Nguyet",
-            ShortName: "DN",
-            instruments: [
-                {Id: 4, Status: 0},
-                {Id: 5, Status: 0},
-                {Id: 6, Status: 0},
-            ]
-        }
-      ]
+    let index = 0;
+
+    const dispatch = useDispatch();
+    const instruments = useSelector(getInstruments);
+
+    const [instrumentInfo, setInstrumentInfo] = useState();
+    const [isEdit, setIsEdit] = useState();
+
+    useEffect(() => {
+        dispatch(getAllInstruments());
+    }, [dispatch]);
+
+    const columns = [
+        { id: "index", label: "#" },
+        { id: "name", label: "Name" },
+        { id: "count", label: "Count" },
+        { id: "items", label: "Item Ids" },
+        { id: "action", label: "Action" },
+    ];
+
+    const rows = instruments.map((row) => {
+        return createData(row.id, row.name, row.count, row.action);
+    });
+
+    function createData(id, name, count) {
+        index++;
+        return {
+            index,
+            id,
+            name,
+            count,
+            action: (
+                <Stack direction="row" spacing={2}>
+                    <IconButton onClick={handleUpdate(id)}>
+                        <Edit color="primary" />
+                    </IconButton>
+                    <IconButton onClick={handleDelete(id)}>
+                        <Delete color="error" />
+                    </IconButton>
+                </Stack>
+            ),
+        };
+    }
+
+    function handleCreate() {
+        setIsEdit(false);
+        dispatch(toggleModalInstrument(true));
+    }
+
+    function handleUpdate(instrument) {
+        setInstrumentInfo(instrument);
+        setIsEdit(true);
+        dispatch(toggleModalInstrument(true));
+    }
+
+    function handleDelete(instrumentId) {
+        CustomeAlert.confirm("Are you sure delete it?", "Delete", "No").then(
+            (result) => {
+                if (result.isConfirmed) {
+                    dispatch(deleteInstruments(instrumentId));
+                }
+            }
+        );
+    }
+
     return (
-        <div className="InstrumentReportManagement-cover" >
-            <Button>Add Instrument</Button>
-            {instrumentTypes.map(type => (
-                <Accordion>
-                    <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
-                        <Typography>{type.Name} ({type.ShortName})</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            <List>
-                                {type.instruments.map(instrument => (
-                                    <ListItem>
-                                        <Stack direction="row" spacing="12">
-                                            {instrument.Id}
-                                            {status[instrument.Status]}
-                                            <Button>Update</Button>
-                                        </Stack>
-                                    </ListItem>
-                                ))}
-                                </List>
+        <>
+            <ModalInstrument instrumentInfo={instrumentInfo} isEdit={isEdit} />
+            <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+                <CardHeader
+                    title={
+                        <Typography component={"span"} variant="subtitle1">
+                            Instrument Table
                         </Typography>
-                    </AccordionDetails>
-                </Accordion>
-            ))}
-        </div>
-    )
+                    }
+                    action={
+                        <Button variant="contained" onClick={handleCreate}>
+                            Create
+                        </Button>
+                    }
+                />
+                <PaginationTable rows={rows} columns={columns} />
+            </Card>
+        </>
+    );
 }
 
 export default Instrument;

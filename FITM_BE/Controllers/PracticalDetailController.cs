@@ -1,13 +1,13 @@
-﻿using FITM_BE.Service.PracticalDetailService;
+﻿using FITM_BE.Authorization.Utils;
+using FITM_BE.Service.LoggerService;
+using FITM_BE.Service.PracticalDetailService;
 using FITM_BE.Service.PracticalDetailService.Dto;
 using FITM_BE.Service.PracticalDetailService.Dtos;
-using FITM_BE.Service.LoggerService;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
 {
-    [Authorize]
+    [Policy(nameof(PracticalDetailController))]
     public class PracticalDetailController : ApiBase
     {
         private readonly IPracticalDetailService _attendancePracticalService;
@@ -30,6 +30,12 @@ namespace FITM_BE.Controllers
         {
             var updatedList = await _attendancePracticalService.UpdateAttendanceStatus(attendanceListDto);
             return Ok(updatedList);
+        }
+
+        [HttpGet]
+        public IEnumerable<ProductivityDto> ViewProductivity()
+        {
+            return _attendancePracticalService.ViewProductivity();
         }
     }
 }

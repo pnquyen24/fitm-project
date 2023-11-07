@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import "./InstrumentReport.css";
 
 function InstrumentReport ({ id, instrumentId, userId, description }){
+    document.title = "Instrument Report";
+
     let [decision,setDecision]= useState("");
 
     useEffect(() => {
@@ -38,7 +40,7 @@ function InstrumentReport ({ id, instrumentId, userId, description }){
                     setDecision('a')
                     deleteReport()
                 
-                }}>  <div className={decision=='a'?"expanded expand":"expand"}></div>    <ion-icon name="checkmark-circle-outline"></ion-icon></button>
+                }}>  <div className={decision==='a'?"expanded expand":"expand"}></div>    <ion-icon name="checkmark-circle-outline"></ion-icon></button>
 
             </div>
         </div>

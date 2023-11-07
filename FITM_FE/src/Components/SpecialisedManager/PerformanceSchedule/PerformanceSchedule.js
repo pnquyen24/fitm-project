@@ -16,13 +16,11 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
     LocalizationProvider,
-    DatePicker,
     MobileTimePicker,
 } from "@mui/x-date-pickers";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import axios from "axios";
 import dayjs from "dayjs";
-import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import { useDispatch } from "react-redux";
 import {
     createPerformance,
@@ -30,6 +28,8 @@ import {
     toggleModal,
     updatePerformance,
 } from "../../../Variable/Redux/Slice/scheduleSlice";
+import DateInput from "../../Member/Input/DateInput";
+import TimeInput from "../../Member/Input/TimeInput";
 
 function PerformanceSchedule({ isEditCard, eventInfos }) {
     const ITEM_HEIGHT = 48;
@@ -44,8 +44,13 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         autoFocus: true,
     };
 
-    const songIdExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.id);
-    const songNameExist = eventInfos?.event?.extendedProps?.songs?.map(song => song.name);
+    const dispatch = useDispatch();
+    const songIdExist = eventInfos?.event?.extendedProps?.songs?.map(
+        (song) => song.id
+    );
+    const songNameExist = eventInfos?.event?.extendedProps?.songs?.map(
+        (song) => song.name
+    );
 
     const performanceToCreate = {
         id: 0,
@@ -59,21 +64,24 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
 
     const [songs, setSongs] = useState([]);
     const [formSchedule, setFormSchedule] = useState(performanceToCreate);
-    const [songIds] = useState(songIdExist && songIdExist.length > 0? songIdExist: []);
-    const [songName, setSongName] = useState(songNameExist && songNameExist.length > 0? songNameExist: []);
+    const [songIds] = useState(
+        songIdExist && songIdExist.length > 0 ? songIdExist : []
+    );
+    const [songName, setSongName] = useState(
+        songNameExist && songNameExist.length > 0 ? songNameExist : []
+    );
     const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         if (isEditCard) {
             setFormSchedule({
-                id: eventInfos?.event?.id,
+                id: eventInfos?.event?.extendedProps?.scheduleId,
                 name: eventInfos?.event?.extendedProps?.name,
                 place: eventInfos?.event?.extendedProps?.place,
                 date: eventInfos?.event?.startStr,
                 time: eventInfos?.event?.startStr,
                 backgroundImg: eventInfos?.event?.extendedProps?.backgroundImg,
             });
-
         }
     }, [eventInfos, isEditCard]);
 
@@ -87,17 +95,15 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     const itemList =
         songs && songs.length > 0
             ? songs.map((song) => (
-                <MenuItem
-                    onClick={(e) => handleSelectSong(song.id)}
-                    key={song.id} value={song.name}>
-                    <Checkbox
-                        checked={
-                            songIds?.indexOf(song.id) > -1
-                        }
-                    />
-                    <ListItemText primary={song.name} />
-                </MenuItem>
-            ))
+                  <MenuItem
+                      onClick={(e) => handleSelectSong(song.id)}
+                      key={song.id}
+                      value={song.name}
+                  >
+                      <Checkbox checked={songIds?.indexOf(song.id) > -1} />
+                      <ListItemText primary={song.name} />
+                  </MenuItem>
+              ))
             : null;
 
     const handleSelectSong = (songId) => {
@@ -108,6 +114,10 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         } else {
             songIds.splice(songIndex, 1);
         }
+    };
+
+    function handleClose() {
+        dispatch(toggleModal(false));
     }
 
     function getEvent(formSchedule) {
@@ -134,38 +144,23 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
         }
     }
     const handleUpdateEvent = (e) => {
-        try {
-            const updatedSchedule = {
-                id: formSchedule.id,
-                ...getEvent(formSchedule),
-            };
-            dispatch(updatePerformance(updatedSchedule));
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
-            resetAndCloseModal();
-        }
+        const updatedSchedule = {
+            id: formSchedule.id,
+            ...getEvent(formSchedule),
+        };
+        dispatch(updatePerformance(updatedSchedule));
+        resetAndCloseModal();
     };
 
     const handleCreateEvent = (e) => {
-        try {
-            const newSchedule = getEvent(formSchedule);
-            dispatch(createPerformance(newSchedule));
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
-            resetAndCloseModal();
-        }
+        const newSchedule = getEvent(formSchedule);
+        dispatch(createPerformance(newSchedule));
+        resetAndCloseModal();
     };
 
     function handleDeleteEvent() {
-        try {
-            dispatch(deletePerformance({ id: Number(formSchedule.id) }));
-        } catch {
-            CustomeAlert.error("Something error");
-        } finally {
-            resetAndCloseModal();
-        }
+        dispatch(deletePerformance({ id: Number(formSchedule.id) }));
+        resetAndCloseModal();
     }
 
     function resetAndCloseModal() {
@@ -220,27 +215,15 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
             .then((response) => {
                 setSongs(response.data);
             })
-            .catch((error) => {
-
-            });
+            .catch((error) => {});
     }, []);
-
-    //Close Modal
-    const dispatch = useDispatch();
-    function handleClose() {
-        dispatch(toggleModal(false));
-    }
 
     return (
         <form>
             <DialogContent dividers>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={12}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
+                        <Stack>
                             <InputLabel />
                             <CustomeTextField
                                 error={Boolean(formErrors.name)}
@@ -260,16 +243,16 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={12}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
+                        <Stack>
                             <InputLabel />
                             <CustomeTextField
                                 error={Boolean(formErrors.place)}
                                 name="place"
-                                label={Boolean(formErrors.place)? "Place is required and < 30 character" : "Place"}
+                                label={
+                                    Boolean(formErrors.place)
+                                        ? "Place is required and < 30 character"
+                                        : "Place"
+                                }
                                 size="small"
                                 type="text"
                                 onChange={(event) =>
@@ -280,40 +263,24 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    format="DD-MM-YYYY"
-                                    label="Date"
-                                    onChange={(event) =>
-                                        handleChange("date", event)
-                                    }
-                                    value={dayjs(formSchedule.date)}
-                                />
-                            </LocalizationProvider>
+                        <Stack>
+                            <DateInput
+                                onChange={(event) =>
+                                    handleChange("date", event)
+                                }
+                                value={dayjs(formSchedule.date)}
+                            />
                         </Stack>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <MobileTimePicker
-                                    label="Time"
-                                    format="HH:mm"
-                                    ampm={false}
-                                    onChange={(event) =>
-                                        handleChange("time", event)
-                                    }
-                                    value={dayjs(formSchedule.time)}
-                                />
-                            </LocalizationProvider>
+                        <Stack>
+                            <TimeInput
+                                label="Time"
+                                onChange={(event) =>
+                                    handleChange("time", event)
+                                }
+                                value={dayjs(formSchedule.time)}
+                            />
                         </Stack>
                     </Grid>
 
@@ -341,11 +308,7 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} md={12}>
-                        <Stack
-                            spacing={1.25}
-                            direction={"column"}
-                            useFlexGap={false}
-                        >
+                        <Stack>
                             <InputLabel />
                             <CustomeTextField
                                 name="backgroundImg"
@@ -372,26 +335,26 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
                     <Grid>
                         {isEditCard && (
                             <Button
-                                children="Delete"
                                 variant="contained"
                                 color="error"
                                 onClick={handleDeleteEvent}
-                            />
+                            >
+                                Delete
+                            </Button>
                         )}
                     </Grid>
                     <Grid alignItems="center">
                         <Stack direction="row" spacing={2}>
                             <Button
-                                children={isEditCard ? "Update" : "Create"}
                                 variant="contained"
                                 color="success"
                                 onClick={handleSubmit}
-                            />
-                            <Button
-                                children="Exit"
-                                variant="contained"
-                                onClick={handleClose}
-                            />
+                            >
+                                {isEditCard ? "Update" : "Create"}
+                            </Button>
+                            <Button variant="contained" onClick={handleClose}>
+                                Exit
+                            </Button>
                         </Stack>
                     </Grid>
                 </Grid>

@@ -4,6 +4,10 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./Profile.css";
 
 function Profile({ memberId }) {
+
+    document.title = "Profile";
+
+
     const [member, setMember] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [tempMember, setTempMember] = useState(null);
@@ -82,16 +86,16 @@ function Profile({ memberId }) {
         return <div>Loading...</div>;
     }
     return (
-        <div>
-            <div className="container rounded bg-white mt-4 mb-4 profile-cover">
+        <div  style={{ width : "96%" }}>
+           <div className="container rounded bg-white mt-4 mb-4 profile-cover" style={{ margin: "0", maxWidth: "none" }}>
+
                 <div className="row">
                     <div className="col-md-5 border-right">
                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img
-                                className="rounded-circle mt-5"
+                            <div
+                                className="main-avatar"
                                 width="150px"
-                                src="{member.avatar}"
-                                alt="avatar"
+
                             />
                             <span className="font-weight-bold">
                                 {member.fullName}

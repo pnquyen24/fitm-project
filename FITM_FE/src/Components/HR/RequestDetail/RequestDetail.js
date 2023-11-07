@@ -15,6 +15,8 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./RequestDetail.css";
 
 function RequestDetail() {
+    document.title = "Request Detail";
+
     const [compareData, setCompareData] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();

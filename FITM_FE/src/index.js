@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPassword";
@@ -23,6 +24,7 @@ import FinanceRequestList from "./Components/Finance/FinanceRequestList/FinanceR
 import IncomeRequestDetail from "./Components/Finance/FinanceRequestDetail/IncomeRequestDetail";
 import OutcomeRequestDetail from "./Components/Finance/FinanceRequestDetail/OutcomeRequestDetail";
 import AttendancePractical from "./Components/SpecialisedManager/PracticalSchedule/AttendancePractical";
+import AboutUs from "./Components/Static/AboutUs/AboutUs";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -32,20 +34,44 @@ import PerformanceTable from "./Components/SpecialisedManager/PerformanceSchedul
 import Schedule from "./Components/SpecialisedManager/Schedule";
 import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
+import PracticalProductivity from "./Components/SpecialisedManager/PracticalSchedule/PracticalProductivity";
 import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrument";
 import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
 import Instrument from "./Components/Static/Instrument/Instrument";
+import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
 
-let Authented = true;
+let Authented =false;
+checkLoginStatus();
+async function checkLoginStatus() {
+    if (localStorage.getItem("token") !== null) {
+      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+      try {
+        const response = await axios.get(`https://localhost:7226/Acount/CheckLogin`);
+        Authented = true;
+
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        Authented = false;
+        return false;
+      }
+    } else {
+        Authented = false;
+      return false;
+    }
+  }
+  
+  console.log(Authented);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-    <React.StrictMode>
+    
         <Provider store={store}>
             <BrowserRouter>
                 <Routes>
                     <Route path="login" element={<Login />} />
-                    <Route path="/*" element={ Authented 
+                    <Route path="/*" element={ await checkLoginStatus()
                         ? ( <App></App> ) 
                         : ( <LandingPage></LandingPage> )
                     }>
@@ -85,7 +111,6 @@ root.render(
                 </Routes>
             </BrowserRouter>
         </Provider>
-    </React.StrictMode>
 );
 
 reportWebVitals();

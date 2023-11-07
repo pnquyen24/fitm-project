@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,15 +8,16 @@ import {getStatusStyle} from "../SupportFunctions/SupportFunction";
 import "./IncomeDetail.css";
 
 function IncomeDetail() {
+  document.title = "Income Datail ";
+
   const [income, setIncome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempIncome, setTempIncome] = useState(null);
-  const [error, setError] = useState(null);
+  const error= useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const incomeId = new URLSearchParams(location.search).get("id");
 
-  function getData() {
+  useEffect(() => {
     axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
       "token"
     )}`;
@@ -27,9 +27,6 @@ function IncomeDetail() {
         setIncome(response.data);
       })
       .catch((error) => {});
-  }
-  useEffect(() => {
-    getData();
   }, [incomeId]);
 
   const toggleEditing = () => {

@@ -1,4 +1,5 @@
-﻿using FITM_BE.Entity.Core;
+﻿using FITM_BE.Entity;
+using FITM_BE.Entity.Core;
 using System.ComponentModel.DataAnnotations;
 
 namespace FITM_BE.Authorization.Role
@@ -6,11 +7,13 @@ namespace FITM_BE.Authorization.Role
     public class Role : Entity<int>
     {
         [StringLength(20)]
-        public string RoleName { get; set; }
-
-        [StringLength(50)]
-        public string DisplayName { get; set; }
-
-        public virtual ICollection<string> PermissionName { get; set; } = new List<string>();
+        public string RoleName
+        {
+            get; set;
+        }
+        public virtual ICollection<Member> Members
+        {
+            get; set;
+        } = new List<Member>();
     }
 }

@@ -22,6 +22,39 @@ namespace FITM_BE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FITM_BE.Authorization.Role.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("FITM_BE.Entity.Income", b =>
                 {
                     b.Property<int>("Id")
@@ -194,7 +227,7 @@ namespace FITM_BE.Migrations
                     b.Property<DateTime?>("ModifiedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SortName")
+                    b.Property<string>("ShortName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -205,7 +238,7 @@ namespace FITM_BE.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("SortName");
+                    b.HasIndex("ShortName");
 
                     b.ToTable("InstrumentTypes");
                 });
@@ -706,6 +739,21 @@ namespace FITM_BE.Migrations
                     b.ToTable("Songs");
                 });
 
+            modelBuilder.Entity("MemberRole", b =>
+                {
+                    b.Property<int>("MembersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MembersId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("MemberRole");
+                });
+
             modelBuilder.Entity("FITM_BE.Entity.Income", b =>
                 {
                     b.HasOne("FITM_BE.Entity.Member", "CreatedBy")
@@ -981,6 +1029,21 @@ namespace FITM_BE.Migrations
                     b.Navigation("CreatedBy");
 
                     b.Navigation("ModifyBy");
+                });
+
+            modelBuilder.Entity("MemberRole", b =>
+                {
+                    b.HasOne("FITM_BE.Entity.Member", null)
+                        .WithMany()
+                        .HasForeignKey("MembersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FITM_BE.Authorization.Role.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FITM_BE.Entity.InstrumentType", b =>

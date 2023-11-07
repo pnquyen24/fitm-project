@@ -7,6 +7,8 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./MemberProfile.css";
 
 function MemberProfile() {
+  document.title = "Member Profile";
+
     const [member, setMember] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
@@ -52,6 +54,11 @@ function MemberProfile() {
     function BackToList() {
         navigate("/member-manager/member-list");
     }
+
+    function ModifyRole(){
+        navigate(`/member-manager/modify-role?id=${id}`)
+    }
+
     if (!member) {
         return <div>Loading...</div>;
     }
@@ -61,11 +68,9 @@ function MemberProfile() {
                 <div className="row">
                     <div className="col-md-5 border-right">
                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img
-                                className="rounded-circle mt-5"
+                            <div
+                                className="main-avatar "
                                 width="150px"
-                                src="{member.avatar}"
-                                alt=""
                             />
                             <span className="font-weight-bold">
                                 {member.fullName}
@@ -193,6 +198,14 @@ function MemberProfile() {
                         </Button>
                     )}
                 </div>
+                <Button 
+                onClick={() => {
+                    ModifyRole();
+                }}
+                variant="outlined"
+                style={{ width: "150px" }}>
+                    Modify Role
+                </Button>
             </div>
         </div>
     );

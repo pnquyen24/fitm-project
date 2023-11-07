@@ -1,8 +1,6 @@
 import axios from "axios";
-import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
@@ -10,15 +8,16 @@ import {getStatusStyle} from "../SupportFunctions/SupportFunction";
 import Swal from "sweetalert2";
 
 function OutcomeRequestDetail() {
+  document.title = "Outcome Request Detail";
+
   const [outcome, setOutcome] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const isEditing = useState(false);
   const [tempOutcome, setTempOutcome] = useState(null);
-  const [error, setError] = useState(null);
+  const error = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const outcomeId = new URLSearchParams(location.search).get("id");
 
-  function getData() {
+  useEffect(() => {
     axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
       "token"
     )}`;
@@ -28,30 +27,7 @@ function OutcomeRequestDetail() {
         setOutcome(response.data);
       })
       .catch((error) => {});
-  }
-  useEffect(() => {
-    getData();
   }, [outcomeId]);
-
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-    if (!isEditing) {
-      setTempOutcome(outcome);
-    }
-  };
-
-  const getTypeStyle = (type) => {
-    if (type === "Income") {
-      return {
-        color: "green",
-      };
-    } else if (type === "Outcome") {
-      return {
-        color: "red",
-      };
-    }
-    return {};
-  };
 
   function formatDate(date) {
     const formattedDate = new Date(date);
@@ -69,38 +45,6 @@ function OutcomeRequestDetail() {
 
     return formattedDateString;
   }
-
-  const handleSubmit = () => {
-    const updateData = {
-      id: outcomeId,
-      title: tempOutcome.title,
-      description: tempOutcome.description,
-      amount: tempOutcome.amount,
-      billCode: tempOutcome.billCode,
-    };
-
-    axios
-      .put(
-        "https://localhost:7226/apis/Finance/UpdateOutcome?id=" + outcomeId,
-        updateData
-      )
-      .then((response) => {
-        Swal.fire({
-          icon: "success",
-          title: "Update Successfully !!!",
-          showConfirmButton: true,
-        }).then(() => {
-          window.location.href = "/home/financial-manager/finance-list";
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Update Unsuccessfully !!!",
-          showConfirmButton: true,
-        });
-      });
-  };
 
   function AcceptOutcomeRequest() {
     axios
@@ -154,7 +98,7 @@ function OutcomeRequestDetail() {
   }
 
   return (
-    <div className="card">
+    <div className="finance-card">
       <div>
         <div className="in_request_card">
           <div>

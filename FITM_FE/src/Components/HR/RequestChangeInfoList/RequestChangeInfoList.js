@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 import "./RequestChangeInfoList.css";
 import PaginationComponent from '../../../Variable/Paggination/Paggination';
 import { FormControl, Select, MenuItem } from '@mui/material';
-import MemberList from '../MemberList/MemberList';
-
 
 
 function RequestChangeInfoList() {
+  document.title = "Change Info List";
+
   const [memberList, setMemberList] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(8);
@@ -26,9 +26,7 @@ function RequestChangeInfoList() {
   }
 
   useEffect(() => {
-
     axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
     axios
       .get('https://localhost:7226/apis/RequestEditInfo/GetAll')
       .then((response) => {
@@ -40,10 +38,6 @@ function RequestChangeInfoList() {
         setLoading(false);
       });
   }, []);
-
-  const handleChange = (event) => {
-    setOption(event.target.value);
-  };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -105,7 +99,7 @@ function RequestChangeInfoList() {
           onChange={handleSearch}
           className="search-input"
         />
-        <div className="select-container" style={{marginTop :"10px"}}>
+        <div className="select-container" style={{marginTop :"4px"}}>
           <FormControl>
             <Select value={option} onChange={handleFilterChange}>
               <MenuItem value="All" style={{ color: "gray" }}>ALL</MenuItem>
@@ -115,7 +109,7 @@ function RequestChangeInfoList() {
             </Select>
           </FormControl>
         </div>
-        <Button onClick={() => toMemberList()} variant="contained" color="info" size='medium' sx={{marginLeft: "10px",height:"50%",padding : "px 10px"}}>Request Change Info List</Button>
+        <Button onClick={() => toMemberList()} variant="contained" color="primary" size='medium' sx={{marginLeft: "10px",marginTop:"4px",height:"50%",padding : "4px 10px"}}>Members</Button>
       </div>
       <div>
         {loading ? (

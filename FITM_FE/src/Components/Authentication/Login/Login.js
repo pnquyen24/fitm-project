@@ -21,6 +21,7 @@ import './login.css';
 
 function Login() {
     const navigate = useNavigate();
+    document.title = "Login";
 
     function onLoginHandle() {
         if (username === "" || password === "") {
@@ -35,11 +36,12 @@ function Login() {
                 localStorage.setItem("saved", isRemember ? "saved" : "")
             })
             .then(() => {
-                navigate("/")
+                window.location.href = "/";
+
             })
             .catch(error => {
                 setIsOpen(true)
-                setErrorMessage(error.message)
+                setErrorMessage(error.response.data.message)
             })
     }
 

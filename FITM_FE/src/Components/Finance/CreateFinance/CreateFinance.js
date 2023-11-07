@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './CreateFinance.css';
 
 function CreateIncome() {
+  document.title = "Create Income";
+
+  const location = useLocation();
+
+  let outcome = location.state?.outcome;
+  console.log(outcome);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    amount: '',
+    amount: outcome || '',
     billCode: '',
-    type: 'income', 
+    type: outcome?'outcome' :'income', 
   });
 
   const handleSubmit = (event) => {
@@ -102,6 +109,7 @@ function CreateIncome() {
             type="number"
             id="amount"
             name="amount"
+            min={10000}
             value={formData.amount}
             placeholder='Finance Amount'
             onChange={handleChange}
@@ -157,10 +165,6 @@ function CreateIncome() {
           </div>
 
           </div>
-
-
-        
-
         <div className="finance_group_button">
           <Link to="/financial-manager/finance-list" className="btn_back">
             BACK

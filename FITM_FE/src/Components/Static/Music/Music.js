@@ -7,6 +7,9 @@ function Music() {
     let [songs, setSongs] = useState([]);
     const [editMusic, setEditMusic] = useState(false);
 
+    document.title = "Music";
+
+
     useEffect(() => {
         axios.defaults.headers[
             "Authorization"
