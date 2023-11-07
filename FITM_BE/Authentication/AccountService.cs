@@ -155,7 +155,7 @@ namespace FITM_BE.Authentication
 
         public async Task<string> ChangePassword(AccountChangePasswordDTO accountChangePasswordDTO)
         {
-            var member = await _repository.Get<Member>(accountChangePasswordDTO.Id);
+            var member = _repository.Get<Member>(accountChangePasswordDTO.Id);
             var hashResultCompare = _passwordHasher.VerifyHashedPassword(member, member.Password, accountChangePasswordDTO.OldPassword);
 
             if ( hashResultCompare == PasswordVerificationResult.Failed )

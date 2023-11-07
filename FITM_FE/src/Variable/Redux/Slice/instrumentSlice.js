@@ -4,7 +4,6 @@ import axiosClient from "../../Api/axiosClient";
 const GET_ALL_INSTRUMENT_URL = "Instrument/GetAllInstrument";
 const CREATE_INSTRUMENT_URL = "Instrument/Create";
 const UPDATE_INSTRUMENT_URL = "Instrument/Update";
-const DELETE_INSTRUMENT_URL = (id) => `Instrument/Delete?id=${id}`;
 
 const initialState = {
     instruments: [],
@@ -20,9 +19,9 @@ export const getAllInstruments = createAsyncThunk(
 );
 
 export const createInstruments = createAsyncThunk(
-    "instrument/createInstruments",
+    "Instrument/createInstruments",
     async (newInstrument) => {
-        const response = await axiosClient.get(
+        const response = await axiosClient.post(
             CREATE_INSTRUMENT_URL,
             newInstrument
         );
@@ -38,14 +37,6 @@ export const updateInstruments = createAsyncThunk(
             updatedInstrument
         );
         return response.data;
-    }
-);
-export const deleteInstruments = createAsyncThunk(
-    "instrument/deleteInstruments",
-    async (instrumentId) => {
-        const { id } = instrumentId;
-        await axiosClient.get(DELETE_INSTRUMENT_URL(id));
-        return instrumentId;
     }
 );
 
@@ -73,12 +64,6 @@ const instrumentSlice = createSlice({
                     }
                     return instrument;
                 });
-            })
-            .addCase(deleteInstruments.fulfilled, (state, action) => {
-                const { id } = action.payload;
-                state.instruments = state.instruments.filter(
-                    (instrument) => instrument.id !== id
-                );
             });
     },
 });

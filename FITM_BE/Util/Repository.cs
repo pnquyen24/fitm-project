@@ -22,7 +22,7 @@ namespace FITM_BE.Util
 
         public async Task<TEntity> Add<TEntity>(TEntity entity) where TEntity : Audit
         {
-            entity.CreatedBy = await GetCurrent();
+            entity.CreatedBy = GetCurrent();
             entity.CreatedTime = DateTime.Now;
             await _dbContext.Set<TEntity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
@@ -35,7 +35,7 @@ namespace FITM_BE.Util
 
         public async Task<IEnumerable<TEntity>> AddRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit
         {
-            var currentUser = await GetCurrent();
+            var currentUser = GetCurrent();
             var currentTime = DateTime.Now;
 
             entities = entities.Select(e =>
@@ -64,7 +64,7 @@ namespace FITM_BE.Util
             }
             entity.IsDeleted = true;
             entity.ModifiedTime = DateTime.Now;
-            entity.ModifyBy = await GetCurrent();
+            entity.ModifyBy = GetCurrent();
             await Update(entity);
         }
 
@@ -73,11 +73,11 @@ namespace FITM_BE.Util
             await Delete<TEntity, int>(id);
         }
 
-        public async Task<TEntity> Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>
+        public TEntity Get<TEntity, TKey>(TKey id) where TEntity : Entity<TKey>
         {
-            var entity = await _dbContext.Set<TEntity>()
+            var entity = _dbContext.Set<TEntity>()
                                    .Where(entity => !entity.IsDeleted)
-                                   .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+                                   .FirstOrDefault(entity => entity.Id.Equals(id));
             if (entity == default)
             {
                 throw new NotFoundException($"{nameof(TEntity)} not found");
@@ -86,7 +86,7 @@ namespace FITM_BE.Util
             return entity;
         }
 
-        public Task<TEntity> Get<TEntity>(int id) where TEntity : Entity<int>
+        public TEntity Get<TEntity>(int id) where TEntity : Entity<int>
         {
             return Get<TEntity, int>(id);
         }
@@ -100,7 +100,7 @@ namespace FITM_BE.Util
         public async Task<TEntity> Update<TEntity>(TEntity newEntity) where TEntity : Audit
         {
             newEntity.ModifiedTime = DateTime.Now;
-            newEntity.ModifyBy = await GetCurrent();
+            newEntity.ModifyBy = GetCurrent();
             _dbContext.Set<TEntity>().Update(newEntity);
             await _dbContext.SaveChangesAsync();
             _dbContext.SaveChangesFailed += (object? sender, SaveChangesFailedEventArgs eventArgs) =>
@@ -112,7 +112,7 @@ namespace FITM_BE.Util
 
         public async Task<IEnumerable<TEntity>> UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : Audit
         {
-            var currentUser = await GetCurrent();
+            var currentUser = GetCurrent();
             var currentTime = DateTime.Now;
 
             entities = entities.Select(e =>
@@ -147,18 +147,18 @@ namespace FITM_BE.Util
             {
                 entity.IsDeleted = true;
                 entity.ModifiedTime = now;
-                entity.ModifyBy = await GetCurrent();
+                entity.ModifyBy = GetCurrent();
             });
 
             _dbContext.UpdateRange(entities);
             await _dbContext.SaveChangesAsync();
         }
 
-        private async Task<Member?> GetCurrent()
+        private Member? GetCurrent()
         {
             if (_httpContextAccessor.HttpContext != null && int.TryParse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserID"), out int userID))
             {
-            return await Get<Member>(userID);
+            return Get<Member>(userID);
             }
             return null;
         }

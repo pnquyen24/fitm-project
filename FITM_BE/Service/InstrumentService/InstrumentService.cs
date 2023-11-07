@@ -14,8 +14,8 @@ namespace FITM_BE.Service.InstrumentService
 
         public async Task<InstrumentDto> Create(CreateAndUpdateInstrumentDto input)
         {
-            var type = await _repository.GetAll<InstrumentType>()
-                .FirstOrDefaultAsync(type => type.FullName.ToLower() == input.Name.ToLower()
+            var type = _repository.GetAll<InstrumentType>()
+                .FirstOrDefault(type => type.FullName.ToLower() == input.Name.ToLower()
                 && type.ShortName.ToLower() == input.ShortName.ToLower());
 
             dynamic instrument;
