@@ -23,13 +23,13 @@ namespace FITM_BE.Controllers
             return query.ToList();
         }
 
-        [HttpPut]
+        [HttpPost]
         public void Create(CreateAndUpdateInstrumentDto input)
         {
             _instrumentService.Create(input);
         }
 
-        [HttpPost]
+        [HttpPut]
         public void Update(CreateAndUpdateInstrumentDto output)
         {
             _instrumentService.Update(output);
