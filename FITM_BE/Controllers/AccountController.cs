@@ -42,7 +42,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
-        [Authorize()]
+        [Authorize]
         public async Task<string> ChangePassword(AccountChangePasswordDTO changeAccountDTO)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userId);

@@ -25,6 +25,7 @@ namespace FITM_BE.Controllers
 
         [HttpGet]
         [Authorize]
+        [Policy]
         public async Task<ProfileDto>Get()
         {       
             return await _memberService.Get(int.Parse(User.FindFirstValue("UserID"))); 

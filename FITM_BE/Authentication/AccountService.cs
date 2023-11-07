@@ -94,7 +94,7 @@ namespace FITM_BE.Authentication
                 audience: _configuration.GetValue<string>("Jwt:Audience"),
                 claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(20),
+                expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: signIn
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
