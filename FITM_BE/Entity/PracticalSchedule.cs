@@ -27,7 +27,6 @@ namespace FITM_BE.Entity
         public TimeOnly EndTime { get; set; }
 
         [Required]
-        [StringLength(3)]
         public int Room { get; set; }
     }
 }

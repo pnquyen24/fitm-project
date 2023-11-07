@@ -6,11 +6,66 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FITM_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class Iter3 : Migration
+    public partial class FITM_Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Members",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    StudentID = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    BankName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    BankNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<int>(type: "int", nullable: true),
+                    ModifiedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Members", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Members_Members_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Members_Members_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<int>(type: "int", nullable: true),
+                    ModifiedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Incomes",
                 columns: table => new
@@ -80,7 +135,7 @@ namespace FITM_BE.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SortName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ShortName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedById = table.Column<int>(type: "int", nullable: true),
@@ -178,7 +233,7 @@ namespace FITM_BE.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Room = table.Column<int>(type: "int", maxLength: 3, nullable: false),
+                    Room = table.Column<int>(type: "int", nullable: false),
                     CreatedById = table.Column<int>(type: "int", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedById = table.Column<int>(type: "int", nullable: true),
@@ -198,6 +253,96 @@ namespace FITM_BE.Migrations
                         column: x => x.ModifiedById,
                         principalTable: "Members",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestEditInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentID = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
+                    BankName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    BankNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<int>(type: "int", nullable: true),
+                    ModifiedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestEditInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RequestEditInfo_Members_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RequestEditInfo_Members_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Songs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LinkBeat = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    LinkSheet = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    BackgroundImg = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<int>(type: "int", nullable: true),
+                    ModifiedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Songs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Songs_Members_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Songs_Members_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MemberRole",
+                columns: table => new
+                {
+                    MembersId = table.Column<int>(type: "int", nullable: false),
+                    RolesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemberRole", x => new { x.MembersId, x.RolesId });
+                    table.ForeignKey(
+                        name: "FK_MemberRole_Members_MembersId",
+                        column: x => x.MembersId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MemberRole_Roles_RolesId",
+                        column: x => x.RolesId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,47 +423,6 @@ namespace FITM_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PerformanceSongs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PerformanceId = table.Column<int>(type: "int", nullable: false),
-                    SongId = table.Column<int>(type: "int", nullable: false),
-                    CreatedById = table.Column<int>(type: "int", nullable: true),
-                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedById = table.Column<int>(type: "int", nullable: true),
-                    ModifiedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PerformanceSongs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PerformanceSongs_Members_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "Members",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PerformanceSongs_Members_ModifiedById",
-                        column: x => x.ModifiedById,
-                        principalTable: "Members",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PerformanceSongs_PerformanceSchedules_PerformanceId",
-                        column: x => x.PerformanceId,
-                        principalTable: "PerformanceSchedules",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PerformanceSongs_Songs_SongId",
-                        column: x => x.SongId,
-                        principalTable: "Songs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PracticalDetails",
                 columns: table => new
                 {
@@ -356,6 +460,47 @@ namespace FITM_BE.Migrations
                         name: "FK_PracticalDetails_PracticalSchedules_PracticalScheduleId",
                         column: x => x.PracticalScheduleId,
                         principalTable: "PracticalSchedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PerformanceSongs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PerformanceId = table.Column<int>(type: "int", nullable: false),
+                    SongId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<int>(type: "int", nullable: true),
+                    ModifiedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PerformanceSongs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PerformanceSongs_Members_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PerformanceSongs_Members_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "Members",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PerformanceSongs_PerformanceSchedules_PerformanceId",
+                        column: x => x.PerformanceId,
+                        principalTable: "PerformanceSchedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PerformanceSongs_Songs_SongId",
+                        column: x => x.SongId,
+                        principalTable: "Songs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -416,9 +561,29 @@ namespace FITM_BE.Migrations
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InstrumentTypes_SortName",
+                name: "IX_InstrumentTypes_ShortName",
                 table: "InstrumentTypes",
-                column: "SortName");
+                column: "ShortName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemberRole_RolesId",
+                table: "MemberRole",
+                column: "RolesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Members_CreatedById",
+                table: "Members",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Members_ModifiedById",
+                table: "Members",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Members_StudentID",
+                table: "Members",
+                column: "StudentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Outcomes_CreatedById",
@@ -519,6 +684,36 @@ namespace FITM_BE.Migrations
                 name: "IX_PracticalSchedules_ModifiedById",
                 table: "PracticalSchedules",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestEditInfo_CreatedById",
+                table: "RequestEditInfo",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestEditInfo_ModifiedById",
+                table: "RequestEditInfo",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestEditInfo_Status",
+                table: "RequestEditInfo",
+                column: "Status");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Songs_CreatedById",
+                table: "Songs",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Songs_ModifiedById",
+                table: "Songs",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Songs_Name",
+                table: "Songs",
+                column: "Name");
         }
 
         /// <inheritdoc />
@@ -534,6 +729,9 @@ namespace FITM_BE.Migrations
                 name: "Instruments");
 
             migrationBuilder.DropTable(
+                name: "MemberRole");
+
+            migrationBuilder.DropTable(
                 name: "Outcomes");
 
             migrationBuilder.DropTable(
@@ -546,13 +744,25 @@ namespace FITM_BE.Migrations
                 name: "PracticalDetails");
 
             migrationBuilder.DropTable(
+                name: "RequestEditInfo");
+
+            migrationBuilder.DropTable(
                 name: "InstrumentTypes");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "PerformanceSchedules");
 
             migrationBuilder.DropTable(
+                name: "Songs");
+
+            migrationBuilder.DropTable(
                 name: "PracticalSchedules");
+
+            migrationBuilder.DropTable(
+                name: "Members");
         }
     }
 }

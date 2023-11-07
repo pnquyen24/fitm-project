@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FITM_BE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231105190914_role")]
-    partial class role
+    [Migration("20231107010620_FITM_Init")]
+    partial class FITM_Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -254,9 +254,6 @@ namespace FITM_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("BankName")
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
@@ -299,8 +296,8 @@ namespace FITM_BE.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -601,7 +598,6 @@ namespace FITM_BE.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Room")
-                        .HasMaxLength(3)
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("StartTime")
@@ -693,13 +689,13 @@ namespace FITM_BE.Migrations
 
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("BackgroundImg")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
@@ -712,13 +708,13 @@ namespace FITM_BE.Migrations
 
                     b.Property<string>("LinkBeat")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("LinkSheet")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<int?>("ModifiedById")
                         .HasColumnType("int");
@@ -728,8 +724,8 @@ namespace FITM_BE.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
