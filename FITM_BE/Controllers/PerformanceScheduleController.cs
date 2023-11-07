@@ -1,4 +1,5 @@
-﻿using FITM_BE.Service.PerformanceScheduleService;
+﻿using FITM_BE.Authorization.Utils;
+using FITM_BE.Service.PerformanceScheduleService;
 using FITM_BE.Service.PerformanceScheduleService.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 
 namespace FITM_BE.Controllers
 {
+    [Policy(nameof(PerformanceScheduleController))]
     public class PerformanceScheduleController : ApiBase
     {
         private readonly IPerformanceScheduleService _performanceScheduleService;
@@ -20,7 +22,6 @@ namespace FITM_BE.Controllers
         public async Task<IActionResult> Create(PerformanceCreateDTO pfmDTO)
         {
             await _performanceScheduleService.CreatePerformance(pfmDTO);
-
             return Ok(pfmDTO);
         }
 
@@ -50,8 +51,8 @@ namespace FITM_BE.Controllers
         public async Task<IActionResult> Update(PerformanceUpdateDTO pfmDTO)
         {
             await _performanceScheduleService.UpdatePerformance(pfmDTO);
-			return Ok(pfmDTO);
-		}
+	    return Ok(pfmDTO);
+	}
 
         [HttpDelete]
         [Authorize]
@@ -65,7 +66,6 @@ namespace FITM_BE.Controllers
         public async Task Join(int pfmID)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userID);
-
             await _performanceScheduleService.JoinPerformance(pfmID, userID);
         } 
 
@@ -85,9 +85,9 @@ namespace FITM_BE.Controllers
 
         [HttpGet]
         [Authorize]
-        public IQueryable<PerformanceCountDTO> CountPerformanceOfMember()
+        public IQueryable<PerformanceCountDTO> CountPerformanceOfMember(int monthRange)
         {
-            return  _performanceScheduleService.CountPerformanceOfMember();
+            return  _performanceScheduleService.CountPerformanceOfMember(monthRange);
         }
 
         [HttpPut]

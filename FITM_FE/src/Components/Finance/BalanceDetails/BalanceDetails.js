@@ -5,6 +5,13 @@ import { useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
@@ -22,9 +29,7 @@ const BalanceDetails = () => {
   const searchParams = new URLSearchParams(location.search);
   const startDate = searchParams.get("startDate");
   const endDate = searchParams.get("endDate");
-
   const navigate = useNavigate();
-  const [page, setPage] = React.useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,7 +159,7 @@ const BalanceDetails = () => {
   //===================================
 
   return (
-    <div>
+    <div className="finance">
       <h1 className="finance_title">BALANCE REPORT LIST</h1>
 
       <div className="create_finance_top">
@@ -170,33 +175,33 @@ const BalanceDetails = () => {
         </Link>
       </div>
 
-      <table className="finance_table" style={{ maxWidth: "500px" }}>
-        <thead className="finance_table_thead">
-          <tr>
-            <th>Type</th>
-            <th>Bill Code</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Detail</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className="finance_table" style={{ maxWidth: "500px" }}>
+        <TableHead className="finance_table_thead">
+          <TableRow>
+            <TableCell>Type</TableCell>
+            <TableCell>Bill Code</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Detail</TableCell>
+            <TableCell>Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {paginatedData.map((item, index) => (
-            <tr key={index}>
-              <td style={getTypeStyle(item.isIncome ? "Income" : "Outcome")}>
+            <TableRow key={index}>
+              <TableCell style={getTypeStyle(item.isIncome ? "Income" : "Outcome")}>
                 {item.isIncome ? "Income" : "Outcome"}
-              </td>
-              <td>{item.billCode}</td>
-              <td>{item.title}</td>
-              <td>{item.description}</td>
-              <td>{item.amount}</td>
-              <td style={getStatusStyle(item.financeStatus)}>
+              </TableCell>
+              <TableCell>{item.billCode}</TableCell>
+              <TableCell>{item.title}</TableCell>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>{item.amount}</TableCell>
+              <TableCell style={getStatusStyle(item.financeStatus)}>
                 {getStatusLabel(item.financeStatus)}
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 <Button
                   onClick={() => {
                     item.isIncome
@@ -209,9 +214,9 @@ const BalanceDetails = () => {
                 >
                   View Detail
                 </Button>
-              </td>
+              </TableCell>
 
-              <td>
+              <TableCell>
                 {item.financeStatus === 0 ||
                 item.financeStatus === 1 ||
                 item.financeStatus === 3 ? (
@@ -233,11 +238,11 @@ const BalanceDetails = () => {
                 ) : (
                   <span>Can't delete</span>
                 )}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
 
       <div style={{ marginTop: "30px" }}>
         <PaginationComponent

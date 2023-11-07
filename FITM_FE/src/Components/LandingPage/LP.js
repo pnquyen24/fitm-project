@@ -1,5 +1,6 @@
 import "./LP.css";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const jump = (e) => {
   e.scrollIntoView({ behavior: "smooth" });
@@ -7,6 +8,12 @@ const jump = (e) => {
 function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
   const [position, setPosition] = useState(1);
+  const navigate = useNavigate();
+
+
+  function handldeLogin() {
+    navigate("/login");
+  }
 
   useEffect(() => {
     document.title = "FIT";
@@ -253,12 +260,12 @@ function LandingPage() {
 
               <div className="contact-method">
                 <div className="contact-icon">
-                <ion-icon name="mail-open-outline"></ion-icon>
+                  <ion-icon name="mail-open-outline"></ion-icon>
                 </div>
                 <div className="contact-info">Cuutoivoi@gmail.com</div>
               </div>
 
-              
+
 
             </div>
             <div className="contact-social">
@@ -267,7 +274,7 @@ function LandingPage() {
               <a href="#"><ion-icon name="logo-youtube"></ion-icon></a>
               <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
 
-              
+
 
 
             </div>

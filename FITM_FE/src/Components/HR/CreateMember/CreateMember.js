@@ -10,12 +10,12 @@ function CreateMember() {
 
     const [formData, setFormData] = useState({
         fullName: "",
-        studentid: "",
-        birthday: "",
+        studentId: "",
+        DOB: "",
         email: "",
-        phonenumber: "",
-        banknumber: "",
-        bankname: "",
+        phoneNumber: "",
+        bankNumber: "",
+        bankName: "",
     });
 
     const handleSubmit = (event) => {
@@ -86,15 +86,15 @@ function CreateMember() {
                 <br />
 
                 <div className="create_id_dob">
-                    <label htmlFor="studentid" className="form-label">
+                    <label htmlFor="studentId" className="form-label">
                         Student ID:
                     </label>
                     <input
                         type="text"
                         id="studentid"
-                        maxLength={10}
-                        name="studentid"
-                        value={formData.studentid}
+                        maxLength={10}  
+                        name="studentId"
+                        value={formData.studentId}
                         onChange={handleChange}
                         className="form-input"
                         required
@@ -108,8 +108,8 @@ function CreateMember() {
                         type="date"
                         id="birthday"
                         max={getCurrentDate()}
-                        name="birthday"
-                        value={formData.birthday}
+                        name="DOB"
+                        value={formData.DOB}
                         onChange={handleChange}
                         className="form-input"
                         required
@@ -131,24 +131,24 @@ function CreateMember() {
                 />
                 <br />
 
-                <label htmlFor="phonenumber" className="form-label">
+                <label htmlFor="phoneNumber" className="form-label">
                     Phone Number:
                 </label>
                 <input
                     type="tel"
                     id="phonenumber"
-                    name="phonenumber"
+                    name="phoneNumber"
                     maxLength={11}
                     minLength={10}
-                    value={formData.phonenumber}
+                    value={formData.phoneNumber}
                     onChange={handleChange}
                     className="form-input"
                     required
                 />
                 <br />
-                {formData.phonenumber.length !== 0 &&
-                (formData.phonenumber.length < 10 ||
-                    formData.phonenumber.length > 11) ? (
+                {formData.phoneNumber.length !== 0 &&
+                (formData.phoneNumber.length < 10 ||
+                    formData.phoneNumber.length > 11) ? (
                     <span className="form-error">
                         Phone number must be exactly 10 - 11 digits
                     </span>
@@ -164,8 +164,8 @@ function CreateMember() {
                     <input
                         type="text"
                         id="banknumber"
-                        name="banknumber"
-                        value={formData.banknumber}
+                        name="bankNumber"
+                        value={formData.bankNumber}
                         onChange={handleChange}
                         className="form-input"
                     />
@@ -177,8 +177,8 @@ function CreateMember() {
                     <input
                         type="text"
                         id="bankname"
-                        name="bankname"
-                        value={formData.bankname}
+                        name="bankName"
+                        value={formData.bankName}
                         onChange={handleChange}
                         className="form-input"
                     />

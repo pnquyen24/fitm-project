@@ -24,6 +24,7 @@ import FinanceRequestList from "./Components/Finance/FinanceRequestList/FinanceR
 import IncomeRequestDetail from "./Components/Finance/FinanceRequestDetail/IncomeRequestDetail";
 import OutcomeRequestDetail from "./Components/Finance/FinanceRequestDetail/OutcomeRequestDetail";
 import AttendancePractical from "./Components/SpecialisedManager/PracticalSchedule/AttendancePractical";
+import AboutUs from "./Components/Static/AboutUs/AboutUs";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -33,6 +34,7 @@ import PerformanceTable from "./Components/SpecialisedManager/PerformanceSchedul
 import Schedule from "./Components/SpecialisedManager/Schedule";
 import AttendancePerformance from "./Components/SpecialisedManager/PerformanceSchedule/AttendancePerformance";
 import PracticalList from "./Components/SpecialisedManager/PracticalSchedule/PracticalList";
+import PracticalProductivity from "./Components/SpecialisedManager/PracticalSchedule/PracticalProductivity";
 import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrument";
 import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
 import Instrument from "./Components/Static/Instrument/Instrument";

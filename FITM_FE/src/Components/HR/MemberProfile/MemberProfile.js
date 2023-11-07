@@ -54,6 +54,11 @@ function MemberProfile() {
     function BackToList() {
         navigate("/member-manager/member-list");
     }
+
+    function ModifyRole(){
+        navigate(`/member-manager/modify-role?id=${id}`)
+    }
+
     if (!member) {
         return <div>Loading...</div>;
     }
@@ -193,6 +198,14 @@ function MemberProfile() {
                         </Button>
                     )}
                 </div>
+                <Button 
+                onClick={() => {
+                    ModifyRole();
+                }}
+                variant="outlined"
+                style={{ width: "150px" }}>
+                    Modify Role
+                </Button>
             </div>
         </div>
     );

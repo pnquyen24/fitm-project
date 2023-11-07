@@ -1,13 +1,12 @@
-﻿using FITM_BE.Service.FinanceService;
+﻿using FITM_BE.Authorization.Utils;
+using FITM_BE.Service.FinanceService;
 using FITM_BE.Service.FinanceService.Dtos;
-using FITM_BE.Service.MemberService.Dtos;
-using FITM_BE.Service.PracticalSchedulService.Dtos;
-using FITM_BE.Util.Pagging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FITM_BE.Controllers
-{  
+{
+    [Policy(nameof(FinanceController))]
     public class FinanceController : ApiBase
     {
         private readonly IFinanceService _financeService;
