@@ -12,8 +12,6 @@ function IncomeRequestDetail() {
 
   const [income, setIncome] = useState(null);
   const isEditing= useState(false);
-  const [tempIncome, setTempIncome] = useState(null);
-  const error = useState(null);
   const location = useLocation();
   const incomeId = new URLSearchParams(location.search).get("id");
 
@@ -106,52 +104,26 @@ function IncomeRequestDetail() {
                 <h4>Income Detail</h4>
               </div>
               <div className="id_title">
-                <div className="each_row_info">
+                <div className="each_row_info col-md-2">
                   <label className="span_title">ID: </label>{" "}
                   <span className="span_info">{income.id}</span>
                 </div>
 
                 <div>
-                  <div>
+                  <div className="col-md-12">
                     <label className="title">Title: </label>
-                    <lable className="span_info">
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={tempIncome.title}
-                          onChange={(e) =>
-                            setTempIncome({
-                              ...tempIncome,
-                              title: e.target.value,
-                            })
-                          }
-                        />
-                      ) : (
-                        income.title
-                      )}
-                    </lable>
+                    <label className="span_info ">
+                      <h5>{income.title}</h5>
+                    </label>
                   </div>
                 </div>
               </div>
 
               <div className="each_row_info">
                 <label className="span_title">Description: </label>
-                <lable className="span_info">
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={tempIncome.description}
-                      onChange={(e) =>
-                        setTempIncome({
-                          ...tempIncome,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    income.description
-                  )}
-                </lable>
+                <label className="span_info">
+                  <h5>{income.description}</h5>
+                </label>
               </div>
 
               <div>
@@ -175,43 +147,13 @@ function IncomeRequestDetail() {
                 <div>
                   <label className="span_title">Amount: </label>
                   <label className="span_info">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={tempIncome.amount}
-                        onChange={(e) => {
-                          const numericInput = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          setTempIncome({
-                            ...tempIncome,
-                            amount: numericInput,
-                          });
-                        }}
-                      />
-                    ) : (
-                      income.amount
-                    )}
+                    <h5>{income.amount}</h5>
                   </label>
                 </div>
                 <div className="billCode">
                   <label className="bill_title">Bill Code: </label>
                   <label className="span_info">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={tempIncome.billCode}
-                        onChange={(e) =>
-                          setTempIncome({
-                            ...tempIncome,
-                            billCode: e.target.value,
-                          })
-                        }
-                      />
-                    ) : (
-                      income.billCode
-                    )}
+                    <h5>{income.billCode}</h5>
                   </label>
                 </div>
               </div>
@@ -254,7 +196,6 @@ function IncomeRequestDetail() {
               </div>
             </div>
           </div>
-          {error && <div>Error: {error}</div>}
         </div>
       </div>
     </div>

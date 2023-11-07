@@ -9,11 +9,10 @@ import "./OutcomeDetail.css";
 
 function OutcomeDetail() {
   document.title = "OutCome Detail";
-
   const [outcome, setOutcome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempOutcome, setTempOutcome] = useState(null);
-  const error= useState(null);
+
   const location = useLocation();
   const outcomeId = new URLSearchParams(location.search).get("id");
 
@@ -125,13 +124,13 @@ function OutcomeDetail() {
             </div>
 
             <div className="each_row_info">
-              <label className="span_title">ID: </label>{" "}
+              <label  htmlFor="ID" className="span_title">ID: </label>{" "}
               <span className="span_info">{outcome.id}</span>
             </div>
 
             <div className="each_row_info">
-              <label className="span_title">Title: </label>
-              <lable className="span_info">
+              <label  htmlFor="Title"  className="span_title">Title: </label>
+              <label  htmlFor="Title"  className="span_info">
                 {isEditing ? (
                   <input
                     type="text"
@@ -143,12 +142,12 @@ function OutcomeDetail() {
                 ) : (
                   outcome.title
                 )}
-              </lable>
+              </label>
             </div>
 
             <div className="each_row_info">
-              <label className="span_title">Description: </label>
-              <lable className="span_info">
+              <label  htmlFor=""  className="span_title">Description: </label>
+              <label  htmlFor=""  className="span_info">
                 {isEditing ? (
                   <input
                     type="text"
@@ -163,21 +162,21 @@ function OutcomeDetail() {
                 ) : (
                   outcome.description
                 )}
-              </lable>
+              </label>
             </div>
 
             <div>
               <div className="each_row_info">
-                <label className="span_title">Created Time: </label>
-                <label className="span_info">
+                <label htmlFor="CreatedTime" className="span_title">Created Time: </label>
+                <label  htmlFor="CreatedTime"  className="span_info">
                   {formatDate(outcome.createdTime)}
                 </label>{" "}
                 <br></br>
               </div>
 
               <div className="each_row_info">
-                <label className="span_title">Modified Time: </label>
-                <label className="span_info">
+                <label  htmlFor="ModifiedTime"  className="span_title">Modified Time: </label>
+                <label  htmlFor="ModifiedTime"  className="span_info">
                   {formatDate(outcome.modifiedTime)}
                 </label>
               </div>
@@ -185,8 +184,8 @@ function OutcomeDetail() {
 
             <div className="amount_billCode">
               <div>
-                <label className="span_title">Amount: </label>
-                <label className="span_info">
+                <label  htmlFor="Amount"  className="span_title">Amount: </label>
+                <label  htmlFor="Amount"  className="span_info">
                   {isEditing ? (
                     <input
                       type="text"
@@ -208,8 +207,8 @@ function OutcomeDetail() {
                 </label>
               </div>
               <div className="billCode">
-                <label className="bill_title">Bill Code: </label>
-                <label className="span_info">
+                <label htmlFor="BillCode" className="bill_title">Bill Code: </label>
+                <label htmlFor="BillCode" className="span_info">
                   {isEditing ? (
                     <input
                       type="text"
@@ -229,7 +228,7 @@ function OutcomeDetail() {
             </div>
 
             <div className="finance_status">
-              <label style={getStatusStyle(outcome.financeStatus)}>
+              <label htmlFor="Status" style={getStatusStyle(outcome.financeStatus)}>
                 {getStatusLabel(outcome.financeStatus)}
               </label>
             </div>
@@ -271,7 +270,6 @@ function OutcomeDetail() {
             </div>
           </div>
         </div>
-        {error && <div>Error: {error}</div>}
       </div>
     </div>
   );

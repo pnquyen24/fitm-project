@@ -52,22 +52,6 @@ input[type="radio"] {
     height: 18px;
   }
 
-  .btn_create {
-    display: block;
-    width: 30%;
-    height: 80%;
-    padding: 5px;
-    font-size: 20px;
-    background-color: lightskyblue;
-    border: 1px solid rgb(146,191,235);
-    border-radius: 4px;
-    margin: 30px auto;
-    font-weight: bold;
-    text-decoration: none;
-    color:black;
-    text-align: center;
-  }
-
   .btn_create:hover {
     background-color: #0056b3;
     color: white;
@@ -138,4 +122,10 @@ margin-top: 16px;
 
   #input_billCode {
     margin-top: 16px;
+  }
+  
+  .finance_group_button{
+    margin-top: 20px;
+    display:  flex;
+    justify-content: space-between;
   }

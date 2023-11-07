@@ -160,22 +160,21 @@ const BalanceDetails = () => {
 
   return (
     <div className="finance">
-      <h1 className="finance_title">BALANCE REPORT LIST</h1>
-
+      <form>
       <div className="create_finance_top">
 
         <button className="finance_home" onClick={handleDownloadBalance}>
           <span>Download Detail</span>
         </button>
 
-        <Link to="/financial-manager/balance">
+        <Link to="/financial-manager/balance" style={{textDecoration:"none"}}>
           <button className="finance_home">
             <span>Back to balance</span>
           </button>
         </Link>
       </div>
 
-      <Table className="finance_table" style={{ maxWidth: "500px" }}>
+      <Table className="finance_table" style={{ minWidth: "500px" }}>
         <TableHead className="finance_table_thead">
           <TableRow>
             <TableCell>Type</TableCell>
@@ -243,7 +242,7 @@ const BalanceDetails = () => {
           ))}
         </TableBody>
       </Table>
-
+      </form>
       <div style={{ marginTop: "30px" }}>
         <PaginationComponent
           data={data}

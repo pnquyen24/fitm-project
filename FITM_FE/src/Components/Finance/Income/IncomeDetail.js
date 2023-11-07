@@ -13,7 +13,6 @@ function IncomeDetail() {
   const [income, setIncome] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [tempIncome, setTempIncome] = useState(null);
-  const error= useState(null);
   const location = useLocation();
   const incomeId = new URLSearchParams(location.search).get("id");
 
@@ -131,7 +130,7 @@ function IncomeDetail() {
 
             <div className="each_row_info">
               <label className="span_title">Title: </label>
-              <lable className="span_info">
+              <label className="span_info">
                 {isEditing ? (
                   <input
                     type="text"
@@ -143,12 +142,12 @@ function IncomeDetail() {
                 ) : (
                   income.title
                 )}
-              </lable>
+              </label>
             </div>
 
             <div className="each_row_info">
               <label className="span_title">Description: </label>
-              <lable className="span_info">
+              <label className="span_info">
                 {isEditing ? (
                   <input
                     type="text"
@@ -163,7 +162,7 @@ function IncomeDetail() {
                 ) : (
                   income.description
                 )}
-              </lable>
+              </label>
             </div>
 
             <div>
@@ -269,7 +268,6 @@ function IncomeDetail() {
             </div>
           </div>
         </div>
-        {error && <div>Error: {error}</div>}
       </div>
     </div>
   );

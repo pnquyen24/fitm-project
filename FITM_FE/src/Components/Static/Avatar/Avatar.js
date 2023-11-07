@@ -30,7 +30,7 @@ function Avatar({ scale = 1 }) {
       <div
         className="avatar"
         style={{
-          backgroundImage: `url('/IMG/Avatar.png')`,
+          backgroundImage: `url(/img/88129659_p0_master1200.jpg)`,
           width: `${width}px`,
           height: `${height}px`,
         }}

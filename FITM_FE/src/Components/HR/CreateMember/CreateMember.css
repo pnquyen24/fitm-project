@@ -65,23 +65,13 @@ font-size: 16px;
     margin-top: 5px;
   }
 
-  .create_submit {
-    display: block;
-    width: 30%;
-    height: 80%;
-    padding: 5px;
-    font-size: 20px;
-    background-color: rgb(240,248,255);
-    border: 1px solid rgb(146,191,235);
-    border-radius: 4px;
-    margin: 30px auto;
-    font-weight: bold;
-    text-decoration: none;
-    color:black;
-    text-align: center;
+  .create_form{
+    margin-top: 10%;
+    background-color: white;
+    padding: 30px 50px;
   }
-
-  .create_submit:hover {
-    background-color: lightskyblue;
-    color: white;
+  .create-button-container{
+    margin-top: 20px;
+    display:  flex;
+    justify-content: space-between ;
   }

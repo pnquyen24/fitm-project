@@ -70,23 +70,23 @@ root.render(
                         <Route path="modify-role" element={<RoleModify />} />
                     </Route>
                     <Route path="schedule" element={<Schedule />} />
-                    <Route path="practical" element={<PracticalList />} />
+                    <Route path="practical" element={<PracticalList/>} />
                     <Route path="practical/attendancePractical" element={<AttendancePractical/>} />
-                    <Route path="practical-productivity" element={<PracticalProductivity />} />
+                    <Route path="practical-productivity" element={<PracticalProductivity/>} />
                     <Route path="performance" element={<PerformanceTable />} />
-                    <Route path="attendancePerformance" element={<AttendancePerformance />} />
-                    <Route path="changepassword" element={<ChangePassword />} />
+                    <Route path="attendancePerformance" element={<AttendancePerformance/>} />
+                    <Route path="changepassword" element={<ChangePassword/>} />
                     <Route path="music-list" element={<Music />} />
                     <Route path="financial-manager" >
-                        <Route path="finance-list" element={<FinanceList />} />
-                        <Route path="balance" element={<BalanceChart />} />
-                        <Route path="income-detail" element={<IncomeDetail />} />
-                        <Route path="outcome-detail" element={<OutcomeDetail />} />
-                        <Route path="create-finance" element={<CreateFinance />} />
-                        <Route path="finance-request-list" element={<FinanceRequestList />} />
-                        <Route path="income-request-detail" element={<IncomeRequestDetail />} />
-                        <Route path="outcome-request-detail" element={<OutcomeRequestDetail />} />
-                        <Route path="balance-chart-details" element={<BalanceDetails />} />
+                        <Route path="finance-list" element={<FinanceList/>} />
+                        <Route path="balance" element={<BalanceChart/>} />
+                        <Route path="income-detail" element={<IncomeDetail/>} />
+                        <Route path="outcome-detail" element={<OutcomeDetail/>} />
+                        <Route path="create-finance" element={<CreateFinance/>} />
+                        <Route path="finance-request-list" element={<FinanceRequestList/>} />
+                        <Route path="income-request-detail" element={<IncomeRequestDetail/>} />
+                        <Route path="outcome-request-detail" element={<OutcomeRequestDetail/>} />
+                        <Route path="balance-chart-details" element={<BalanceDetails/>} />
                     </Route>
                     <Route path="report-instrument" element={<InstrumentReport />} />
                     <Route path="instrument-report-management" element={<InstrumentReportManagement />} />

@@ -36,17 +36,17 @@ const FinanceRequestList = () => {
       const response = await axios.get(
         `https://localhost:7226/apis/Finance/GetFinanceReport`
       )
-      setData(response.data.filter((data) => data.financeStatus === 1));
+      setData(response.data.filter((dt) => dt.financeStatus === 1));
     } catch (error) {
     }
   };
 
-  const getTypeStyle = (IsIncome) => {
-    if (IsIncome) {
+  const getTypeStyle = (isIncome) => {
+    if (isIncome) {
       return {
         color: "green",
       };
-    } else if (!IsIncome) {
+    } else if (!isIncome) {
       return {
         color: "red",
       };
@@ -89,7 +89,7 @@ const FinanceRequestList = () => {
           {data.map((item, index) => {
             return (
               <tr key={index}>
-                <TableCell style={getTypeStyle(item.IsIncome)}>{item.IsIncome ? "Income": "Outcome"}</TableCell>
+                <TableCell style={getTypeStyle(item.isIncome)}>{item.isIncome ? "Income": "Outcome"}</TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.amount}</TableCell>
                 <TableCell style={getStatusStyle(item.financeStatus)}>
