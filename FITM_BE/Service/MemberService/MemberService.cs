@@ -22,6 +22,7 @@ namespace FITM_BE.Service.MemberService
 
         public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)
         {
+            createMemberDto.FullName = createMemberDto.FullName.Trim();
             var existingMember = await CheckExistEmail(createMemberDto.Email);
             if (existingMember != null)
             {
