@@ -219,7 +219,12 @@ function JoinDialog(props) {
                 `https://localhost:7226/apis/PerformanceSchedule/Join?pfmID=${props.pfmID}`
             )
             .then((response) => {
-                CustomeAlert.success("Joined successfully!");
+                if(response.status == 500){
+                CustomeAlert.error("You joined this performance!");
+                }else{
+                    CustomeAlert.success("Joined successfully!");
+
+                }
             })
             .catch((error) => {
                 CustomeAlert.error("You joined this performance!");

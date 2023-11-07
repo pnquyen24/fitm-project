@@ -17,6 +17,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationComponent from "../../../Variable/Paggination/Paggination";
 import "./MemberList.css";
+import CustomeAlert from "../../Member/Alert/CustomeAlert";
 
 function MemberList() {
   const [allMember, setAllMember] = useState([]);
@@ -57,7 +58,7 @@ function MemberList() {
       XLSX.utils.book_append_sheet(wb, ws, 'MemberData');
       XLSX.writeFile(wb, 'FIT-members.xlsx');
     }
-    else alert("Data is null");
+    else CustomeAlert.error("Data is null");
   };
 
 
