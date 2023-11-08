@@ -2,22 +2,19 @@ import PerformanceItem from "./PerformanceItem";
 import { Grid } from "@mui/material";
 // import { styled } from "@mui/material/styles";
 import "./Performance.css";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import React, { useEffect, useState } from "react";
 
 function Performance() {
     document.title = "Home";
 
+    const VIEW_PERFORMANCE_URL = "PerformanceSchedule/ViewPerformance";
+
     let [performances, setPerformances] = useState([]);
 
     useEffect(() => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .get(
-                "https://localhost:7226/apis/PerformanceSchedule/ViewPerformance"
-            )
+        axiosClient
+            .get(VIEW_PERFORMANCE_URL)
             .then((response) => {
                 setPerformances(response.data);
             })

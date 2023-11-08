@@ -6,13 +6,13 @@ import Swal from "sweetalert2";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import CustomeLoadingButton from "../../Member/Button/CustomeLoadingButton";
 import { Link as RouterLink } from "react-router-dom";
-import axiosClient from "../../../Variable/Api/axiosClient";
-
-const baseURL = "Account/ForgotPassword";
-const isEmail = (email) =>
-    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+import axiosClient from "../../../Variable/Api/api";
 
 function ForgotPassword() {
+    const FORGOT_PASSWORD_URL = "Account/ForgotPassword";
+    const isEmail = (email) =>
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+
     const [email, setEmail] = useState("");
     const [inputError, setInputError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ function ForgotPassword() {
     async function callApi() {
         try {
             const response = await axiosClient.post(
-                baseURL,
+                FORGOT_PASSWORD_URL,
                 email.toLowerCase()
             );
             checkStatus(response);

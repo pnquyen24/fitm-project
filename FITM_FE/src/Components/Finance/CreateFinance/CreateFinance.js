@@ -1,182 +1,186 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import Swal from "sweetalert2";
 import { Link, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./CreateFinance.css";
 
 function CreateIncome() {
-  document.title = "Create Income";
+    document.title = "Create Income";
 
-  const location = useLocation();
+    const ADD_INCOME_URL = "Finance/AddIncome";
+    const ADD_OUTCOME_URL = "Finance/AddOutcome";
 
-  let outcome = location.state?.outcome;
+    const location = useLocation();
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    amount: outcome || "",
-    billCode: "",
-    type: outcome ? "outcome" : "income",
-  });
+    let outcome = location.state?.outcome;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const apiUrl =
-      formData.type === "income"
-        ? "https://localhost:7226/apis/Finance/AddIncome"
-        : "https://localhost:7226/apis/Finance/AddOutcome";
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        amount: outcome || "",
+        billCode: "",
+        type: outcome ? "outcome" : "income",
+    });
 
-    axios
-      .post(apiUrl, formData)
-      .then((response) => {
-        Swal.fire({
-          icon: "success",
-          title: "Create Successfully !!!",
-          showConfirmButton: true,
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-list";
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Create Unsuccessfully !!!",
-          showConfirmButton: true,
-        });
-      });
-  };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const apiUrl =
+            formData.type === "income" ? ADD_INCOME_URL : ADD_OUTCOME_URL;
 
-  const handleChange = (event) => {
-    let value = event.target.value;
-    const name = event.target.name;
+        axiosClient
+            .post(apiUrl, formData)
+            .then((response) => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Create Successfully !!!",
+                    showConfirmButton: true,
+                }).then(() => {
+                    window.location.href = "/financial-manager/finance-list";
+                });
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Create Unsuccessfully !!!",
+                    showConfirmButton: true,
+                });
+            });
+    };
 
-    setFormData({ ...formData, [name]: value });
-  };
+    const handleChange = (event) => {
+        let value = event.target.value;
+        const name = event.target.name;
 
-  const handleTypeChange = (event) => {
-    const value = event.target.value;
-    setFormData({ ...formData, type: value });
-  };
+        setFormData({ ...formData, [name]: value });
+    };
 
-  //====================================================================
+    const handleTypeChange = (event) => {
+        const value = event.target.value;
+        setFormData({ ...formData, type: value });
+    };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit} className="create_form">
-        <div className="type_in">
-          <label htmlFor="title" className="  finance_form_input">
-            Title:{" "}
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            placeholder="Finance Title"
-            onChange={handleChange}
-            className="form_input"
-            required
-          />
-          <br />
+    //====================================================================
 
-          <label htmlFor="description" className="finance_form_input">
-            Description:{" "}
-          </label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            value={formData.description}
-            placeholder="Finance Description"
-            onChange={handleChange}
-            className="form_input"
-          />
-          <br />
+    return (
+        <div>
+            <form onSubmit={handleSubmit} className="create_form">
+                <div className="type_in">
+                    <label htmlFor="title" className="  finance_form_input">
+                        Title:{" "}
+                    </label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={formData.title}
+                        placeholder="Finance Title"
+                        onChange={handleChange}
+                        className="form_input"
+                        required
+                    />
+                    <br />
 
-          <div className="amount_bill">
-            <label
-              htmlFor="amount"
-              className="finance_form_input"
-              id="input_amount"
-            >
-              Amount:{" "}
-            </label>
-            <input
-              type="number"
-              id="amount"
-              name="amount"
-              min={10000}
-              value={formData.amount}
-              placeholder="Finance Amount"
-              onChange={handleChange}
-              className="form_input"
-              required
-            />
+                    <label htmlFor="description" className="finance_form_input">
+                        Description:{" "}
+                    </label>
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        value={formData.description}
+                        placeholder="Finance Description"
+                        onChange={handleChange}
+                        className="form_input"
+                    />
+                    <br />
 
-            <label
-              htmlFor="billCode"
-              className="  finance_form_input"
-              id="input_billCode"
-            >
-              Bill Code:{" "}
-            </label>
-            <input
-              type="text"
-              id="billCode"
-              name="billCode"
-              value={formData.billCode}
-              maxLength={10}
-              placeholder="Max 10 digits"
-              onChange={handleChange}
-              className="form_input"
-              required
-            />
-          </div>
+                    <div className="amount_bill">
+                        <label
+                            htmlFor="amount"
+                            className="finance_form_input"
+                            id="input_amount"
+                        >
+                            Amount:{" "}
+                        </label>
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            min={10000}
+                            value={formData.amount}
+                            placeholder="Finance Amount"
+                            onChange={handleChange}
+                            className="form_input"
+                            required
+                        />
+
+                        <label
+                            htmlFor="billCode"
+                            className="  finance_form_input"
+                            id="input_billCode"
+                        >
+                            Bill Code:{" "}
+                        </label>
+                        <input
+                            type="text"
+                            id="billCode"
+                            name="billCode"
+                            value={formData.billCode}
+                            maxLength={10}
+                            placeholder="Max 10 digits"
+                            onChange={handleChange}
+                            className="form_input"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="radio_in_out">
+                    <div className="radio_in">
+                        <input
+                            type="radio"
+                            id="income"
+                            name="type"
+                            value="income"
+                            checked={formData.type === "income"}
+                            onChange={handleTypeChange}
+                        />
+                        <label htmlFor="income" className="radio_in_label">
+                            Income
+                        </label>
+                    </div>
+
+                    <div className="radio_out">
+                        <input
+                            type="radio"
+                            id="outcome"
+                            name="type"
+                            value="outcome"
+                            checked={formData.type === "outcome"}
+                            onChange={handleTypeChange}
+                        />
+                        <label htmlFor="outcome" className="radio_out_label">
+                            Outcome
+                        </label>
+                    </div>
+                </div>
+                <div className="finance_group_button">
+                    <Button variant="contained">
+                        <Link
+                            to="/financial-manager/finance-list"
+                            style={{ color: "white", textDecoration: "none" }}
+                        >
+                            BACK
+                        </Link>
+                    </Button>
+                    <Button onClick={handleSubmit} variant="contained">
+                        CREATE
+                    </Button>
+                </div>
+            </form>
         </div>
-
-        <div className="radio_in_out">
-          <div className="radio_in">
-            <input
-              type="radio"
-              id="income"
-              name="type"
-              value="income"
-              checked={formData.type === "income"}
-              onChange={handleTypeChange}
-            />
-            <label htmlFor="income" className="radio_in_label">
-              Income
-            </label>
-          </div>
-
-          <div className="radio_out">
-            <input
-              type="radio"
-              id="outcome"
-              name="type"
-              value="outcome"
-              checked={formData.type === "outcome"}
-              onChange={handleTypeChange}
-            />
-            <label htmlFor="outcome" className="radio_out_label">
-              Outcome
-            </label>
-          </div>
-        </div>
-        <div className="finance_group_button">
-          <Button variant="contained">
-            <Link to="/financial-manager/finance-list" style={{color:"white", textDecoration:"none"}}>
-              BACK
-            </Link>
-          </Button>
-          <Button onClick={handleSubmit} variant="contained">
-            CREATE
-          </Button>
-        </div>
-      </form>
-    </div>
-  );
+    );
 }
 
 export default CreateIncome;

@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosClient from "../../Api/axiosClient";
+import axiosClient from "../../Api/api";
 
 const GET_ALL_INSTRUMENT_URL = "Instrument/GetAllInstrument";
 const CREATE_INSTRUMENT_URL = "Instrument/Create";
 const UPDATE_INSTRUMENT_URL = "Instrument/Update";
-const DELETE_INSTRUMENT_URL = (id) => `Instrument/Delete?id=${id}`;
+const DELETE_INSTRUMENT_URL = "Instrument/Delete";
 
 const initialState = {
     instruments: [],
@@ -44,7 +44,7 @@ export const deleteInstruments = createAsyncThunk(
     "instrument/deleteInstruments",
     async (instrumentId) => {
         const { id } = instrumentId;
-        await axiosClient.get(DELETE_INSTRUMENT_URL(id));
+        await axiosClient.get(`${DELETE_INSTRUMENT_URL}?id=${id}`);
         return instrumentId;
     }
 );

@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
@@ -16,6 +16,10 @@ import "./RequestDetail.css";
 
 function RequestDetail() {
     document.title = "Request Detail";
+
+    const GET_COMPARE_REQUEST_URL = "RequestEditInfo/GetCompareRequest";
+    const ACCEPT_REQUEST_URL = "RequestEditInfo/AcceptRequest";
+    const DENY_REQUEST_URL = "RequestEditInfo/DenyRequest";
 
     const [compareData, setCompareData] = useState([]);
     const navigate = useNavigate();
@@ -28,13 +32,8 @@ function RequestDetail() {
     };
 
     const getData = useCallback(() => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .get(
-                `https://localhost:7226/apis/RequestEditInfo/GetCompareRequest?id=${id}`
-            )
+        axiosClient
+            .get(`${GET_COMPARE_REQUEST_URL}?id=${id}`)
             .then((response) => {
                 setCompareData(response.data);
             })
@@ -53,14 +52,8 @@ function RequestDetail() {
 
     function AcceptRequest(id) {
         // Send a POST request to the API endpoint
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .post(
-                "https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=" +
-                    id
-            )
+        axiosClient
+            .post(`${ACCEPT_REQUEST_URL}?id=` + id)
             .then((response) => {
                 CustomeAlert.success(`Accepted successfully!`);
                 getData();
@@ -73,14 +66,8 @@ function RequestDetail() {
 
     function DenyRequest(id) {
         // Send a POST request to the API endpoint
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .post(
-                "https://localhost:7226/apis/RequestEditInfo/DenyRequest?id=" +
-                    id
-            )
+        axiosClient
+            .post(`${DENY_REQUEST_URL}?id=` + id)
             .then((response) => {
                 CustomeAlert.success(`Denied successfully!`);
                 getData();
