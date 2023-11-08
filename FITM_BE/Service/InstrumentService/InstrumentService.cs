@@ -74,33 +74,12 @@ namespace FITM_BE.Service.InstrumentService
 
         public async Task<InstrumentDto> Update(CreateAndUpdateInstrumentDto input)
         {
-            var type = await _repository.GetAll<InstrumentType>()
-                .FirstOrDefaultAsync(type => type.FullName.ToLower().Equals(input.Name.ToLower())
-                && type.ShortName.ToLower().Equals(input.ShortName.ToLower()));
-            if (type == null)
-            {
-                type = new InstrumentType
-                {
-                    FullName = input.Name,
-                    ShortName = input.ShortName,
-                };
-                type.Instruments = new List<Instrument> { new Instrument
-                {
-                    Type = type,
-                    Status = Enums.InstrumentStatus.New
-                } };
-                type = await _repository.Add(type);
-            }
-            var newInstrument = new Instrument
-            {
-                Id = input.Id,
-                Type = type,
-                Status = input.Status,
-            };
+            var instrument = _repository.Get<Instrument>(input.InstrumentId);
+            instrument.Status = input.Status;
 
-            newInstrument = await _repository.Update(newInstrument);
+            var newInstrument = await _repository.Update(instrument);
 
-            return new ();
+            return new();
         }
     }
 }
