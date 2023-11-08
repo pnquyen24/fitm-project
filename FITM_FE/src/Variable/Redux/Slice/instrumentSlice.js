@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosClient from "../../Api/axiosClient";
+import axiosClient from "../../Api/api";
 
 const GET_ALL_INSTRUMENT_URL = "Instrument/GetAllInstrument";
 const CREATE_INSTRUMENT_URL = "Instrument/Create";

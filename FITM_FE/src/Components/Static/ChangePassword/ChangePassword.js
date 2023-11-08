@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import "./ChangePassword.css";
 
 function ChangePassword({ isOpen, setOpen }) {
     document.title = "Change Password";
+
+    const CHANGE_PASSWORD_URL = "Account/ChangePassword";
 
     let [inputOldPassword, setInputOldPassword] = useState("");
     let [inputNewPassword, setInputNewPassword] = useState("");
@@ -101,14 +103,8 @@ function ChangePassword({ isOpen, setOpen }) {
             newPassword: inputNewPassword,
         };
 
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-
-        axios
-            .put("https://localhost:7226/apis/Account/ChangePassword", data, {
-                headers: { "Content-Type": "application/json" },
-            })
+        axiosClient
+            .put(CHANGE_PASSWORD_URL, data)
             .then((response) =>
                 Swal.fire("Change Success!", { response }, "success")
             )

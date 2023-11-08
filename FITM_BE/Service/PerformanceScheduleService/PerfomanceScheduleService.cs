@@ -201,7 +201,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
 			}
 			else
 			{
-				throw new Exception();
+				throw new SystemException("Member has join !");
 			}
 
 		}

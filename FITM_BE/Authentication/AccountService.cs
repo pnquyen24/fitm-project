@@ -85,7 +85,7 @@ namespace FITM_BE.Authentication
                 new Claim("Username", member.Username),
             };
 
-            claims.AddRange(member.Roles.Select(role => new Claim(ClaimTypes.Role, role.RoleName)));
+            claims.AddRange(member.Roles.Select(role => new Claim("Roles", role.RoleName)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Jwt:Key")));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -94,7 +94,7 @@ namespace FITM_BE.Authentication
                 audience: _configuration.GetValue<string>("Jwt:Audience"),
                 claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(20),
+                expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: signIn
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);

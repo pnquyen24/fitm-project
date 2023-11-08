@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,7 +7,10 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./MemberProfile.css";
 
 function MemberProfile() {
-  document.title = "Member Profile";
+    document.title = "Member Profile";
+
+    const GET_MEMBER_BY_ID_URL = "Member/GetMemberById";
+    const CHANGE_STATUS_URL = "Member/ChangeStatus";
 
     const [member, setMember] = useState(null);
     const location = useLocation();
@@ -15,11 +18,8 @@ function MemberProfile() {
     const id = new URLSearchParams(location.search).get("id");
 
     const getData = useCallback(() => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .get("https://localhost:7226/apis/Member/GetMemberById?id=" + id)
+        axiosClient
+            .get(`${GET_MEMBER_BY_ID_URL}?id=` + id)
             .then((response) => {
                 setMember(response.data);
             })
@@ -31,11 +31,8 @@ function MemberProfile() {
 
     function ChangeStatus(id) {
         // Send a POST request to the API endpoint
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .post("https://localhost:7226/apis/Member/ChangeStatus?id=" + id)
+        axiosClient
+            .post(`${CHANGE_STATUS_URL}?id=` + id)
             .then(() => {
                 CustomeAlert.success(
                     `${
@@ -55,8 +52,8 @@ function MemberProfile() {
         navigate("/member-manager/member-list");
     }
 
-    function ModifyRole(){
-        navigate(`/member-manager/modify-role?id=${id}`)
+    function ModifyRole() {
+        navigate(`/member-manager/modify-role?id=${id}`);
     }
 
     if (!member) {
@@ -68,16 +65,20 @@ function MemberProfile() {
                 <div className="row">
                     <div className="col-md-5 border-right">
                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img
-                                className="rounded-circle mt-5"
-                                width="150px"
-                                src="{member.avatar}"
-                                alt=""
-                            />
-                            <span className="font-weight-bold">
+                            <h3
+                                className="font-weight-bold mt-3"
+                                style={{ textTransform: "uppercase" }}
+                            >
                                 {member.fullName}
-                            </span>
-                            <span className="text-black-50">
+                            </h3>
+                            <img
+                                className="rounded-circle mt-3"
+                                width="200px"
+                                height="200px"
+                                src={"/img/88129659_p0_master1200.jpg"}
+                                alt="avatar"
+                            />
+                            <span className="text-black-50 mt-3">
                                 {member.email}
                             </span>
                             <span> </span>
@@ -86,27 +87,53 @@ function MemberProfile() {
                     <div className="col-md-7">
                         <div className="p-3 py-6 info-cover">
                             <div className="d-flex justify-content-between align-items-center mb-3">
-                                <h4 className="text-right">
-                                    {member.username.split(".", 1)}'s Profile
-                                </h4>
+                                <h4 className="text-right">Profile</h4>
                             </div>
                             <div className="row mt-2">
                                 <div className="col-md-6 ">
                                     <label className="labels">Full Name:</label>
-                                    <p className="backgroundTemp">
-                                        {member.fullName}
-                                    </p>
+                                    <input
+                                        type="text"
+                                        value={member.fullName}
+                                        className="form-control font-weight-bold"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        maxLength={30}
+                                        disabled
+                                    />
                                 </div>
                                 <div className="col-md-6 marginTemp">
                                     <label className="labels">Username:</label>
-                                    <p className="backgroundTemp">
-                                        {member.username}
-                                    </p>
+                                    <input
+                                        type="text"
+                                        value={member.username}
+                                        className="form-control"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        maxLength={30}
+                                        disabled
+                                    />
                                 </div>
                             </div>
-                            <div className="col-md-3 ">
+                            <div className="col-md-12 mt-3">
                                 <label className="labels">Email:</label>
-                                {member.email}
+                                <input
+                                    type="text"
+                                    value={member.email}
+                                    className="form-control"
+                                    style={{
+                                        backgroundColor:
+                                            " rgba(220, 220, 220, 0.181)",
+                                        border: "none",
+                                    }}
+                                    disabled
+                                />
                             </div>
 
                             <div className="row mt-2">
@@ -114,21 +141,39 @@ function MemberProfile() {
                                     <label className="labels">
                                         Phone Number:
                                     </label>
-                                    {member.bankNumber}
-                                </div>
-                                <div className="col-md-6 ">
-                                    <label className="labels">Status:</label>{" "}
-                                    {member.status}
-                                    <label
-                                        className="status"
+                                    <input
+                                        type="text"
+                                        value={member.phoneNumber}
+                                        className="form-control"
                                         style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        disabled
+                                    />
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="labels">Status:</label>
+                                    <input
+                                        type="text"
+                                        value={
+                                            member.status
+                                                ? "Active"
+                                                : "Inactive"
+                                        }
+                                        className="form-control"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
                                             color: member.status
                                                 ? "green"
                                                 : "red",
                                         }}
-                                    >
-                                        {member.status ? "Active" : "Inactive"}
-                                    </label>
+                                        maxLength={30}
+                                        disabled
+                                    />
                                 </div>
                             </div>
 
@@ -137,23 +182,63 @@ function MemberProfile() {
                                     <label className="labels">
                                         Date of birth:
                                     </label>
-                                    {new Date(member.dob).toLocaleDateString()}
+                                    <input
+                                        type="date"
+                                        value={member.dob.split("T")[0]}
+                                        className="form-control"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        disabled
+                                    />
                                 </div>
                                 <div className="col-md-6">
                                     <label className="labels">
                                         Student ID:
                                     </label>
-                                    {member.studentID}
+                                    <input
+                                        type="text"
+                                        value={member.studentID}
+                                        className="form-control"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        disabled
+                                    />
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-6 mt-3">
                                     <label className="labels">Bank Name:</label>
-                                    {member.bankName}
+                                    <input
+                                        type="text"
+                                        value={member.bankName}
+                                        className="form-control"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        disabled
+                                    />
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-6 mt-3">
                                     <label className="labels">
                                         Bank Number:
                                     </label>
-                                    {member.bankNumber}
+                                    <input
+                                        type="text"
+                                        value={member.bankNumber}
+                                        className="form-control"
+                                        style={{
+                                            backgroundColor:
+                                                " rgba(220, 220, 220, 0.181)",
+                                            border: "none",
+                                        }}
+                                        disabled
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -161,6 +246,42 @@ function MemberProfile() {
                 </div>
             </div>
             <div className="detail_button_cover">
+                <div className="detail_button">
+                    {member.status ? (
+                        <Button
+                            id="deactivate"
+                            className="mbButton"
+                            color="error"
+                            onClick={() => {
+                                ChangeStatus(member.id);
+                            }}
+                            variant="contained"
+                        >
+                            Deactivate
+                        </Button>
+                    ) : (
+                        <Button
+                            id="activate"
+                            className="mbButton"
+                            color="success"
+                            onClick={() => {
+                                ChangeStatus(member.id);
+                            }}
+                            variant="contained"
+                        >
+                            Activate
+                        </Button>
+                    )}
+                </div>
+                <Button
+                    onClick={() => {
+                        ModifyRole();
+                    }}
+                    variant="contained"
+                    style={{ width: "150px" }}
+                >
+                    Modify Role
+                </Button>
                 <Button
                     className=" mbButton"
                     id="detail_back"
@@ -171,42 +292,6 @@ function MemberProfile() {
                     style={{ width: "150px" }}
                 >
                     Back to List
-                </Button>
-
-                <div className="detail_button">
-                    {member.status ? (
-                        <Button
-                            id="deactivate"
-                            className="mbButton"
-                            onClick={() => {
-                                ChangeStatus(member.id);
-                            }}
-                            variant="outlined"
-                        >
-                            {" "}
-                            Deactivate{" "}
-                        </Button>
-                    ) : (
-                        <Button
-                            id="activate"
-                            className="mbButton"
-                            onClick={() => {
-                                ChangeStatus(member.id);
-                            }}
-                            variant="outlined"
-                        >
-                            {" "}
-                            Activate{" "}
-                        </Button>
-                    )}
-                </div>
-                <Button 
-                onClick={() => {
-                    ModifyRole();
-                }}
-                variant="outlined"
-                style={{ width: "150px" }}>
-                    Modify Role
                 </Button>
             </div>
         </div>

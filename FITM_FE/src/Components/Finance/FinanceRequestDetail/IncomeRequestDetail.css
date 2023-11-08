@@ -1,157 +1,116 @@
 .finance-card {
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  width: 500px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  margin-top: 4%;
-  background-color: white;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    margin-top: 4%;
+    background-color: white;
 }
-      
+
 .in_request_card h4 {
-  font-size: 30px;
-  margin-bottom: 40px;
-  text-align: center;
-  font-weight: bold;
-  margin-top: 10px;
+    font-size: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 .in_request_card .row {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .span_title {
-  font-weight: bold;
-  margin-left: 20px;
-  font-size: 18px;
-  color: rgba(0,0,0,.5);
+    font-weight: bold;
+    font-size: 18px;
+    color: rgba(0, 0, 0, .5);
 }
 
-.in_request_card input {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.in_request_card button {
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-.in_request_card button:hover {
-  background-color: #0056b3;
-}
-
-.in_request_card button span {
-  margin-left: 5px;
+.in_request_card_button Button {
+    margin-left: 20px;
 }
 
 .in_request_card .back_button {
-  display: inline-block;
-  margin-top: 10px;
+    display: inline-block;
+    margin-top: 10px;
 }
 
 .in_request_card .edit_button {
-  display: inline-block;
-  background-color: #f57c00;
+    display: inline-block;
+    background-color: #f57c00;
 }
 
 .in_request_card .edit_button span {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .in_request_card .send_button {
-  display: inline-block;
+    display: inline-block;
 }
 
 .in_request_card .send_button button {
-  background-color: #5cb85c;
-  margin-top: 10px;
+    background-color: #5cb85c;
+    margin-top: 10px;
 }
 
 .in_request_card .error_message {
-  color: red;
-  margin-top: 10px;
+    color: red;
+    margin-top: 10px;
 }
 
 .amount_billCode {
-  display: flex;
-  margin-left: 20px;
+    display: flex;
 }
 
 .finance_status {
-  text-align: right;
-  margin-right: 50px;
-  font-size: 24px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px whitesmoke;
-  text-align: right;
-  margin-top: 20px;
-  margin-bottom: 20px;
+    text-align: right;
+    margin-right: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .each_row_info {
-  margin-bottom: 20px;
-  margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 .span_info {
-  font-size: 16px;
-  margin-left: 10px;
+    font-size: 16px;
+    margin-left: 10px;
 }
 
 .id_title {
-  display: flex;
+    display: flex;
 }
 
 .title {
-  font-weight: bold;
-  margin-left: 170px;
-  font-size: 18px;
-  color: rgba(0,0,0,.5);
+    font-weight: bold;
+    margin-left: 35px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, .5);
+    margin-bottom: 20px;
 }
 
 .bill_title {
-  font-weight: bold;
-  margin-left: 120px;
-  font-size: 18px;
-  color: rgba(0,0,0,.5);
+    font-weight: bold;
+    font-size: 18px;
+    color: rgba(0, 0, 0, .5);
 }
 
 .in_request_card_button {
-  display: flex;
-  margin-top: 40px;
-  margin-bottom: 1%;
-  justify-content: center ;
-}
-
-.in_request_card_button button {
-  background-color: lightskyblue;
-  color: black;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-block; 
-}
-
-.in_request_card_button button:hover {
-  background-color: rgb(0, 100, 162);
-  color: white;
+    display: flex;
+    margin-top: 40px;
+    justify-content: center;
 }
 
 .detail_back {
-margin-left: 20px;
+    margin-left: 20px;
 }
 
 .detail_send {
-margin-left: 20px;
+    margin-left: 20px;
 }

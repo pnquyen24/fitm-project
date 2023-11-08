@@ -1,11 +1,14 @@
 import AttendanceTable from "../../Member/Table/AttendanceTable/AttendanceTable";
 import { Button, Card, CardHeader, Typography } from "@mui/material";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import { useLocation } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 
 function AttendancePerformance() {
     document.title = "Attendance Performance";
+
+    const ATTENDANCE_PERFORMANCE_URL =
+        "PerformanceSchedule/AttendancePerformance";
 
     const location = useLocation();
 
@@ -54,23 +57,12 @@ function AttendancePerformance() {
             attendance: row.attendance === "true" ? 2 : 1,
         }));
 
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-
-        axios
-            .put(
-                "https://localhost:7226/apis/PerformanceSchedule/AttendancePerformance",
-                dataToUpdate,
-                {
-                    headers: { "Content-Type": "application/json" },
-                }
-            )
+        axiosClient
+            .put(ATTENDANCE_PERFORMANCE_URL, dataToUpdate)
             .then((response) => CustomeAlert.success("Saved successfully!"))
             .catch(() => {
                 CustomeAlert.error("Save failed!");
             });
-
     }
 
     return (
