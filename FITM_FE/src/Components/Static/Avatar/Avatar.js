@@ -20,7 +20,7 @@ function Avatar({ scale = 1 }) {
     try {
       localStorage.removeItem("token");
       // Redirect to the login page using the Navigate hook.
-      navigate("/login");
+      window.location.href ="/";
     } catch (error) {
     }
   }

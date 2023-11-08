@@ -24,7 +24,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Policy]
         public async Task<ProfileDto>Get()
         {       
@@ -32,14 +31,12 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ProfileDto> GetMemberById(int id)
         {
             return await _memberService.Get(id);
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<PaggingResultDto<ProfileDto>> GetAllPagging(PaggingDto paggingDto)
         {
             var query = _memberService.getAllProfile();
@@ -47,14 +44,12 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public  IQueryable<ProfileDto> ExportMembers()
         {
             return  _memberService.getAllProfile();
         }
 
         [HttpPost]
-        [Authorize]
         public Task<ProfileDto> ChangeStatus(int id) 
         {
             var profileDto = _memberService.ChangeStatus(id);

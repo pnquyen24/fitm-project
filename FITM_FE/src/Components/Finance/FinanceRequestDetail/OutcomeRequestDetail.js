@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import {getStatusStyle} from "../SupportFunctions/SupportFunction";
+import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
 
 function OutcomeRequestDetail() {
@@ -99,167 +99,110 @@ function OutcomeRequestDetail() {
 
   return (
     <div className="finance-card">
-      <div>
-        <div className="in_request_card">
+    <div>
+      <div className="in_request_card">
+        <div>
           <div>
-            <div>
-              <div>
-                <h4>Outcome Detail</h4>
+            <div style={{ color: "#1976d2" }}>
+              <h4 style={{ textAlign: "center" }}>OUTCOME DETAIL</h4>
+              <hr></hr>
+            </div>
+
+            <div className="id_title">
+              <div className="each_row_info col-md-12">
+                <label className="span_title">ID: </label>{" "}
+                <span className="span_info">{outcome.id}</span>
               </div>
+            </div>
+            <div className="col-md-12">
+              <label className="title">Title: </label>
+              <label className="span_info ">
+                <h5>{outcome.title}</h5>
+              </label>
+            </div>
+            <div className="each_row_info">
+              <label className="span_title">Description: </label>
+              <label className="span_info">
+                <h5>{outcome.description}</h5>
+              </label>
+            </div>
 
-              <div className="id_title">
-                <div className="each_row_info">
-                  <label className="span_title">ID: </label>{" "}
-                  <span className="span_info">{outcome.id}</span>
-                </div>
-
-                <div>
-                  <div>
-                    <label className="title">Title: </label>
-                    <lable className="span_info">
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={tempOutcome.title}
-                          onChange={(e) =>
-                            setTempOutcome({
-                              ...tempOutcome,
-                              title: e.target.value,
-                            })
-                          }
-                        />
-                      ) : (
-                        outcome.title
-                      )}
-                    </lable>
-                  </div>
-                </div>
+            <div>
+              <div className="each_row_info">
+                <label className="span_title">Created Time: </label>
+                <label className="span_info">
+                  {formatDate(outcome.createdTime)}
+                </label>{" "}
+                <br></br>
               </div>
 
               <div className="each_row_info">
-                <label className="span_title">Description: </label>
-                <lable className="span_info">
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={tempOutcome.description}
-                      onChange={(e) =>
-                        setTempOutcome({
-                          ...tempOutcome,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    outcome.description
-                  )}
-                </lable>
-              </div>
-
-              <div>
-                <div className="each_row_info">
-                  <label className="span_title">Created Time: </label>
-                  <label className="span_info">
-                    {formatDate(outcome.createdTime)}
-                  </label>{" "}
-                  <br></br>
-                </div>
-
-                <div className="each_row_info">
-                  <label className="span_title">Modified Time: </label>
-                  <label className="span_info">
-                    {formatDate(outcome.modifiedTime)}
-                  </label>
-                </div>
-              </div>
-
-              <div className="amount_billCode">
-                <div>
-                  <label className="span_title">Amount: </label>
-                  <label className="span_info">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={tempOutcome.amount}
-                        onChange={(e) => {
-                          const numericInput = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          setTempOutcome({
-                            ...tempOutcome,
-                            amount: numericInput,
-                          });
-                        }}
-                      />
-                    ) : (
-                      outcome.amount
-                    )}
-                  </label>
-                </div>
-                <div className="billCode">
-                  <label className="bill_title">Bill Code: </label>
-                  <label className="span_info">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={tempOutcome.billCode}
-                        onChange={(e) =>
-                          setTempOutcome({
-                            ...tempOutcome,
-                            billCode: e.target.value,
-                          })
-                        }
-                      />
-                    ) : (
-                      outcome.billCode
-                    )}
-                  </label>
-                </div>
-              </div>
-
-              <div className="finance_status">
-                <label style={getStatusStyle(outcome.financeStatus)}>
-                  {getStatusLabel(outcome.financeStatus)}
+                <label className="span_title">Modified Time: </label>
+                <label className="span_info">
+                  {formatDate(outcome.modifiedTime)}
                 </label>
               </div>
+            </div>
 
-              <div className="in_request_card_button">
-                {!isEditing && (
-                  <Link to="/financial-manager/finance-request-list">
-                    <button className="detail_back">
-                      <span>Back to List</span>
-                    </button>
-                  </Link>
-                )}
-                <div>
-                  {outcome.financeStatus === 1 ? (
-                    <div>
-                      <button
-                        onClick={() => {
-                          AcceptOutcomeRequest();
-                        }}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => {
-                          DenyOutcomeRequest();
-                        }}
-                      >
-                        Deny
-                      </button>
-                    </div>
-                  ) : null}
-                </div>
+            <div className="amount_billCode col-md-12">
+              <div className="col-md-6">
+                <label className="span_title">Amount: </label>
+                <label className="span_info">
+                  <h5>{outcome.amount}</h5>
+                </label>
+              </div>
+              <div className="billCode col-md-6">
+                <label className="span_title">BillCode: </label>
+                <label className="span_info">
+                  <h5>{outcome.billCode}</h5>
+                </label>
+              </div>
+            </div>
+
+            <div className="finance_status">
+              <label>{getStatusLabel(outcome.financeStatus)}</label>
+            </div>
+
+            <div className="in_request_card_button">
+              {!isEditing && (
+                <Link to="/financial-manager/finance-request-list">
+                  <Button>Back to List </Button>
+                </Link>
+              )}
+              <div>
+                {outcome.financeStatus === 1 ? (
+                  <div>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() => {
+                        AcceptOutcomeRequest();
+                      }}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => {
+                        DenyOutcomeRequest();
+                      }}
+                    >
+                      Deny
+                    </Button>
+                    <Link to="/financial-manager/finance-request-list">
+                      <Button variant="outlined">Back</Button>
+                    </Link>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
-          {error && <div>Error: {error}</div>}
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default OutcomeRequestDetail;

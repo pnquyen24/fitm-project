@@ -6,6 +6,7 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import Button from "@mui/material/Button";
 import "./CreateMember.css";
 
+
 function CreateMember() {
   document.title = "Create Member";
 
@@ -71,6 +72,11 @@ function CreateMember() {
   return (
     <div>
       <form onSubmit={handleSubmit} className="create_form">
+        <div style={{color:"#1976d2"}}>
+          <h4 style={{ textAlign: "center" }}>CREATE MEMBER</h4>
+          <hr></hr>
+        </div>
+
         <label htmlFor="fullname" className="form-label">
           Full Name:{" "}
         </label>
@@ -147,7 +153,7 @@ function CreateMember() {
         />
         <br />
         {formData.phoneNumber.length !== 0 &&
-        (formData.phoneNumber.length !== 10) ? (
+        formData.phoneNumber.length !== 10 ? (
           <span className="form-error">
             Phone number must be exactly 10 - 11 digits
           </span>
@@ -184,18 +190,17 @@ function CreateMember() {
           <br />
         </div>
         <div className="create-button-container">
-          <Button variant="contained">
+          <Button onClick={handleSubmit} variant="contained">
+            Create
+          </Button>
+          <Button variant="outlined">
             <Link
               to="/member-manager/member-list"
-              style={{ color: "white", textDecoration: "none" }}
+              style={{ textDecoration: "none"}}
             >
               {" "}
-              Back To List
+              Back
             </Link>
-          </Button>
-
-          <Button onClick={handleSubmit} variant="contained" >
-            Create
           </Button>
         </div>
       </form>

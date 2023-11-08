@@ -18,7 +18,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(PerformanceCreateDTO pfmDTO)
         {
             await _performanceScheduleService.CreatePerformance(pfmDTO);
@@ -26,28 +25,24 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IQueryable<PerformanceDTO> ViewPerformance()
         {
             return _performanceScheduleService.ViewPerformance();
         }
         
         [HttpGet]
-        [Authorize]
         public IQueryable<PerformanceDTO> ViewAllPerformance()
         {
             return _performanceScheduleService.ViewAllPerformance();
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<PerformanceDetail?> ViewPerformanceDetails(int pfmID)
         {
             return await _performanceScheduleService.ViewPerformanceDetail(pfmID);
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> Update(PerformanceUpdateDTO pfmDTO)
         {
             await _performanceScheduleService.UpdatePerformance(pfmDTO);
@@ -55,14 +50,12 @@ namespace FITM_BE.Controllers
 	}
 
         [HttpDelete]
-        [Authorize]
         public async Task Delete(int pfmID)
         {
             await _performanceScheduleService.DeletePerformance(pfmID);
         }
 
         [HttpPut]
-        [Authorize]
         public async Task Join(int pfmID)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userID);
@@ -70,28 +63,24 @@ namespace FITM_BE.Controllers
         } 
 
         [HttpPut]
-        [Authorize]
         public async Task CallOff(int pfmID)
         {
             await _performanceScheduleService.CallOffPerformance(pfmID);
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<PerformanceViewAttendDTO?> ViewListMember(int pfmID)
         {
             return  await _performanceScheduleService.ViewListMembers(pfmID);
         }
 
         [HttpGet]
-        [Authorize]
         public IQueryable<PerformanceCountDTO> CountPerformanceOfMember(int monthRange)
         {
             return  _performanceScheduleService.CountPerformanceOfMember(monthRange);
         }
 
         [HttpPut]
-        [Authorize]
         public async Task AttendancePerformance(PerformanceAttendanceDTO pfmAttend)
         {
             await _performanceScheduleService.AttendancePerformance(pfmAttend);

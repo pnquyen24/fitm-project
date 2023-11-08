@@ -66,12 +66,15 @@ font-size: 16px;
   }
 
   .create_form{
-    margin-top: 10%;
+    margin-top: 7%;
     background-color: white;
     padding: 30px 50px;
   }
   .create-button-container{
     margin-top: 20px;
     display:  flex;
-    justify-content: space-between ;
+    justify-content: end ;
+  }
+  .create-button-container Button{
+    margin-left: 20px;
   }
