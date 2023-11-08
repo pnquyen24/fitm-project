@@ -85,7 +85,9 @@ function ModalInstrument({ instrumentInfo, isEdit }) {
 
     function handleUpdate() {
         const newInstrument = {
-            id: formInstrument.id,
+            instrumentId: formInstrument.id,
+            shortName: "",
+            name: "",
             status: formInstrument.status,
         };
         dispatch(updateInstruments(newInstrument));

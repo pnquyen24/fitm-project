@@ -4,9 +4,7 @@ import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./Profile.css";
 
 function Profile({ memberId }) {
-
     document.title = "Profile";
-
 
     const [member, setMember] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -54,7 +52,9 @@ function Profile({ memberId }) {
 
     // Function to handle form submission
     const handleSubmit = () => {
-        if (!isValidEmail(tempMember.email)) { return; }
+        if (!isValidEmail(tempMember.email)) {
+            return;
+        }
         // Prepare the data to be sent in the request
         const requestData = {
             studentID: tempMember.studentID,
@@ -155,7 +155,7 @@ function Profile({ memberId }) {
                                             type="text"
                                             value={tempMember.phoneNumber}
                                             className="form-control"
-                                            maxLength={11}
+                                            maxLength={10}
                                             onChange={(e) => {
                                                 const numericInput =
                                                     e.target.value.replace(

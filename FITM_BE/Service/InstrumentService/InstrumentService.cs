@@ -15,10 +15,9 @@ namespace FITM_BE.Service.InstrumentService
         public async Task<InstrumentDto> Create(CreateAndUpdateInstrumentDto input)
         {
             var type = _repository.GetAll<InstrumentType>()
-                .FirstOrDefault(type => type.FullName.ToLower() == input.Name.ToLower()
-                && type.ShortName.ToLower() == input.ShortName.ToLower());
-
-            dynamic instrument;
+                                .Include(type => type.Instruments)
+                                .FirstOrDefault(type => type.FullName.ToLower() == input.Name.ToLower()
+                        && type.ShortName.ToLower() == input.ShortName.ToLower());
 
             if (type == null)
             {
@@ -27,24 +26,25 @@ namespace FITM_BE.Service.InstrumentService
                     FullName = input.Name,
                     ShortName = input.ShortName,
                 };
-                type.Instruments = new List<Instrument> { new Instrument
-                {
-                    Type = type,
-                    Status = Enums.InstrumentStatus.New
-                } };
-                instrument = await _repository.Add(type);
+                type = await _repository.Add(type).ConfigureAwait(false);
             }
-            else
+            var newInstrument = new Instrument
             {
-                var newInstrument = new Instrument
+                Type = type,
+                Status = Enums.InstrumentStatus.New
+            };
+            var instrument = await _repository.Add(newInstrument);
+            return new()
+            {
+                Id = type.Id,
+                Name = type.FullName,
+                Count = type.Instruments?.Count ?? 0,
+                ItemIds = type.Instruments?.Select(item => new InstrumentItemDto
                 {
-                    Type = type,
-                    Status = Enums.InstrumentStatus.New
-                };
-                instrument = await _repository.Add(newInstrument);
-            }
-
-            return new();
+                    Id = item.Id,
+                    Status = item.Status,
+                }).ToList() ?? new List<InstrumentItemDto>()
+            };
         }
 
         public Task Delete(int id)
@@ -72,14 +72,18 @@ namespace FITM_BE.Service.InstrumentService
             return query;
         }
 
-        public async Task<InstrumentDto> Update(CreateAndUpdateInstrumentDto input)
+        public async Task<InstrumentItemDto> Update(CreateAndUpdateInstrumentDto input)
         {
             var instrument = _repository.Get<Instrument>(input.InstrumentId);
             instrument.Status = input.Status;
 
             var newInstrument = await _repository.Update(instrument);
 
-            return new();
+            return new InstrumentItemDto
+            {
+                Id = newInstrument.Id,
+                Status = newInstrument.Status,
+            };
         }
     }
 }

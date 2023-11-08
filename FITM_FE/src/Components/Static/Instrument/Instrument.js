@@ -43,23 +43,24 @@ function Instrument() {
 
     function createData(id, name, count, itemIds) {
         index++;
+        const items = itemIds.map((item) => {
+            return {
+                ...item,
+                action: (
+                    <IconButton
+                        onClick={() => handleUpdate(item.id, item.status)}
+                    >
+                        <Edit color="primary" />
+                    </IconButton>
+                ),
+            };
+        });
         return {
             index,
             id,
             name,
             count,
-            items: itemIds.map((item) => {
-                return {
-                    ...item,
-                    action: (
-                        <IconButton
-                            onClick={() => handleUpdate(item.id, item.status)}
-                        >
-                            <Edit color="primary" />
-                        </IconButton>
-                    ),
-                };
-            }),
+            items,
         };
     }
 

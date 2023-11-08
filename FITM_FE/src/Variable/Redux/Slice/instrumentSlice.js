@@ -32,7 +32,7 @@ export const createInstruments = createAsyncThunk(
 export const updateInstruments = createAsyncThunk(
     "instrument/updateInstruments",
     async (updatedInstrument) => {
-        const response = await axiosClient.get(
+        const response = await axiosClient.put(
             UPDATE_INSTRUMENT_URL,
             updatedInstrument
         );
@@ -54,15 +54,29 @@ const instrumentSlice = createSlice({
                 state.instruments = action.payload;
             })
             .addCase(createInstruments.fulfilled, (state, action) => {
-                state.instruments.push(action.payload);
+                let isFound = false;
+                const newInstrument = action.payload;
+                state.instruments.map((i) => {
+                    if (i.id === newInstrument.id) {
+                        i.itemIds = newInstrument.itemIds;
+                        isFound = true;
+                    }
+                    return i;
+                });
+                if (!isFound) {
+                    state.instruments.push(newInstrument);
+                }
             })
             .addCase(updateInstruments.fulfilled, (state, action) => {
                 const updatedInstrument = action.payload;
-                state.instruments = state.instruments.map((instrument) => {
-                    if (instrument.id === updatedInstrument.id) {
-                        return updatedInstrument;
-                    }
-                    return instrument;
+                state.instruments.map((i) => {
+                    i.itemIds.map((item) => {
+                        if (item.id === updatedInstrument.id) {
+                            item.status = updatedInstrument.status;
+                        }
+                        return item;
+                    });
+                    return i;
                 });
             });
     },
