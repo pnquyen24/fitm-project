@@ -24,9 +24,10 @@ const ITEM_PADDING_TOP = 8;
 const MenuProps = {
     PaperProps: {
         style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: "80%",
+            maxHeight: ITEM_HEIGHT * 5 + ITEM_PADDING_TOP,
+            width: "47%",
             padding: 10,
+            marginTop: "20px",
         },
     },
 };
@@ -116,7 +117,26 @@ function RoleModify() {
     };
 
     return (
-        <Grid paddingTop={10} container xs={6} spacing={2}>
+        <Grid
+            paddingTop={10}
+            container
+            xs={6}
+            spacing={2}
+            style={{ backgroundColor: "white", marginTop: "50px" }}
+        >
+            <Grid
+                item
+                xs={12}
+                mt={-8}
+                style={{
+                    textAlign: "center",
+                    color: "#1976d2",
+                    padding: "0px",
+                }}
+            >
+                <h4>ROLE</h4>
+                <hr></hr>
+            </Grid>
             <Grid item xs={4}>
                 <TextField
                     label="Member ID"
@@ -138,6 +158,7 @@ function RoleModify() {
                     value={memberInfo.fullname}
                 />
             </Grid>
+
             <Grid item xs={12}>
                 <Select
                     className="background--white select_role"
@@ -181,8 +202,19 @@ function RoleModify() {
                     ))}
                 </Select>
             </Grid>
-            <Grid item xs={12}>
-                <Button variant="outlined" onClick={(e) => handleCancel(e)}>
+
+            <Grid
+                item
+                xs={12}
+                style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    gap: "20px",
+                    height: "50px",
+                    margin: "300px 20px 20px 0px",
+                }}
+            >
+                <Button variant="contained" onClick={(e) => handleCancel(e)}>
                     Cancel
                 </Button>
                 <Button variant="contained" onClick={(e) => handleSave(e)}>

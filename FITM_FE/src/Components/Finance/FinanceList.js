@@ -15,8 +15,7 @@ import {
 import Button from "@mui/material/Button";
 import axiosClient from "../../Variable/Api/api";
 import getStatusLabel from "./SupportFunctions/SupportFunction";
-import { getStatusStyle } from "./SupportFunctions/SupportFunction";
-import PaginationComponent from "../../Variable/Paggination/Paggination";
+import PaginationComponent from "../../Variable/Pagination/Pagination";
 
 const FinanceList = () => {
     document.title = "Finance";
@@ -201,10 +200,7 @@ const FinanceList = () => {
                     </Select>
                 </div>
 
-                <Link
-                    to="/financial-manager/balance
-        "
-                >
+                <Link to="/financial-manager/balance">
                     <Button variant="contained" color="primary">
                         View balance
                     </Button>
@@ -244,9 +240,7 @@ const FinanceList = () => {
                             <TableCell>{item.title}</TableCell>
                             <TableCell>{item.description}</TableCell>
                             <TableCell>{item.amount}</TableCell>
-                            <TableCell
-                                style={getStatusStyle(item.financeStatus)}
-                            >
+                            <TableCell>
                                 {getStatusLabel(item.financeStatus)}
                             </TableCell>
                             <TableCell>

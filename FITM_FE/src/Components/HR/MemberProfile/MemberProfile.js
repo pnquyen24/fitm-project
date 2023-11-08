@@ -246,42 +246,30 @@ function MemberProfile() {
                 </div>
             </div>
             <div className="detail_button_cover">
-                <Button
-                    className=" mbButton"
-                    id="detail_back"
-                    onClick={() => {
-                        BackToList();
-                    }}
-                    variant="contained"
-                    style={{ width: "150px" }}
-                >
-                    Back to List
-                </Button>
-
                 <div className="detail_button">
                     {member.status ? (
                         <Button
                             id="deactivate"
                             className="mbButton"
+                            color="error"
                             onClick={() => {
                                 ChangeStatus(member.id);
                             }}
                             variant="contained"
                         >
-                            {" "}
-                            Deactivate{" "}
+                            Deactivate
                         </Button>
                     ) : (
                         <Button
                             id="activate"
                             className="mbButton"
+                            color="success"
                             onClick={() => {
                                 ChangeStatus(member.id);
                             }}
                             variant="contained"
                         >
-                            {" "}
-                            Activate{" "}
+                            Activate
                         </Button>
                     )}
                 </div>
@@ -293,6 +281,17 @@ function MemberProfile() {
                     style={{ width: "150px" }}
                 >
                     Modify Role
+                </Button>
+                <Button
+                    className=" mbButton"
+                    id="detail_back"
+                    onClick={() => {
+                        BackToList();
+                    }}
+                    variant="outlined"
+                    style={{ width: "150px" }}
+                >
+                    Back to List
                 </Button>
             </div>
         </div>

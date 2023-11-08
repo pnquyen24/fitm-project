@@ -73,8 +73,13 @@ function CreateMember() {
     return (
         <div>
             <form onSubmit={handleSubmit} className="create_form">
+                <div style={{ color: "#1976d2" }}>
+                    <h4 style={{ textAlign: "center" }}>CREATE MEMBER</h4>
+                    <hr></hr>
+                </div>
+
                 <label htmlFor="fullname" className="form-label">
-                    Full Name:{" "}
+                    Full Name:
                 </label>
                 <input
                     type="text"
@@ -186,18 +191,16 @@ function CreateMember() {
                     <br />
                 </div>
                 <div className="create-button-container">
-                    <Button variant="contained">
-                        <Link
-                            to="/member-manager/member-list"
-                            style={{ color: "white", textDecoration: "none" }}
-                        >
-                            {" "}
-                            Back To List
-                        </Link>
-                    </Button>
-
                     <Button onClick={handleSubmit} variant="contained">
                         Create
+                    </Button>
+                    <Button variant="outlined">
+                        <Link
+                            to="/member-manager/member-list"
+                            style={{ textDecoration: "none" }}
+                        >
+                            Back
+                        </Link>
                     </Button>
                 </div>
             </form>

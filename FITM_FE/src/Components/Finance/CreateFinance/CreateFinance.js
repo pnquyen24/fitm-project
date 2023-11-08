@@ -65,9 +65,13 @@ function CreateIncome() {
     return (
         <div>
             <form onSubmit={handleSubmit} className="create_form">
+                <div style={{ color: "#1976d2" }}>
+                    <h4 style={{ textAlign: "center" }}>CREATE FINANCE</h4>
+                    <hr></hr>
+                </div>
                 <div className="type_in">
                     <label htmlFor="title" className="  finance_form_input">
-                        Title:{" "}
+                        Title:
                     </label>
                     <input
                         type="text"
@@ -82,7 +86,7 @@ function CreateIncome() {
                     <br />
 
                     <label htmlFor="description" className="finance_form_input">
-                        Description:{" "}
+                        Description:
                     </label>
                     <input
                         type="text"
@@ -101,7 +105,7 @@ function CreateIncome() {
                             className="finance_form_input"
                             id="input_amount"
                         >
-                            Amount:{" "}
+                            Amount:
                         </label>
                         <input
                             type="number"
@@ -117,10 +121,10 @@ function CreateIncome() {
 
                         <label
                             htmlFor="billCode"
-                            className="  finance_form_input"
+                            className="finance_form_input"
                             id="input_billCode"
                         >
-                            Bill Code:{" "}
+                            Bill Code:
                         </label>
                         <input
                             type="text"
@@ -166,16 +170,16 @@ function CreateIncome() {
                     </div>
                 </div>
                 <div className="finance_group_button">
-                    <Button variant="contained">
+                    <Button onClick={handleSubmit} variant="contained">
+                        CREATE
+                    </Button>
+                    <Button variant="outlined">
                         <Link
                             to="/financial-manager/finance-list"
-                            style={{ color: "white", textDecoration: "none" }}
+                            style={{ textDecoration: "none" }}
                         >
                             BACK
                         </Link>
-                    </Button>
-                    <Button onClick={handleSubmit} variant="contained">
-                        CREATE
                     </Button>
                 </div>
             </form>

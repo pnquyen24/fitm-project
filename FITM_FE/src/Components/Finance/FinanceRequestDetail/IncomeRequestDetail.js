@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
+import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
 import "./IncomeRequestDetail.css";
 
@@ -99,30 +99,29 @@ function IncomeRequestDetail() {
                 <div className="in_request_card">
                     <div>
                         <div>
-                            <div>
-                                <h4>Income Detail</h4>
+                            <div style={{ color: "#1976d2" }}>
+                                <h4 style={{ textAlign: "center" }}>
+                                    INCOME DETAIL
+                                </h4>
+                                <hr></hr>
                             </div>
                             <div className="id_title">
-                                <div className="each_row_info col-md-2">
-                                    <label className="span_title">ID: </label>{" "}
+                                <div className="each_row_info col-md-12">
+                                    <label className="span_title">ID: </label>
                                     <span className="span_info">
                                         {income.id}
                                     </span>
                                 </div>
-
-                                <div>
-                                    <div className="col-md-12">
-                                        <label className="title">Title: </label>
-                                        <label className="span_info ">
-                                            <h5>{income.title}</h5>
-                                        </label>
-                                    </div>
-                                </div>
                             </div>
-
+                            <div className="col-md-12">
+                                <label className="title">Title: </label>
+                                <label className="span_info ">
+                                    <h5>{income.title}</h5>
+                                </label>
+                            </div>
                             <div className="each_row_info">
                                 <label className="span_title">
-                                    Description:{" "}
+                                    Description:
                                 </label>
                                 <label className="span_info">
                                     <h5>{income.description}</h5>
@@ -132,17 +131,17 @@ function IncomeRequestDetail() {
                             <div>
                                 <div className="each_row_info">
                                     <label className="span_title">
-                                        Created Time:{" "}
+                                        Created Time:
                                     </label>
                                     <label className="span_info">
                                         {formatDate(income.createdTime)}
-                                    </label>{" "}
+                                    </label>
                                     <br></br>
                                 </div>
 
                                 <div className="each_row_info">
                                     <label className="span_title">
-                                        Modified Time:{" "}
+                                        Modified Time:
                                     </label>
                                     <label className="span_info">
                                         {formatDate(income.modifiedTime)}
@@ -150,18 +149,18 @@ function IncomeRequestDetail() {
                                 </div>
                             </div>
 
-                            <div className="amount_billCode">
-                                <div>
+                            <div className="amount_billCode col-md-12">
+                                <div className="col-md-6">
                                     <label className="span_title">
-                                        Amount:{" "}
+                                        Amount:
                                     </label>
                                     <label className="span_info">
                                         <h5>{income.amount}</h5>
                                     </label>
                                 </div>
-                                <div className="billCode">
-                                    <label className="bill_title">
-                                        Bill Code:{" "}
+                                <div className="billCode col-md-6">
+                                    <label className="span_title">
+                                        BillCode:
                                     </label>
                                     <label className="span_info">
                                         <h5>{income.billCode}</h5>
@@ -170,9 +169,7 @@ function IncomeRequestDetail() {
                             </div>
 
                             <div className="finance_status">
-                                <label
-                                    style={getStatusStyle(income.financeStatus)}
-                                >
+                                <label>
                                     {getStatusLabel(income.financeStatus)}
                                 </label>
                             </div>
@@ -180,29 +177,38 @@ function IncomeRequestDetail() {
                             <div className="in_request_card_button">
                                 {!isEditing && (
                                     <Link to="/financial-manager/finance-request-list">
-                                        <button className="detail_back">
-                                            <span>Back to List</span>
-                                        </button>
+                                        <Button variant="outlined">
+                                            <span>Back</span>
+                                        </Button>
                                     </Link>
                                 )}
 
                                 <div>
                                     {income.financeStatus === 1 ? (
                                         <div>
-                                            <button
+                                            <Button
+                                                variant="contained"
+                                                color="success"
                                                 onClick={() => {
                                                     AcceptIncomeRequest();
                                                 }}
                                             >
                                                 Accept
-                                            </button>
-                                            <button
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="error"
                                                 onClick={() => {
                                                     DenyIncomeRequest();
                                                 }}
                                             >
                                                 Deny
-                                            </button>
+                                            </Button>
+                                            <Link to="/financial-manager/finance-request-list">
+                                                <Button variant="outlined">
+                                                    Back
+                                                </Button>
+                                            </Link>
                                         </div>
                                     ) : null}
                                 </div>

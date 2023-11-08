@@ -20,9 +20,10 @@ import CustomeTextField from "../../Member/Input/CustomeTextField";
 import "./login.css";
 
 function Login() {
+    document.title = "Login";
+
     const navigate = useNavigate();
     const LOGIN_URL = "Acount/Login";
-    document.title = "Login";
 
     function onLoginHandle() {
         if (username === "" || password === "") {
@@ -38,7 +39,7 @@ function Login() {
                 localStorage.setItem("saved", isRemember ? "saved" : "");
             })
             .then(() => {
-                navigate("/");
+                window.location.href = "/";
             })
             .catch((error) => {
                 setIsOpen(true);

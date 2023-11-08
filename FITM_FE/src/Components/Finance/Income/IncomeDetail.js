@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import Button from "@mui/material/Button";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
 import "./IncomeDetail.css";
 
 function IncomeDetail() {
@@ -115,8 +115,11 @@ function IncomeDetail() {
             <div className="visiting_card">
                 <div>
                     <div>
-                        <div>
-                            <h4>Income Detail</h4>
+                        <div style={{ color: "#1976d2" }}>
+                            <h4 style={{ textAlign: "center" }}>
+                                INCOME DETAIL
+                            </h4>
+                            <hr></hr>
                         </div>
 
                         <div className="each_row_info">
@@ -167,17 +170,17 @@ function IncomeDetail() {
                         <div>
                             <div className="each_row_info">
                                 <label className="span_title">
-                                    Created Time:{" "}
+                                    Created Time:
                                 </label>
                                 <label className="span_info">
                                     {formatDate(income.createdTime)}
-                                </label>{" "}
+                                </label>
                                 <br></br>
                             </div>
 
                             <div className="each_row_info">
                                 <label className="span_title">
-                                    Modified Time:{" "}
+                                    Modified Time:
                                 </label>
                                 <label className="span_info">
                                     {formatDate(income.modifiedTime)}
@@ -210,10 +213,11 @@ function IncomeDetail() {
                                     )}
                                 </label>
                             </div>
-                            <div className="billCode">
-                                <label className="bill_title">
-                                    Bill Code:{" "}
-                                </label>
+                            <div
+                                className="billCode"
+                                style={{ marginLeft: "30px" }}
+                            >
+                                <label className="bill_title">Bill Code:</label>
                                 <label className="span_info">
                                     {isEditing ? (
                                         <input
@@ -235,7 +239,7 @@ function IncomeDetail() {
                         </div>
 
                         <div className="finance_status">
-                            <label style={getStatusStyle(income.financeStatus)}>
+                            <label>
                                 {getStatusLabel(income.financeStatus)}
                             </label>
                         </div>
@@ -244,13 +248,19 @@ function IncomeDetail() {
                             <div>
                                 {/* Submit button */}
                                 {isEditing && (
-                                    <button onClick={handleSubmit}>
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        onClick={handleSubmit}
+                                    >
                                         <i></i> Update
-                                    </button>
+                                    </Button>
                                 )}
                             </div>
 
-                            <button
+                            <Button
+                                variant="contained"
+                                color={isEditing ? "error" : "success"}
                                 onClick={toggleEditing}
                                 style={{
                                     display:
@@ -262,21 +272,25 @@ function IncomeDetail() {
                                 {income.financeStatus === 0 && <i></i>}
                                 {income.financeStatus === 0 &&
                                     (isEditing ? "Cancel" : "Update")}
-                            </button>
+                            </Button>
+
+                            <div>
+                                {income.financeStatus === 0 && (
+                                    <Button
+                                        onClick={IncomeSend}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Send
+                                    </Button>
+                                )}
+                            </div>
 
                             {!isEditing && (
                                 <Link to="/financial-manager/finance-list">
-                                    <button className="detail_back">
-                                        <span>Back to List</span>
-                                    </button>
+                                    <Button variant="outlined">Back</Button>
                                 </Link>
                             )}
-
-                            <div className="detail_send">
-                                {income.financeStatus === 0 && (
-                                    <button onClick={IncomeSend}>Send</button>
-                                )}
-                            </div>
                         </div>
                     </div>
                 </div>

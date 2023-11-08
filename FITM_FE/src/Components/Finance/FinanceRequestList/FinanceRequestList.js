@@ -11,8 +11,7 @@ import {
     TableRow,
 } from "@mui/material";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import PaginationComponent from "../../../Variable/Paggination/Paggination";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
+import PaginationComponent from "../../../Variable/Pagination/Pagination";
 import "./FinanceRequestList.css";
 
 const FinanceRequestList = () => {
@@ -92,9 +91,7 @@ const FinanceRequestList = () => {
                                 </TableCell>
                                 <TableCell>{item.title}</TableCell>
                                 <TableCell>{item.amount}</TableCell>
-                                <TableCell
-                                    style={getStatusStyle(item.financeStatus)}
-                                >
+                                <TableCell>
                                     {getStatusLabel(item.financeStatus)}
                                 </TableCell>
                                 <TableCell>

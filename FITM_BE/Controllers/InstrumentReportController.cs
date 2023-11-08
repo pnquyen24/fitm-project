@@ -41,8 +41,8 @@ namespace FITM_BE.Controllers
 
             return Ok(result);
         }
-        [HttpDelete("{id}")]
 
+        [HttpDelete("{id}")]
         public async Task<ActionResult<string>> DeleteReport(int id)
         {
             try

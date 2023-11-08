@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./BalanceDetails.css";
 import { useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
-import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import {
     Table,
@@ -15,16 +14,13 @@ import {
 import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
 import axiosClient from "../../../Variable/Api/api";
-import PaginationComponent from "../../../Variable/Paggination/Paggination";
+import PaginationComponent from "../../../Variable/Pagination/Pagination";
 
 const BalanceDetails = () => {
     document.title = "Balance Details";
 
     const GET_BALANCE_DETAILS_URL = "Finance/GetBalanceDetails";
-    const DELETE_INCOME_URL = "Finance/DeleteIncome";
-    const DELETE_OUTCOME_URL = "Finance/DeleteOutcome";
 
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -87,100 +83,26 @@ const BalanceDetails = () => {
         }
     }
 
-    //===================================
-
-    const DeleteIncome = async (id) => {
-        try {
-            const confirmDelete = await Swal.fire({
-                title: "You want to delete ?",
-                icon: "question",
-                showCancelButton: true,
-                cancelButtonColor: "#DD0000",
-                confirmButtonText: "Yes",
-                cancelButtonText: "Cancel",
-            });
-
-            if (!confirmDelete.isConfirmed) return;
-
-            const response = await axiosClient.delete(
-                `${DELETE_INCOME_URL}?id=${id}`
-            );
-
-            if (response.status === 200) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Delete Successfully !!!",
-                    showConfirmButton: true,
-                });
-                window.location.href = "/financial-manager/finance-list";
-            }
-        } catch (error) {
-            await Swal.fire({
-                icon: "error",
-                title: "Delete Unsuccessfully !!!",
-                showConfirmButton: true,
-            });
-        }
-    };
-
-    const DeleteOutcome = async (id) => {
-        try {
-            const confirmDelete = await Swal.fire({
-                title: "You want to delete ?",
-                icon: "question",
-                showCancelButton: true,
-                cancelButtonColor: "#DD0000",
-                confirmButtonText: "Yes",
-                cancelButtonText: "Cancel",
-            });
-
-            if (!confirmDelete.isConfirmed) return;
-
-            const response = await axiosClient.delete(
-                `${DELETE_OUTCOME_URL}?id=${id}`
-            );
-
-            if (response.status === 200) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Delete Successfully !!!",
-                    showConfirmButton: true,
-                }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
-                });
-
-                setData(data.filter((item) => item.id !== id));
-            }
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Delete Unsuccessfully !!!",
-                showConfirmButton: true,
-            });
-        }
-    };
-
-    //===================================
-
     return (
         <div className="finance">
             <form>
-                <div className="create_finance_top">
-                    <button
-                        className="finance_home"
-                        onClick={handleDownloadBalance}
-                    >
-                        <span>Download Detail</span>
-                    </button>
+                <div className="finance-detail">
+                    <div className="create_finance_top">
+                        <Button
+                            onClick={handleDownloadBalance}
+                            variant="contained"
+                            color="success"
+                        >
+                            Download Detail
+                        </Button>
 
-                    <Link
-                        to="/financial-manager/balance"
-                        style={{ textDecoration: "none" }}
-                    >
-                        <button className="finance_home">
-                            <span>Back to balance</span>
-                        </button>
-                    </Link>
+                        <Link
+                            to="/financial-manager/balance"
+                            style={{ textDecoration: "none" }}
+                        >
+                            <Button variant="outlined">Back</Button>
+                        </Link>
+                    </div>
                 </div>
 
                 <Table className="finance_table" style={{ minWidth: "500px" }}>
@@ -193,7 +115,6 @@ const BalanceDetails = () => {
                             <TableCell>Amount</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Detail</TableCell>
-                            <TableCell>Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -210,9 +131,7 @@ const BalanceDetails = () => {
                                 <TableCell>{item.title}</TableCell>
                                 <TableCell>{item.description}</TableCell>
                                 <TableCell>{item.amount}</TableCell>
-                                <TableCell
-                                    style={getStatusStyle(item.financeStatus)}
-                                >
+                                <TableCell>
                                     {getStatusLabel(item.financeStatus)}
                                 </TableCell>
                                 <TableCell>
@@ -228,32 +147,6 @@ const BalanceDetails = () => {
                                     >
                                         View Detail
                                     </Button>
-                                </TableCell>
-
-                                <TableCell>
-                                    {item.financeStatus === 0 ||
-                                    item.financeStatus === 1 ||
-                                    item.financeStatus === 3 ? (
-                                        <Button
-                                            onClick={() => {
-                                                if (item.isIncome === false) {
-                                                    DeleteOutcome(item.id);
-                                                } else if (
-                                                    item.isIncome === true
-                                                ) {
-                                                    DeleteIncome(item.id);
-                                                }
-                                            }}
-                                            size="small"
-                                            className="delete-button"
-                                        >
-                                            <span>
-                                                <ion-icon name="trash-outline"></ion-icon>
-                                            </span>
-                                        </Button>
-                                    ) : (
-                                        <span>Can't delete</span>
-                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}

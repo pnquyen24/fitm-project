@@ -1,11 +1,11 @@
+import axiosClient from "../../../Variable/Api/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
+import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
-import axiosClient from "../../../Variable/Api/api";
 
 function OutcomeRequestDetail() {
     document.title = "Outcome Request Detail";
@@ -16,8 +16,6 @@ function OutcomeRequestDetail() {
 
     const [outcome, setOutcome] = useState(null);
     const isEditing = useState(false);
-    const [tempOutcome, setTempOutcome] = useState(null);
-    const error = useState(null);
     const location = useLocation();
     const outcomeId = new URLSearchParams(location.search).get("id");
 
@@ -102,78 +100,50 @@ function OutcomeRequestDetail() {
                 <div className="in_request_card">
                     <div>
                         <div>
-                            <div>
-                                <h4>Outcome Detail</h4>
+                            <div style={{ color: "#1976d2" }}>
+                                <h4 style={{ textAlign: "center" }}>
+                                    OUTCOME DETAIL
+                                </h4>
+                                <hr></hr>
                             </div>
 
                             <div className="id_title">
-                                <div className="each_row_info">
+                                <div className="each_row_info col-md-12">
                                     <label className="span_title">ID: </label>{" "}
                                     <span className="span_info">
                                         {outcome.id}
                                     </span>
                                 </div>
-
-                                <div>
-                                    <div>
-                                        <label className="title">Title: </label>
-                                        <lable className="span_info">
-                                            {isEditing ? (
-                                                <input
-                                                    type="text"
-                                                    value={tempOutcome.title}
-                                                    onChange={(e) =>
-                                                        setTempOutcome({
-                                                            ...tempOutcome,
-                                                            title: e.target
-                                                                .value,
-                                                        })
-                                                    }
-                                                />
-                                            ) : (
-                                                outcome.title
-                                            )}
-                                        </lable>
-                                    </div>
-                                </div>
                             </div>
-
+                            <div className="col-md-12">
+                                <label className="title">Title: </label>
+                                <label className="span_info ">
+                                    <h5>{outcome.title}</h5>
+                                </label>
+                            </div>
                             <div className="each_row_info">
                                 <label className="span_title">
                                     Description:{" "}
                                 </label>
-                                <lable className="span_info">
-                                    {isEditing ? (
-                                        <input
-                                            type="text"
-                                            value={tempOutcome.description}
-                                            onChange={(e) =>
-                                                setTempOutcome({
-                                                    ...tempOutcome,
-                                                    description: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    ) : (
-                                        outcome.description
-                                    )}
-                                </lable>
+                                <label className="span_info">
+                                    <h5>{outcome.description}</h5>
+                                </label>
                             </div>
 
                             <div>
                                 <div className="each_row_info">
                                     <label className="span_title">
-                                        Created Time:{" "}
+                                        Created Time:
                                     </label>
                                     <label className="span_info">
                                         {formatDate(outcome.createdTime)}
-                                    </label>{" "}
+                                    </label>
                                     <br></br>
                                 </div>
 
                                 <div className="each_row_info">
                                     <label className="span_title">
-                                        Modified Time:{" "}
+                                        Modified Time:
                                     </label>
                                     <label className="span_info">
                                         {formatDate(outcome.modifiedTime)}
@@ -181,63 +151,27 @@ function OutcomeRequestDetail() {
                                 </div>
                             </div>
 
-                            <div className="amount_billCode">
-                                <div>
+                            <div className="amount_billCode col-md-12">
+                                <div className="col-md-6">
                                     <label className="span_title">
-                                        Amount:{" "}
+                                        Amount:
                                     </label>
                                     <label className="span_info">
-                                        {isEditing ? (
-                                            <input
-                                                type="text"
-                                                value={tempOutcome.amount}
-                                                onChange={(e) => {
-                                                    const numericInput =
-                                                        e.target.value.replace(
-                                                            /[^0-9]/g,
-                                                            ""
-                                                        );
-                                                    setTempOutcome({
-                                                        ...tempOutcome,
-                                                        amount: numericInput,
-                                                    });
-                                                }}
-                                            />
-                                        ) : (
-                                            outcome.amount
-                                        )}
+                                        <h5>{outcome.amount}</h5>
                                     </label>
                                 </div>
-                                <div className="billCode">
-                                    <label className="bill_title">
-                                        Bill Code:{" "}
+                                <div className="billCode col-md-6">
+                                    <label className="span_title">
+                                        BillCode:
                                     </label>
                                     <label className="span_info">
-                                        {isEditing ? (
-                                            <input
-                                                type="text"
-                                                value={tempOutcome.billCode}
-                                                onChange={(e) =>
-                                                    setTempOutcome({
-                                                        ...tempOutcome,
-                                                        billCode:
-                                                            e.target.value,
-                                                    })
-                                                }
-                                            />
-                                        ) : (
-                                            outcome.billCode
-                                        )}
+                                        <h5>{outcome.billCode}</h5>
                                     </label>
                                 </div>
                             </div>
 
                             <div className="finance_status">
-                                <label
-                                    style={getStatusStyle(
-                                        outcome.financeStatus
-                                    )}
-                                >
+                                <label>
                                     {getStatusLabel(outcome.financeStatus)}
                                 </label>
                             </div>
@@ -245,35 +179,41 @@ function OutcomeRequestDetail() {
                             <div className="in_request_card_button">
                                 {!isEditing && (
                                     <Link to="/financial-manager/finance-request-list">
-                                        <button className="detail_back">
-                                            <span>Back to List</span>
-                                        </button>
+                                        <Button>Back to List </Button>
                                     </Link>
                                 )}
                                 <div>
                                     {outcome.financeStatus === 1 ? (
                                         <div>
-                                            <button
+                                            <Button
+                                                variant="contained"
+                                                color="success"
                                                 onClick={() => {
                                                     AcceptOutcomeRequest();
                                                 }}
                                             >
                                                 Accept
-                                            </button>
-                                            <button
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="error"
                                                 onClick={() => {
                                                     DenyOutcomeRequest();
                                                 }}
                                             >
                                                 Deny
-                                            </button>
+                                            </Button>
+                                            <Link to="/financial-manager/finance-request-list">
+                                                <Button variant="outlined">
+                                                    Back
+                                                </Button>
+                                            </Link>
                                         </div>
                                     ) : null}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {error && <div>Error: {error}</div>}
                 </div>
             </div>
         </div>

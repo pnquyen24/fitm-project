@@ -1,4 +1,5 @@
 import {
+    Chip,
     Paper,
     Table,
     TableBody,
@@ -12,7 +13,7 @@ import axiosClient from "../../../Variable/Api/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RequestChangeInfoList.css";
-import PaginationComponent from "../../../Variable/Paggination/Paggination";
+import PaginationComponent from "../../../Variable/Pagination/Pagination";
 import { FormControl, Select, MenuItem } from "@mui/material";
 
 function RequestChangeInfoList() {
@@ -28,11 +29,6 @@ function RequestChangeInfoList() {
     let [option, setOption] = useState("All");
     const navigate = useNavigate();
     const [filteredData, setFilteredData] = useState([]);
-    const status = {
-        0: "Pending",
-        1: "Accepted",
-        2: "Denied",
-    };
 
     useEffect(() => {
         axiosClient
@@ -99,9 +95,20 @@ function RequestChangeInfoList() {
     function viewDetail(id) {
         navigate("/member-manager/request-details?id=" + id);
     }
+
     function toMemberList() {
         navigate("/member-manager/member-list");
     }
+
+    function convertStatus(status) {
+        if (status === 0)
+            return <Chip label="Pending" color="warning" size="small"></Chip>;
+        if (status === 1)
+            return <Chip label="Accepted" color="success" size="small"></Chip>;
+        if (status === 2)
+            return <Chip label="Denied" color="error" size="small"></Chip>;
+    }
+
     return (
         <div className="membercontainer">
             <div className="menu-container" style={{ display: "flex" }}>
@@ -187,12 +194,8 @@ function RequestChangeInfoList() {
                                                 request.createdTime
                                             ).toLocaleDateString()}
                                         </TableCell>
-                                        <TableCell
-                                            className={`${
-                                                status[request.status]
-                                            }`}
-                                        >
-                                            {status[request.status]}
+                                        <TableCell>
+                                            {convertStatus(request.status)}
                                         </TableCell>
                                         <TableCell>
                                             <Button

@@ -1,11 +1,11 @@
-import axiosClient from "../../../Variable/Api/api";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
 import Swal from "sweetalert2";
 import "./OutcomeDetail.css";
+import Button from "@mui/material/Button";
+import axiosClient from "../../../Variable/Api/api";
 
 function OutcomeDetail() {
     document.title = "OutCome Detail";
@@ -116,20 +116,23 @@ function OutcomeDetail() {
             <div className="visiting_card">
                 <div>
                     <div>
-                        <div>
-                            <h4>Outcome Detail</h4>
+                        <div style={{ color: "#1976d2" }}>
+                            <h4 style={{ textAlign: "center" }}>
+                                OUTCOME DETAIL
+                            </h4>
+                            <hr></hr>
                         </div>
 
                         <div className="each_row_info">
                             <label htmlFor="ID" className="span_title">
-                                ID:{" "}
-                            </label>{" "}
+                                ID:
+                            </label>
                             <span className="span_info">{outcome.id}</span>
                         </div>
 
                         <div className="each_row_info">
                             <label htmlFor="Title" className="span_title">
-                                Title:{" "}
+                                Title:
                             </label>
                             <label htmlFor="Title" className="span_info">
                                 {isEditing ? (
@@ -151,7 +154,7 @@ function OutcomeDetail() {
 
                         <div className="each_row_info">
                             <label htmlFor="" className="span_title">
-                                Description:{" "}
+                                Description:
                             </label>
                             <label htmlFor="" className="span_info">
                                 {isEditing ? (
@@ -177,14 +180,14 @@ function OutcomeDetail() {
                                     htmlFor="CreatedTime"
                                     className="span_title"
                                 >
-                                    Created Time:{" "}
+                                    Created Time:
                                 </label>
                                 <label
                                     htmlFor="CreatedTime"
                                     className="span_info"
                                 >
                                     {formatDate(outcome.createdTime)}
-                                </label>{" "}
+                                </label>
                                 <br></br>
                             </div>
 
@@ -193,7 +196,7 @@ function OutcomeDetail() {
                                     htmlFor="ModifiedTime"
                                     className="span_title"
                                 >
-                                    Modified Time:{" "}
+                                    Modified Time:
                                 </label>
                                 <label
                                     htmlFor="ModifiedTime"
@@ -207,7 +210,7 @@ function OutcomeDetail() {
                         <div className="amount_billCode">
                             <div>
                                 <label htmlFor="Amount" className="span_title">
-                                    Amount:{" "}
+                                    Amount:
                                 </label>
                                 <label htmlFor="Amount" className="span_info">
                                     {isEditing ? (
@@ -231,12 +234,15 @@ function OutcomeDetail() {
                                     )}
                                 </label>
                             </div>
-                            <div className="billCode">
+                            <div
+                                className="billCode"
+                                style={{ marginLeft: "30px" }}
+                            >
                                 <label
                                     htmlFor="BillCode"
                                     className="bill_title"
                                 >
-                                    Bill Code:{" "}
+                                    Bill Code:
                                 </label>
                                 <label htmlFor="BillCode" className="span_info">
                                     {isEditing ? (
@@ -258,10 +264,7 @@ function OutcomeDetail() {
                         </div>
 
                         <div className="finance_status">
-                            <label
-                                htmlFor="Status"
-                                style={getStatusStyle(outcome.financeStatus)}
-                            >
+                            <label htmlFor="Status">
                                 {getStatusLabel(outcome.financeStatus)}
                             </label>
                         </div>
@@ -270,13 +273,19 @@ function OutcomeDetail() {
                             <div>
                                 {/* Submit button */}
                                 {isEditing && (
-                                    <button onClick={handleSubmit}>
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        onClick={handleSubmit}
+                                    >
                                         <i></i> Update
-                                    </button>
+                                    </Button>
                                 )}
                             </div>
 
-                            <button
+                            <Button
+                                variant="contained"
+                                color={isEditing ? "error" : "success"}
                                 onClick={toggleEditing}
                                 style={{
                                     display:
@@ -288,21 +297,25 @@ function OutcomeDetail() {
                                 {outcome.financeStatus === 0 && <i></i>}
                                 {outcome.financeStatus === 0 &&
                                     (isEditing ? "Cancel" : "Update")}
-                            </button>
+                            </Button>
+
+                            <div>
+                                {outcome.financeStatus === 0 && (
+                                    <Button
+                                        onClick={OutcomeSend}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Send
+                                    </Button>
+                                )}
+                            </div>
 
                             {!isEditing && (
                                 <Link to="/financial-manager/finance-list">
-                                    <button className="detail_back">
-                                        <span>Back to List</span>
-                                    </button>
+                                    <Button variant="outlined">Back</Button>
                                 </Link>
                             )}
-
-                            <div className="detail_send">
-                                {outcome.financeStatus === 0 && (
-                                    <button onClick={OutcomeSend}>Send</button>
-                                )}
-                            </div>
                         </div>
                     </div>
                 </div>

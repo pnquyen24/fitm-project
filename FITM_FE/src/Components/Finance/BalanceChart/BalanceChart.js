@@ -115,7 +115,7 @@ function BalanceChart() {
         return !isNaN(dateObject.getTime());
     }
 
-    function apllyDate(tempStart, tempEnd) {
+    function applyDate(tempStart, tempEnd) {
         const maxEndDate = new Date(tempStart);
         maxEndDate.setDate(maxEndDate.getDate() + 31); // Tính toán ngày kết thúc tối đa
 
@@ -199,8 +199,7 @@ function BalanceChart() {
                 <Button
                     className="balance-apply-button"
                     style={{ margin: "0px 5px 0px 5px" }}
-                    ex={{}}
-                    onClick={() => apllyDate(tempStartDate, tempEndDate)}
+                    onClick={() => applyDate(tempStartDate, tempEndDate)}
                     variant="contained"
                     color="info"
                 >
@@ -209,7 +208,6 @@ function BalanceChart() {
                 <Button
                     className="balance-apply-button"
                     style={{ margin: "0px 5px 0px 5px" }}
-                    ex={{}}
                     onClick={handleDownloadBalance}
                     variant="contained"
                     color="success"
@@ -227,10 +225,8 @@ function BalanceChart() {
                         variant="contained"
                         style={{ margin: "0px 5px 0px 5px" }}
                         className="balance-back-button"
-                        ex={{}}
                     >
-                        {" "}
-                        <span>Detail</span>{" "}
+                        <span>Detail</span>
                     </Button>
                 </Link>
                 <Link to="/financial-manager/finance-list">
@@ -239,18 +235,15 @@ function BalanceChart() {
                         variant="contained"
                         style={{ margin: "0px 5px 0px 5px" }}
                         className="balance-back-button"
-                        ex={{}}
                     >
-                        {" "}
-                        <span>Back to List</span>{" "}
+                        <span>Back to List</span>
                     </Button>
                 </Link>
-                <div className="balance-select-button" rx={{}}>
+                <div className="balance-select-button">
                     <FormControl
                         variant="standard"
                         className="select-button"
                         color="warning"
-                        rx={{}}
                     >
                         <Select
                             value={dataCategory}
@@ -263,38 +256,42 @@ function BalanceChart() {
                     </FormControl>
                 </div>
             </div>
-            <div className="chart-container">
-                {Data ? (
-                    <LineChart
-                        width={responsiveWidth}
-                        height={responsiveHeight}
-                        series={[
-                            {
-                                data: Data.map((entry) => entry.balance / 1000),
-                                label: selectedSeries.label,
-                                lineColor: selectedSeries.lineColor,
-                                color: selectedSeries.color,
-                            },
-                        ]}
-                        xAxis={[
-                            {
-                                scaleType: "point",
-                                data: Data.map((entry, index) =>
-                                    new Date(
-                                        entry.modifiedTime
-                                    ).toLocaleDateString(undefined, {
-                                        month: "2-digit",
-                                        day: "2-digit",
-                                    })
-                                ),
-                            },
-                        ]}
-                    />
-                ) : (
-                    <div className="balance-waiting">
-                        <h3>Loading</h3>
-                    </div>
-                )}
+            <div className="finance-chart">
+                <div className="chart-container">
+                    {Data ? (
+                        <LineChart
+                            width={responsiveWidth}
+                            height={responsiveHeight}
+                            series={[
+                                {
+                                    data: Data.map(
+                                        (entry) => entry.balance / 1000
+                                    ),
+                                    label: selectedSeries.label,
+                                    lineColor: selectedSeries.lineColor,
+                                    color: selectedSeries.color,
+                                },
+                            ]}
+                            xAxis={[
+                                {
+                                    scaleType: "point",
+                                    data: Data.map((entry, index) =>
+                                        new Date(
+                                            entry.modifiedTime
+                                        ).toLocaleDateString(undefined, {
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                        })
+                                    ),
+                                },
+                            ]}
+                        />
+                    ) : (
+                        <div className="balance-waiting">
+                            <h3>Loading</h3>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
