@@ -27,10 +27,12 @@
 }
 
 .membercontainer .TableHead {
+    color: white !important;
     background-color: red;
     font-weight: bold;
 }
 .MuiTableHead-root{
+    color: white !important;
     background-color: red;
     font-weight: bold ;
 }
