@@ -1,4 +1,5 @@
 import {
+    Chip,
     Paper,
     Table,
     TableBody,
@@ -45,7 +46,7 @@ function RequestDetail() {
 
     useEffect(() => {
         getData();
-    }, [id, getData]);
+    }, [id, getData,compareData.status]);
 
     function BackToList() {
         navigate("/member-manager/request-edit-info-list");
@@ -58,8 +59,7 @@ function RequestDetail() {
         ] = `Bearer ${localStorage.getItem("token")}`;
         axios
             .post(
-                "https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=" +
-                    id
+                "https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=" +  id
             )
             .then((response) => {
                 CustomeAlert.success(`Accepted successfully!`);
@@ -91,11 +91,17 @@ function RequestDetail() {
             });
     }
 
+    function convertStatus(status){
+        if(status === 0) return  <Chip label="Pending" color="warning" size="small"></Chip> 
+        if(status === 1) return  <Chip label="Accepted" color="success" size="small"></Chip> 
+        if(status === 2) return  <Chip label="Denied" color="error" size="small"></Chip> 
+    }
+
     return (
         <div className="container_request_detail">
             <TableContainer component={Paper} className="TableContainerDetail">
                 <Table>
-                    <TableHead className="TableHead">
+                    <TableHead>
                         <TableRow>
                             <TableCell>Attribute</TableCell>
                             <TableCell>Old Value</TableCell>
@@ -210,24 +216,16 @@ function RequestDetail() {
                         <TableRow>
                             <TableCell>Status</TableCell>
                             <TableCell
-                                className={`${status[compareData.status]}`}
+                                
+                                style={{display:"flex",justifyContent:"end"}}
                             >
-                                {status[compareData.status]}
+                               {convertStatus(compareData.status)}
                             </TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
             <div className="buttons-container">
-                <Button
-                    className="buttons"
-                    onClick={() => {
-                        BackToList();
-                    }}
-                    variant="outlined"
-                >
-                    Back to List
-                </Button>
                 <Button
                     style={{
                         display:
@@ -257,6 +255,15 @@ function RequestDetail() {
                     variant="outlined"
                 >
                     Denied
+                </Button>
+                <Button
+                    className="buttons"
+                    onClick={() => {
+                        BackToList();
+                    }}
+                    variant="outlined"
+                >
+                    Back to List
                 </Button>
             </div>
         </div>

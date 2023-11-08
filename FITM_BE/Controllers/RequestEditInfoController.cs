@@ -34,6 +34,7 @@ namespace FITM_BE.Controllers
         } 
 
         [HttpPost]
+        [Policy]
         public async Task<RequestEditInfoDto> Post(RequestEditInfoDto requestEditInfoDto)
         {
             RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);

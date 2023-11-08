@@ -127,5 +127,8 @@ margin-top: 16px;
   .finance_group_button{
     margin-top: 20px;
     display:  flex;
-    justify-content: space-between;
+    justify-content: end;
+  }
+  .finance_group_button Button{
+    margin-left: 20px;
   }

@@ -120,7 +120,7 @@ function BalanceChart() {
     return !isNaN(dateObject.getTime());
   }
 
-  function apllyDate(tempStart, tempEnd) {
+  function applyDate(tempStart, tempEnd) {
     const maxEndDate = new Date(tempStart);
     maxEndDate.setDate(maxEndDate.getDate() + 31); // Tính toán ngày kết thúc tối đa
 
@@ -203,7 +203,7 @@ function BalanceChart() {
           className="balance-apply-button"
           style={{ margin: "0px 5px 0px 5px" }}
           ex={{}}
-          onClick={() => apllyDate(tempStartDate, tempEndDate)}
+          onClick={() => applyDate(tempStartDate, tempEndDate)}
           variant="contained"
           color="info"
         >
@@ -263,6 +263,7 @@ function BalanceChart() {
           </FormControl>
         </div>
       </div>
+      <div className="finance-chart">
       <div className="chart-container">
         {Data ? (
           <LineChart
@@ -293,6 +294,7 @@ function BalanceChart() {
             <h3>Loading</h3>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

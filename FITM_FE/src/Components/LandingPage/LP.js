@@ -70,7 +70,7 @@ function LandingPage() {
                   <li>
                     <button
                       id="shows"
-                      class={"choice" + (position === 2 ? " hd-active" : "")}
+                      className={"choice" + (position === 2 ? " hd-active" : "")}
                       onClick={() => {
                         jump(document.querySelector(".shows"));
                       }}
@@ -81,7 +81,7 @@ function LandingPage() {
                   <li>
                     <button
                       id="about"
-                      class={"choice" + (position === 3 ? " hd-active" : "")}
+                      className={"choice" + (position === 3 ? " hd-active" : "")}
                       onClick={() => {
                         jump(document.querySelector(".introduce"));
                       }}
@@ -92,7 +92,7 @@ function LandingPage() {
                   <li>
                     <button
                       id="choice"
-                      class={"choice" + (position === 4 ? " hd-active" : "")}
+                      className={"choice" + (position === 4 ? " hd-active" : "")}
                       onClick={() => {
                         jump(document.querySelector(".contact"));
                       }}

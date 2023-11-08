@@ -1,3 +1,6 @@
+.finance{
+  margin-top: 3%;
+}
 .finance_title {
     text-align: center;
     margin-top: 20px;
@@ -18,12 +21,14 @@
     font-weight: bold;
   }
   
-  .create_finance_top {
+  .finance-detail .create_finance_top {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     margin-bottom: 15px;
   }
-  
+  .finance-detail .create_finance_top Button{
+    margin-left: 20px;
+  }
   .finance_table table {
       width: 100%;
       border-collapse: collapse;
@@ -32,13 +37,8 @@
   .finance_table:hover {
       cursor: default;
   }
-    
-    .finance_table tbody tr:hover {
-      background-color: lightyellow;
-      font-weight: bold;
-    }
   
-    .finance_table_thead {
+   .finance_table_thead {
       text-align: center;
       height: 70px;
     }

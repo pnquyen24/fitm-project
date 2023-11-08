@@ -33,7 +33,14 @@
     margin: 0 auto;
 }
 
-
 .css-1vz5lb3-MuiChartsTooltip-container{
     width:450px;
 } 
+.balance-container{
+    width: 96%;
+}
+
+.finance-chart{
+    background-color: white;
+    margin-top: 2%;
+}

@@ -1,37 +1,15 @@
+import { Chip } from "@mui/material";
+
 // statusUtils.js
 export default function getStatusLabel(status) {
     if (status === 0) {
-      return "Ready";
+      return <Chip label="Ready" size="small"></Chip>;
     } else if (status === 1) {
-      return "Pending";
+      return <Chip label="Pending" color="warning" size="small"></Chip>;
     } else if (status === 2) {
-      return "Accepted";
+      return <Chip label="Accepted" color="success" size="small"></Chip>;
     } else if (status === 3) {
-      return "Denied";
+      return <Chip label="Denied" color="error" size="small"></Chip>;
     }
     return "";
   }
- export  function getStatusStyle (status) {
-    if (status === 0) {
-    return {
-        color: "gray",
-        fontWeight: "bold",
-      };
-    } else if (status === 1) {
-      return {
-        color: "orange",
-        fontWeight: "bold",
-      };
-    } else if (status === 2) {
-      return {
-        color: "green",
-        fontWeight: "bold",
-      };
-    } else if (status === 3) {
-      return {
-        color: "red",
-        fontWeight: "bold",
-      };
-    }
-    return {};
-  };

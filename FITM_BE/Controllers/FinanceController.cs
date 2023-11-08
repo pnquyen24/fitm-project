@@ -17,20 +17,17 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IEnumerable<IncomeDto> GetAcceptedIncomeByTime(DateTime startDate, DateTime endDate)
         {
             return _financeService.GetAcceptedIncomeByTime(startDate, endDate);
         }
 
         [HttpGet]
-        [Authorize]
         public IEnumerable<OutcomeDto> getAcceptedOutcomeByTime(DateTime startDate, DateTime endDate)
         {
             return _financeService.GetAcceptedOutcomeByTime(startDate, endDate);
         }
         [HttpGet]
-        [Authorize]
         public IEnumerable<BalanceDto> GetBalanceByDate(DateTime startDate, DateTime endDate)
         {
             return _financeService.CalculateBalanceByDate(startDate, endDate);
@@ -49,7 +46,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddIncome([FromBody] CreateIncomeDto income)
         {
             IncomeListDto newIncome = await _financeService.AddIncome(income);
@@ -57,7 +53,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> UpdateIncome([FromBody] IncomeListDto income)
         {
             var updateIncome = await _financeService.UpdateIncome(income);
@@ -65,7 +60,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         public async Task<IActionResult> DeleteIncome(int id)
         {
             await _financeService.DeleteIncome(id);
@@ -88,7 +82,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddOutcome([FromBody] CreateOutcomeDto outcome)
         {
             OutcomeListDto newOutcome = await _financeService.AddOutcome(outcome);
@@ -96,7 +89,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> UpdateOutcome([FromBody] OutcomeListDto outcome)
         {
             var updateOutcome = await _financeService.UpdateOutcome(outcome);
@@ -104,7 +96,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         public async Task<IActionResult> DeleteOutcome(int id)
         {
             await _financeService.DeleteOutcome(id);
@@ -112,7 +103,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+
         public Task<IncomeListDto> ChangeIncomeStatus(int id)
         {
             var incomeStatus = _financeService.ChangeIncomeStatus(id);
@@ -121,7 +112,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public Task<OutcomeListDto> ChangeOutcomeStatus(int id)
         {
             var outcomeStatus = _financeService.ChangeOutcomeStatus(id);
@@ -131,7 +121,6 @@ namespace FITM_BE.Controllers
 
         //=========================================
         [HttpPost]
-        [Authorize]
         public Task<CreateIncomeDto> DenyIncomeRequest(int id)
         {
             var denyIncome = _financeService.DenyIncomeRequest(id);
@@ -139,7 +128,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public Task<CreateIncomeDto> AcceptIncomeRequest(int id)
         {
             var acceptIncome = _financeService.AcceptIncomeRequest(id);
@@ -163,7 +151,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IEnumerable<FinanceDto> GetFinanceReport()
         {
             var acceptOutcome = _financeService.GetFinanceReport();
@@ -171,7 +158,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IEnumerable<FinanceDto> GetBalanceDetails(DateTime start, DateTime end)
         {
             var balanceDetails = _financeService.GetBalanceDetail(start, end);

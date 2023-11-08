@@ -35,20 +35,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
-  .visiting_card button {
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-    margin-right: 5px;
-  }
-  
-  .visiting_card button:hover {
-    background-color: #0056b3;
-  }
+
   
   .visiting_card button span {
     margin-left: 5px;
@@ -92,7 +79,6 @@
     margin-right: 50px;
     font-size: 24px;
     font-weight: bold;
-    text-shadow: 2px 2px 4px whitesmoke;
     text-align: right;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -109,8 +95,7 @@
   }
 
   .bill_title {
-    font-weight: bold;
-    margin-left: 120px;
+    font-weight: bold;  
     font-size: 18px;
     color: rgba(0,0,0,.5);
   }
@@ -121,21 +106,6 @@
     margin-bottom: 1%;
     justify-content: center ;
   }
-  
-  .visiting_card_button button {
-    background-color: lightskyblue;
-    color: black;
-    font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block; 
-  }
-  
-  .visiting_card_button button:hover {
-    background-color: rgb(0, 100, 162);
-    color: white;
-  }
 
   .detail_back {
 margin-left: 20px;
@@ -143,4 +113,8 @@ margin-left: 20px;
 
   .detail_send {
 margin-left: 20px;
+}
+
+.visiting_card_button Button{
+  margin-left: 20px;
 }

@@ -9,13 +9,14 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Chip,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import * as XLSX from 'xlsx';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PaginationComponent from "../../../Variable/Paggination/Paggination";
+import PaginationComponent from "../../../Variable/Pagination/Pagination";
 import "./MemberList.css";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 
@@ -96,12 +97,22 @@ function MemberList() {
   function viewDetail(id) {
     navigate("/member-manager/member-profile?id=" + id);
   }
+
   function addMember() {
     navigate("/member-manager/create-member");
   }
+
   function requestList() {
     navigate("/member-manager/request-edit-info-list");
   }
+
+  function convertStatus(status) {
+    if (status)
+      return <Chip label="Active" color="success" size="small"></Chip>;
+    if (!status)
+      return <Chip label="Inactive" color="error" size="small"></Chip>;
+  }
+
   return (
     <div className="membercontainer">
       <div>
@@ -160,8 +171,7 @@ function MemberList() {
                     <TableCell>{request.username}</TableCell>
                     <TableCell>{request.studentID}</TableCell>
                     <TableCell>{request.email}</TableCell>
-                    <TableCell style={{ color: request.status ? 'green' : 'red' }}>
-                      {request.status ? 'Active' : 'Inactive'}</TableCell>
+                    <TableCell> {convertStatus(request.status)}  </TableCell>
                     <TableCell>
                       <Button
                         onClick={() => viewDetail(request.id)}
