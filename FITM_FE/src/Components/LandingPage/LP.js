@@ -1,15 +1,34 @@
 import "./LP.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const jump = (e) => {
   e.scrollIntoView({ behavior: "smooth" });
 };
 function LandingPage() {
+  let [performances, setPerformances] = useState();
   const [scrolled, setScrolled] = useState(false);
   const [position, setPosition] = useState(1);
   const navigate = useNavigate();
-
+  let [topShow, setTopShow] = useState(2);
+  
+  const topshowData = [{
+    position: "Quoc Hoc Quy Nhon",
+    eventName: "Drive chickens 2021",
+    imgLink: "static/media/88129659_p0_master1200.e529a82ab05c6d919913.jpg",
+  },
+  {
+    position: "FPTU Quy Nhon",
+    eventName: "Open Day 2021",
+    imgLink: "static/media/112840502_p0_master1200.4cabaebd99a3dad9741f.jpg",
+  },
+  {
+    position: "NASA",
+    eventName: "Cook Day 2021",
+    imgLink: "static/media/110326368_p0_master1200.d993c603fd1421aab7a0.jpg",
+  }]
 
   function handldeLogin() {
     navigate("/login");
@@ -17,18 +36,28 @@ function LandingPage() {
 
   useEffect(() => {
     document.title = "FIT";
-
+   
+  axios
+      .get(
+          "https://localhost:7226/apis/PerformanceSchedule/ViewPerformance"
+      )
+      .then((response) => {
+          setPerformances(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {});
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      if (window.scrollY >= 9) {
+      if (scrollY >= 9) {
         setScrolled(true);
       } else {
         setScrolled(false);
       }
+  
       const showsPosition = document.querySelector(".shows").offsetTop;
       const introducePosition = document.querySelector(".introduce").offsetTop;
       const contactPosition = document.querySelector(".contact").offsetTop;
-
+  
       if (scrollY < showsPosition) {
         setPosition(1);
       } else if (scrollY >= showsPosition && scrollY < introducePosition) {
@@ -39,16 +68,21 @@ function LandingPage() {
         setPosition(4);
       }
     };
-
+  
+    const interval = setInterval(() => {
+      setTopShow((prevTopShow) => (prevTopShow + 1) % topshowData.length);
+    }, 3000);
+  
     window.addEventListener("scroll", handleScroll);
-
+  
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      clearInterval(interval); // Dừng interval khi thành phần bị hủy
     };
   }, []);
+  
 
   return (
-
     <div className="landingPage">
       {scrolled === true ? (
         <div className="fix-header-cover">
@@ -104,7 +138,9 @@ function LandingPage() {
               </div>
             </div>
             <div className="right-header">
-              <a href="/login" className="login-btn">Login</a>
+              <a href="/login" className="login-btn">
+                Login
+              </a>
             </div>
           </div>
         </div>
@@ -165,19 +201,21 @@ function LandingPage() {
             </div>
           </div>
           <div className="right-header">
-            <a href="/login" className="login-btn">Login</a>
+            <a href="/login" className="login-btn">
+              Login
+            </a>
           </div>
         </div>
         <div className="banner">
           <div className="cd">
-            <div className="cd-banner">
+          <div className="cd-banner" style={{ backgroundImage: `url(${topshowData[topShow].imgLink})` }}>
               <div className="decor">FITM</div>
             </div>
           </div>
           <div className="top-show">
             <h2>TRADITIONAL MUSICAL INSTRUMENT</h2>
-            <span>FPT UNIVERSITY QUY NHON</span>
-            <p> OPEN DAY 2021 </p>
+            <span>{topshowData[topShow].position}</span>
+            <p> {topshowData[topShow].eventName} </p>
           </div>
           <div className="club-info">
             <div className="logo"></div>
@@ -193,17 +231,17 @@ function LandingPage() {
           <div className="show-info">
             <div className="info location">
               {" "}
-              <strong>Location | </strong> Quoc Hoc Quy Nhon Shool
+              <strong>Location | </strong> {performances[0].place}
             </div>
             <div className="info date">
               {" "}
-              <strong>Date | </strong> 30 / 2 / 2023
+              <strong>Date | </strong> {performances[0].date}
             </div>
             <div className="info time">
-              <strong>Time |</strong> 23 : 00 PM
+              <strong>Time |</strong> {performances[0].time}
             </div>
             <div className="info songs">
-              <strong>Songs | </strong> 5{" "}
+              <strong>Songs | </strong>
             </div>
           </div>
         </div>
@@ -264,19 +302,20 @@ function LandingPage() {
                 </div>
                 <div className="contact-info">Cuutoivoi@gmail.com</div>
               </div>
-
-
-
             </div>
             <div className="contact-social">
-              <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
-              <a href="#"><ion-icon name="logo-tiktok"></ion-icon></a>
-              <a href="#"><ion-icon name="logo-youtube"></ion-icon></a>
-              <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
-
-
-
-
+              <a href="#">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+              <a href="#">
+                <ion-icon name="logo-tiktok"></ion-icon>
+              </a>
+              <a href="#">
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+              <a href="#">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
             </div>
           </div>
           <div className="contact-right">

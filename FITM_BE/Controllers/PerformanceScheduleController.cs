@@ -25,8 +25,8 @@ namespace FITM_BE.Controllers
             return Ok(pfmDTO);
         }
 
-        [HttpGet]
-        [Authorize]
+        [HttpGet ]
+        [AllowAnonymous]
         public IQueryable<PerformanceDTO> ViewPerformance()
         {
             return _performanceScheduleService.ViewPerformance();
