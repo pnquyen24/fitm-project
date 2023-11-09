@@ -8,7 +8,8 @@ const jump = (e) => {
   e.scrollIntoView({ behavior: "smooth" });
 };
 function LandingPage() {
-  let [performances, setPerformances] = useState();
+
+  let [performances, setPerformances] = useState([{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',},{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',},]);
   const [scrolled, setScrolled] = useState(false);
   const [position, setPosition] = useState(1);
   const navigate = useNavigate();
@@ -17,35 +18,47 @@ function LandingPage() {
   const topshowData = [{
     position: "Quoc Hoc Quy Nhon",
     eventName: "Drive chickens 2021",
-    imgLink: "static/media/88129659_p0_master1200.e529a82ab05c6d919913.jpg",
+    imgLink: "static/media/s1.jpg",
   },
   {
     position: "FPTU Quy Nhon",
     eventName: "Open Day 2021",
-    imgLink: "static/media/112840502_p0_master1200.4cabaebd99a3dad9741f.jpg",
+    imgLink: "static/media/s2.jpg",
   },
   {
     position: "NASA",
     eventName: "Cook Day 2021",
-    imgLink: "static/media/110326368_p0_master1200.d993c603fd1421aab7a0.jpg",
+    imgLink: "static/media/s3.jpg",
   }]
 
   function handldeLogin() {
     navigate("/login");
   }
 
+useEffect(() => {
+  axios
+  .get(
+      "https://localhost:7226/apis/PerformanceSchedule/ViewPerformance"
+  )
+  .then((response) => {
+      setPerformances(response.data);
+      console.log(response.data);
+  })
+  .catch((error) => {
+    console.log("lllllllllllllllllllllllll")
+
+  });
+},[]);
+
   useEffect(() => {
+  console.log("KKKKKKKKKKKKKKKKKKKK")
+    
     document.title = "FIT";
    
-  axios
-      .get(
-          "https://localhost:7226/apis/PerformanceSchedule/ViewPerformance"
-      )
-      .then((response) => {
-          setPerformances(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {});
+
+
+
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
       if (scrollY >= 9) {
@@ -69,7 +82,7 @@ function LandingPage() {
       }
     };
   
-    const interval = setInterval(() => {
+    let interval = setInterval(() => {
       setTopShow((prevTopShow) => (prevTopShow + 1) % topshowData.length);
     }, 3000);
   
@@ -81,7 +94,7 @@ function LandingPage() {
     };
   }, []);
   
-
+console.log(performances )
   return (
     <div className="landingPage">
       {scrolled === true ? (
@@ -246,12 +259,12 @@ function LandingPage() {
           </div>
         </div>
         <div className="right">
-          <div className="show1 show">
-            <div className="picture"></div>
+        <div className="show1 show" >
+            <div className="picture" style={{ backgroundImage: `url("${performances[0].backgroundImg}")` }}></div>
             <div className="description"></div>
           </div>
-          <div className="show2 show">
-            <div className="picture"></div>
+          <div className="show2 show" >
+            <div className="picture" style={{ backgroundImage: `url("${performances[1].backgroundImg}")` }}></div>
             <div className="description"></div>
           </div>
           <div className="show3 show">
