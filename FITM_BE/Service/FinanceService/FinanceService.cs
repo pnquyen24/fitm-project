@@ -276,7 +276,7 @@ namespace FITM_BE.Service.FinanceService
         //======================================
         public async Task<IncomeListDto> ChangeIncomeStatus(int id)
         {
-            var income = await _repository.Get<Income>(id);
+            var income = _repository.Get<Income>(id);
             var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
                 .Where(member => member.Roles.Any(role => role.RoleName == "Admin")).ToList();
             if (income == null)
@@ -325,7 +325,7 @@ namespace FITM_BE.Service.FinanceService
         //======================================
         public async Task<OutcomeListDto> ChangeOutcomeStatus(int id)
         {
-            var outcome = await _repository.Get<Outcome>(id);
+            var outcome = _repository.Get<Outcome>(id);
             var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
                 .Where(member => member.Roles.Any(role => role.RoleName == "Admin")).ToList();
 
