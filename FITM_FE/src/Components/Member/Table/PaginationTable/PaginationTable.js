@@ -26,7 +26,7 @@ function PaginationTable({ rows, columns }) {
     return (
         <>
             <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
+                <Table aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
