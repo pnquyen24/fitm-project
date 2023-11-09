@@ -4,7 +4,6 @@ import axiosClient from "../../Api/api";
 const GET_ALL_INSTRUMENT_URL = "Instrument/GetAllInstrument";
 const CREATE_INSTRUMENT_URL = "Instrument/Create";
 const UPDATE_INSTRUMENT_URL = "Instrument/Update";
-const DELETE_INSTRUMENT_URL = "Instrument/Delete";
 
 const initialState = {
     instruments: [],
@@ -20,9 +19,9 @@ export const getAllInstruments = createAsyncThunk(
 );
 
 export const createInstruments = createAsyncThunk(
-    "instrument/createInstruments",
+    "Instrument/createInstruments",
     async (newInstrument) => {
-        const response = await axiosClient.get(
+        const response = await axiosClient.post(
             CREATE_INSTRUMENT_URL,
             newInstrument
         );
@@ -33,19 +32,11 @@ export const createInstruments = createAsyncThunk(
 export const updateInstruments = createAsyncThunk(
     "instrument/updateInstruments",
     async (updatedInstrument) => {
-        const response = await axiosClient.get(
+        const response = await axiosClient.put(
             UPDATE_INSTRUMENT_URL,
             updatedInstrument
         );
         return response.data;
-    }
-);
-export const deleteInstruments = createAsyncThunk(
-    "instrument/deleteInstruments",
-    async (instrumentId) => {
-        const { id } = instrumentId;
-        await axiosClient.get(`${DELETE_INSTRUMENT_URL}?id=${id}`);
-        return instrumentId;
     }
 );
 
@@ -63,22 +54,30 @@ const instrumentSlice = createSlice({
                 state.instruments = action.payload;
             })
             .addCase(createInstruments.fulfilled, (state, action) => {
-                state.instruments.push(action.payload);
+                let isFound = false;
+                const newInstrument = action.payload;
+                state.instruments.map((i) => {
+                    if (i.id === newInstrument.id) {
+                        i.itemIds = newInstrument.itemIds;
+                        isFound = true;
+                    }
+                    return i;
+                });
+                if (!isFound) {
+                    state.instruments.push(newInstrument);
+                }
             })
             .addCase(updateInstruments.fulfilled, (state, action) => {
                 const updatedInstrument = action.payload;
-                state.instruments = state.instruments.map((instrument) => {
-                    if (instrument.id === updatedInstrument.id) {
-                        return updatedInstrument;
-                    }
-                    return instrument;
+                state.instruments.map((i) => {
+                    i.itemIds.map((item) => {
+                        if (item.id === updatedInstrument.id) {
+                            item.status = updatedInstrument.status;
+                        }
+                        return item;
+                    });
+                    return i;
                 });
-            })
-            .addCase(deleteInstruments.fulfilled, (state, action) => {
-                const { id } = action.payload;
-                state.instruments = state.instruments.filter(
-                    (instrument) => instrument.id !== id
-                );
             });
     },
 });

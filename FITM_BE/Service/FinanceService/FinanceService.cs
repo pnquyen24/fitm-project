@@ -204,10 +204,11 @@ namespace FITM_BE.Service.FinanceService
             return incomeListDtos;
         }
 
-        public async Task<IncomeListDto> GetIncome(int id)
+        public Task<IncomeListDto> GetIncome(int id)
         {
-            Income income = await _repository.Get<Income>(id);
-            return _mapper.Map<IncomeListDto>(income);
+            Income income = _repository.Get<Income>(id);
+            return Task.FromResult(_mapper.Map<IncomeListDto>(income));
+
         }
 
         public async Task<IncomeListDto> AddIncome(CreateIncomeDto createIncomeDto)
@@ -219,7 +220,7 @@ namespace FITM_BE.Service.FinanceService
 
         public async Task<IncomeListDto> UpdateIncome(IncomeListDto incomeListDto)
         {
-            Income income = await _repository.Get<Income>(incomeListDto.Id);
+            Income income = _repository.Get<Income>(incomeListDto.Id);
             income.Title = incomeListDto.Title;
             income.Description = incomeListDto.Description;
             income.Amount = incomeListDto.Amount;
@@ -242,10 +243,10 @@ namespace FITM_BE.Service.FinanceService
             return outcomeListDtos;
         }
 
-        public async Task<OutcomeListDto> GetOutcome(int id)
+        public Task<OutcomeListDto> GetOutcome(int id)
         {
-            Outcome outcome = await _repository.Get<Outcome>(id);
-            return _mapper.Map<OutcomeListDto>(outcome);
+            Outcome outcome = _repository.Get<Outcome>(id);
+            return Task.FromResult(_mapper.Map<OutcomeListDto>(outcome));
         }
 
         public async Task<OutcomeListDto> AddOutcome(CreateOutcomeDto createOutcomeDto)
@@ -257,7 +258,7 @@ namespace FITM_BE.Service.FinanceService
 
         public async Task<OutcomeListDto> UpdateOutcome(OutcomeListDto outcomeListDto)
         {
-            Outcome outcome = await _repository.Get<Outcome>(outcomeListDto.Id);
+            Outcome outcome = _repository.Get<Outcome>(outcomeListDto.Id);
             outcome.Title = outcomeListDto.Title;
             outcome.Description = outcomeListDto.Description;
             outcome.Amount = outcomeListDto.Amount;
@@ -275,7 +276,7 @@ namespace FITM_BE.Service.FinanceService
         //======================================
         public async Task<IncomeListDto> ChangeIncomeStatus(int id)
         {
-            var income = await _repository.Get<Income>(id);
+            var income = _repository.Get<Income>(id);
             var mail = "tranbnbqe170086@fpt.edu.vn";
 
             if (income == null)
@@ -322,7 +323,7 @@ namespace FITM_BE.Service.FinanceService
         //======================================
         public async Task<OutcomeListDto> ChangeOutcomeStatus(int id)
         {
-            var outcome = await _repository.Get<Outcome>(id);
+            var outcome = _repository.Get<Outcome>(id);
             var mail = "tranbnbqe170086@fpt.edu.vn";
 
             if (outcome == null)
