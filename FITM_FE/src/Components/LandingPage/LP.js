@@ -18,17 +18,17 @@ function LandingPage() {
   const topshowData = [{
     position: "Quoc Hoc Quy Nhon",
     eventName: "Drive chickens 2021",
-    imgLink: "static/media/s1.jpg",
+    imgLink: "static/media/s1.3187e068cff7f9560855.jpg",
   },
   {
     position: "FPTU Quy Nhon",
     eventName: "Open Day 2021",
-    imgLink: "static/media/s2.jpg",
+    imgLink: "static/media/s2.ce8da35094699949d646.jpg",
   },
   {
     position: "NASA",
     eventName: "Cook Day 2021",
-    imgLink: "static/media/s3.jpg",
+    imgLink: "static/media/s3.3070acd7fbae7682402a.jpg",
   }]
 
   function handldeLogin() {
@@ -45,13 +45,11 @@ useEffect(() => {
       console.log(response.data);
   })
   .catch((error) => {
-    console.log("lllllllllllllllllllllllll")
 
   });
 },[]);
 
   useEffect(() => {
-  console.log("KKKKKKKKKKKKKKKKKKKK")
     
     document.title = "FIT";
    
@@ -90,7 +88,7 @@ useEffect(() => {
   
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearInterval(interval); // Dừng interval khi thành phần bị hủy
+      clearInterval(interval);
     };
   }, []);
   
