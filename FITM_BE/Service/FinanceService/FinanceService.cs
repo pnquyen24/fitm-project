@@ -276,7 +276,8 @@ namespace FITM_BE.Service.FinanceService
         public async Task<IncomeListDto> ChangeIncomeStatus(int id)
         {
             var income = await _repository.Get<Income>(id);
-            var mail = "tranbnbqe170086@fpt.edu.vn";
+            var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
+                .Where(member => member.Roles.Any(role => role.RoleName == "Admin")).ToList();
 
             if (income == null)
             {
@@ -290,14 +291,16 @@ namespace FITM_BE.Service.FinanceService
             var incomeDto = _mapper.Map<IncomeDto>(updatedIncome);
 
             // Send income report email
-            string userEmail = mail;
             string title = income.Title.ToString();
             string description = income.Description.ToString();
             string amount = income.Amount.ToString();
             string status = incomeDto.FinanceStatus.ToString();
 
-            await SendIncomeReport(userEmail, title, description, amount, status);
-
+            foreach(var member in finance_manager)
+            {
+                await SendIncomeReport(member.Email, title, description, amount, status);
+            }
+            
             return _mapper.Map<IncomeListDto>(updatedIncome);
         }
 
@@ -323,7 +326,8 @@ namespace FITM_BE.Service.FinanceService
         public async Task<OutcomeListDto> ChangeOutcomeStatus(int id)
         {
             var outcome = await _repository.Get<Outcome>(id);
-            var mail = "tranbnbqe170086@fpt.edu.vn";
+            var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
+                .Where(member => member.Roles.Any(role => role.RoleName == "Admin")).ToList();
 
             if (outcome == null)
             {
@@ -335,13 +339,15 @@ namespace FITM_BE.Service.FinanceService
             var updatedOutcome = await _repository.Update(outcome);
             var outcomeDto = _mapper.Map<OutcomeDto>(updatedOutcome);
 
-            string userEmail = mail;
             string title = outcome.Title.ToString();
             string description = outcome.Description.ToString();
             string amount = outcome.Amount.ToString();
             string status = outcomeDto.FinanceStatus.ToString();
 
-            await SendOutcomeReport(userEmail, title, description, amount, status);
+            foreach (var member in finance_manager)
+            {
+                await SendOutcomeReport(member.Email, title, description, amount, status);
+            }
 
             return _mapper.Map<OutcomeListDto>(updatedOutcome);
         }
@@ -402,12 +408,16 @@ namespace FITM_BE.Service.FinanceService
             var requestEditIncome = _repository.GetAll<Income>().
                 First(request => request.Id == requestId);
 
-            var address = "tranbnbqe170086@fpt.edu.vn";
+            var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
+                .Where(member => member.Roles.Any(role => role.RoleName == "Accounting")).ToList();
 
             requestEditIncome.FinanceStatus = (Enums.FinanceStatus)3;
             await _repository.Update(requestEditIncome);
 
-            await ReplyRequestMail(address, 2);
+            foreach (var member in finance_manager)
+            {
+                await ReplyRequestMail(member.Email,2);
+            }
 
             var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
 
@@ -419,12 +429,16 @@ namespace FITM_BE.Service.FinanceService
             var requestEditIncome = await _repository.GetAll<Income>().
                 FirstAsync(request => request.Id == requestId);
 
-            var address = "tranbnbqe170086@fpt.edu.vn";
+            var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
+               .Where(member => member.Roles.Any(role => role.RoleName == "Accounting")).ToList();
 
             requestEditIncome.FinanceStatus = (Enums.FinanceStatus)2;
             await _repository.Update(requestEditIncome);
 
-            await ReplyRequestMail(address, 1);
+            foreach (var member in finance_manager)
+            {
+                await ReplyRequestMail(member.Email, 1);
+            }
 
             var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
 

@@ -97,7 +97,7 @@ const FinanceRequestList = () => {
                                 <TableCell>
                                     <Button
                                         onClick={() => {
-                                            item.type === "Outcome"
+                                            !item.isIncome
                                                 ? ViewOutcomeRequestDetail(
                                                       item.id
                                                   )
