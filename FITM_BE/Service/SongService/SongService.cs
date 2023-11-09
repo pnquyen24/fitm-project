@@ -42,14 +42,14 @@ namespace FITM_BE.Service.SongService
 
         public async Task<SongDto> GetById(int id)
         {
-            var song = await _repository.Get<Song>(id);
+            var song = _repository.Get<Song>(id);
             var songDto = _mapper.Map<SongDto>(song);
             return songDto;
         }
 
         public async Task Update(int id, SongDto songDto)
         {
-            var existingSong = await _repository.Get<Song>(id);
+            var existingSong = _repository.Get<Song>(id);
 
 
             _mapper.Map(songDto, existingSong);
@@ -58,7 +58,7 @@ namespace FITM_BE.Service.SongService
 
         public async Task Delete(int id)
         {
-            var song = await _repository.Get<Song>(id);
+            var song = _repository.Get<Song>(id);
             if (song == null)
             {
                 throw new NotFoundException("Song not found");

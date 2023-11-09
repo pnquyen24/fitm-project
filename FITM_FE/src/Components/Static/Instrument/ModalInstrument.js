@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    createInstruments,
     getIsModalInstrumentOpen,
     toggleModalInstrument,
+    updateInstruments,
 } from "../../../Variable/Redux/Slice/instrumentSlice";
 import {
     Button,
@@ -21,10 +24,83 @@ function ModalInstrument({ instrumentInfo, isEdit }) {
     const dispatch = useDispatch();
     const isOpen = useSelector(getIsModalInstrumentOpen);
 
-    function handleSubmit() {}
+    const intialValues = {
+        id: null,
+        name: "",
+        shortName: "",
+        status: 0,
+    };
+
+    const [formInstrument, setFormInstrument] = useState(intialValues);
+
+    useEffect(() => {
+        if (isEdit) {
+            setFormInstrument({
+                id: instrumentInfo?.id,
+                status: instrumentInfo?.status,
+            });
+        }
+    }, [instrumentInfo, isEdit]);
 
     function handleClose() {
         dispatch(toggleModalInstrument(false));
+    }
+
+    function resetAndCloseModal() {
+        setFormInstrument({
+            name: "",
+            shortName: "",
+        });
+        handleClose();
+    }
+
+    const handleInput = (name, e) => {
+        let value;
+        switch (name) {
+            case "status":
+                value = parseInt(e.target.value);
+                break;
+            case "name":
+            case "shortName":
+                value = e.target.value;
+                break;
+            default:
+                value = e.target.value;
+                break;
+        }
+        setFormInstrument({
+            ...formInstrument,
+            [name]: value,
+        });
+    };
+
+    function handleCreate() {
+        const newInstrument = {
+            shortName: formInstrument.shortName,
+            name: formInstrument.name,
+        };
+        dispatch(createInstruments(newInstrument));
+        resetAndCloseModal();
+    }
+
+    function handleUpdate() {
+        const newInstrument = {
+            instrumentId: formInstrument.id,
+            shortName: "",
+            name: "",
+            status: formInstrument.status,
+        };
+        dispatch(updateInstruments(newInstrument));
+        resetAndCloseModal();
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (isEdit) {
+            handleUpdate();
+        } else {
+            handleCreate();
+        }
     }
 
     return (
@@ -37,51 +113,65 @@ function ModalInstrument({ instrumentInfo, isEdit }) {
             >
                 <DialogContent dividers>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <Stack>
-                                <InputLabel>Full Name</InputLabel>
-                                <CustomeTextField
-                                    name="title"
-                                    placeholder="Full Name"
-                                    size="small"
-                                    type="text"
-                                />
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Stack>
-                                <InputLabel>Short Name</InputLabel>
-                                <CustomeTextField
-                                    name="title"
-                                    placeholder="Short Name"
-                                    size="small"
-                                    type="text"
-                                />
-                            </Stack>
-                        </Grid>
                         {isEdit ? (
                             <Grid item xs={12}>
                                 <InputLabel>Status</InputLabel>
-                                <RadioGroup defaultChecked="new" row>
+                                <RadioGroup
+                                    name="status"
+                                    value={String(formInstrument.status)}
+                                    onChange={(e) => handleInput("status", e)}
+                                    row
+                                >
                                     <CustomeFCLabel
-                                        value="new"
+                                        value="0"
                                         control={<Radio />}
                                         label="New"
                                     />
                                     <CustomeFCLabel
-                                        value="broken"
+                                        value="1"
                                         control={<Radio />}
                                         label="Broken"
                                     />
                                     <CustomeFCLabel
-                                        value="fixed"
+                                        value="2"
                                         control={<Radio />}
                                         label="Fixed"
                                     />
                                 </RadioGroup>
                             </Grid>
                         ) : (
-                            ""
+                            <>
+                                <Grid item xs={12}>
+                                    <Stack>
+                                        <InputLabel>Full Name</InputLabel>
+                                        <CustomeTextField
+                                            name="name"
+                                            placeholder="Full Name"
+                                            size="small"
+                                            type="text"
+                                            onChange={(e) =>
+                                                handleInput("name", e)
+                                            }
+                                            value={formInstrument.name}
+                                        />
+                                    </Stack>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Stack>
+                                        <InputLabel>Short Name</InputLabel>
+                                        <CustomeTextField
+                                            name="shortName"
+                                            placeholder="Short Name"
+                                            size="small"
+                                            type="text"
+                                            onChange={(e) =>
+                                                handleInput("shortName", e)
+                                            }
+                                            value={formInstrument.shortName}
+                                        />
+                                    </Stack>
+                                </Grid>
+                            </>
                         )}
                     </Grid>
                 </DialogContent>
