@@ -164,7 +164,7 @@ function Profile({ memberId }) {
                                             type="text"
                                             value={tempMember.phoneNumber}
                                             className="form-control"
-                                            maxLength={11}
+                                            maxLength={10}
                                             onChange={(e) => {
                                                 const numericInput =
                                                     e.target.value.replace(

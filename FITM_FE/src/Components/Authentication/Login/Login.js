@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { axiosLogin } from "../../../Variable/Api/api";
 import React, { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import CustomeButton from "../../Member/Button/CustomeButton";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
 import "./login.css";
@@ -22,7 +22,6 @@ import "./login.css";
 function Login() {
     document.title = "Login";
 
-    const navigate = useNavigate();
     const LOGIN_URL = "Acount/Login";
 
     function onLoginHandle() {

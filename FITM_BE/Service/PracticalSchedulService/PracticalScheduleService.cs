@@ -22,10 +22,10 @@ namespace FITM_BE.Service.PracticalSchedulService
             return practicalScheduleDtos;
         }
 
-        public async Task<PracticalScheduleDto> GetPracticalSchedule(int id)
+        public Task<PracticalScheduleDto> GetPracticalSchedule(int id)
         {
-            PracticalSchedule schedule = await _repository.Get<PracticalSchedule>(id);
-            return _mapper.Map<PracticalScheduleDto>(schedule);
+            PracticalSchedule schedule = _repository.Get<PracticalSchedule>(id);
+            return Task.FromResult(_mapper.Map<PracticalScheduleDto>(schedule));
         }
 
         public async Task<PracticalScheduleDto> AddPracticalSchedule(CreatePracticalScheduleDto practicalScheduleDto)
@@ -40,7 +40,7 @@ namespace FITM_BE.Service.PracticalSchedulService
 
         public async Task<PracticalScheduleDto> UpdatePracticalSchedule(PracticalScheduleDto practicalScheduleDto)
         {
-            PracticalSchedule schedule = await _repository.Get<PracticalSchedule>(practicalScheduleDto.Id);
+            PracticalSchedule schedule = _repository.Get<PracticalSchedule>(practicalScheduleDto.Id);
             schedule.Title = practicalScheduleDto.Title;
             schedule.Description = practicalScheduleDto.Description;
             schedule.Date = practicalScheduleDto.Date;
