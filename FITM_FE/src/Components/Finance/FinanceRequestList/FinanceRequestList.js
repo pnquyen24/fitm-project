@@ -66,11 +66,7 @@ const FinanceRequestList = () => {
     return (
         <div className="finance">
             <div className="create_finance_top" style={{ marginTop: "20px" }}>
-                <Link to="/">
-                    <Button variant="contained" color="primary">
-                        BACK TO HOME
-                    </Button>
-                </Link>
+
             </div>
             <Table className="finance_table">
                 <TableHead className="finance_table_thead">

@@ -81,8 +81,9 @@ function Profile({ memberId }) {
         return <div>Loading...</div>;
     }
     return (
-        <div>
-            <div className="container rounded bg-white mt-4 mb-4 profile-cover">
+        <div  style={{ width : "96%" }}>
+           <div className="container rounded bg-white mt-4 mb-4 profile-cover" style={{ margin: "0", maxWidth: "none" }}>
+
                 <div className="row">
                     <div className="col-md-5 border-right">
                         <div className="d-flex flex-column align-items-center text-center p-3 py-5">

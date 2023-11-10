@@ -176,11 +176,7 @@ const FinanceList = () => {
             <div className="finance_title"></div>
 
             <div className="create_finance_top">
-                <Link to="/">
-                    <Button variant="contained" color="primary">
-                        <span>BACK TO HOME</span>
-                    </Button>
-                </Link>
+  
 
                 <div className="filter-dropdown">
                     <Select

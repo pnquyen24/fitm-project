@@ -22,5 +22,11 @@ namespace FITM_BE.Authentication
         {
             return await _accountService.Login(loginDto);
         }
+        [Authorize]
+        [HttpGet]
+        public bool CheckLogin()
+        {
+            return true;
+        }
     }
 }

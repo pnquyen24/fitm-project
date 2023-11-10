@@ -20,7 +20,8 @@ function Avatar({ scale = 1 }) {
     try {
       localStorage.removeItem("token");
       // Redirect to the login page using the Navigate hook.
-      window.location.href ="/";
+      window.location.href = "/";
+
     } catch (error) {
     }
   }
@@ -30,7 +31,9 @@ function Avatar({ scale = 1 }) {
       <div
         className="avatar"
         style={{
-          backgroundImage: `url(/img/88129659_p0_master1200.jpg)`,
+          backgroundImage: `url('/IMG/main_avt.png')`,
+          backgroundSize: '120%',
+          backgroundPosition: "center center",
           width: `${width}px`,
           height: `${height}px`,
         }}

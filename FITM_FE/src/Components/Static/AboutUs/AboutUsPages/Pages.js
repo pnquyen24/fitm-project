@@ -22,7 +22,7 @@ const Pages =({Name, Avatar, fbLink}) =>{
                                 <h4>----  Hello ----</h4>
                         </div>
                         <div className='page-Name'>
-                            <h1>I'm <span>{MemberName}</span>, Nice to meet you</h1>
+                            <h2>I'm <h1 style={{color:"red"}}>{MemberName}</h1>, Nice to meet you</h2>
                         </div>
                         <div className='Description' style={{marginLeft:"25%", width:"70%"}}>
                             <h4>..........................................................................</h4>
