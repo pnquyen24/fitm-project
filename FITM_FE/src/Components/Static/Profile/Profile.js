@@ -140,7 +140,7 @@ function Profile({ memberId }) {
                                         {member.fullName}
                                     </p>
                                 </div>
-                                <div className="col-md-6 marginTemp">
+                                <div className="col-md-6">
                                     <label className="labels">Username:</label>
                                     <p className="backgroundTemp">
                                         {member.username}
