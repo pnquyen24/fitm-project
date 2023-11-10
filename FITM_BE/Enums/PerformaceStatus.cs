@@ -3,7 +3,7 @@
     public enum PerformaceStatus
     {
         NotYet,
-        CallOff,
-        Done
+        Done,
+        CallOff
     }
 }
