@@ -25,6 +25,7 @@ function RequestDetail() {
     const [compareData, setCompareData] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
+    const [loading, setLoading] = useState(false);
     const id = new URLSearchParams(location.search).get("id");
 
     const getData = useCallback(() => {
@@ -46,22 +47,19 @@ function RequestDetail() {
     }
 
     function AcceptRequest(id) {
-        document.getElementById("denyButton").disabled = true;
-        document.getElementById("acceptButton").disabled = true;
+        setLoading(true);
         showLoadingOverlay();
         // Send a POST request to the API endpoint
         axiosClient
             .post(`${ACCEPT_REQUEST_URL}?id=` + id)
             .then((response) => {
-                document.getElementById("denyButton").disabled = false;
-                document.getElementById("acceptButton").disabled = false;
+                setLoading(false);
                 hideLoadingOverlay();
                 CustomeAlert.success(`Accepted successfully!`);
                 getData();
             })
             .catch((error) => {
-                document.getElementById("denyButton").disabled = false;
-                document.getElementById("acceptButton").disabled = false;
+                setLoading(false);
                 hideLoadingOverlay();
                 CustomeAlert.error(`Accepted Error!`);
             });
@@ -69,21 +67,18 @@ function RequestDetail() {
 
     function DenyRequest(id) {
         // Send a POST request to the API endpoint
-        document.getElementById("denyButton").disabled = true;
-        document.getElementById("acceptButton").disabled = true;
+        setLoading(true);
         showLoadingOverlay();
         axiosClient
             .post(`${DENY_REQUEST_URL}?id=` + id)
             .then((response) => {
-                document.getElementById("denyButton").disabled = false;
-                document.getElementById("acceptButton").disabled = false;
+                setLoading(false);
                 hideLoadingOverlay();
                 CustomeAlert.success(`Denied successfully!`);
                 getData();
             })
             .catch((error) => {
-                document.getElementById("denyButton").disabled = false;
-                document.getElementById("acceptButton").disabled = false;
+                setLoading(false);
                 hideLoadingOverlay();
                 CustomeAlert.error(`Denied Error!`);
             });
@@ -247,6 +242,7 @@ function RequestDetail() {
             <div className="buttons-container">
                 <Button
                     id="acceptButton"
+                    disabled={loading}
                     style={{
                         display:
                             compareData.status === 1 || compareData.status === 2
@@ -273,12 +269,14 @@ function RequestDetail() {
                     onClick={() => {
                         DenyRequest(id);
                     }}
+                    disabled={loading}
                     variant="outlined"
                 >
                     Denied
                 </Button>
                 <Button
                     className="buttons"
+                    disabled={loading}
                     onClick={() => {
                         BackToList();
                     }}

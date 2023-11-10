@@ -15,6 +15,7 @@ function MemberProfile() {
     const [member, setMember] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const id = new URLSearchParams(location.search).get("id");
 
     const getData = useCallback(() => {
@@ -32,9 +33,11 @@ function MemberProfile() {
     function ChangeStatus(id) {
         // Send a POST request to the API endpoint
         showLoadingOverlay();
+        setLoading(true);
         axiosClient
             .post(`${CHANGE_STATUS_URL}?id=` + id)
             .then(() => {
+                setLoading(false);
                 hideLoadingOverlay();
                 CustomeAlert.success(
                     `${
@@ -269,6 +272,7 @@ function MemberProfile() {
                     {member.status ? (
                         <Button
                             id="deactivate"
+                            disabled={loading}
                             className="mbButton"
                             color="error"
                             onClick={() => {
@@ -281,6 +285,7 @@ function MemberProfile() {
                     ) : (
                         <Button
                             id="activate"
+                            disabled={loading}
                             className="mbButton"
                             color="success"
                             onClick={() => {
@@ -293,6 +298,7 @@ function MemberProfile() {
                     )}
                 </div>
                 <Button
+                    disabled={loading}
                     onClick={() => {
                         ModifyRole();
                     }}
@@ -302,7 +308,8 @@ function MemberProfile() {
                     Modify Role
                 </Button>
                 <Button
-                    className=" mbButton"
+                    className="mbButton"
+                    disabled={loading}
                     id="detail_back"
                     onClick={() => {
                         BackToList();
