@@ -1,7 +1,7 @@
 import "./LP.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosClient from "../../Variable/Api/api";
 
 const jump = (e) => {
     e.scrollIntoView({ behavior: "smooth" });
@@ -60,7 +60,7 @@ function LandingPage() {
     }
 
     useEffect(() => {
-        axios
+        axiosClient
             .get(VIEW_PERFORMANCE_URL)
             .then((response) => {
                 setPerformances(response.data);
