@@ -9,7 +9,7 @@ const GET_ALL_PRACTICAL_SCHEDULES_URL =
 const CREATE_PRACTICAL_SCHEDULE_URL = "PracticalSchedule/AddPracticalSchedule";
 const UPDATE_PRACTICAL_SCHEDULE_URL =
     "PracticalSchedule/UpdatePracticalSchedule";
-const DELETE_PRACTICAL_SCHEDULE_URL = (id) =>
+const DELETE_PRACTICAL_SCHEDULE_URL =
     "PracticalSchedule/DeletePracticalSchedule";
 
 //Performance schedule

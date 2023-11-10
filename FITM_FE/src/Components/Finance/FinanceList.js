@@ -174,7 +174,6 @@ const FinanceList = () => {
     return (
         <div className="finance">
             <div className="finance_title"></div>
-
             <div className="create_finance_top">
                 <div className="filter-dropdown">
                     <Select

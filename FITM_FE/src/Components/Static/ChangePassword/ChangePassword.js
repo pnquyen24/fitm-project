@@ -171,7 +171,7 @@ function ChangePassword({ isOpen, setOpen }) {
                         </span>
                     </div>
                     <button
-                        className="btn btn-primary"
+                        className={isButtonAvailable? "btn btn-secondary":"btn btn-primary"}
                         disabled={isButtonAvailable}
                         onClick={handleSubmit}
                     >

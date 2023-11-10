@@ -39,6 +39,7 @@ function Login() {
             })
             .then(() => {
                 window.location.href = "/";
+
             })
             .catch((error) => {
                 setIsOpen(true);
