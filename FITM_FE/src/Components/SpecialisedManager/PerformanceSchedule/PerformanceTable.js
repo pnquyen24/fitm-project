@@ -86,9 +86,8 @@ function PerformanceTable() {
 
     const statusPerformance = (status) => {
         if (status === 0) return <TimerIcon color="secondary"></TimerIcon>;
-        if (status === 1) return <CancelIcon color="error"></CancelIcon>;
-        if (status === 2)
-            return <CheckCircleIcon color="success"></CheckCircleIcon>;
+        if (status === 1) return <CheckCircleIcon color="success"></CheckCircleIcon>;
+        if (status === 2) return <CancelIcon color="error"></CancelIcon>;
     };
 
     function getMembers(data) {

@@ -45,8 +45,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
                               .Include(pfm => pfm.Songs)
                               .ThenInclude(song => song.Song)
                               .OrderBy(pfm => pfm.Status)
-                              .ThenByDescending(pfm => pfm.Status)
-                              .ThenByDescending(pfm => pfm.Date)
+                              .ThenBy(pfm => pfm.Date)
                               .ThenByDescending(pfm => pfm.Time)
                               .Select(pfm => new PerformanceDTO
                               {
@@ -230,7 +229,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
             var pfm = await _repository.GetAll<PerformanceSchedule>()
                                    .Where(pfm => pfm.Id == pfmID)
                                    .Where(pfm => pfm.Date.CompareTo(currentDate) >= 0)
-                                   .Where(pfm => pfm.Status != Enums.PerformaceStatus.CallOff)
+                                   .Where(pfm => pfm.Status == Enums.PerformaceStatus.NotYet)
                                    .Include(pfm => pfm.Songs).FirstOrDefaultAsync();
 
             if (pfm is not null)
