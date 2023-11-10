@@ -1,7 +1,7 @@
 import axiosClient from "../../../Variable/Api/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
 import Button from "@mui/material/Button";
@@ -17,6 +17,7 @@ function OutcomeRequestDetail() {
     const [outcome, setOutcome] = useState(null);
     const isEditing = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
     const outcomeId = new URLSearchParams(location.search).get("id");
 
     useEffect(() => {
@@ -46,19 +47,21 @@ function OutcomeRequestDetail() {
     }
 
     function AcceptOutcomeRequest() {
+        showLoadingOverlay();
         axiosClient
             .post(`${ACCEPT_OUTCOME_REQUEST_URL}?id=${outcomeId}`)
             .then((response) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Finance Report Accepted !!!",
                     icon: "success",
                     confirmButtonText: "OK",
                 }).then(() => {
-                    window.location.href =
-                        "/financial-manager/finance-request-list";
+                    navigate("/financial-manager/finance-request-list");
                 });
             })
             .catch((error) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Error",
                     text: "Accept Unsuccessfully !!!",
@@ -68,19 +71,21 @@ function OutcomeRequestDetail() {
             });
     }
     function DenyOutcomeRequest() {
+        showLoadingOverlay();
         axiosClient
             .post(`${DENY_OUTCOME_REQUEST_URL}?id=${outcomeId}`)
             .then((response) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Finance Report Denied !!!",
                     icon: "success",
                     confirmButtonText: "OK",
                 }).then(() => {
-                    window.location.href =
-                        "/financial-manager/finance-request-list";
+                    navigate("/financial-manager/finance-request-list");
                 });
             })
             .catch((error) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Error",
                     text: "Unsuccessful",
@@ -88,6 +93,22 @@ function OutcomeRequestDetail() {
                     confirmButtonText: "OK",
                 });
             });
+    }
+
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
     }
 
     if (!outcome) {

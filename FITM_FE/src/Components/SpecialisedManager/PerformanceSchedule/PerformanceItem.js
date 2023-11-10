@@ -213,7 +213,7 @@ function JoinDialog(props) {
         axiosClient
             .put(`${JOIN_URL}?pfmID=${props.pfmID}`)
             .then((response) => {
-                if (response.status == 500) {
+                if (response.status === 500) {
                     CustomeAlert.error("You joined this performance!");
                 } else {
                     CustomeAlert.success("Joined successfully!");

@@ -3,7 +3,7 @@ import axiosClient from "../../../Variable/Api/api";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import Button from "@mui/material/Button";
 import * as XLSX from "xlsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./BalanceChart.css";
 import { FormControl, Select, MenuItem } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
@@ -21,6 +21,7 @@ function BalanceChart() {
     const [tempStartDate, setTempStartDate] = useState(today);
     const [tempEndDate, setTempEndDate] = useState(new Date());
     let [dataCategory, setDataCategory] = useState("Balance");
+    const navigate = useNavigate();
 
     const handleDataCategoryChange = (event) => {
         setDataCategory(event.target.value);
@@ -236,7 +237,7 @@ function BalanceChart() {
                         style={{ margin: "0px 5px 0px 5px" }}
                         className="balance-back-button"
                     >
-                        <span>Back to List</span>
+                        <span>Back</span>
                     </Button>
                 </Link>
                 <div className="balance-select-button">

@@ -1,6 +1,6 @@
 import axiosClient from "../../../Variable/Api/api";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Button from "@mui/material/Button";
@@ -18,6 +18,7 @@ function IncomeDetail() {
     const [isEditing, setIsEditing] = useState(false);
     const [tempIncome, setTempIncome] = useState(null);
     const location = useLocation();
+    const navigate = useNavigate();
     const incomeId = new URLSearchParams(location.search).get("id");
 
     useEffect(() => {
@@ -46,7 +47,7 @@ function IncomeDetail() {
                     title: "Send Request Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
+                    navigate("/financial-manager/finance-list");
                 });
             })
             .catch((error) => {
@@ -77,7 +78,7 @@ function IncomeDetail() {
                     title: "Update Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
+                    navigate("/financial-manager/finance-list");
                 });
             })
             .catch((error) => {

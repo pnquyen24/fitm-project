@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../../Variable/Api/api";
@@ -66,11 +65,6 @@ const FinanceRequestList = () => {
     return (
         <div className="finance">
             <div className="create_finance_top" style={{ marginTop: "20px" }}>
-                <Link to="/">
-                    <Button variant="contained" color="primary">
-                        BACK TO HOME
-                    </Button>
-                </Link>
             </div>
             <Table className="finance_table">
                 <TableHead className="finance_table_thead">

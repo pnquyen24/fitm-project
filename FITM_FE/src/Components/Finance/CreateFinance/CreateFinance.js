@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosClient from "../../../Variable/Api/api";
 import Swal from "sweetalert2";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import "./CreateFinance.css";
 
@@ -10,6 +10,7 @@ function CreateIncome() {
 
     const ADD_INCOME_URL = "Finance/AddIncome";
     const ADD_OUTCOME_URL = "Finance/AddOutcome";
+    const navigate = useNavigate();
 
     const location = useLocation();
 
@@ -36,7 +37,7 @@ function CreateIncome() {
                     title: "Create Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
+                    navigate("/financial-manager/finance-list");
                 });
             })
             .catch((error) => {

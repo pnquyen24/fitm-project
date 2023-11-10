@@ -1,6 +1,6 @@
 import axiosClient from "../../../Variable/Api/api";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import Button from "@mui/material/Button";
@@ -8,7 +8,7 @@ import "./CreateMember.css";
 
 function CreateMember() {
     document.title = "Create Member";
-
+    const navigate = useNavigate();
     const CREATE_URL = "Member/Create";
 
     const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ function CreateMember() {
                     title: "Create Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/member-manager/member-list";
+                    navigate("/member-manager/member-list");
                 });
             })
             .catch((error) => {

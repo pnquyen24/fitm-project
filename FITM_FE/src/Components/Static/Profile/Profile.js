@@ -233,7 +233,7 @@ function Profile({ memberId }) {
                                             type="text"
                                             value={tempMember.studentID}
                                             className="form-control"
-                                            maxLength={10}
+                                            maxLength={8}
                                             onChange={(e) =>
                                                 setTempMember({
                                                     ...tempMember,
