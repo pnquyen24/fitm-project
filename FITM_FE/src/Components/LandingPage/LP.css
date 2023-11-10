@@ -352,7 +352,7 @@
     width: 100%;
 }
 .landingPage .img1 {
-    background-image: url('/public/IMG/110326368_p0_master1200.jpg');
+    background-image: url('/public/IMG/t1.jpg');
     background-size: cover;
     background-position: center center;
     animation: moveleft 7s linear infinite;
@@ -424,7 +424,7 @@
     background-color: black;
 }
 .landingPage .img2{
-    background-image: url('/public/IMG/112840502_p0_master1200.jpg');
+    background-image: url('/public/IMG/t2.jpg');
     background-size: cover;
     background-position: center center;
     animation: moveTop 7s linear infinite 1.75s;
@@ -433,7 +433,7 @@
     margin-right: 0 ;
 }
 .landingPage .img3{
-    background-image: url('/public/IMG/88129659_p0_master1200.jpg');
+    background-image: url('/public/IMG/t3.jpg');
     background-size: cover;
     background-position: center center;
     animation: moveBottom 7s linear infinite 3.5s;
@@ -441,7 +441,7 @@
     bottom: 0; 
 }
 .landingPage .img4{
-    background-image: url('/public/IMG/png-transparent-crying-frog-illustration-pepe-the-frog-internet-meme-humour-frog-leaf-animals-hand-thumbnail.png');
+    background-image: url('/public/IMG/t4.jpg');
     background-size: cover;
     background-position: center center;
     animation: moveRight 7s linear infinite 5.25s;

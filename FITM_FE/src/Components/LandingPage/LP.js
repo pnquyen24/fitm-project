@@ -9,7 +9,7 @@ const jump = (e) => {
 };
 function LandingPage() {
 
-  let [performances, setPerformances] = useState([{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',},{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',},]);
+  let [performances, setPerformances] = useState([{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',},{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',},{id: 6, name: 'Army Night', place: 'Quân Đoàn 5', date: '2023-11-10', time: '20:00:00',}]);
   const [scrolled, setScrolled] = useState(false);
   const [position, setPosition] = useState(1);
   const navigate = useNavigate();
@@ -266,7 +266,7 @@ console.log(performances )
             <div className="description"></div>
           </div>
           <div className="show3 show">
-            <div className="picture"></div>
+            <div className="picture" style={{ backgroundImage: `url("${performances[2].backgroundImg}")` }}></div>
             <div className="description"></div>
           </div>
         </div>
