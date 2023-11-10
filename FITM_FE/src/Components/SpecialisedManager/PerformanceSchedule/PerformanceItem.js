@@ -264,7 +264,7 @@ function JoinDialog(props) {
                         autoFocus
                         onClick={handleJoin}
                     >
-                        Yes!
+                        Yes
                     </Button>
                     <Button
                         variant="contained"
