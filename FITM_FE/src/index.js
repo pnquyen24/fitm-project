@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import axiosClient from "./Variable/Api/api";
+import { axiosLogin } from "./Variable/Api/api";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import ForgotPassword from "./Components/Authentication/ForgotPassword/ForgotPassword";
@@ -47,7 +47,7 @@ checkLoginStatus();
 async function checkLoginStatus() {
     if (localStorage.getItem("token") !== null) {
         try {
-            const response = await axiosClient.get(CHECK_LOGIN_URL);
+            const response = await axiosLogin.get(CHECK_LOGIN_URL);
             Authented = true;
             return response.data;
         } catch (error) {
