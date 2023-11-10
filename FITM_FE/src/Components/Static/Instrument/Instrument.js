@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    deleteInstruments,
     getAllInstruments,
     getInstruments,
     toggleModalInstrument,
@@ -11,13 +10,11 @@ import {
     Card,
     CardHeader,
     IconButton,
-    Stack,
     Typography,
 } from "@mui/material";
-import PaginationTable from "../../Member/Table/PaginationTable/PaginationTable";
-import CustomeAlert from "../../Member/Alert/CustomeAlert";
-import { Delete, Edit } from "@mui/icons-material";
 import ModalInstrument from "./ModalInstrument";
+import CollapsibleTable from "./CollapsibleTable";
+import { Edit } from "@mui/icons-material";
 
 function Instrument() {
     document.title = "Instrument";
@@ -38,31 +35,32 @@ function Instrument() {
         { id: "index", label: "#" },
         { id: "name", label: "Name" },
         { id: "count", label: "Count" },
-        { id: "items", label: "Item Ids" },
-        { id: "action", label: "Action" },
     ];
 
     const rows = instruments.map((row) => {
-        return createData(row.id, row.name, row.count, row.action);
+        return createData(row.id, row.name, row.count, row.itemIds);
     });
 
-    function createData(id, name, count) {
+    function createData(id, name, count, itemIds) {
         index++;
+        const items = itemIds.map((item) => {
+            return {
+                ...item,
+                action: (
+                    <IconButton
+                        onClick={() => handleUpdate(item.id, item.status)}
+                    >
+                        <Edit color="primary" />
+                    </IconButton>
+                ),
+            };
+        });
         return {
             index,
             id,
             name,
             count,
-            action: (
-                <Stack direction="row" spacing={2}>
-                    <IconButton onClick={handleUpdate(id)}>
-                        <Edit color="primary" />
-                    </IconButton>
-                    <IconButton onClick={handleDelete(id)}>
-                        <Delete color="error" />
-                    </IconButton>
-                </Stack>
-            ),
+            items,
         };
     }
 
@@ -71,20 +69,10 @@ function Instrument() {
         dispatch(toggleModalInstrument(true));
     }
 
-    function handleUpdate(instrument) {
-        setInstrumentInfo(instrument);
+    function handleUpdate(id, status) {
+        setInstrumentInfo({ id, status });
         setIsEdit(true);
         dispatch(toggleModalInstrument(true));
-    }
-
-    function handleDelete(instrumentId) {
-        CustomeAlert.confirm("Are you sure delete it?", "Delete", "No").then(
-            (result) => {
-                if (result.isConfirmed) {
-                    dispatch(deleteInstruments(instrumentId));
-                }
-            }
-        );
     }
 
     return (
@@ -103,7 +91,7 @@ function Instrument() {
                         </Button>
                     }
                 />
-                <PaginationTable rows={rows} columns={columns} />
+                <CollapsibleTable rows={rows} columns={columns} />
             </Card>
         </>
     );

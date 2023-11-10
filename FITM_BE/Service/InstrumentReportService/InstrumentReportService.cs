@@ -20,14 +20,14 @@ namespace FITM_BE.Service.InstrumentReportService
             return "successfully";
         }
 
-        public async Task<IEnumerable<InstrumentReportDtos>> GetAll()
+        public Task<IEnumerable<InstrumentReportDtos>> GetAll()
         {
             var instrumentReports = _repository.GetAll<InstrumentReport>();
 
             if (instrumentReports.Any())
             {
                 var instrumentReportDtos = _mapper.Map<IEnumerable<InstrumentReportDtos>>(instrumentReports);
-                return instrumentReportDtos;
+                return Task.FromResult(instrumentReportDtos);
             }
             else
             {

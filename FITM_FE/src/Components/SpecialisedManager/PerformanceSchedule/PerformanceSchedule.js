@@ -13,13 +13,8 @@ import {
     Button,
     DialogActions,
 } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {
-    LocalizationProvider,
-    MobileTimePicker,
-} from "@mui/x-date-pickers";
 import CustomeTextField from "../../Member/Input/CustomeTextField";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import {
@@ -32,6 +27,8 @@ import DateInput from "../../Member/Input/DateInput";
 import TimeInput from "../../Member/Input/TimeInput";
 
 function PerformanceSchedule({ isEditCard, eventInfos }) {
+    const GET_ALL_SONGS_URL = "Song/GetAllSongs";
+
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const MenuProps = {
@@ -210,8 +207,8 @@ function PerformanceSchedule({ isEditCard, eventInfos }) {
     //--------------------------------------------------
 
     useEffect(() => {
-        axios
-            .get("https://localhost:7226/apis/Song/GetAllSongs")
+        axiosClient
+            .get(GET_ALL_SONGS_URL)
             .then((response) => {
                 setSongs(response.data);
             })

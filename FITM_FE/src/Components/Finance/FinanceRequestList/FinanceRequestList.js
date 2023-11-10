@@ -2,71 +2,66 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
 } from "@mui/material";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import PaginationComponent from "../../../Variable/Paggination/Paggination";
-import { getStatusStyle } from "../SupportFunctions/SupportFunction";
+import PaginationComponent from "../../../Variable/Pagination/Pagination";
 import "./FinanceRequestList.css";
 
 const FinanceRequestList = () => {
-  document.title = "Finnance Request List";
+    document.title = "Finance Request List";
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ITEMS_PER_PAGE] = useState(5);
-  const [data, setData] = useState([]);
-  const navigate = useNavigate();
+    const GET_FINANCE_REPORT_URL = "Finance/GetFinanceReport";
 
-  useEffect(() => {}, [data]);
-  useEffect(() => {
-    fetchData();
-  }, []);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [ITEMS_PER_PAGE] = useState(5);
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
-  const fetchData = async () => {
-    try {
-      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-        "token"
-      )}`;
-      const response = await axios.get(
-        `https://localhost:7226/apis/Finance/GetFinanceReport`
-      )
-      setData(response.data.filter((data) => data.financeStatus === 1));
-    } catch (error) {
+    useEffect(() => {}, [data]);
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await axiosClient.get(GET_FINANCE_REPORT_URL);
+            setData(response.data.filter((dt) => dt.financeStatus === 1));
+        } catch (error) {}
+    };
+
+    const getTypeStyle = (isIncome) => {
+        if (isIncome) {
+            return {
+                color: "green",
+            };
+        } else if (!isIncome) {
+            return {
+                color: "red",
+            };
+        }
+        return {};
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    function ViewOutcomeRequestDetail(id) {
+        navigate("/financial-manager/outcome-request-detail?id=" + id);
     }
-  };
 
-  const getTypeStyle = (IsIncome) => {
-    if (IsIncome) {
-      return {
-        color: "green",
-      };
-    } else if (!IsIncome) {
-      return {
-        color: "red",
-      };
+    function ViewIncomeRequestDetail(id) {
+        navigate("/financial-manager/income-request-detail?id=" + id);
     }
-    return {};
-  };
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  function ViewOutcomeRequestDetail(id) {
-    navigate("/financial-manager/outcome-request-detail?id=" + id);
-  }
-
-  function ViewIncomeRequestDetail(id) {
-    navigate("/financial-manager/income-request-detail?id=" + id);
-  }
-
-  //===================================
+    //===================================
 
     return (
         <div className="finance">

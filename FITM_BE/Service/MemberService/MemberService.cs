@@ -22,6 +22,7 @@ namespace FITM_BE.Service.MemberService
 
         public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)
         {
+            createMemberDto.FullName = createMemberDto.FullName.Trim();
             var existingMember = await CheckExistEmail(createMemberDto.Email);
             if (existingMember != null)
             {
@@ -79,12 +80,12 @@ namespace FITM_BE.Service.MemberService
         }
         public async Task<ProfileDto> Get(int id)
         {
-            var member = await _repository.Get<Member>(id);
+            var member = _repository.Get<Member>(id);
             return _mapper.Map<ProfileDto>(member);
         }
         public async Task<ProfileDto> ChangeStatus(int id)
         {;
-            var profile = await _repository.Get<Member>(id);
+            var profile = _repository.Get<Member>(id);
             var status = profile.Status = !profile.Status;
             var member = await _repository.Update(profile);
             return _mapper.Map<ProfileDto>(member); 

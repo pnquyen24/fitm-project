@@ -22,13 +22,18 @@
 .membercontainer.css-1ygcj2i-MuiTableCell-root {
     text-align: center;
 }
+.css-1ygcj2i-MuiTableCell-root {
+    color: white !important;
+}
 
 .membercontainer .TableHead {
-    background-color: rgb(105,108,255);
+    color: white !important;
+    background-color: red;
     font-weight: bold;
 }
 .MuiTableHead-root{
-    background-color: rgb(105,108,255);
+    color: white !important;
+    background-color: red;
     font-weight: bold ;
 }
 .MuiTableBody-root{

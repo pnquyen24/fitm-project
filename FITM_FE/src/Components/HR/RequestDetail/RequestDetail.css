@@ -12,24 +12,18 @@
 .TableContainerDetail {
     width: 100%;
     margin-bottom: 20px;
-    margin-top: 10%;
-}
-
-.TableHead {
-    background-color: lightgray;
+    margin-top: 5%;
 }
 
 .buttons-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
+    justify-content: end;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .buttons {
-    margin-left: 20px !important;
-    margin-right: 20px !important;
+    margin-right: 10px !important;
 }
 
 .accept-button {

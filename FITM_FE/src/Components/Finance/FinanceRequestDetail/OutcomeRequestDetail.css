@@ -7,36 +7,35 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     margin-top: 4%;
     background-color: white;
-  }
-        
-  .in_request_card h4 {
+}
+
+.in_request_card h4 {
     font-size: 30px;
     margin-bottom: 40px;
     text-align: center;
     font-weight: bold;
     margin-top: 10px;
-  }
-  
-  .in_request_card .row {
+}
+
+.in_request_card .row {
     display: flex;
     align-items: center;
-  }
-  
-  .span_title {
+}
+
+.span_title {
     font-weight: bold;
-    margin-left: 20px;
     font-size: 18px;
-    color: rgba(0,0,0,.5);
-  }
-  
-  .in_request_card input {
+    color: rgba(0, 0, 0, .5);
+}
+
+.in_request_card input {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  .in_request_card button {
+}
+
+.in_request_card button {
     background-color: #007bff;
     color: #ffffff;
     border: none;
@@ -44,115 +43,93 @@
     padding: 8px 12px;
     cursor: pointer;
     margin-right: 5px;
-  }
-  
-  .in_request_card button:hover {
-    background-color: #0056b3;
-  }
-  
-  .in_request_card button span {
+}
+
+.in_request_card button span {
     margin-left: 5px;
-  }
-  
-  .in_request_card .back_button {
+}
+
+.in_request_card .back_button {
     display: inline-block;
     margin-top: 10px;
-  }
-  
-  .in_request_card .edit_button {
+}
+
+.in_request_card .edit_button {
     display: inline-block;
     background-color: #f57c00;
-  }
-  
-  .in_request_card .edit_button span {
+}
+
+.in_request_card .edit_button span {
     margin-left: 5px;
-  }
-  
-  .in_request_card .send_button {
+}
+
+.in_request_card .send_button {
     display: inline-block;
-  }
-  
-  .in_request_card .send_button button {
+}
+
+.in_request_card .send_button button {
     background-color: #5cb85c;
     margin-top: 10px;
-  }
-  
-  .in_request_card .error_message {
+}
+
+.in_request_card .error_message {
     color: red;
     margin-top: 10px;
-  }
-  
-  .amount_billCode {
+}
+
+.amount_billCode {
     display: flex;
     margin-left: 20px;
-  }
-  
-  .finance_status {
+}
+
+.finance_status {
     text-align: right;
     margin-right: 50px;
     font-size: 24px;
     font-weight: bold;
-    text-shadow: 2px 2px 4px whitesmoke;
     text-align: right;
     margin-top: 20px;
     margin-bottom: 20px;
-  }
-  
-  .each_row_info {
+}
+
+.each_row_info {
     margin-bottom: 20px;
-    margin-left: 20px;
-  }
-  
-  .span_info {
+}
+
+.span_info {
     font-size: 16px;
     margin-left: 10px;
-  }
-  
-  .id_title {
+}
+
+.id_title {
     display: flex;
-  }
-  
-  .title {
+}
+
+.title {
     font-weight: bold;
-    margin-left: 170px;
+    margin-left: 35px;
     font-size: 18px;
-    color: rgba(0,0,0,.5);
-  }
-  
-  .bill_title {
+    color: rgba(0, 0, 0, .5);
+    margin-bottom: 20px;
+}
+
+.bill_title {
     font-weight: bold;
-    margin-left: 120px;
     font-size: 18px;
-    color: rgba(0,0,0,.5);
-  }
-  
-  .in_request_card_button {
+    color: rgba(0, 0, 0, .5);
+}
+
+.in_request_card_button {
     display: flex;
     margin-top: 40px;
     margin-bottom: 1%;
-    justify-content: center ;
-  }
-  
-  .in_request_card_button button {
-    background-color: lightskyblue;
-    color: black;
-    font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block; 
-  }
-  
-  .in_request_card_button button:hover {
-    background-color: rgb(0, 100, 162);
-    color: white;
-  }
-  
-  .detail_back {
-  margin-left: 20px;
-  }
-  
-  .detail_send {
-  margin-left: 20px;
-  }
-  
+    justify-content: center;
+}
+
+.detail_back {
+    margin-left: 20px;
+}
+
+.detail_send {
+    margin-left: 20px;
+}

@@ -24,7 +24,7 @@ namespace FITM_BE.Authorization.Utils
             {
                 var permissions = config.GetSection("Seeding:Permissions").Get<IEnumerable<Permission>>();
                 var roles = permissions.FirstOrDefault(permission => permission.Name == requirement.ControllerName)?.Roles;
-                if ( roles != null && roles.Any(role => context.User.HasClaim(ClaimTypes.Role, role)) )
+                if ( roles != null && roles.Any(role => context.User.HasClaim("Roles", role)) )
                 {
                     context.Succeed(requirement);
                     return Task.CompletedTask;

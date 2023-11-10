@@ -23,6 +23,7 @@ namespace FITM_BE.Controllers
 
         //ForgotPassword function
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword([FromBody] string email)
         {
             try
@@ -42,7 +43,6 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
-        [Authorize()]
         public async Task<string> ChangePassword(AccountChangePasswordDTO changeAccountDTO)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userId);

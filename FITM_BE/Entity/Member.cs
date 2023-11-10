@@ -30,7 +30,7 @@ namespace FITM_BE.Entity
 
         public DateTime DOB { get; set; }
 
-        [StringLength(11)]
+        [StringLength(10)]
         public string? PhoneNumber { get; set; }
 
         [StringLength(15)]
@@ -38,8 +38,6 @@ namespace FITM_BE.Entity
 
         [StringLength(20)]
         public string? BankNumber { get; set; }
-
-        public string? Avatar { get; set; }
 
         public bool Status { get; set; }
         public virtual ICollection<Role> Roles { get; set; } = new List<Role>();

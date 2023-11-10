@@ -5,7 +5,7 @@ import axios from "axios";
 
 
 const jump = (e) => {
-  e.scrollIntoView({ behavior: "smooth" });
+    e.scrollIntoView({ behavior: "smooth" });
 };
 function LandingPage() {
 
