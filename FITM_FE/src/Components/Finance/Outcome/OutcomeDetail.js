@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
 import Swal from "sweetalert2";
@@ -17,7 +17,7 @@ function OutcomeDetail() {
     const [outcome, setOutcome] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [tempOutcome, setTempOutcome] = useState(null);
-
+    const navigate = useNavigate();
     const location = useLocation();
     const outcomeId = new URLSearchParams(location.search).get("id");
 
@@ -47,7 +47,7 @@ function OutcomeDetail() {
                     title: "Send Request Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
+                    navigate("/financial-manager/finance-list");
                 });
             })
             .catch((error) => {
@@ -95,7 +95,7 @@ function OutcomeDetail() {
                     title: "Update Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
+                    navigate("/financial-manager/finance-list");
                 });
             })
             .catch((error) => {

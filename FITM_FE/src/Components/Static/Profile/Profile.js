@@ -12,6 +12,7 @@ function Profile({ memberId }) {
 
     const [member, setMember] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [tempMember, setTempMember] = useState(null);
 
     useEffect(() => {
@@ -56,6 +57,8 @@ function Profile({ memberId }) {
         if (!isValidEmail(tempMember.email)) {
             return;
         }
+        setLoading(true);
+        showLoadingOverlay();
         // Prepare the data to be sent in the request
         const requestData = {
             studentID: tempMember.studentID,
@@ -70,12 +73,33 @@ function Profile({ memberId }) {
         axiosClient
             .post(POST_URL, requestData)
             .then((response) => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.success("Send request success!");
             })
             .catch((error) => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.error("Send request Error!");
             });
     };
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
+    }
+
+
 
     if (!member) {
         return <div>Loading...</div>;
@@ -117,7 +141,7 @@ function Profile({ memberId }) {
                                         {member.fullName}
                                     </p>
                                 </div>
-                                <div className="col-md-6 marginTemp">
+                                <div className="col-md-6">
                                     <label className="labels">Username:</label>
                                     <p className="backgroundTemp">
                                         {member.username}
@@ -234,7 +258,7 @@ function Profile({ memberId }) {
                                             type="text"
                                             value={tempMember.studentID}
                                             className="form-control"
-                                            maxLength={10}
+                                            maxLength={8}
                                             onChange={(e) =>
                                                 setTempMember({
                                                     ...tempMember,
@@ -331,6 +355,7 @@ function Profile({ memberId }) {
                                             <Button
                                                 variant="contained"
                                                 onClick={handleSubmit}
+                                                disabled={loading}
                                                 className="float-right"
                                             >
                                                 <i className="fa fa-plus"></i>{" "}

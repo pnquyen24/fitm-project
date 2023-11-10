@@ -6,7 +6,6 @@ function Avatar({ scale = 1 }) {
   var height = scale * 45;
   var width = scale * 45;
   const [isHide, setHide] = useState(true);
-  const navigate = useNavigate();
 
   const handleUserClick = () => {
     if (isHide) {

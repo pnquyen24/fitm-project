@@ -25,6 +25,7 @@ function RequestDetail() {
     const [compareData, setCompareData] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
+    const [loading, setLoading] = useState(false);
     const id = new URLSearchParams(location.search).get("id");
 
     const getData = useCallback(() => {
@@ -34,7 +35,6 @@ function RequestDetail() {
                 setCompareData(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching data:", error);
             });
     }, [id]);
 
@@ -47,29 +47,39 @@ function RequestDetail() {
     }
 
     function AcceptRequest(id) {
+        setLoading(true);
+        showLoadingOverlay();
         // Send a POST request to the API endpoint
         axiosClient
             .post(`${ACCEPT_REQUEST_URL}?id=` + id)
             .then((response) => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.success(`Accepted successfully!`);
                 getData();
             })
             .catch((error) => {
-                console.error(error);
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.error(`Accepted Error!`);
             });
     }
 
     function DenyRequest(id) {
         // Send a POST request to the API endpoint
+        setLoading(true);
+        showLoadingOverlay();
         axiosClient
             .post(`${DENY_REQUEST_URL}?id=` + id)
             .then((response) => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.success(`Denied successfully!`);
                 getData();
             })
             .catch((error) => {
-                console.error(error);
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.error(`Denied Error!`);
             });
     }
@@ -81,6 +91,22 @@ function RequestDetail() {
             return <Chip label="Accepted" color="success" size="small"></Chip>;
         if (status === 2)
             return <Chip label="Denied" color="error" size="small"></Chip>;
+    }
+
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
     }
 
     return (
@@ -215,6 +241,8 @@ function RequestDetail() {
             </TableContainer>
             <div className="buttons-container">
                 <Button
+                    id="acceptButton"
+                    disabled={loading}
                     style={{
                         display:
                             compareData.status === 1 || compareData.status === 2
@@ -230,6 +258,7 @@ function RequestDetail() {
                     Accepted
                 </Button>
                 <Button
+                    id="denyButton"
                     style={{
                         display:
                             compareData.status === 1 || compareData.status === 2
@@ -240,18 +269,20 @@ function RequestDetail() {
                     onClick={() => {
                         DenyRequest(id);
                     }}
+                    disabled={loading}
                     variant="outlined"
                 >
                     Denied
                 </Button>
                 <Button
                     className="buttons"
+                    disabled={loading}
                     onClick={() => {
                         BackToList();
                     }}
                     variant="outlined"
                 >
-                    Back to List
+                    Back
                 </Button>
             </div>
         </div>

@@ -15,6 +15,7 @@ function MemberProfile() {
     const [member, setMember] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const id = new URLSearchParams(location.search).get("id");
 
     const getData = useCallback(() => {
@@ -31,9 +32,13 @@ function MemberProfile() {
 
     function ChangeStatus(id) {
         // Send a POST request to the API endpoint
+        showLoadingOverlay();
+        setLoading(true);
         axiosClient
             .post(`${CHANGE_STATUS_URL}?id=` + id)
             .then(() => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.success(
                     `${
                         member.status === 1 ? "Deactivate" : "Activate"
@@ -42,6 +47,7 @@ function MemberProfile() {
                 getData();
             })
             .catch(() => {
+                hideLoadingOverlay();
                 CustomeAlert.error(
                     `${member.status === 1 ? "Deactivate" : "Activate"} Error!`
                 );
@@ -54,6 +60,22 @@ function MemberProfile() {
 
     function ModifyRole() {
         navigate(`/member-manager/modify-role?id=${id}`);
+    }
+
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
     }
 
     if (!member) {
@@ -105,7 +127,7 @@ function MemberProfile() {
                                         disabled
                                     />
                                 </div>
-                                <div className="col-md-6 marginTemp">
+                                <div className="col-md-6">
                                     <label className="labels">Username:</label>
                                     <input
                                         type="text"
@@ -250,6 +272,7 @@ function MemberProfile() {
                     {member.status ? (
                         <Button
                             id="deactivate"
+                            disabled={loading}
                             className="mbButton"
                             color="error"
                             onClick={() => {
@@ -262,6 +285,7 @@ function MemberProfile() {
                     ) : (
                         <Button
                             id="activate"
+                            disabled={loading}
                             className="mbButton"
                             color="success"
                             onClick={() => {
@@ -274,6 +298,7 @@ function MemberProfile() {
                     )}
                 </div>
                 <Button
+                    disabled={loading}
                     onClick={() => {
                         ModifyRole();
                     }}
@@ -283,7 +308,8 @@ function MemberProfile() {
                     Modify Role
                 </Button>
                 <Button
-                    className=" mbButton"
+                    className="mbButton"
+                    disabled={loading}
                     id="detail_back"
                     onClick={() => {
                         BackToList();
@@ -291,7 +317,7 @@ function MemberProfile() {
                     variant="outlined"
                     style={{ width: "150px" }}
                 >
-                    Back to List
+                    Back
                 </Button>
             </div>
         </div>

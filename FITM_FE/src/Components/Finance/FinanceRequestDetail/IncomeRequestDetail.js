@@ -1,6 +1,6 @@
 import axiosClient from "../../../Variable/Api/api";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
 import Button from "@mui/material/Button";
@@ -17,6 +17,7 @@ function IncomeRequestDetail() {
     const [income, setIncome] = useState(null);
     const isEditing = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
     const incomeId = new URLSearchParams(location.search).get("id");
 
     useEffect(() => {
@@ -46,16 +47,17 @@ function IncomeRequestDetail() {
     }
 
     function AcceptIncomeRequest() {
+        showLoadingOverlay();
         axiosClient
             .post(`${ACCEPT_INCOME_REQUEST_URL}?id=${incomeId}`)
             .then((response) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Finance Report Accepted !!!",
                     icon: "success",
                     confirmButtonText: "OK",
                 }).then(() => {
-                    window.location.href =
-                        "/financial-manager/finance-request-list";
+                    navigate("/financial-manager/finance-request-list");
                 });
             })
             .catch((error) => {
@@ -68,6 +70,7 @@ function IncomeRequestDetail() {
             });
     }
     function DenyIncomeRequest() {
+        showLoadingOverlay();
         axiosClient
             .post(`${DENY_INCOME_REQUEST_URL}?id=${incomeId}`)
             .then((response) => {
@@ -76,8 +79,7 @@ function IncomeRequestDetail() {
                     icon: "success",
                     confirmButtonText: "OK",
                 }).then(() => {
-                    window.location.href =
-                        "/financial-manager/finance-request-list";
+                     navigate("/financial-manager/finance-request-list");
                 });
             })
             .catch((error) => {
@@ -88,6 +90,21 @@ function IncomeRequestDetail() {
                     confirmButtonText: "OK",
                 });
             });
+    }
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
     }
     if (!income) {
         return <div>Loading...</div>;

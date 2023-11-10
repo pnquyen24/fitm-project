@@ -121,7 +121,7 @@ const FinanceList = () => {
                     title: "Delete Successfully !!!",
                     showConfirmButton: true,
                 });
-                window.location.href = "/financial-manager/finance-list";
+                window.location.reload();
             }
         } catch (error) {
             await Swal.fire({
@@ -155,7 +155,7 @@ const FinanceList = () => {
                     title: "Delete Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/financial-manager/finance-list";
+                    window.location.reload();
                 });
 
                 setData(data.filter((item) => item.id !== id));
@@ -174,10 +174,7 @@ const FinanceList = () => {
     return (
         <div className="finance">
             <div className="finance_title"></div>
-
             <div className="create_finance_top">
-  
-
                 <div className="filter-dropdown">
                     <Select
                         value={filterValue}
