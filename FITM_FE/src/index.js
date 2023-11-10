@@ -40,77 +40,131 @@ import InstrumentReportManagement from "./Components/Static/InstrumentReportMana
 import Instrument from "./Components/Static/Instrument/Instrument";
 import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
 
-let Authented =false;
+const CHECK_LOGIN_URL = "Acount/CheckLogin";
+
+let Authented = false;
 checkLoginStatus();
 async function checkLoginStatus() {
     if (localStorage.getItem("token") !== null) {
-      axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-      try {
-        const response = await axios.get(`https://localhost:7226/Acount/CheckLogin`);
-        Authented = true;
-
-        return response.data;
-      } catch (error) {
-        console.log(error);
-        Authented = false;
-        return false;
-      }
+        try {
+            const response = await axios.get(CHECK_LOGIN_URL);
+            Authented = true;
+            return response.data;
+        } catch (error) {
+            Authented = false;
+            return false;
+        }
     } else {
         Authented = false;
-      return false;
+        return false;
     }
-  }
-  
-  console.log(Authented);
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-    
-        <Provider store={store}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="login" element={<Login />} />
-                    <Route path="/*" element={ await checkLoginStatus()
-                        ? ( <App></App> ) 
-                        : ( <LandingPage></LandingPage> )
-                    }>
-                        <Route path="" element={<Performance />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
-                        <Route path="member-manager">
-                            <Route path="create-member" element={<CreateMember />} />
-                            <Route path="member-list" element={<MemberList />} />
-                            <Route path="member-profile" element={<MemberProfile />} />
-                            <Route path="request-edit-info-list" element={<RequestChangeInfoList />} />
-                            <Route path="request-details" element={<RequestDetail />} />
-                        </Route>
-                        <Route path="schedule" element={<Schedule />} />
-                        <Route path="practical" element={<PracticalList />} />
-                        <Route path="practical/attendancePractical" element={<AttendancePractical/>} />
-                        <Route path="performance" element={<PerformanceTable />} />
-                        <Route path="attendancePerformance" element={<AttendancePerformance />} />
-                        <Route path="changepassword" element={<ChangePassword />} />
-                        <Route path="music-list" element={<Music />} />
-                        <Route path="financial-manager" >
-                            <Route path="finance-list" element={<FinanceList />} />
-                            <Route path="balance" element={<BalanceChart />} />
-                            <Route path="income-detail" element={<IncomeDetail />} />
-                            <Route path="outcome-detail" element={<OutcomeDetail />} />
-                            <Route path="create-finance" element={<CreateFinance />} />
-                            <Route path="finance-request-list" element={<FinanceRequestList />} />
-                            <Route path="income-request-detail" element={<IncomeRequestDetail />} />
-                            <Route path="outcome-request-detail" element={<OutcomeRequestDetail />} />
-                            <Route path="balance-chart-details" element={<BalanceDetails />} />
-                        </Route>
-                        <Route path="report-instrument" element={<InstrumentReport />} />
-                        <Route path="instrument-report-management" element={<InstrumentReportManagement />} />
-                        <Route path="instrument" element={<Instrument />} />
+    <Provider store={store}>
+        <BrowserRouter>
+            <Routes>
+                <Route path="login" element={<Login />} />
+                <Route
+                    path="/*"
+                    element={
+                        (await checkLoginStatus()) ? (
+                            <App></App>
+                        ) : (
+                            <LandingPage></LandingPage>
+                        )
+                    }
+                >
+                    <Route path="" element={<Performance />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route
+                        path="request-edit-info-list"
+                        element={<RequestChangeInfoList />}
+                    />
+                    <Route path="member-manager">
+                        <Route
+                            path="create-member"
+                            element={<CreateMember />}
+                        />
+                        <Route path="member-list" element={<MemberList />} />
+                        <Route
+                            path="member-profile"
+                            element={<MemberProfile />}
+                        />
+                        <Route
+                            path="request-edit-info-list"
+                            element={<RequestChangeInfoList />}
+                        />
+                        <Route
+                            path="request-details"
+                            element={<RequestDetail />}
+                        />
                     </Route>
-                    <Route path="/forgotPassword" element={<ForgotPassword />} />
-                </Routes>
-            </BrowserRouter>
-        </Provider>
+                    <Route path="schedule" element={<Schedule />} />
+                    <Route path="practical" element={<PracticalList />} />
+                    <Route
+                        path="practical/attendancePractical"
+                        element={<AttendancePractical />}
+                    />
+                    <Route
+                        path="practical-productivity"
+                        element={<PracticalProductivity />}
+                    />
+                    <Route path="performance" element={<PerformanceTable />} />
+                    <Route
+                        path="attendancePerformance"
+                        element={<AttendancePerformance />}
+                    />
+                    <Route path="changepassword" element={<ChangePassword />} />
+                    <Route path="music-list" element={<Music />} />
+                    <Route path="financial-manager">
+                        <Route path="finance-list" element={<FinanceList />} />
+                        <Route path="balance" element={<BalanceChart />} />
+                        <Route
+                            path="income-detail"
+                            element={<IncomeDetail />}
+                        />
+                        <Route
+                            path="outcome-detail"
+                            element={<OutcomeDetail />}
+                        />
+                        <Route
+                            path="create-finance"
+                            element={<CreateFinance />}
+                        />
+                        <Route
+                            path="finance-request-list"
+                            element={<FinanceRequestList />}
+                        />
+                        <Route
+                            path="income-request-detail"
+                            element={<IncomeRequestDetail />}
+                        />
+                        <Route
+                            path="outcome-request-detail"
+                            element={<OutcomeRequestDetail />}
+                        />
+                        <Route
+                            path="balance-chart-details"
+                            element={<BalanceDetails />}
+                        />
+                    </Route>
+                    <Route
+                        path="report-instrument"
+                        element={<InstrumentReport />}
+                    />
+                    <Route
+                        path="instrument-report-management"
+                        element={<InstrumentReportManagement />}
+                    />
+                    <Route path="instrument" element={<Instrument />} />
+                </Route>
+                <Route path="/forgotPassword" element={<ForgotPassword />} />
+            </Routes>
+        </BrowserRouter>
+    </Provider>
 );
 
 reportWebVitals();
