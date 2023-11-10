@@ -174,7 +174,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
 			}
 			else
 			{
-				throw new SystemException();
+				throw new InvalidException("Date is invalid!");
 			}
 		}
 
