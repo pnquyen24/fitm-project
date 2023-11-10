@@ -24,6 +24,12 @@ namespace FITM_BE.Service.RequestEditInforService
         {
             RequestEditInfo requestEditInfo = _mapper.Map<RequestEditInfo>(requestEditInfoDto);
             requestEditInfo.Status = Enums.RequestEditInfoStatus.Pending;
+            var existRequest = _repository.GetAll<RequestEditInfo>()
+                .Where(rq => rq.CreatedById == requestEditInfo.CreatedById);
+
+            if (existRequest.Any(rq=> rq.Status.Equals(Enums.RequestEditInfoStatus.Pending))) {
+                throw new InvalidException("One member can only send one pending request pertime"); }
+            else
             await _repository.Add(requestEditInfo);
             return requestEditInfo;
         }
