@@ -12,13 +12,14 @@ import {
     CardHeader,
     Radio,
     RadioGroup,
+    Stack,
     Typography,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import BasicTable from "../../Member/Table/BasicTable/BasicTable";
-import Breadcrumb from "../../Member/Breadcrumb/Breadcrumb";
 import CustomeFCLabel from "../../Member/Label/CustomeFCLabel";
+import { Link as RouterLink } from "react-router-dom";
 
 function AttendancePractical() {
     document.title = "Attendance Practical";
@@ -98,7 +99,6 @@ function AttendancePractical() {
     return (
         <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
             <form action="">
-                <Breadcrumb />
                 <CardHeader
                     title={
                         <Typography component={"span"} variant="subtitle1">
@@ -106,9 +106,18 @@ function AttendancePractical() {
                         </Typography>
                     }
                     action={
-                        <Button variant="contained" onClick={handleSubmit}>
-                            Save
-                        </Button>
+                        <Stack direction="row" spacing={1}>
+                            <Button variant="contained" onClick={handleSubmit}>
+                                Save
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                component={RouterLink}
+                                to="../practical"
+                            >
+                                Back
+                            </Button>
+                        </Stack>
                     }
                 />
                 <BasicTable columns={columns} rows={rows} />

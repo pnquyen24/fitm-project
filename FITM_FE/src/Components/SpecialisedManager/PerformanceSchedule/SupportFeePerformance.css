@@ -3,20 +3,8 @@
     margin-top: 2%;
 }
 
-.table-container .pnq-actions-header{
-    display: flex !important;
-    justify-content: space-between;
-    align-items: end;
-    height: 26px;
-    margin-bottom: 10px;
-
-}
-.pnq-button{
-    height: fit-content;
-    display: flex;
-    gap: 20px;
-}
 .pnq-content{
     display: flex;
     gap: 10px;
+    margin-right: 10px;
 }
