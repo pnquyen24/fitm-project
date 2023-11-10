@@ -14,6 +14,7 @@ import {
 import { Fragment, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import "./Instrument.css";
 
 function Row({ columns, row }) {
     const [open, setOpen] = useState(false);
@@ -50,7 +51,12 @@ function Row({ columns, row }) {
                     style={{ paddingBottom: 0, paddingTop: 0 }}
                     colSpan={4}
                 >
-                    <Collapse in={open} timeout="auto" unmountOnExit>
+                    <Collapse
+                        id="collapse-table"
+                        in={open}
+                        timeout="auto"
+                        unmountOnExit
+                    >
                         <Box sx={{ margin: 1 }}>
                             <Table size="small">
                                 <TableHead>
@@ -104,7 +110,7 @@ function CollapsibleTable({ columns, rows }) {
     return (
         <>
             <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
+                <Table>
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
