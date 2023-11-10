@@ -58,6 +58,7 @@ const instrumentSlice = createSlice({
                 const newInstrument = action.payload;
                 state.instruments.map((i) => {
                     if (i.id === newInstrument.id) {
+                        i.count++;
                         i.itemIds = newInstrument.itemIds;
                         isFound = true;
                     }

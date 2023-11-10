@@ -37,7 +37,8 @@
     width: 50vh;
     height: 80%;
     margin-top: 50px;
-    background-size: cover;
+    background-size: 100%;
+    background-repeat: no-repeat;
     background-position: center center;
 }
 .page-contact{

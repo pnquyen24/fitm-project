@@ -1,5 +1,8 @@
 import {
     Button,
+    Card,
+    CardActions,
+    CardHeader,
     FormControl,
     MenuItem,
     Paper,
@@ -25,9 +28,10 @@ function SupportFeePerformance() {
     const COUNT_PERFORMANCE_OF_MEMBER_URL =
         "PerformanceSchedule/CountPerformanceOfMember";
 
+    const currentMonth = new Date().getMonth() + 1;
     const [members, setMembers] = useState([]);
     const [supportFee, setSupportFee] = useState(50000);
-    const [monthRange, setMonthRange] = useState(1);
+    const [monthRange, setMonthRange] = useState(currentMonth);
     const navigate = useNavigate();
 
     const handleChangeSupportFee = (event) => {
@@ -78,7 +82,7 @@ function SupportFeePerformance() {
             .then((response) => {
                 setMembers(response.data);
             })
-            .catch((error) => {});
+            .catch((error) => { });
     }, [monthRange]);
 
     function handleCrateOutCome(outcome) {
@@ -99,53 +103,56 @@ function SupportFeePerformance() {
     };
 
     return (
-        <div className="table-container">
-            <div className="pnq-actions-header">
-                <div className="pnq-content">
+        <Card className="table-container">
+            <CardHeader
+                title={
                     <Typography variant="body1">
-                        <strong>Month:</strong>
+                        Support Cost
                     </Typography>
-                    <FormControl variant="standard" size="small">
-                        <Select
-                            value={monthRange}
-                            onChange={handleChangeMonthRange}
-                            label="Month"
+                }
+                action={
+                    <CardActions>
+                        <div className="pnq-content">
+                            <Typography variant="body1">
+                                <strong>Month:</strong>
+                            </Typography>
+                            <FormControl variant="standard" size="small">
+                                <Select
+                                    value={monthRange}
+                                    onChange={handleChangeMonthRange}
+                                    label="Month"
+                                >
+                                    <MenuItem value={1}>January</MenuItem>
+                                    <MenuItem value={2}>February</MenuItem>
+                                    <MenuItem value={3}>March</MenuItem>
+                                    <MenuItem value={4}>April</MenuItem>
+                                    <MenuItem value={5}>May</MenuItem>
+                                    <MenuItem value={6}>June</MenuItem>
+                                    <MenuItem value={7}>July</MenuItem>
+                                    <MenuItem value={8}>August</MenuItem>
+                                    <MenuItem value={9}>September</MenuItem>
+                                    <MenuItem value={10}>October</MenuItem>
+                                    <MenuItem value={11}>November</MenuItem>
+                                    <MenuItem value={12}>December</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            onClick={(e) => handleDownload(monthRange)}
                         >
-                            <MenuItem value={1}>January</MenuItem>
-                            <MenuItem value={2}>February</MenuItem>
-                            <MenuItem value={3}>March</MenuItem>
-                            <MenuItem value={4}>April</MenuItem>
-                            <MenuItem value={5}>May</MenuItem>
-                            <MenuItem value={6}>June</MenuItem>
-                            <MenuItem value={7}>July</MenuItem>
-                            <MenuItem value={8}>August</MenuItem>
-                            <MenuItem value={9}>September</MenuItem>
-                            <MenuItem value={10}>October</MenuItem>
-                            <MenuItem value={11}>November</MenuItem>
-                            <MenuItem value={12}>December</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
-
-                <div className="pnq-button">
-                    <Button
-                        variant="contained"
-                        size="small"
-                        color="success"
-                        onClick={(e) => handleDownload(monthRange)}
-                    >
-                        Download Excel
-                    </Button>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        onClick={(e) => handleCrateOutCome(totalFee(rows))}
-                    >
-                        Outcome
-                    </Button>
-                </div>
-            </div>
-
+                            Download Excel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={(e) => handleCrateOutCome(totalFee(rows))}
+                        >
+                            Outcome
+                        </Button>
+                    </CardActions>
+                }
+            />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="spanning table">
                     <TableHead>
@@ -218,7 +225,7 @@ function SupportFeePerformance() {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </Card>
     );
 }
 

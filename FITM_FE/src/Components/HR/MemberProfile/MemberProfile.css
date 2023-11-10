@@ -101,7 +101,7 @@
 .main-avatar{
     width: 200px;
     height: 200px;
-    background-size: cover;
+    background-size: 120%;
     background-position: center center;
     border-radius: 50%;
     background-image: url("");
@@ -133,4 +133,5 @@
     to {
         transform: rotate(360deg);
     }
+
 }
