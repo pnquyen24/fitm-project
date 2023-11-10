@@ -177,12 +177,8 @@ const FinanceList = () => {
     <div className="finance">
       <div className="finance_title"></div>
 
-      <div className="create_finance_top">
-        <Link to="/">
-          <Button variant="contained" color="primary">
-            <span>BACK TO HOME</span>
-          </Button>
-        </Link>
+            <div className="create_finance_top">
+  
 
         <div className="filter-dropdown">
           <Select value={filterValue} style={{padding:"0 0 0 0"}} onChange={handleFilterChange}>

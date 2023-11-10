@@ -68,62 +68,66 @@ const FinanceRequestList = () => {
 
   //===================================
 
-  return (
-    <div className="finance">
-      <div className="create_finance_top" style={{marginTop:"20px"}}>
-        <Link to="/">
-          <Button variant="contained" color="primary">BACK TO HOME</Button>
-        </Link>
-      </div>
-      <Table className="finance_table">
-        <TableHead className="finance_table_thead">
-          <TableRow>
-            <TableCell>Type</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Amount</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Detail</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((item, index) => {
-            return (
-              <tr key={index}>
-                <TableCell style={getTypeStyle(item.IsIncome)}>{item.IsIncome ? "Income": "Outcome"}</TableCell>
-                <TableCell>{item.title}</TableCell>
-                <TableCell>{item.amount}</TableCell>
-                <TableCell style={getStatusStyle(item.financeStatus)}>
-                  {getStatusLabel(item.financeStatus)}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => {
-                      item.type === "Outcome"
-                        ? ViewOutcomeRequestDetail(item.id)
-                        : ViewIncomeRequestDetail(item.id);
-                    }}
-                    variant="outlined"
-                    size="small"
-                    className="detail-button"
-                  >
-                    View Detail
-                  </Button>
-                </TableCell>
-              </tr>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <div style={{ marginTop: "30px" }}>
-        <PaginationComponent
-          data={data}
-          itemPerPage={ITEMS_PER_PAGE}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
-      </div>
-    </div>
-  );
+    return (
+        <div className="finance">
+            <div className="create_finance_top" style={{ marginTop: "20px" }}>
+
+            </div>
+            <Table className="finance_table">
+                <TableHead className="finance_table_thead">
+                    <TableRow>
+                        <TableCell>Type</TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Amount</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Detail</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data.map((item, index) => {
+                        return (
+                            <tr key={index}>
+                                <TableCell style={getTypeStyle(item.isIncome)}>
+                                    {item.isIncome ? "Income" : "Outcome"}
+                                </TableCell>
+                                <TableCell>{item.title}</TableCell>
+                                <TableCell>{item.amount}</TableCell>
+                                <TableCell>
+                                    {getStatusLabel(item.financeStatus)}
+                                </TableCell>
+                                <TableCell>
+                                    <Button
+                                        onClick={() => {
+                                            !item.isIncome
+                                                ? ViewOutcomeRequestDetail(
+                                                      item.id
+                                                  )
+                                                : ViewIncomeRequestDetail(
+                                                      item.id
+                                                  );
+                                        }}
+                                        variant="outlined"
+                                        size="small"
+                                        className="detail-button"
+                                    >
+                                        View Detail
+                                    </Button>
+                                </TableCell>
+                            </tr>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+            <div style={{ marginTop: "30px" }}>
+                <PaginationComponent
+                    data={data}
+                    itemPerPage={ITEMS_PER_PAGE}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                />
+            </div>
+        </div>
+    );
 };
 
 export default FinanceRequestList;
