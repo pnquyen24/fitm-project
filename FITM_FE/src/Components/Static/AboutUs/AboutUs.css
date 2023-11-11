@@ -2,7 +2,11 @@
     display: flex;
     height: 100vh;
     padding-top: 5vh;
-    background-color: rgb(245,245,245);
+    width: 100%;
+    background-color: white;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
 }
 .about-navigation{
     height: 80%;
@@ -27,4 +31,22 @@
 }
 .about-content{
     width: 90%;
+}
+.had76{
+    background-image: url('/public/IMG/HereWeAre/Canh-1.png');
+}
+.had7126{
+    background-image: url('/public/IMG/HereWeAre/Tran-1.png');
+}
+.had7124226{
+    background-image: url('/public/IMG/HereWeAre/Quyen-1.png');
+}
+.hsgad7126{
+    background-image: url('/public/IMG/HereWeAre/Dat-1.png');
+}
+.hsgasad7126{
+    background-image: url('/public/IMG/HereWeAre/Dung-1.png');
+}
+.hncsgasad7126{
+    background-image: url('/public/IMG/HereWeAre/Duong-2.png');
 }
