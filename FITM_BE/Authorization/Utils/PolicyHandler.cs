@@ -30,7 +30,13 @@ namespace FITM_BE.Authorization.Utils
                     return Task.CompletedTask;
                 }
             }
-            context.Fail();
+            if ( context.PendingRequirements
+                .Where(pending => pending is PolicyRequirement)
+                .Select(pending => (PolicyRequirement)pending)
+                .Any(pending => pending.ControllerName == null) )
+                context.Succeed(requirement);
+            else
+                context.Fail();
             return Task.CompletedTask;
         }
     }
