@@ -30,6 +30,7 @@ namespace FITM_BE.Controllers
 
 
         [HttpPost]
+        [Policy]
         public async Task<IActionResult> CreateIstrumentReport(InstrumentReportDtos instrumentReportDtos)
         {
             if (instrumentReportDtos == null)
