@@ -41,7 +41,7 @@ const Pages =({Name, Avatar, fbLink}) =>{
             <ion-icon name="logo-github" size="large" style={{color:"black"}}></ion-icon>
             </div>
             <Button className='page-back-button' onClick={backToHome}>
-                Back to home
+                Back
             </Button>
         </div>
     )
