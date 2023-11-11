@@ -39,6 +39,7 @@ import InstrumentReport from "./Components/Static/ReportInstrument/ReportInstrum
 import InstrumentReportManagement from "./Components/Static/InstrumentReportManagement/InstrumentReportManagement";
 import Instrument from "./Components/Static/Instrument/Instrument";
 import SupportFeePerformance from "./Components/SpecialisedManager/PerformanceSchedule/SupportFeePerformance";
+import Role from "./Components/Authorization/Role.js";
 
 const CHECK_LOGIN_URL = "Acount/CheckLogin";
 
@@ -100,6 +101,10 @@ root.render(
                         <Route
                             path="request-details"
                             element={<RequestDetail />}
+                        />
+                        <Route
+                            path="modify-role"
+                            element={<Role />}
                         />
                     </Route>
                     <Route path="schedule" element={<Schedule />} />
