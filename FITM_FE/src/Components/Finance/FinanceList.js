@@ -188,6 +188,7 @@ const FinanceList = () => {
               <Select className="mx-3"
                 value={filterValue}
                 style={{ padding: "0 0 0 0" }}
+                size="small"
                 onChange={handleFilterChange}
               >
                 <MenuItem value={All} style={{ color: "gray" }}>
