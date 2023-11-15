@@ -128,6 +128,10 @@ const schedulesSlice = createSlice({
             })
             .addCase(createPractical.fulfilled, (state, action) => {
                 state.practicals.push(action.payload);
+                CustomeAlert.success("Created Successfully!");
+            })
+            .addCase(createPractical.rejected, (state, action) => {
+                CustomeAlert.error("Something error!");
             })
             .addCase(updatePractical.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
@@ -137,12 +141,20 @@ const schedulesSlice = createSlice({
                     }
                     return schedule;
                 });
+                CustomeAlert.success("Updated successfully!");
+            })
+            .addCase(updatePractical.rejected, (state, action) => {
+                CustomeAlert.error("Something error!");
             })
             .addCase(deletePractical.fulfilled, (state, action) => {
                 const { id } = action.payload;
                 state.practicals = state.practicals.filter(
                     (schedule) => schedule.id !== id
                 );
+                CustomeAlert.success("Deleted Successfully!");
+            })
+            .addCase(deletePractical.rejected, (state, action) => {
+                CustomeAlert.error("Something error!");
             })
             //Performance Schedule
             .addCase(fetchPerformances.fulfilled, (state, action) => {
