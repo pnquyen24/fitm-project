@@ -234,7 +234,7 @@ function BalanceChart() {
             <span>Back</span>
           </Button>
         </Link>
-        <FormControl>
+        <FormControl size="small">
           <Select value={dataCategory} onChange={handleDataCategoryChange}>
             <MenuItem value="Balance">Balance</MenuItem>
             <MenuItem value="Income">Income</MenuItem>

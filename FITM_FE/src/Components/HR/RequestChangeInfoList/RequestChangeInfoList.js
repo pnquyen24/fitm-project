@@ -146,7 +146,7 @@ function RequestChangeInfoList() {
                   <SearchIcon />
                 </IconButton>
               </Paper>
-              <FormControl className="mx-3">
+              <FormControl className="mx-3" size="small">
                 <Select value={option} onChange={handleFilterChange}>
                   <MenuItem value="All" style={{ color: "gray" }}>
                     ALL

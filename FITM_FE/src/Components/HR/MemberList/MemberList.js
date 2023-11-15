@@ -133,7 +133,7 @@ function MemberList() {
                   <SearchIcon />
                 </IconButton>
               </Paper>
-              <FormControl className="mx-2">
+              <FormControl className="mx-2" size="small">
                 <Select value={option} onChange={handleFilterChange}>
                   <MenuItem value="All">All</MenuItem>
                   <MenuItem value="Active" style={{ color: "green" }}>
