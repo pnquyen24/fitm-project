@@ -18,10 +18,9 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PerformanceCreateDTO pfmDTO)
+        public async Task<PerformanceDetail?> Create(PerformanceCreateDTO pfmDTO)
         {
-            await _performanceScheduleService.CreatePerformance(pfmDTO);
-            return Ok(pfmDTO);
+            return await _performanceScheduleService.CreatePerformance(pfmDTO);
         }
 
         [HttpGet]
@@ -39,7 +38,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
-	[Policy]
+	    [Policy]
         public async Task<PerformanceDetail?> ViewPerformanceDetails(int pfmID)
         {
             return await _performanceScheduleService.ViewPerformanceDetail(pfmID);

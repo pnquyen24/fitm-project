@@ -14,12 +14,13 @@ namespace FITM_BE.Service.PerformanceScheduleService
         public PerfomanceScheduleService(IRepository repository, IMapper mapper) : base(repository, mapper) { }
 
         private static DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
-        public async Task CreatePerformance(PerformanceCreateDTO pfmDTO)
+        public async Task<PerformanceDetail?> CreatePerformance(PerformanceCreateDTO pfmDTO)
         {
             if (pfmDTO.Date.CompareTo(currentDate) >= 0)
             {
                 var pfm = new PerformanceSchedule
                 {
+
                     Name = pfmDTO.Name,
                     Place = pfmDTO.Place,
                     Date = pfmDTO.Date,
@@ -31,7 +32,8 @@ namespace FITM_BE.Service.PerformanceScheduleService
                     }).ToList()
                 };
 
-                await _repository.Add(pfm);
+                pfm = await _repository.Add(pfm).ConfigureAwait(false);
+                return await ViewPerformanceDetail(pfm.Id);
             }
             else
             {
