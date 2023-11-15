@@ -108,7 +108,7 @@ namespace FITM_BE.Service.FinanceService
             long currentBalance = CalculateBalanceByBefore(new DateTime(2023, 10, 1), start);
             List<BalanceDto> balances = new List<BalanceDto>();
 
-            for (var date = start.Date; date <= end.Date; date = date.AddDays(1))
+            for ( var date = start.Date; date <= end.Date; date = date.AddDays(1) )
             {
                 var group = groupedData.FirstOrDefault(g => g.Key == date);
                 var incomeTotal = group?.Where(item => item.IsIncome).Sum(item => item.TotalAmount) ?? 0;
@@ -179,7 +179,7 @@ namespace FITM_BE.Service.FinanceService
             long currentBalance = 0;
             List<BalanceDto> balances = new List<BalanceDto>();
 
-            for (var date = start.Date; date <= end.Date; date = date.AddDays(1))
+            for ( var date = start.Date; date <= end.Date; date = date.AddDays(1) )
             {
                 var incomeTotal = combinedData.FirstOrDefault(item => item.ModifiedTime == date)?.TotalIncome ?? 0;
                 var outcomeTotal = combinedData.FirstOrDefault(item => item.ModifiedTime == date)?.TotalOutcome ?? 0;
@@ -279,7 +279,7 @@ namespace FITM_BE.Service.FinanceService
             var income = _repository.Get<Income>(id);
             var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
                 .Where(member => member.Roles.Any(role => role.RoleName == "Admin")).ToList();
-            if (income == null)
+            if ( income == null )
             {
                 // Handle the case when the income with the specified id is not found
                 return null;
@@ -296,11 +296,13 @@ namespace FITM_BE.Service.FinanceService
             string amount = income.Amount.ToString();
             string status = incomeDto.FinanceStatus.ToString();
 
-            foreach (var member in finance_manager)
+            Task.Run(async () =>
             {
-                await SendIncomeReport(member.Email, title, description, amount, status);
-            }
-
+                foreach ( var member in finance_manager )
+                {
+                    await SendIncomeReport(member.Email, title, description, amount, status).ConfigureAwait(true);
+                }
+            }).GetAwaiter();
             return _mapper.Map<IncomeListDto>(updatedIncome);
         }
 
@@ -320,7 +322,7 @@ namespace FITM_BE.Service.FinanceService
                 $"</ul>"
             );
 
-            await _emailSender.SendEmailAsync(message);
+            await _emailSender.SendEmailAsync(message).ConfigureAwait(true);
         }
         //======================================
         public async Task<OutcomeListDto> ChangeOutcomeStatus(int id)
@@ -329,7 +331,7 @@ namespace FITM_BE.Service.FinanceService
             var finance_manager = _repository.GetAll<FITM_BE.Entity.Member>()
                 .Where(member => member.Roles.Any(role => role.RoleName == "Admin")).ToList();
 
-            if (outcome == null)
+            if ( outcome == null )
             {
                 return null;
             }
@@ -344,11 +346,13 @@ namespace FITM_BE.Service.FinanceService
             string amount = outcome.Amount.ToString();
             string status = outcomeDto.FinanceStatus.ToString();
 
-            foreach (var member in finance_manager)
+            Task.Run(async () =>
             {
-                await SendOutcomeReport(member.Email, title, description, amount, status);
-            }
-
+                foreach ( var member in finance_manager )
+                {
+                    await SendOutcomeReport(member.Email, title, description, amount, status).ConfigureAwait(true);
+                }
+            }).GetAwaiter();
             return _mapper.Map<OutcomeListDto>(updatedOutcome);
         }
 
@@ -368,7 +372,7 @@ namespace FITM_BE.Service.FinanceService
                 $"</ul>"
             );
 
-            await _emailSender.SendEmailAsync(message);
+            await _emailSender.SendEmailAsync(message).ConfigureAwait(true);
         }
 
         //====================================================
@@ -377,7 +381,7 @@ namespace FITM_BE.Service.FinanceService
         {
             Message message;
 
-            if (status == 2)
+            if ( status == 2 )
             {
                 message = new Message
                 (
@@ -399,7 +403,7 @@ namespace FITM_BE.Service.FinanceService
                     + "<p>Your request to change Finance Request has been accepted</p>"
                  );
             }
-            await _emailSender.SendEmailAsync(message);
+            await _emailSender.SendEmailAsync(message).ConfigureAwait(true);
         }
 
 
@@ -414,9 +418,9 @@ namespace FITM_BE.Service.FinanceService
             requestEditIncome.FinanceStatus = (Enums.FinanceStatus)3;
             await _repository.Update(requestEditIncome);
 
-            foreach (var member in finance_manager)
+            foreach ( var member in finance_manager )
             {
-                await ReplyRequestMail(member.Email, 2);
+                await ReplyRequestMail(member.Email, 2).ConfigureAwait(true);
             }
 
             var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
@@ -435,9 +439,9 @@ namespace FITM_BE.Service.FinanceService
             requestEditIncome.FinanceStatus = (Enums.FinanceStatus)2;
             await _repository.Update(requestEditIncome);
 
-            foreach (var member in finance_manager)
+            foreach ( var member in finance_manager )
             {
-                await ReplyRequestMail(member.Email, 1);
+                await ReplyRequestMail(member.Email, 1).ConfigureAwait(true);
             }
 
             var createRequestEditIncome = _mapper.Map<CreateIncomeDto>(requestEditIncome);
@@ -456,9 +460,9 @@ namespace FITM_BE.Service.FinanceService
             requestEditOutcome.FinanceStatus = (Enums.FinanceStatus)3;
             await _repository.Update(requestEditOutcome);
 
-            foreach (var member in finance_manager)
+            foreach ( var member in finance_manager )
             {
-                await ReplyRequestMail(member.Email, 2);
+                await ReplyRequestMail(member.Email, 2).ConfigureAwait(true);
             }
 
             var createRequestEditOutcome = _mapper.Map<CreateOutcomeDto>(requestEditOutcome);
@@ -477,9 +481,9 @@ namespace FITM_BE.Service.FinanceService
             requestEditOutcome.FinanceStatus = (Enums.FinanceStatus)2;
             await _repository.Update(requestEditOutcome);
 
-            foreach (var member in finance_manager)
+            foreach ( var member in finance_manager )
             {
-                await ReplyRequestMail(member.Email, 1);
+                await ReplyRequestMail(member.Email, 1).ConfigureAwait(true);
             }
 
             var createRequestEditOutcome = _mapper.Map<CreateOutcomeDto>(requestEditOutcome);
@@ -497,7 +501,8 @@ namespace FITM_BE.Service.FinanceService
            .Select(ic => new FinanceDto { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime.Value, ModifiedTime = ic.ModifiedTime, financeStatus = ic.financeStatus, BillCode = ic.BillCode, IsIncome = ic.IsIncome });
 
             // Return the merged data
-            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.CreatedTime).ThenByDescending(c => c.ModifiedTime); ;
+            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.CreatedTime).ThenByDescending(c => c.ModifiedTime);
+            ;
         }
         public IEnumerable<FinanceDto> GetBalanceDetail(DateTime start, DateTime end)
         {
@@ -511,7 +516,8 @@ namespace FITM_BE.Service.FinanceService
                 .Select(ic => new FinanceDto { Id = ic.Id, Title = ic.Title, Description = ic.Description, Amount = ic.Amount, CreatedTime = ic.CreatedTime.Value, ModifiedTime = ic.ModifiedTime, financeStatus = ic.financeStatus, BillCode = ic.BillCode, IsIncome = ic.IsIncome });
 
             // Return the merged data
-            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.ModifiedTime).ThenByDescending(c => c.CreatedTime); ;
+            return mergedData.OrderBy(c => c.financeStatus).ThenByDescending(c => c.ModifiedTime).ThenByDescending(c => c.CreatedTime);
+            ;
         }
 
     }
@@ -521,7 +527,7 @@ class DateComparer : IEqualityComparer<DateTime?>
 {
     public bool Equals(DateTime? x, DateTime? y)
     {
-        if (!x.HasValue || !y.HasValue)
+        if ( !x.HasValue || !y.HasValue )
             return false;
         return x.Value.Date.Equals(y.Value.Date);
     }
