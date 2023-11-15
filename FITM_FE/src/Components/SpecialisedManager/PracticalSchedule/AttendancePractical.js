@@ -97,7 +97,7 @@ function AttendancePractical() {
     }
 
     return (
-        <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+        <Card sx={{ width: "96%", marginTop: "2%", overflow: "hidden" }}>
             <form action="">
                 <CardHeader
                     title={

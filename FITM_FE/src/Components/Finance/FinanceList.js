@@ -178,7 +178,7 @@ const FinanceList = () => {
   return (
     <>
       <Card
-        sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}
+        sx={{ width: "96%", marginTop: "2%", overflow: "hidden" }}
       >
         <CardHeader
           title={<Typography variant="body1">Finance list</Typography>}

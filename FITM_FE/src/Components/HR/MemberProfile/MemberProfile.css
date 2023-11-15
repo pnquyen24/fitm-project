@@ -128,7 +128,9 @@
     height: 40px;
     animation: spin 1s linear infinite;
 }
-
+.form-control{
+    padding-left: 0; 
+}
 @keyframes spin {
     to {
         transform: rotate(360deg);

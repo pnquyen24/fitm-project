@@ -3,51 +3,124 @@ import { Color } from "../../../Variable/Color/Color";
 import Choice from "./Choices/Choice";
 import "./SideBar.css";
 import SubInfo from "./SubInfo/SubInfo";
+import { jwtDecode } from "jwt-decode";
 
 function SideBar({ isOpen, setOpen }) {
+  const [selectedChoice, setSelectedChoice] = useState(null);
 
-    const [selectedChoice, setSelectedChoice] = useState(null);
+  const handleChoiceClick = (index) => {
+    setSelectedChoice(index);
+  };
+  const choices = [
+    {
+      Title: "Members",
+      Icon: "person-outline",
+      Link: "/member-manager/member-list",
+      Role: ["Admin","HRM"],
+    },
+    {
+      Title: "Info Requests",
+      Icon: "checkbox-outline",
+      Link: "/member-manager/request-edit-info-list",
+      Role: ["Admin", "HRM"],
+    },
+    {
+      Title: "Schedule",
+      Icon: "add-circle-outline",
+      Link: "/schedule",
+      Role: ["Admin", "SM"],
+    },
+    {
+      Title: "Performances",
+      Icon: "calendar-outline",
+      Link: "/performance",
+      Role: ["Admin", "SM"],
+    },
+    {
+      Title: "Practicals",
+      Icon: "calendar",
+      Link: "/practical",
+      Role: ["Admin", "SM"],
+    },
+    {
+      Title: "Musics",
+      Icon: "musical-notes-outline",
+      Link: "/music-list",
+      Role: ["Admin", "SM"],
+    },
+    {
+      Title: "Finances",
+      Icon: "cash-outline",
+      Link: "financial-manager/finance-list",
+      Role: ["Admin", "HRM"],
+    },
+    {
+      Title: "Finance Requests",
+      Icon: "wallet-outline",
+      Link: "financial-manager/finance-request-list",
+      Role: ["Admin", "FM"],
+    },
+    {
+      Title: "Report Instrument",
+      Icon: "warning-outline",
+      Link: "/report-instrument",
+      Role: ["Admin", "Member"],
+    },
+    {
+      Title: "Instrument Reports",
+      Icon: "file-tray-full-outline",
+      Link: "/instrument-report-management",
+      Role: ["Admin", "Member"],
+    },
+    {
+      Title: "Instruments",
+      Icon: "file-tray-full",
+      Link: "/instrument",
+      Role: ["Admin", "SM"],
+    },
+    {
+      Title: "Support Fee",
+      Icon: "cash-outline",
+      Link: "/support-fee",
+      Role: ["Admin", "SM"],
+    },
+    {
+      Title: "Developers",
+      Icon: "information-circle-outline",
+      Link: "/about-us",
+      Role: ["Admin", "Member"],
+    },
+  ];
+  let [Role,setRole]=useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const decoded = jwtDecode(token);
+    setRole(decoded.Roles);
+    console.log(Role)
+  }, []);
 
-    const handleChoiceClick = (index) => {
-        setSelectedChoice(index);
-    };
-    const choices = [
-        { Title: "Member Management", Icon: "person-outline", Link: "/member-manager/member-list" },
-        { Title: "Change Info Requests", Icon: "checkbox-outline", Link: "/member-manager/request-edit-info-list" },
-        { Title: "Schedule", Icon: "add-circle-outline", Link: "/schedule" },
-        { Title: "Performance Schedule", Icon: "calendar-outline", Link: "/performance" },
-        { Title: "Practical Schedule", Icon: "calendar", Link: "/practical" },
-        { Title: "Music List", Icon: "musical-notes-outline", Link: "/music-list" },
-        { Title: 'Finance', Icon: 'cash-outline', Link: "financial-manager/finance-list" },
-        { Title: 'Finance Request List', Icon: 'wallet-outline', Link: "financial-manager/finance-request-list" },
-        { Title: 'Instrument Report', Icon: 'warning-outline', Link: "/report-instrument" },
-        { Title: 'Instrument Report Management', Icon: 'file-tray-full-outline', Link: "/instrument-report-management" },
-        { Title: 'Instrument', Icon: 'file-tray-full', Link: "/instrument" },
-        { Title: "Support Fee", Icon: "cash-outline", Link: "/support-fee" },
-        { Title: 'Developers', Icon: 'information-circle-outline', Link: "/about-us" },
-    ];
-    useEffect(() => {}, []);
-
-    return (
-        <div
-            className={`sideBar ${isOpen ? "open" : ""}`}
-            style={{ backgroundColor: Color.color2 }}
-        >
-            <SubInfo></SubInfo>
-            {choices.map((choice, index) => (
-                <div key={index} className="sidebar-link">
-                    <Choice
-                        Title={choice.Title}
-                        Icon={choice.Icon}
-                        isOpen={isOpen}
-                        isSelected={selectedChoice === index}
-                        onClick={() => handleChoiceClick(index)}
-                        _Link={choice.Link}
-                    ></Choice>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div
+      className={`sideBar ${isOpen ? "open" : ""}`}
+      style={{ backgroundColor: Color.color2 }}
+    >
+      <SubInfo setSelectedChoice={setSelectedChoice}></SubInfo>
+      {choices
+        .filter((choice) => choice.Role.some((r) => Role.includes(r)))
+        .map((choice, index) => (
+          <div key={index} className="sidebar-link">
+            <Choice
+              Title={choice.Title}
+              Icon={choice.Icon}
+              isOpen={isOpen}
+              isSelected={selectedChoice === index}
+              onClick={() => handleChoiceClick(index)}
+              _Link={choice.Link}
+            ></Choice>
+          </div>
+        ))}
+    </div>
+  );
 }
 
 export default SideBar;

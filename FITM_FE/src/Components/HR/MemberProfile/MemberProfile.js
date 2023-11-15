@@ -12,7 +12,6 @@ function MemberProfile() {
   const GET_MEMBER_BY_ID_URL = "Member/GetMemberById";
   const CHANGE_STATUS_URL = "Member/ChangeStatus";
   const GET_ROLE_URL = "Role/Get";
-  const [role, setRole] = useState([]);
   const [member, setMember] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,24 +22,15 @@ function MemberProfile() {
     axiosClient
       .get(`${GET_MEMBER_BY_ID_URL}?id=` + id)
       .then((response) => {
+        console.log(response.data);
         setMember(response.data);
       })
       .catch((error) => {});
   }, [id]);
 
-  function GetMemberRoles() {
-    axiosClient
-      .get(`${GET_ROLE_URL}?id=${id}`)
-      .then((res)=> res.data)
-      .then((data) => {
-        setRole(data.roles);
-      })
-      .catch();
-  }
 
   useEffect(() => {
     getData();
-    GetMemberRoles();
   }, [id, getData]);
 
   function ChangeStatus(id) {
@@ -53,14 +43,14 @@ function MemberProfile() {
         setLoading(false);
         hideLoadingOverlay();
         CustomeAlert.success(
-          `${member.status === 1 ? "Deactivate" : "Activate"} success!`
+          `${member.status? "Deactivate" : "Activate"} success!`
         );
         getData();
       })
       .catch(() => {
         hideLoadingOverlay();
         CustomeAlert.error(
-          `${member.status === 1 ? "Deactivate" : "Activate"} Error!`
+          `${member.status? "Deactivate" : "Activate"} Error!`
         );
       });
   }
@@ -76,7 +66,7 @@ function MemberProfile() {
   const rolesList=(role) =>{
     let userRole = "";
     role.forEach( r=> {
-        userRole += r.name + "  ";
+        userRole += r + "  ";
     });
     return userRole;
   }
@@ -177,7 +167,7 @@ function MemberProfile() {
                   <label className="labels">Roles:</label>
                   <input
                     type="text"
-                    value={rolesList(role)}
+                    value={rolesList(member.roles)}
                     className="form-control"
                     style={{
                       backgroundColor: " rgba(220, 220, 220, 0.181)",

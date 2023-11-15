@@ -78,7 +78,7 @@ function Instrument() {
     return (
         <>
             <ModalInstrument instrumentInfo={instrumentInfo} isEdit={isEdit} />
-            <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+            <Card sx={{ width: "96%", marginTop: "2%", overflow: "hidden" }}>
                 <CardHeader
                     title={
                         <Typography component={"span"} variant="subtitle1">

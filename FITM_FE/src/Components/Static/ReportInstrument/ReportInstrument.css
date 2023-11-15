@@ -1,5 +1,5 @@
 .instrumentReport-Cover {
-  margin-top: 20px;
+  margin-top: 2%;
   width: 96%;
   display: flex;
   min-height: 85%;
@@ -21,7 +21,6 @@
   box-sizing: border-box;
   background-color: white;
   height: 80%;
-
   gap: 10px;
   position: relative;
 }
