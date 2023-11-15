@@ -6,7 +6,6 @@
 .membercontainer .container_memberList {
     width: 96%;
     float: left;
-    margin-top: 15px;
 }
 .membercontainer{
     width: 96%;
@@ -15,15 +14,6 @@
 /* Table styles */
 .membercontainer .TableContainer {
     width: 100%;
-    margin-top: 15px;
-    margin-bottom: 20px;
-}
-
-.membercontainer.css-1ygcj2i-MuiTableCell-root {
-    text-align: center;
-}
-.css-1ygcj2i-MuiTableCell-root {
-    color: white !important;
 }
 
 .membercontainer .TableHead {
@@ -39,35 +29,6 @@
 .MuiTableBody-root{
     background-color: rgb(255,255,255);
 }
-.membercontainer .css-1ygcj2i-MuiTableCell-root {
-    font-weight: bold ;
-}
-
-.membercontainer .button-container,
-.membercontainer .menu-container .pagination-button {
-    display: flex ;
-    justify-content: center ;
-    align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-.membercontainer .menu-container{
-    display: inline;
-}
-.membercontainer .select-container .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
-    padding: 0;
-    padding-right: 32px;
-}
-.membercontainer .search-input {
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-
-.membercontainer.detail-button:hover {
-    background-color: rgb(240, 248, 255);
-    color: black;
-    cursor: pointer;
-}
 
 .membercontainer .sub-button {
     background-color: rgb(240, 248, 255);
@@ -80,9 +41,6 @@
     margin-right: 20px;
 }
 
-.membercontainer .menu-container .create-member  .detail-button{
-    right:0;
-}
 .css-1fezx95-MuiPaper-root{
     box-shadow: none;
 }
