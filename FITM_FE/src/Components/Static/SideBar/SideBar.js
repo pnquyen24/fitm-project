@@ -67,7 +67,7 @@ function SideBar({ isOpen, setOpen }) {
       Title: "Report Instrument",
       Icon: "warning-outline",
       Link: "/report-instrument",
-      Role: ["Admin", "Member"],
+      Role: ["Member"],
     },
     {
       Title: "Instrument Reports",
