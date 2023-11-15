@@ -61,6 +61,7 @@ function IncomeRequestDetail() {
                 });
             })
             .catch((error) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Error",
                     text: "Accept Unsuccessfully !!!",
@@ -74,6 +75,7 @@ function IncomeRequestDetail() {
         axiosClient
             .post(`${DENY_INCOME_REQUEST_URL}?id=${incomeId}`)
             .then((response) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Finance Report Denied !!!",
                     icon: "success",
@@ -83,6 +85,7 @@ function IncomeRequestDetail() {
                 });
             })
             .catch((error) => {
+                hideLoadingOverlay();
                 Swal.fire({
                     title: "Error",
                     text: "Unsuccessful",
