@@ -31,7 +31,6 @@ function CreateIncome() {
       formData.type === "income" ? ADD_INCOME_URL : ADD_OUTCOME_URL;
 
     if(formData.title === "") {CustomeAlert.error("Title is required"); return;}
-    if(formData.description === "") {CustomeAlert.error("Description is required"); return;}
     if(formData.amount < 10000) {CustomeAlert.error("Amount is less than 10k"); return;}
 
     axiosClient
@@ -148,7 +147,6 @@ function CreateIncome() {
               placeholder="Max 10 digits"
               onChange={handleChange}
               className="form_input"
-              required
             />
           </div>
         </div>
