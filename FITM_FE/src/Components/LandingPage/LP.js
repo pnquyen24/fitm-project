@@ -39,18 +39,18 @@ function LandingPage() {
 
     const topshowData = [
         {
-            position: "Quoc Hoc Quy Nhon",
-            eventName: "Drive chickens 2021",
-            imgLink: "static/media/s1.3187e068cff7f9560855.jpg",
+            position: "Introduction of the CLUB" ,
+            eventName: "FPTU Quy Nhon",
+            imgLink: "static/media/s4.5562f838d9f29a6eae3b.png",
         },
         {
-            position: "FPTU Quy Nhon",
-            eventName: "Open Day 2021",
-            imgLink: "static/media/s2.ce8da35094699949d646.jpg",
+            position: "Đông Ấm",
+            eventName: "Vườn Tái Chế NNC",
+            imgLink: "static/media/s5.ade8cdb0b10af9729da1.png",
         },
         {
-            position: "NASA",
-            eventName: "Cook Day 2021",
+            position: "Âm Vang Sắc Việt" ,
+            eventName: "FPTU Quy Nhon",
             imgLink: "static/media/s3.3070acd7fbae7682402a.jpg",
         },
     ];
@@ -63,10 +63,20 @@ function LandingPage() {
         axiosClient
             .get(VIEW_PERFORMANCE_URL)
             .then((response) => {
-                setPerformances(response.data);
+                const limitedPerformances = response.data.slice(0, 3);
+    
+                const updatedPerformances = [...performances];
+    
+                limitedPerformances.forEach((performance, index) => {
+                    updatedPerformances[index] = performance;
+                });
+                
+                setPerformances(updatedPerformances);
             })
-            .catch((error) => {});
+            .catch((error) => {
+            });
     }, []);
+    
 
     useEffect(() => {
         document.title = "FIT";
@@ -125,7 +135,7 @@ function LandingPage() {
                                     <li>
                                         <button
                                             id="home"
-                                            class={
+                                            className={
                                                 "choice" +
                                                 (position === 1
                                                     ? " hd-active"
@@ -145,7 +155,7 @@ function LandingPage() {
                                     <li>
                                         <button
                                             id="shows"
-                                            class={
+                                            className={
                                                 "choice" +
                                                 (position === 2
                                                     ? " hd-active"
@@ -165,7 +175,7 @@ function LandingPage() {
                                     <li>
                                         <button
                                             id="about"
-                                            class={
+                                            className={
                                                 "choice" +
                                                 (position === 3
                                                     ? " hd-active"
@@ -185,7 +195,7 @@ function LandingPage() {
                                     <li>
                                         <button
                                             id="choice"
-                                            class={
+                                            className={
                                                 "choice" +
                                                 (position === 4
                                                     ? " hd-active"
@@ -224,7 +234,7 @@ function LandingPage() {
                                 <li>
                                     <button
                                         id="home"
-                                        class={
+                                        className={
                                             "choice" +
                                             (position === 1 ? " hd-active" : "")
                                         }
@@ -242,7 +252,7 @@ function LandingPage() {
                                 <li>
                                     <button
                                         id="shows"
-                                        class={
+                                        className={
                                             "choice" +
                                             (position === 2 ? " hd-active" : "")
                                         }
@@ -258,7 +268,7 @@ function LandingPage() {
                                 <li>
                                     <button
                                         id="about"
-                                        class={
+                                        className={
                                             "choice" +
                                             (position === 3 ? " hd-active" : "")
                                         }
@@ -276,7 +286,7 @@ function LandingPage() {
                                 <li>
                                     <button
                                         id="choice"
-                                        class={
+                                        className={
                                             "choice" +
                                             (position === 4 ? " hd-active" : "")
                                         }
@@ -399,7 +409,7 @@ FIT là ngôi nhà chung cho những ai có niềm đam mê với nhạc cụ d�
                         </span>
                     </div>
                     <br />
-                    <a>FOLLOW US </a>
+                    <a href="https://www.facebook.com/FIT.fptuqn">FOLLOW US </a>
                 </div>
                 <div className="intro-right">
                     <div className="cover">
@@ -454,9 +464,9 @@ FIT là ngôi nhà chung cho những ai có niềm đam mê với nhạc cụ d�
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3053.1213046292164!2d109.21919446585878!3d13.805000051380684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x316f6bf778c80973%3A0x8a7d0b5aa0af29c7!2sFPT%20University%20Quy%20Nhon%20AI%20Campus!5e0!3m2!1sen!2s!4v1698803296484!5m2!1sen!2s"
                             width="100%"
                             height="450"
-                            allowfullscreen=""
+                            allowFullScreen=""
                             loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"
+                            referrerPolicy="no-referrer-when-downgrade"
                         ></iframe>
                     </div>
                 </div>

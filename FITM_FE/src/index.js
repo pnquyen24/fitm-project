@@ -166,9 +166,10 @@ root.render(
                     />
                     <Route path="instrument" element={<Instrument />} />
                     <Route path="support-fee" element={<SupportFeePerformance />} />
-                    <Route path="about-us" element={<AboutUs />} />
+                    
                 </Route>
                 <Route path="/forgotPassword" element={<ForgotPassword />} />
+                <Route path="about-us" element={<AboutUs />} />
             </Routes>
         </BrowserRouter>
     </Provider>
