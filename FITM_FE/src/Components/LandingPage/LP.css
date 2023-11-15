@@ -320,6 +320,7 @@
   font-weight: bold;
   position: relative;
   top: 5px;
+  text-decoration: none;
 }
 .landingPage .intro-right {
   display: flex;
@@ -448,7 +449,7 @@
         padding-top: 100px;
         box-sizing: border-box;
         position: relative;
-        height: 200vh;
+        height: 135vh;
     }
     .landingPage .shows .left{
         width: 100%;

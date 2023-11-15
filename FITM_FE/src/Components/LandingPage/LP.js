@@ -6,7 +6,9 @@ import axiosClient from "../../Variable/Api/api";
 const jump = (e) => {
     e.scrollIntoView({ behavior: "smooth" });
 };
+
 function LandingPage() {
+    
     const VIEW_PERFORMANCE_URL = "PerformanceSchedule/ViewPerformance";
 
     let [performances, setPerformances] = useState([
@@ -409,7 +411,7 @@ FIT là ngôi nhà chung cho những ai có niềm đam mê với nhạc cụ d�
                         </span>
                     </div>
                     <br />
-                    <a href="https://www.facebook.com/FIT.fptuqn">FOLLOW US </a>
+                    <a href="https://www.facebook.com/FIT.fptuqn" target="_blank">FOLLOW US </a>
                 </div>
                 <div className="intro-right">
                     <div className="cover">

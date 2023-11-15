@@ -34,3 +34,6 @@ ion-icon {
 .open span {
     display: block;
 }
+.choice:hover{
+    background-color: rgba(255, 0, 0, 0.093);
+}

@@ -1,8 +1,8 @@
 .attendance-table .MuiTableCell-head {
-    background-color: #696cff;
+    background-color: rgb(255, 66, 66);
     color: #ffffff;
 }
 
 .attendance-table .MuiRadio-root.Mui-checked {
-    color: #696cff;
+    color: rgb(255, 66, 66);
 }

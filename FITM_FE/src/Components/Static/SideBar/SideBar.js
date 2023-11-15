@@ -13,6 +13,7 @@ function SideBar({ isOpen, setOpen }) {
   };
   const choices = [
     {
+      
       Title: "Members",
       Icon: "person-outline",
       Link: "/member-manager/member-list",
@@ -26,19 +27,20 @@ function SideBar({ isOpen, setOpen }) {
     },
     {
       Title: "Schedule",
-      Icon: "add-circle-outline",
+      Icon: "calendar-outline",
       Link: "/schedule",
       Role: ["Admin", "SM"],
     },
     {
       Title: "Performances",
-      Icon: "calendar-outline",
+      //<ion-icon name="footsteps-outline"></ion-icon>
+      Icon: "footsteps-outline",
       Link: "/performance",
       Role: ["Admin", "SM"],
     },
     {
       Title: "Practicals",
-      Icon: "calendar",
+      Icon: "hand-right-outline",
       Link: "/practical",
       Role: ["Admin", "SM"],
     },
@@ -56,7 +58,8 @@ function SideBar({ isOpen, setOpen }) {
     },
     {
       Title: "Finance Requests",
-      Icon: "wallet-outline",
+      //<ion-icon name=""></ion-icon>
+      Icon: "chatbox-ellipses-outline",
       Link: "financial-manager/finance-request-list",
       Role: ["Admin", "FM"],
     },
@@ -73,8 +76,9 @@ function SideBar({ isOpen, setOpen }) {
       Role: ["Admin", "Member"],
     },
     {
+      //<ion-icon name="triangle-outline"></ion-icon>
       Title: "Instruments",
-      Icon: "file-tray-full",
+      Icon: "triangle-outline",
       Link: "/instrument",
       Role: ["Admin", "SM"],
     },
