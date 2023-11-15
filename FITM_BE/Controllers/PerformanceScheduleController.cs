@@ -39,6 +39,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpGet]
+	[Policy]
         public async Task<PerformanceDetail?> ViewPerformanceDetails(int pfmID)
         {
             return await _performanceScheduleService.ViewPerformanceDetail(pfmID);
@@ -58,6 +59,7 @@ namespace FITM_BE.Controllers
         }
 
         [HttpPut]
+	[Policy]
         public async Task Join(int pfmID)
         {
             int.TryParse(User.FindFirstValue("UserID"), out int userID);

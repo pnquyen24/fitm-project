@@ -7,7 +7,7 @@ function InstrumentReport() {
 
     const GET_URL = "Member/Get";
     const CREATE_INSTRUMENT_REPORT_URL =
-        "InstrumentReportControl/CreateIstrumentReport";
+        "InstrumentReport/CreateIstrumentReport";
 
     const [member, setMember] = useState(null);
 
