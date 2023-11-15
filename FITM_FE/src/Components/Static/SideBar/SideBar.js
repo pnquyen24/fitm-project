@@ -73,7 +73,7 @@ function SideBar({ isOpen, setOpen }) {
       Title: "Instrument Reports",
       Icon: "file-tray-full-outline",
       Link: "/instrument-report-management",
-      Role: ["Admin", "Member"],
+      Role: ["Admin", "SM"],
     },
     {
       //<ion-icon name="triangle-outline"></ion-icon>
