@@ -7,7 +7,7 @@ function InstrumentReportManagement() {
     document.title = "Instrument Report Management";
 
     const GET_ALL_INSTRUMENT_REPORT_URL =
-        "InstrumentReportControl/GetAllInstrumentReport";
+        "InstrumentReport/GetAllInstrumentReport";
 
     let [reports, setReports] = useState([]);
 
