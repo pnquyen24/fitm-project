@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FITM_BE.Authentication;
+using FITM_BE.Authorization.Role;
 using FITM_BE.Entity;
 using FITM_BE.Exceptions.UserException;
 using FITM_BE.Service.EmailService;
@@ -22,6 +23,7 @@ namespace FITM_BE.Service.MemberService
 
         public async Task<MemberGeneratedDto> Create(CreateMemberDto createMemberDto)
         {
+            createMemberDto.FullName = createMemberDto.FullName.Trim();
             var existingMember = await CheckExistEmail(createMemberDto.Email);
             if (existingMember != null)
             {
@@ -79,12 +81,16 @@ namespace FITM_BE.Service.MemberService
         }
         public async Task<ProfileDto> Get(int id)
         {
-            var member = await _repository.Get<Member>(id);
-            return _mapper.Map<ProfileDto>(member);
+            var member = _repository.GetAll<Member>().Include(m => m.Roles).FirstOrDefault(m => m.Id == id);
+            if (member == null) throw new  NotFoundException("Not Found member");
+            var profile = _mapper.Map<ProfileDto>(member);
+            profile.Roles  = member.Roles.Select(role => role.RoleName).ToList();
+            return profile;
         }
         public async Task<ProfileDto> ChangeStatus(int id)
         {;
-            var profile = await _repository.Get<Member>(id);
+            var profile = _repository.Get<Member>(id);
+            if (profile == null) throw new NotFoundException("Not Found member");
             var status = profile.Status = !profile.Status;
             var member = await _repository.Update(profile);
             return _mapper.Map<ProfileDto>(member); 

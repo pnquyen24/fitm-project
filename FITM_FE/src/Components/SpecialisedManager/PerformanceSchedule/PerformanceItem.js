@@ -25,27 +25,24 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import "./PerformanceItem.css";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import moment from "moment/moment";
 
 function PerformanceItem(props) {
-    
+    const VIEW_PERFORMANCE_DETAILS =
+        "PerformanceSchedule/ViewPerformanceDetails";
+
     const [flip, setFlip] = useState(false);
     const [performance, setPerformance] = useState({});
 
     const handelClickDetails = () => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .get(
-                `https://localhost:7226/apis/PerformanceSchedule/ViewPerformanceDetails?pfmID=${props.ID}`
-            )
+        axiosClient
+            .get(`${VIEW_PERFORMANCE_DETAILS}?pfmID=${props.ID}`)
             .then((response) => {
                 setPerformance(response.data);
                 handleFlip();
             })
-            .catch((error) => { });
+            .catch((error) => {});
     };
 
     const handleFlip = () => {
@@ -173,10 +170,10 @@ function CardAccordion({ Title, Items, pfmID }) {
     const itemList =
         Items && Items.length > 0
             ? Items.map((item) => (
-                <ListItem>
-                    <ListItemText key={item.id} primary={item.name} />
-                </ListItem>
-            ))
+                  <ListItem>
+                      <ListItemText key={item.id} primary={item.name} />
+                  </ListItem>
+              ))
             : null;
 
     return (
@@ -202,6 +199,8 @@ function CardAccordion({ Title, Items, pfmID }) {
 }
 
 function JoinDialog(props) {
+    const JOIN_URL = "PerformanceSchedule/Join";
+
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -211,15 +210,14 @@ function JoinDialog(props) {
     };
 
     const handleJoin = () => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .put(
-                `https://localhost:7226/apis/PerformanceSchedule/Join?pfmID=${props.pfmID}`
-            )
+        axiosClient
+            .put(`${JOIN_URL}?pfmID=${props.pfmID}`)
             .then((response) => {
-                CustomeAlert.success("Joined successfully!");
+                if (response.status === 500) {
+                    CustomeAlert.error("You joined this performance!");
+                } else {
+                    CustomeAlert.success("Joined successfully!");
+                }
             })
             .catch((error) => {
                 CustomeAlert.error("You joined this performance!");
@@ -255,7 +253,8 @@ function JoinDialog(props) {
                 <DialogContent>
                     <DialogContentText variant="body1">
                         Are you sure you will be able to attend the "
-                        {props.Name}" show at {props.Place} on {props.Date} at {props.Time}?
+                        {props.Name}" show at {props.Place} on {props.Date} at{" "}
+                        {props.Time}?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -265,7 +264,7 @@ function JoinDialog(props) {
                         autoFocus
                         onClick={handleJoin}
                     >
-                        Yes!
+                        Yes
                     </Button>
                     <Button
                         variant="contained"

@@ -3,24 +3,28 @@ import { Link } from "react-router-dom";
 import "./BalanceDetails.css";
 import { useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
-import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
 import {
+  Card,
+  CardActions,
+  CardHeader,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import {getStatusStyle} from "../SupportFunctions/SupportFunction";
-import axios from "axios";
-import PaginationComponent from "../../../Variable/Paggination/Paggination";
+import axiosClient from "../../../Variable/Api/api";
+import PaginationComponent from "../../../Variable/Pagination/Pagination";
 
 const BalanceDetails = () => {
   document.title = "Balance Details";
+
+  const GET_BALANCE_DETAILS_URL = "Finance/GetBalanceDetails";
 
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,8 +38,8 @@ const BalanceDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://localhost:7226/apis/Finance/GetBalanceDetails?start=${startDate}&end=${endDate}`
+        const response = await axiosClient.get(
+          `${GET_BALANCE_DETAILS_URL}?start=${startDate}&end=${endDate}`
         );
         setData(response.data);
       } catch (error) {}
@@ -83,176 +87,87 @@ const BalanceDetails = () => {
     }
   }
 
-  //===================================
-
-  const DeleteIncome = async (id) => {
-    try {
-      const confirmDelete = await Swal.fire({
-        title: "You want to delete ?",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonColor: "#DD0000",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Cancel",
-      });
-
-      if (!confirmDelete.isConfirmed) return;
-
-      const response = await axios.delete(
-        `https://localhost:7226/apis/Finance/DeleteIncome?id=${id}`
-      );
-
-      if (response.status === 200) {
-        await Swal.fire({
-          icon: "success",
-          title: "Delete Successfully !!!",
-          showConfirmButton: true,
-        });
-        window.location.href = "/financial-manager/finance-list";
-      }
-    } catch (error) {
-      await Swal.fire({
-        icon: "error",
-        title: "Delete Unsuccessfully !!!",
-        showConfirmButton: true,
-      });
-    }
-  };
-
-  const DeleteOutcome = async (id) => {
-    try {
-      const confirmDelete = await Swal.fire({
-        title: "You want to delete ?",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonColor: "#DD0000",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Cancel",
-      });
-
-      if (!confirmDelete.isConfirmed) return;
-
-      const response = await axios.delete(
-        `https://localhost:7226/apis/Finance/DeleteOutcome?id=${id}`
-      );
-
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Delete Successfully !!!",
-          showConfirmButton: true,
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-list";
-        });
-
-        setData(data.filter((item) => item.id !== id));
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Delete Unsuccessfully !!!",
-        showConfirmButton: true,
-      });
-    }
-  };
-
-  //===================================
-
   return (
-    <div className="finance">
-      <h1 className="finance_title">BALANCE REPORT LIST</h1>
+    <>
+      <Card className="finance">
+        <CardHeader
+          title={
+            <Typography variant="body1">
+              Finance Detail
+            </Typography>
+          }
+          action={
+            <CardActions className="mx-1">
+              <Button className="mx-2"
+                onClick={handleDownloadBalance}
+                variant="contained"
+                color="success"
+              >
+                Download Detail
+              </Button>
 
-      <div className="create_finance_top">
-
-        <button className="finance_home" onClick={handleDownloadBalance}>
-          <span>Download Detail</span>
-        </button>
-
-        <Link to="/financial-manager/balance">
-          <button className="finance_home">
-            <span>Back to balance</span>
-          </button>
-        </Link>
-      </div>
-
-      <Table className="finance_table" style={{ maxWidth: "500px" }}>
-        <TableHead className="finance_table_thead">
-          <TableRow>
-            <TableCell>Type</TableCell>
-            <TableCell>Bill Code</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Amount</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Detail</TableCell>
-            <TableCell>Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {paginatedData.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell style={getTypeStyle(item.isIncome ? "Income" : "Outcome")}>
-                {item.isIncome ? "Income" : "Outcome"}
-              </TableCell>
-              <TableCell>{item.billCode}</TableCell>
-              <TableCell>{item.title}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{item.amount}</TableCell>
-              <TableCell style={getStatusStyle(item.financeStatus)}>
-                {getStatusLabel(item.financeStatus)}
-              </TableCell>
-              <TableCell>
-                <Button
-                  onClick={() => {
-                    item.isIncome
-                      ? ViewIncomeDetail(item.id)
-                      : ViewOutcomeDetail(item.id);
-                  }}
-                  variant="outlined"
-                  size="small"
-                  className="detail-button"
+              <Link
+                to="/financial-manager/balance"
+                style={{ textDecoration: "none" }}
+              >
+                <Button variant="outlined">Back</Button>
+              </Link>
+            </CardActions>
+          }
+        />
+        <Table className="finance_table" style={{ minWidth: "500px" }}>
+          <TableHead className="finance_table_thead">
+            <TableRow>
+              <TableCell>Type</TableCell>
+              <TableCell>Bill Code</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Detail</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedData.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell
+                  style={getTypeStyle(item.isIncome ? "Income" : "Outcome")}
                 >
-                  View Detail
-                </Button>
-              </TableCell>
-
-              <TableCell>
-                {item.financeStatus === 0 ||
-                item.financeStatus === 1 ||
-                item.financeStatus === 3 ? (
+                  {item.isIncome ? "Income" : "Outcome"}
+                </TableCell>
+                <TableCell>{item.billCode}</TableCell>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{item.amount}</TableCell>
+                <TableCell>{getStatusLabel(item.financeStatus)}</TableCell>
+                <TableCell>
                   <Button
                     onClick={() => {
-                      if (item.isIncome === false) {
-                        DeleteOutcome(item.id);
-                      } else if (item.isIncome === true) {
-                        DeleteIncome(item.id);
-                      }
+                      item.isIncome
+                        ? ViewIncomeDetail(item.id)
+                        : ViewOutcomeDetail(item.id);
                     }}
+                    variant="outlined"
                     size="small"
-                    className="delete-button"
+                    className="detail-button"
                   >
-                    <span>
-                      <ion-icon name="trash-outline"></ion-icon>
-                    </span>
+                    View Detail
                   </Button>
-                ) : (
-                  <span>Can't delete</span>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
-      <div style={{ marginTop: "30px" }}>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Card>
+      <CardActions>
         <PaginationComponent
           data={data}
           itemPerPage={ITEMS_PER_PAGE}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
-      </div>
-    </div>
+      </CardActions>
+    </>
   );
 };
 

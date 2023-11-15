@@ -18,6 +18,7 @@
 }
 .finance{
   width: 96%;
+  margin-top: 2%;
 }
 .finance .create_finance_top {
   display: flex;

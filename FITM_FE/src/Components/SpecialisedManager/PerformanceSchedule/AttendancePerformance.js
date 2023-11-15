@@ -1,13 +1,18 @@
 import AttendanceTable from "../../Member/Table/AttendanceTable/AttendanceTable";
-import { Button, Card, CardHeader, Typography } from "@mui/material";
-import axios from "axios";
+import { Button, Card, CardActions, CardHeader, Typography } from "@mui/material";
+import axiosClient from "../../../Variable/Api/api";
 import { useLocation } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
+import { useNavigate } from "react-router-dom";
 
 function AttendancePerformance() {
     document.title = "Attendance Performance";
 
+    const ATTENDANCE_PERFORMANCE_URL =
+        "PerformanceSchedule/AttendancePerformance";
+
     const location = useLocation();
+    const navigate = useNavigate();
 
     let members = location.state.data.members;
     let performanceId = location.state.data.performanceId;
@@ -54,37 +59,35 @@ function AttendancePerformance() {
             attendance: row.attendance === "true" ? 2 : 1,
         }));
 
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-
-        axios
-            .put(
-                "https://localhost:7226/apis/PerformanceSchedule/AttendancePerformance",
-                dataToUpdate,
-                {
-                    headers: { "Content-Type": "application/json" },
-                }
-            )
+        axiosClient
+            .put(ATTENDANCE_PERFORMANCE_URL, dataToUpdate)
             .then((response) => CustomeAlert.success("Saved successfully!"))
             .catch(() => {
                 CustomeAlert.error("Save failed!");
             });
+    }
 
+    function handleBack(){
+        navigate("/performance")
     }
 
     return (
         <Card sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
             <CardHeader
                 title={
-                    <Typography component={"span"} variant="subtitle1">
-                        Attendance Table
+                    <Typography variant="body1">
+                        Attendance Performance
                     </Typography>
                 }
                 action={
-                    <Button variant="contained" onClick={handleSubmit}>
-                        Save
-                    </Button>
+                    <CardActions>
+                        <Button variant="contained" onClick={handleSubmit}>
+                            Save
+                        </Button>
+                        <Button variant="outlined" onClick={handleBack}>
+                            Back
+                        </Button>
+                    </CardActions>
                 }
             />
             <AttendanceTable

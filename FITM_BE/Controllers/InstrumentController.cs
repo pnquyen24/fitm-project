@@ -19,20 +19,21 @@ namespace FITM_BE.Controllers
         public IEnumerable<InstrumentDto> GetAllInstrument()
         {
             var query = _instrumentService.GetAll();
-
             return query.ToList();
         }
 
         [HttpPost]
-        public void Create(CreateAndUpdateInstrumentDto input)
+        public async Task<IActionResult> Create(CreateAndUpdateInstrumentDto input)
         {
-            _instrumentService.Create(input);
+            var newInstrument = await _instrumentService.Create(input);
+            return Ok(newInstrument);
         }
 
         [HttpPut]
-        public void Update(CreateAndUpdateInstrumentDto output)
+        public async Task<IActionResult> Update(CreateAndUpdateInstrumentDto output)
         {
-            _instrumentService.Update(output);
+            var updatedInstrument = await _instrumentService.Update(output);
+            return Ok(updatedInstrument);
         }
 
         [HttpDelete]

@@ -1,12 +1,15 @@
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
+import Button from "@mui/material/Button";
 import "./CreateMember.css";
 
 function CreateMember() {
     document.title = "Create Member";
+    const navigate = useNavigate();
+    const CREATE_URL = "Member/Create";
 
     const [formData, setFormData] = useState({
         fullName: "",
@@ -22,15 +25,15 @@ function CreateMember() {
         event.preventDefault();
         if (!isValidEmail(formData.email)) return;
         formData.email = formData.email.toLowerCase();
-        axios
-            .post("https://localhost:7226/apis/Member/Create", formData)
+        axiosClient
+            .post(CREATE_URL, formData)
             .then((response) => {
                 Swal.fire({
                     icon: "success",
                     title: "Create Successfully !!!",
                     showConfirmButton: true,
                 }).then(() => {
-                    window.location.href = "/member-manager/member-list";
+                    navigate("/member-manager/member-list");
                 });
             })
             .catch((error) => {
@@ -69,10 +72,14 @@ function CreateMember() {
 
     return (
         <div>
-            <h2 className="create_title">CREATE NEW MEMBER</h2>
             <form onSubmit={handleSubmit} className="create_form">
+                <div style={{ color: "#1976d2" }}>
+                    <h4 style={{ textAlign: "center" }}>CREATE MEMBER</h4>
+                    <hr></hr>
+                </div>
+
                 <label htmlFor="fullname" className="form-label">
-                    Full Name:{" "}
+                    Full Name:
                 </label>
                 <input
                     type="text"
@@ -92,7 +99,7 @@ function CreateMember() {
                     <input
                         type="text"
                         id="studentid"
-                        maxLength={10}  
+                        maxLength={10}
                         name="studentId"
                         value={formData.studentId}
                         onChange={handleChange}
@@ -138,7 +145,7 @@ function CreateMember() {
                     type="tel"
                     id="phonenumber"
                     name="phoneNumber"
-                    maxLength={11}
+                    maxLength={10}
                     minLength={10}
                     value={formData.phoneNumber}
                     onChange={handleChange}
@@ -147,8 +154,7 @@ function CreateMember() {
                 />
                 <br />
                 {formData.phoneNumber.length !== 0 &&
-                (formData.phoneNumber.length < 10 ||
-                    formData.phoneNumber.length > 11) ? (
+                formData.phoneNumber.length !== 10 ? (
                     <span className="form-error">
                         Phone number must be exactly 10 - 11 digits
                     </span>
@@ -184,19 +190,18 @@ function CreateMember() {
                     />
                     <br />
                 </div>
-                <div className="button-container">
-                    <Link
-                        to="/member-manager/member-list"
-                        className="create_submit"
-                    >
-                        {" "}
-                        BackToList
-                    </Link>
-                    <input
-                        type="submit"
-                        value="CREATE"
-                        className="create_submit"
-                    />
+                <div className="create-button-container">
+                    <Button onClick={handleSubmit} variant="contained">
+                        Create
+                    </Button>
+                    <Button variant="outlined">
+                        <Link
+                            to="/member-manager/member-list"
+                            style={{ textDecoration: "none" }}
+                        >
+                            Back
+                        </Link>
+                    </Button>
                 </div>
             </form>
         </div>

@@ -2,3 +2,9 @@
     width: 96%;
     margin-top: 2%;
 }
+
+.pnq-content{
+    display: flex;
+    gap: 10px;
+    margin-right: 10px;
+}

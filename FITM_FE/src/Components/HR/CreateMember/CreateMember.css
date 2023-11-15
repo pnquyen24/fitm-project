@@ -1,19 +1,19 @@
-.create_form label{
-font-size: 16px;
+.create_form label {
+    font-size: 16px;
 }
 
 .create_title {
     text-align: center;
     margin-top: 30px;
     font-weight: bold;
-  }
+}
 
-  .form-label {
+.form-label {
     display: block;
     margin-top: 15px;
-  }
-  
-  .form-input {
+}
+
+.form-input {
     display: block;
     width: 99.2%;
     height: 80%;
@@ -22,66 +22,61 @@ font-size: 16px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  .create_id_dob {
+}
+
+.create_id_dob {
     display: flex;
     justify-content: space-between;
     width: 100%;
-  }
+}
 
-  #studentid {
+#studentid {
     width: 30%;
     margin-left: 5px;
-  }
+}
 
-  #birthday {
+#birthday {
     width: 30%;
     margin-left: 8px;
-  }
-    
-  .create_bank {
+}
+
+.create_bank {
     display: flex;
     justify-content: space-between;
-  }
-  
-  #banknumber {
-    width: 30%;
-  }
+}
 
-  #bankname {
+#banknumber {
     width: 30%;
-  }
+}
 
-  .form-success {
+#bankname {
+    width: 30%;
+}
+
+.form-success {
     color: green;
     font-size: 16px;
     margin-top: 5px;
-  }
-  
-  .form-error {
+}
+
+.form-error {
     color: red;
     font-size: 16px;
     margin-top: 5px;
-  }
+}
 
-  .create_submit {
-    display: block;
-    width: 30%;
-    height: 80%;
-    padding: 5px;
-    font-size: 20px;
-    background-color: rgb(240,248,255);
-    border: 1px solid rgb(146,191,235);
-    border-radius: 4px;
-    margin: 30px auto;
-    font-weight: bold;
-    text-decoration: none;
-    color:black;
-    text-align: center;
-  }
+.create_form {
+    margin-top: 7%;
+    background-color: white;
+    padding: 30px 50px;
+}
 
-  .create_submit:hover {
-    background-color: lightskyblue;
-    color: white;
-  }
+.create-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+}
+
+.create-button-container Button {
+    margin-left: 20px;
+}

@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
 import Button from "@mui/material/Button";
 import * as XLSX from "xlsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./BalanceChart.css";
 import { FormControl, Select, MenuItem } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 
 function BalanceChart() {
+  const GET_ACCEPTED_INCOME_BY_TIME_URL = "Finance/GetAcceptedIncomeByTime";
+  const GET_ACCEPTED_OUTCOME_BY_TIME_URL = "Finance/GetAcceptedOutcomeByTime";
+  const GET_BALANCE_BY_DATE_URL = "Finance/GetBalanceByDate";
+
   const today = new Date();
   today.setDate(today.getDate() - 30);
   const [Data, setData] = useState(null);
@@ -17,6 +21,7 @@ function BalanceChart() {
   const [tempStartDate, setTempStartDate] = useState(today);
   const [tempEndDate, setTempEndDate] = useState(new Date());
   let [dataCategory, setDataCategory] = useState("Balance");
+  const navigate = useNavigate();
 
   const handleDataCategoryChange = (event) => {
     setDataCategory(event.target.value);
@@ -27,11 +32,8 @@ function BalanceChart() {
   };
 
   function getIncome() {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
-    axios
-      .get("https://localhost:7226/apis/Finance/GetAcceptedIncomeByTime", {
+    axiosClient
+      .get(GET_ACCEPTED_INCOME_BY_TIME_URL, {
         params: {
           startDate: startDate,
           endDate: endDate,
@@ -48,11 +50,8 @@ function BalanceChart() {
       });
   }
   function getOutcome() {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
-    axios
-      .get("https://localhost:7226/apis/Finance/GetAcceptedOutcomeByTime", {
+    axiosClient
+      .get(GET_ACCEPTED_OUTCOME_BY_TIME_URL, {
         params: {
           startDate: startDate,
           endDate: endDate,
@@ -69,11 +68,8 @@ function BalanceChart() {
       });
   }
   function getBalance() {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
-    axios
-      .get("https://localhost:7226/apis/Finance/GetBalanceByDate", {
+    axiosClient
+      .get(GET_BALANCE_BY_DATE_URL, {
         params: {
           startDate: startDate,
           endDate: endDate,
@@ -120,7 +116,7 @@ function BalanceChart() {
     return !isNaN(dateObject.getTime());
   }
 
-  function apllyDate(tempStart, tempEnd) {
+  function applyDate(tempStart, tempEnd) {
     const maxEndDate = new Date(tempStart);
     maxEndDate.setDate(maxEndDate.getDate() + 31); // Tính toán ngày kết thúc tối đa
 
@@ -200,19 +196,15 @@ function BalanceChart() {
           }}
         />
         <Button
-          className="balance-apply-button"
-          style={{ margin: "0px 5px 0px 5px" }}
-          ex={{}}
-          onClick={() => apllyDate(tempStartDate, tempEndDate)}
+          className="mx-2"
+          onClick={() => applyDate(tempStartDate, tempEndDate)}
           variant="contained"
           color="info"
         >
           Apply
         </Button>
         <Button
-          className="balance-apply-button"
-          style={{ margin: "0px 5px 0px 5px" }}
-          ex={{}}
+          className="mx-2"
           onClick={handleDownloadBalance}
           variant="contained"
           color="success"
@@ -228,71 +220,60 @@ function BalanceChart() {
           <Button
             color="warning"
             variant="contained"
-            style={{ margin: "0px 5px 0px 5px" }}
-            className="balance-back-button"
-            ex={{}}
+            className="mx-2"
           >
-            {" "}
-            <span>Detail</span>{" "}
+            <span>Detail</span>
           </Button>
         </Link>
         <Link to="/financial-manager/finance-list">
           <Button
             color="secondary"
             variant="contained"
-            style={{ margin: "0px 5px 0px 5px" }}
-            className="balance-back-button"
-            ex={{}}
+            className="mx-2"
           >
-            {" "}
-            <span>Back to List</span>{" "}
+            <span>Back</span>
           </Button>
         </Link>
-        <div className="balance-select-button" rx={{}}>
-          <FormControl
-            variant="standard"
-            className="select-button"
-            color="warning"
-            rx={{}}
-          >
-            <Select value={dataCategory} onChange={handleDataCategoryChange}>
-              <MenuItem value="Balance">Balance</MenuItem>
-              <MenuItem value="Income">Income</MenuItem>
-              <MenuItem value="Outcome">Outcome</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+        <FormControl size="small">
+          <Select value={dataCategory} onChange={handleDataCategoryChange}>
+            <MenuItem value="Balance">Balance</MenuItem>
+            <MenuItem value="Income">Income</MenuItem>
+            <MenuItem value="Outcome">Outcome</MenuItem>
+          </Select>
+        </FormControl>
       </div>
-      <div className="chart-container">
-        {Data ? (
-          <LineChart
-            width={responsiveWidth}
-            height={responsiveHeight}
-            series={[
-              {
-                data: Data.map((entry) => entry.balance / 1000),
-                label: selectedSeries.label,
-                lineColor: selectedSeries.lineColor,
-                color: selectedSeries.color,
-              },
-            ]}
-            xAxis={[
-              {
-                scaleType: "point",
-                data: Data.map((entry, index) =>
-                  new Date(entry.modifiedTime).toLocaleDateString(undefined, {
-                    month: "2-digit",
-                    day: "2-digit",
-                  })
-                ),
-              },
-            ]}
-          />
-        ) : (
-          <div className="balance-waiting">
-            <h3>Loading</h3>
-          </div>
-        )}
+      <div className="finance-chart">
+        <div className="chart-container">
+          {Data ? (
+            <LineChart
+              width={responsiveWidth}
+              height={responsiveHeight}
+              series={[
+                {
+                  data: Data.map((entry) => entry.balance / 1000),
+                  label: selectedSeries.label,
+                  lineColor: selectedSeries.lineColor,
+                  color: selectedSeries.color,
+                },
+              ]}
+              xAxis={[
+                {
+                  scaleType: "point",
+                  data: Data.map((entry, index) =>
+                    new Date(entry.modifiedTime).toLocaleDateString(undefined, {
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  ),
+                },
+              ]}
+            />
+          ) : (
+            <div className="balance-waiting">
+              <h3>Loading</h3>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

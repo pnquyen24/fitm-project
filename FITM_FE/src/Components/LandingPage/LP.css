@@ -1,559 +1,582 @@
-
-.landingPage{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.landingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.landingPage button{
-    color: black;
-    background-color: none;
-    border: none;
-    background-color: transparent;
-    height: fit-content;
-    width: fit-content;
-    padding: 0;
-    border-radius: 0;
-    outline: none;
-
+.landingPage button {
+  color: black;
+  background-color: none;
+  border: none;
+  background-color: transparent;
+  height: fit-content;
+  width: fit-content;
+  padding: 0;
+  border-radius: 0;
+  outline: none;
 }
-.landingPage .screen{
-    height: 100vh;
-    width: 100%;
-    padding: 0 20px;
-    max-width: 1220px;
-    box-sizing: border-box;
-
+.landingPage .screen {
+  height: 100vh;
+  width: 100%;
+  padding: 0 20px;
+  max-width: 1220px;
+  box-sizing: border-box;
 }
-.landingPage .fix-header-cover
-{   position: fixed;
-    background-color: white;
-    top : 0 ;
-    width: 100vw;
-    padding: 0 20px;
-    max-width: 1220px;
-    box-sizing: border-box;
-    padding-top: 40px;
-    z-index: 1000;
-
+.landingPage .fix-header-cover {
+  position: fixed;
+  background-color: white;
+  top: 0;
+  width: 100vw;
+  padding: 0 20px;
+  max-width: 1220px;
+  box-sizing: border-box;
+  padding-top: 40px;
+  z-index: 1000;
 }
-.landingPage .startPage{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 50px;
-    
+.landingPage .startPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
 }
-.landingPage .login-btn{
-    padding: 10px 30px;
-    text-decoration: none;
-    border: none;
-    height: 40px;
-    background-color: rgb(255, 66, 66);
-    color: white;
-    font-weight: bold;
-    border-radius: 3px;
-    }
+.landingPage .login-btn {
+  padding: 10px 30px;
+  text-decoration: none;
+  border: none;
+  height: 40px;
+  background-color: rgb(255, 66, 66);
+  color: white;
+  font-weight: bold;
+  border-radius: 3px;
+}
 .landingPage .choices ul {
-    padding: 0;
-    display: flex;
-    gap: 30px;
-    list-style-type: none;
-    margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 30px;
+  list-style-type: none;
+  margin: 0;
 }
-.landingPage .choices a{
-    text-decoration: none;
+.landingPage .choices a {
+  text-decoration: none;
 }
-.landingPage .logo{
-    width: 50px;
-    height: 40px;
-    background-image: url(/public/IMG/logo\ FIT.png);
-    background-position: center;
-    background-size: 95%;
-    background-repeat: no-repeat;
+.landingPage .logo {
+  width: 50px;
+  height: 40px;
+  background-image: url(/public/IMG/logo\ FIT.png);
+  background-position: center;
+  background-size: 95%;
+  background-repeat: no-repeat;
 }
-.landingPage .LP-header{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 66, 66, 0.393);
+.landingPage .LP-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 66, 66, 0.393);
 }
-.fix-header{
-
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 66, 66, 0.393);
-
-
+.fix-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 66, 66, 0.393);
 }
-.landingPage .left-header{
-    display: flex;
-    align-items: end;
+.landingPage .left-header {
+  display: flex;
+  align-items: end;
 }
-.landingPage .banner{
-    box-sizing: border-box;
-    margin: 20px 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    z-index: -10;
+.landingPage .banner {
+  box-sizing: border-box;
+  margin: 20px 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  z-index: -10;
 }
-.landingPage .top-show{
-    margin-top: 100px;
-    z-index: 100;
+.landingPage .top-show {
+  margin-top: 100px;
+  z-index: 100;
 }
-.landingPage .top-show h2{
-    background-color: rgba(255, 255, 255, 0.564);
-    font-size: 3rem;
-    width: 50%;
-    min-width: 300px;
-    color: rgb(255, 66, 66);
-    font-weight: 1000;
-    margin-bottom: 30px;
+.landingPage .top-show h2 {
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  font-size: 3rem;
+  width: 50%;
+  min-width: 300px;
+  color: rgb(255, 66, 66);
+  font-weight: 1000;
+  margin-bottom: 30px;
 }
 .landingPage .top-show span {
-    border-radius: 3px;
-    font-size: 1.5rem;
-    color: white ;
-    background-color: rgb(255, 66, 66);
-    padding: 10px;
-    margin-bottom: 40px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  color: white;
+  background-color: rgb(255, 66, 66);
+  border: 1px rgb(255, 255, 255) solid;
+  padding: 10px;
+  margin-bottom: 40px;
 }
 .landingPage .top-show p {
-    background-color: rgba(255, 255, 255, 0.552);
-    border-radius: 3px;
-    padding: 10px;
-    border: 1px red solid;
-    margin-top: 30px;
-    width: 40%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3px;
+  padding: 10px;
+  border: 1px red solid;
+  min-width: 180px;
+  margin-top: 30px;
+  width: 40%;
 }
-.cd{
-    position: absolute;
-    width: 650px;
-    height: 650px;
-    right: -90px;
-    
+.cd {
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  right: -90px;
 }
-.club-info p{
-    margin: 0;
-    font-size: 1rem;
-    color: rgb(143, 143, 143) ;
-    background-color: rgba(255, 255, 255, 0.695);
+.club-info p {
+  margin: 0;
+  font-size: 1rem;
+  color: rgb(143, 143, 143);
+  background-color: rgba(255, 255, 255, 0.695);
+}
+.club-info {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: end;
+  gap: 20px;
+}
+.cd-banner {
+  width: 640px;
+  height: 640px;
+  background-color: black;
+  border-radius: 50%;
+  position: relative;
+  right: -50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center center;
+  border: 10px solid rgb(42, 42, 42);
+  animation: spin 34s linear infinite;
+  transition: all 0.4s ease-in;
+}
+.cd-banner .decor {
+  width: 120px;
+  height: 120px;
+  background-color: rgb(255, 66, 66);
+  border: 3px solid rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  animation: respin 34s linear infinite;
 
-}
-.club-info{
-    margin-bottom: 30px;
-    display: flex;
-    align-items: end;
-    gap: 20px;
-}
-.cd-banner{
-    width: 640px;
-    height: 640px;
-    background-color: black;
-    border-radius: 50%;
-    position: relative;
-    right: -50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('/public/IMG/112840502_p0_master1200.jpg');
-    background-size: cover;
-    background-position: center center;
-    border: 10px solid rgb(42, 42, 42);
-    animation: spin 34s linear infinite; 
-}
-.cd-banner .decor{
-    width: 120px;
-    height: 120px;
-    background-color: rgb(255, 66, 66);
-    border: 3px solid rgb(255, 255, 255);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-radius: 50%;
-    animation: respin 34s linear infinite; 
-
-
-    z-index: -10;
+  z-index: -10;
 }
 .landingPage .choices ul li {
 }
 
-
-.landingPage .shows{
-    display: flex;
-    align-items: center;
-    padding-top: 100px;
-    box-sizing: border-box;
-    position: relative;
+.landingPage .shows {
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  box-sizing: border-box;
+  position: relative;
 }
-.landingPage .shows .left{
-    width: 40%;
-    height: 100%;
-    padding-top: 4%;
-
+.landingPage .shows .left {
+  width: 40%;
+  height: 100%;
+  padding-top: 4%;
 }
 
-.landingPage .shows .left .show-info{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+.landingPage .shows .left .show-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
-.landingPage .shows .left .show-info .date{
-    width: 400px;
-
+.landingPage .shows .left .show-info .date {
+  width: 400px;
 }
-.landingPage .shows .left .show-info .time{
-    width: 350px;
-
+.landingPage .shows .left .show-info .time {
+  width: 350px;
 }
-.landingPage .shows .left .show-info .songs{
-    width: 300px;
-
+.landingPage .shows .left .show-info .songs {
+  width: 300px;
 }
-.landingPage .shows .left .info{
-    width: 450px;
-    height: 60px;
-    border: solid 1px rgb(255, 66, 66);
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    color: rgb(105, 105, 105);
+.landingPage .shows .left .info {
+  width: 450px;
+  height: 60px;
+  border: solid 1px rgb(255, 66, 66);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  color: rgb(105, 105, 105);
 
-    padding: 10px;
-    box-sizing: border-box;
-    gap: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  gap: 20px;
 }
 
-.landingPage .shows .left h2{
-    background-color: rgba(255, 255, 255, 0.564);
-    font-size: 3rem;
-    width: 100%;
-    min-width: 300px;
-    color: rgb(255, 66, 66);
-    font-weight: 1000;
-    margin-bottom: 45px;
+.landingPage .shows .left h2 {
+  background-color: rgba(255, 255, 255, 0.564);
+  font-size: 3rem;
+  width: 100%;
+  min-width: 300px;
+  color: rgb(255, 66, 66);
+  font-weight: 1000;
+  margin-bottom: 45px;
 }
 
-.landingPage .shows .right{
-    width: 60%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    padding-top: 4%;
+.landingPage .shows .right {
+  width: 60%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  padding-top: 4%;
 }
-.landingPage .shows .right .show{
-    border-radius: 3px;
+.landingPage .shows .right .show {
+  border-radius: 3px;
 
-    width: 430px;
-    height: 440px;
-    position: absolute;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid rgb(255, 66, 66);
-    background-color: white;
+  width: 430px;
+  height: 440px;
+  position: absolute;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 66, 66);
+  background-color: white;
 }
 
-.landingPage .shows .right .show1 .picture{
-    background-image: url("/public/IMG/112840502_p0_master1200.jpg");
+.landingPage .shows .right .show1 .picture {
+  background-image: url("/public/IMG/112840502_p0_master1200.jpg");
 }
-.landingPage .shows .right .show2 .picture{
-    
+.landingPage .shows .right .show2 .picture {
 }
-.landingPage .shows .right .show3 .picture{
-    background-image: url("/public/IMG/88129659_p0_master1200.jpg");
-    
+.landingPage .shows .right .show3 .picture {
+  background-image: url("/public/IMG/88129659_p0_master1200.jpg");
 }
-.landingPage .shows .right .show1{
-    top: 206px;
-    z-index: 20;
-    right: 30%;
-    animation: showsMoveAnimation 6s linear infinite;
-
-
+.landingPage .shows .right .show1 {
+  top: 206px;
+  z-index: 20;
+  right: 30%;
+  animation: showsMoveAnimation 6s linear infinite;
 }
-.landingPage .shows .right .show2{
-    top: 125px;
-    z-index: 10;
-    right: 15%;
-    animation: showsMoveAnimation 6s linear infinite  2s;
-
+.landingPage .shows .right .show2 {
+  top: 125px;
+  z-index: 10;
+  right: 15%;
+  animation: showsMoveAnimation 6s linear infinite 2s;
 }
-.landingPage .shows .right .show3{
-    z-index: 0;
-    right: 0%;
-    animation: showsMoveAnimation 4s linear infinite 1s;
-
-
+.landingPage .shows .right .show3 {
+  z-index: 0;
+  right: 0%;
+  animation: showsMoveAnimation 4s linear infinite 1s;
 }
 .landingPage .shows .right .picture {
-    background-image: url('/public/IMG/110326368_p0_master1200.jpg');
-    width: 100%;
-    height: 85%;
-    background-size: cover;
-    background-position: center center;
-    border-radius: 3px;
-
+  background-image: url("/public/IMG/110326368_p0_master1200.jpg");
+  width: 100%;
+  height: 85%;
+  background-size: cover;
+  background-position: center center;
+  border-radius: 3px;
 }
 
-
-.landingPage .introduce{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-top: 100px;
-    box-sizing: border-box;
-    position: relative;
-    padding-top: 200px;
+.landingPage .introduce {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 100px;
+  box-sizing: border-box;
+  position: relative;
+  padding-top: 200px;
 }
-.landingPage .intro-left{
-    width: 100%;
-    max-width: 470px;
-    min-width: 250px;
+.landingPage .intro-left {
+  width: 100%;
+  max-width: 470px;
+  min-width: 250px;
 }
-.landingPage .intro-left h2{
-    background-color: rgba(255, 255, 255, 0.564);
-    font-size: 10rem;
-    width: 100%;
-    min-width: 300px;
-    color: rgb(255, 66, 66);
-    font-weight: 1000;
-    position: relative;
-    left: -10px;
-    top: -33px;
+.landingPage .intro-left h2 {
+  background-color: rgba(255, 255, 255, 0.564);
+  font-size: 10rem;
+  width: 100%;
+  min-width: 300px;
+  color: rgb(255, 66, 66);
+  font-weight: 1000;
+  position: relative;
+  left: -10px;
+  top: -33px;
 }
-.landingPage .intro-left a{
-    padding: 10px 80px;
-    background-color: rgb(255, 66, 66);
-    color: white;
-    font-weight: bold;
-    position: relative;
-    top: 5px;
+.landingPage .intro-left a {
+  padding: 10px 80px;
+  background-color: rgb(255, 66, 66);
+  color: white;
+  font-weight: bold;
+  position: relative;
+  top: 5px;
+  text-decoration: none;
 }
-.landingPage .intro-right{
-    display: flex;
-    flex-direction: column;
+.landingPage .intro-right {
+  display: flex;
+  flex-direction: column;
 }
-.landingPage .intro-right .cover{
-    display: flex;
-    width: 100%;
+.landingPage .intro-right .cover {
+  display: flex;
+  width: 100%;
 }
 .landingPage .img1 {
-    background-image: url('/public/IMG/110326368_p0_master1200.jpg');
-    background-size: cover;
-    background-position: center center;
-    animation: moveleft 7s linear infinite;
-    position: relative;
-    left: 0; 
-  }
-  
-  @keyframes moveleft {
-    0% {
-      left: 0;
-    }
-    12.5% {
-        left: -120px;
-      }
-      25%{
-          left: 0;
-      }
-    100% {
-      left: 0;
-    }
-  }
-  @keyframes moveRight {
-    0% {
-      right: 0;
-    }
-    12.5% {
-        right: -120px;
-      }
-      25%{
-          right: 0;
-      }
-    100% {
-      right: 0;
-    }
-  }
-  @keyframes moveTop {
-    0% {
-      top: 0;
-    }
-    12.5% {
-        top: -120px;
-      }
-      25%{
-          top: 0;
-      }
-    100% {
-      top: 0;
-    }
-  }
-  @keyframes moveBottom {
-    0% {
-      bottom: 0;
-    }
-    12.5% {
-      bottom: -120px;
-    }
-    25%{
-        bottom: 0;
-    }
-    100% {
-      bottom: 0;
-    }
-  }
-  
-  .landingPage .intro-right .img {
-    width: 200px;
-    height: 200px;
-    margin: 5px;
-    background-color: black;
+  background-image: url("/public/IMG/t1.jpg");
+  background-size: cover;
+  background-position: center center;
+  animation: moveleft 7s linear infinite;
+  position: relative;
+  left: 0;
 }
-.landingPage .img2{
-    background-image: url('/public/IMG/112840502_p0_master1200.jpg');
-    background-size: cover;
-    background-position: center center;
-    animation: moveTop 7s linear infinite 1.75s;
-    position: relative;
-    top: 0; 
-    margin-right: 0 ;
-}
-.landingPage .img3{
-    background-image: url('/public/IMG/88129659_p0_master1200.jpg');
-    background-size: cover;
-    background-position: center center;
-    animation: moveBottom 7s linear infinite 3.5s;
-    position: relative;
-    bottom: 0; 
-}
-.landingPage .img4{
-    background-image: url('/public/IMG/png-transparent-crying-frog-illustration-pepe-the-frog-internet-meme-humour-frog-leaf-animals-hand-thumbnail.png');
-    background-size: cover;
-    background-position: center center;
-    animation: moveRight 7s linear infinite 5.25s;
-    position: relative;
-    right: 0; 
-    margin-right: 0 !important;
 
+@keyframes moveleft {
+  0% {
+    left: 0;
+  }
+  12.5% {
+    left: -120px;
+  }
+  25% {
+    left: 0;
+  }
+  100% {
+    left: 0;
+  }
+}
+@keyframes moveRight {
+  0% {
+    right: 0;
+  }
+  12.5% {
+    right: -120px;
+  }
+  25% {
+    right: 0;
+  }
+  100% {
+    right: 0;
+  }
+}
+@keyframes moveTop {
+  0% {
+    top: 0;
+  }
+  12.5% {
+    top: -120px;
+  }
+  25% {
+    top: 0;
+  }
+  100% {
+    top: 0;
+  }
+}
+@keyframes moveBottom {
+  0% {
+    bottom: 0;
+  }
+  12.5% {
+    bottom: -120px;
+  }
+  25% {
+    bottom: 0;
+  }
+  100% {
+    bottom: 0;
+  }
+}
 
+.landingPage .intro-right .img {
+  width: 200px;
+  height: 200px;
+  margin: 5px;
+  background-color: black;
+}
+.landingPage .img2 {
+  background-image: url("/public/IMG/t2.jpg");
+  background-size: cover;
+  background-position: center center;
+  animation: moveTop 7s linear infinite 1.75s;
+  position: relative;
+  top: 0;
+  margin-right: 0;
+}
+.landingPage .img3 {
+  background-image: url("/public/IMG/t3.jpg");
+  background-size: cover;
+  background-position: center center;
+  animation: moveBottom 7s linear infinite 3.5s;
+  position: relative;
+  bottom: 0;
+}
+.landingPage .img4 {
+  background-image: url("/public/IMG/t4.jpg");
+  background-size: cover;
+  background-position: center center;
+  animation: moveRight 7s linear infinite 5.25s;
+  position: relative;
+  right: 0;
+  margin-right: 0 !important;
 }
 
 @media (max-width: 944px) {
-    .landingPage .intro-right .cover{
-        margin-top: 50px;
-    }
+  .landingPage .intro-right .cover {
+    margin-top: 50px;
   }
+}
 
-.landingPage .intro-right .cover{
-    display: flex;
-    width: 100%;
+@media (max-width: 600px) {
+  .cd-banner .decor {
+    display: none;
+  }
+  
+}
+@media (max-width: 1100px) {
+    .landingPage .shows {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 100px;
+        box-sizing: border-box;
+        position: relative;
+        height: 135vh;
+    }
+    .landingPage .shows .left{
+        width: 100%;
+        height: 46%;
+    }
+    .landingPage .shows .right{
+        width: 100%;
+
+    }
+    .landingPage .shows .right .show{
+        width: 60%;
+        min-width: 207px;
+        height: 300px;
+    }
+    .landingPage .shows .left .show-info .songs , .landingPage .shows .left .show-info .time{
+        width: 400px;
+    }
+
+}
+.landingPage .intro-right .cover {
+  display: flex;
+  width: 100%;
 }
 @keyframes showsMoveAnimation {
-    0% {
-      transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(-10px, 10px);
-    }
-    100% {
-      transform: translate(0, 0);
-    }
+  0% {
+    transform: translate(0, 0);
   }
-.landingPage .text-wrap{
-    width: 100%;
-    height: 153px;
-    overflow: scroll;
-}
-.landingPage .contact{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding-top: 150px;
-    box-sizing: border-box;
-    position: relative;
 
+  50% {
+    transform: translate(-10px, 10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
-.landingPage .footer{
+.landingPage .text-wrap {
+  width: 100%;
+  height: 153px;
+  overflow: scroll;
 }
-.hd-active{
-    border-bottom: 3px red solid !important;
-    padding-bottom: 5px !important;
-}   
-.landingPage .contact h2{
-    background-color: rgba(255, 255, 255, 0.564);
-    font-size: 3rem;
-    width: 100%;
-    min-width: 300px;
-    color: rgb(255, 66, 66);
-    font-weight: 1000;
+.landingPage .contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 150px;
+  box-sizing: border-box;
+  position: relative;
 }
-.landingPage .contact-content{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: 83%;
+.landingPage .footer {
 }
-.landingPage .contact-method{
-    display: flex;
-    align-items: center ;
-    gap: 10px;
-    color: rgb(76, 76, 76);
-    font-weight: bold;
+.hd-active {
+  border-bottom: 3px red solid !important;
+  padding-bottom: 5px !important;
 }
-.map{
-
+.landingPage .contact h2 {
+  background-color: rgba(255, 255, 255, 0.564);
+  font-size: 3rem;
+  width: 100%;
+  min-width: 300px;
+  color: rgb(255, 66, 66);
+  font-weight: 1000;
 }
-.landingPage .contact-icon{
-    font-size: 1.5rem;
-    padding: 10px;
-    border: solid 1px red;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
+.landingPage .contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 83%;
 }
-.landingPage .contact-info{
-    padding: 10px;
-    border: solid 1px red;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
+.landingPage .contact-method {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(76, 76, 76);
+  font-weight: bold;
 }
-.landingPage .contact-cover{
-    display: flex;
-    width: 100%;
-    position: relative;
-    top: -20px;
-
+.map {
 }
-.landingPage .contact-left{
-    width: 40%;
+.landingPage .contact-icon {
+  font-size: 1.5rem;
+  padding: 10px;
+  border: solid 1px red;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
 }
-.landingPage .contact-right{
-    width: 60%;
+.landingPage .contact-info {
+  padding: 10px;
+  border: solid 1px red;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
 }
-.contact-social{
-    font-size: 1.3rem;
-    display: flex;
-    justify-content: start ;
-    gap: 20px;
+.landingPage .contact-cover {
+  display: flex;
+  width: 100%;
+  position: relative;
+  top: -20px;
 }
-.contact-social a{
-    color: black;
+.landingPage .contact-left {
+  width: 40%;
+}
+.landingPage .contact-right {
+  width: 60%;
+}
+.contact-social {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+}
+.contact-social a {
+  color: black;
+}
+.sdfdsfds {
+  background-image: url("/public/IMG/s1.jpg");
+}
+.sdhb {
+  background-image: url("/public/IMG/s2.jpg");
+}
+.sjhdfbsdhb {
+  background-image: url("/public/IMG/s3.jpg");
+}
+.sjhdfb3454sdhb {
+  background-image: url("/public/IMG/s4.png");
+}
+.sjh234sdhb {
+  background-image: url("/public/IMG/s5.png");
 }

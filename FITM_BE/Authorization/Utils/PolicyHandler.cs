@@ -24,13 +24,19 @@ namespace FITM_BE.Authorization.Utils
             {
                 var permissions = config.GetSection("Seeding:Permissions").Get<IEnumerable<Permission>>();
                 var roles = permissions.FirstOrDefault(permission => permission.Name == requirement.ControllerName)?.Roles;
-                if ( roles != null && roles.Any(role => context.User.HasClaim(ClaimTypes.Role, role)) )
+                if ( roles != null && roles.Any(role => context.User.HasClaim("Roles", role)) )
                 {
                     context.Succeed(requirement);
                     return Task.CompletedTask;
                 }
             }
-            context.Fail();
+            if ( context.PendingRequirements
+                .Where(pending => pending is PolicyRequirement)
+                .Select(pending => (PolicyRequirement)pending)
+                .Any(pending => pending.ControllerName == null) )
+                context.Succeed(requirement);
+            else
+                context.Fail();
             return Task.CompletedTask;
         }
     }

@@ -33,6 +33,8 @@ namespace FITM_BE.Service.PracticalDetailService
         public async Task CreateAttendanceList(int scheduleId)
         {
             var memberList = _repository.GetAll<Member>()
+                                        .Include(member => member.Roles)
+                                        .Where(member => member.Roles.Any(role => role.RoleName == "Member"))
                                         .Select(member => new CreateAttendanceDto
                                         {
                                             PracticalScheduleId = scheduleId,

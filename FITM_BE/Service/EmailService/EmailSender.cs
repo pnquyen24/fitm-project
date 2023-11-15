@@ -27,7 +27,7 @@ namespace FITM_BE.Service.EmailService
         public async Task SendEmailAsync(Message message)
         {
             var mailMessage = CreateEmailMessage(message);
-            await SendAsync(mailMessage);
+            await SendAsync(mailMessage).ConfigureAwait(true);
         }
 
         private MimeMessage CreateEmailMessage(Message message)
@@ -75,26 +75,24 @@ namespace FITM_BE.Service.EmailService
 
         private async Task SendAsync(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
+            using var client = new SmtpClient();
+            try
             {
-                try
-                {
-                    await client.ConnectAsync(emailConfig.SmtpServer, emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    await client.AuthenticateAsync(emailConfig.UserName, emailConfig.Password);
+                await client.ConnectAsync(emailConfig.SmtpServer, emailConfig.Port, true);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                await client.AuthenticateAsync(emailConfig.UserName, emailConfig.Password);
 
-                    await client.SendAsync(mailMessage);
-                }
-                catch
-                {
-                    logger.LogError("Async email sending failure.");
-                    throw;
-                }
-                finally
-                {
-                    await client.DisconnectAsync(true);
-                    client.Dispose();
-                }
+                await client.SendAsync(mailMessage).ConfigureAwait(true);
+            }
+            catch
+            {
+                logger.LogError("Async email sending failure.");
+                throw new Exceptions.SystemException.SystemException("Async email sending failure.");
+            }
+            finally
+            {
+                await client.DisconnectAsync(true);
+                client.Dispose();
             }
         }
     }

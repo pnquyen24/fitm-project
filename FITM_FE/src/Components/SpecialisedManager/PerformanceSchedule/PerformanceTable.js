@@ -8,21 +8,24 @@ import {
     TablePagination,
     TableRow,
 } from "@mui/material";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import { useEffect, useState } from "react";
 import "./PerformanceTable.css";
-import Paper from '@mui/material/Paper';
+import Paper from "@mui/material/Paper";
 import { DeleteSharp, EditCalendarSharp } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-import TimerIcon from '@mui/icons-material/Timer';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import TimerIcon from "@mui/icons-material/Timer";
 import moment from "moment/moment";
 
 function PerformanceTable() {
     document.title = "Performance Table";
 
+    const VIEW_ALL_PERFORMANCE_URL = "PerformanceSchedule/ViewAllPerformance";
+    const VIEW_LIST_MEMBER_URL = "PerformanceSchedule/ViewListMember";
+    const CALL_OFF_URL = "PerformanceSchedule/CallOff";
 
     let [performances, setPerformances] = useState([]);
     const navigate = useNavigate();
@@ -39,76 +42,53 @@ function PerformanceTable() {
     };
 
     useEffect(() => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .get(
-                "https://localhost:7226/apis/PerformanceSchedule/ViewAllPerformance"
-            )
+        axiosClient
+            .get(VIEW_ALL_PERFORMANCE_URL)
             .then((response) => {
                 setPerformances(response.data);
             })
-            .catch((error) => { });
+            .catch((error) => {});
     }, []);
 
     async function attendance(pfmId) {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-
-        await axios
-            .get(
-                `https://localhost:7226/apis/PerformanceSchedule/ViewListMember?pfmID=${pfmId}`
-            ).then((response) => {
+        await axiosClient
+            .get(`${VIEW_LIST_MEMBER_URL}?pfmID=${pfmId}`)
+            .then((response) => {
                 getMembers(response.data);
-            }).catch(() => {
-                CustomeAlert.warning("Something was wrong")
+            })
+            .catch(() => {
+                CustomeAlert.warning("Something was wrong");
             });
     }
 
     const handleCallOff = (pfmId) => {
-        CustomeAlert.confirm("Call Off This Performance", "Call Off", "Exit").then(
-            (result) => {
-                if (result.isConfirmed) {
-                    axios.defaults.headers[
-                        "Authorization"
-                    ] = `Bearer ${localStorage.getItem("token")}`;
-
-                    axios
-                        .put(
-                            `https://localhost:7226/apis/PerformanceSchedule/CallOff?pfmID=${pfmId}`
-                        ).then((response) => {
-                            CustomeAlert.success("Call Off Successfully");
-                        }).catch((error) => {
-                            CustomeAlert.error("Call Off Error");
-                        });
-                } else if (result.isDenied) {
-                    CustomeAlert.error("Can't Call Off");
-                } else {
-                    CustomeAlert.error("Call Off Error");
-                }
+        CustomeAlert.confirm(
+            "Call Off This Performance",
+            "Call Off",
+            "Exit"
+        ).then((result) => {
+            if (result.isConfirmed) {
+                axiosClient
+                    .put(`${CALL_OFF_URL}?pfmID=${pfmId}`)
+                    .then((response) => {
+                        CustomeAlert.success("Call Off Successfully");
+                    })
+                    .catch((error) => {
+                        CustomeAlert.error("Call Off Error");
+                    });
+            } else if (result.isDenied) {
+                CustomeAlert.error("Can't Call Off");
+            } else {
+                CustomeAlert.error("Call Off Error");
             }
-        );
-
-
+        });
     };
 
     const statusPerformance = (status) => {
-        if (status === 0)
-            return <TimerIcon
-                color="secondary">
-            </TimerIcon>;
-        if (status === 1)
-            return <CancelIcon
-                color="error">
-            </CancelIcon>;
-        if (status === 2)
-            return <CheckCircleIcon
-                color="success"
-            ></CheckCircleIcon>;
-
-    }
+        if (status === 0) return <TimerIcon color="secondary"></TimerIcon>;
+        if (status === 1) return <CheckCircleIcon color="success"></CheckCircleIcon>;
+        if (status === 2) return <CancelIcon color="error"></CancelIcon>;
+    };
 
     function getMembers(data) {
         navigate("/attendancePerformance", {
@@ -126,12 +106,11 @@ function PerformanceTable() {
         return moment(timeString, "HH:mm").format("HH:mm");
     }
 
-
     return (
         <div className="table-container">
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead >
+                    <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="left">Name</TableCell>
@@ -143,34 +122,58 @@ function PerformanceTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {performances.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                        ).map((performance, index) => (
-                            <TableRow
-                                key={performance.id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {++index}
-                                </TableCell>
-                                <TableCell align="left">{performance.name}</TableCell>
-                                <TableCell align="left">{performance.place}</TableCell>
-                                <TableCell align="left">{dateCustomer(performance.date)}</TableCell>
-                                <TableCell align="left">{timeCustomer(performance.time)}</TableCell>
-                                <TableCell align="left">{statusPerformance(performance.status)}</TableCell>
-                                <TableCell align="left">
-                                    <IconButton aria-label="delete"
-                                        onClick={(e) => attendance(performance.id)}
-                                    >
-                                        <EditCalendarSharp color="primary" />
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={(e) => handleCallOff(performance.id)}>
-                                        <DeleteSharp color="error" />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {performances
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
+                            .map((performance, index) => (
+                                <TableRow
+                                    key={performance.id}
+                                    sx={{
+                                        "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                        },
+                                    }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {++index}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {performance.name}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {performance.place}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {dateCustomer(performance.date)}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {timeCustomer(performance.time)}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        {statusPerformance(performance.status)}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={(e) =>
+                                                attendance(performance.id)
+                                            }
+                                        >
+                                            <EditCalendarSharp color="primary" />
+                                        </IconButton>
+                                        <IconButton
+                                            aria-label="delete"
+                                            onClick={(e) =>
+                                                handleCallOff(performance.id)
+                                            }
+                                        >
+                                            <DeleteSharp color="error" />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -183,7 +186,7 @@ function PerformanceTable() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-        </div >
+        </div>
     );
 }
-export default PerformanceTable
+export default PerformanceTable;

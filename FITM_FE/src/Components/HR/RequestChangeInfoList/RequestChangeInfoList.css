@@ -1,6 +1,5 @@
 .loading {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 18px;    
 }
 
 .container_RequestChangeInfo {
@@ -8,38 +7,16 @@
     float: left;
 }
 
-/* Table styles */
-.TableContainer {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
 .container_RequestChangeInfo .css-1ygcj2i-MuiTableCell-root,
 .container_RequestChangeInfo .css-1ex1afd-MuiTableCell-root {
     text-align: center !important;
 }
 
-.TableHead {
-    background-color: lightgray;
-}
-
 .css-1ygcj2i-MuiTableCell-root {
     font-weight: bold !important;
+    color: white !important;
 }
 
-.button-container,
-.pagination-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.search-input {
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
 
 .detail-button:hover {
     background-color: rgb(240, 248, 255);
@@ -68,4 +45,8 @@
 
 .MuiTableCell-root.Accepted {
     color: green;
+}
+.css-1bigob2{
+    font-weight: bold !important;
+    color: white !important;
 }

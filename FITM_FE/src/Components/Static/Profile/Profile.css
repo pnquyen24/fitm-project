@@ -46,6 +46,7 @@
     background-color: rgba(220, 220, 220, 0.181);
     padding: 10px;
     border-radius: 3px;
+    padding: 0;
 }
 .marginTemp{
     margin-left: -10px;

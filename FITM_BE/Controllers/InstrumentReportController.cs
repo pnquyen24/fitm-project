@@ -30,6 +30,7 @@ namespace FITM_BE.Controllers
 
 
         [HttpPost]
+        [Policy]
         public async Task<IActionResult> CreateIstrumentReport(InstrumentReportDtos instrumentReportDtos)
         {
             if (instrumentReportDtos == null)
@@ -41,8 +42,8 @@ namespace FITM_BE.Controllers
 
             return Ok(result);
         }
-        [HttpDelete("{id}")]
 
+        [HttpDelete("{id}")]
         public async Task<ActionResult<string>> DeleteReport(int id)
         {
             try

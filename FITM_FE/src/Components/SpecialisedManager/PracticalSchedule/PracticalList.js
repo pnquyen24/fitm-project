@@ -73,7 +73,7 @@ function PracticalList() {
 
     return (
         <>
-            <Paper sx={{ width: "96%", marginTop: 3, overflow: "hidden" }}>
+            <Paper sx={{ width: "96%", marginTop: "2%", overflow: "hidden" }}>
                 <PaginationTable rows={rows} columns={columns} />
             </Paper>
         </>

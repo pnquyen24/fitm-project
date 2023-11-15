@@ -12,19 +12,19 @@ namespace FITM_BE.Entity
     {
 
         [NotNull]
-        [StringLength(100)]
+        [StringLength(50)]
         public string Name { get; set; }
 
-        [StringLength(500)]
+        [StringLength(50)]
         public string Author { get; set; }
 
-        [StringLength(500)]
+        [StringLength(300)]
         public string LinkBeat { get; set; }
 
-        [StringLength(500)]
+        [StringLength(300)]
         public string LinkSheet { get; set; }
 
-        [StringLength(500)]
+        [StringLength(300)]
         public string BackgroundImg { get; set; }
     }
 }

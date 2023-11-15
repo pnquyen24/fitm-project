@@ -1,44 +1,41 @@
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import { useState, useEffect } from "react";
 import InstrumentReport from "./InstruReport/InstrumentReport";
 import "./InstrumentReportManagement.css";
 
 function InstrumentReportManagement() {
-  document.title = "Instrument Report Management";
+    document.title = "Instrument Report Management";
 
-  let [reports, setReports] = useState([]);
+    const GET_ALL_INSTRUMENT_REPORT_URL =
+        "InstrumentReport/GetAllInstrumentReport";
 
-  useEffect(() => {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
+    let [reports, setReports] = useState([]);
 
-    getAllReports();
-  }, []);
+    useEffect(() => {
+        getAllReports();
+    }, []);
 
-  const getAllReports = () => {
-    axios
-      .get("https://localhost:7226/apis/InstrumentReportControl/GetAllInstrumentReport")
-      .then((response) => {
-        setReports(response.data);
-      })
-      .catch((error) => {});
-  };
+    const getAllReports = () => {
+        axiosClient
+            .get(GET_ALL_INSTRUMENT_REPORT_URL)
+            .then((response) => {
+                setReports(response.data);
+            })
+            .catch((error) => {});
+    };
 
-  return (
-    <div className="InstrumentReportManagement-cover">
-      {reports.map((report, index) => (
-        
-        <InstrumentReport
-          key={index}
-          id={report.id}
-          instrumentId={report.instrumentID}
-          userId={report.memberID}
-          description={report.desciption}
-          
-        ></InstrumentReport>
-      ))}
-    </div>
-  );
+    return (
+        <div className="InstrumentReportManagement-cover">
+            {reports.map((report, index) => (
+                <InstrumentReport
+                    key={index}
+                    id={report.id}
+                    instrumentId={report.instrumentID}
+                    userId={report.memberID}
+                    description={report.desciption}
+                ></InstrumentReport>
+            ))}
+        </div>
+    );
 }
 export default InstrumentReportManagement;

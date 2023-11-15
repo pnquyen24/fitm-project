@@ -1,265 +1,244 @@
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import getStatusLabel from "../SupportFunctions/SupportFunction";
-import {getStatusStyle} from "../SupportFunctions/SupportFunction";
+import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
 
 function OutcomeRequestDetail() {
-  document.title = "Outcome Request Detail";
+    document.title = "Outcome Request Detail";
 
-  const [outcome, setOutcome] = useState(null);
-  const isEditing = useState(false);
-  const [tempOutcome, setTempOutcome] = useState(null);
-  const error = useState(null);
-  const location = useLocation();
-  const outcomeId = new URLSearchParams(location.search).get("id");
+    const GET_OUTCOME_URL = "Finance/GetOutcome";
+    const ACCEPT_OUTCOME_REQUEST_URL = "Finance/AcceptOutcomeRequest";
+    const DENY_OUTCOME_REQUEST_URL = "Finance/DenyOutcomeRequest";
 
-  useEffect(() => {
-    axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "token"
-    )}`;
-    axios
-      .get(`https://localhost:7226/apis/Finance/GetOutcome?id=` + outcomeId)
-      .then((response) => {
-        setOutcome(response.data);
-      })
-      .catch((error) => {});
-  }, [outcomeId]);
+    const [outcome, setOutcome] = useState(null);
+    const isEditing = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const outcomeId = new URLSearchParams(location.search).get("id");
 
-  function formatDate(date) {
-    const formattedDate = new Date(date);
-    const day = formattedDate.getDate();
-    const month = formattedDate.getMonth() + 1;
-    const year = formattedDate.getFullYear();
+    useEffect(() => {
+        axiosClient
+            .get(`${GET_OUTCOME_URL}?id=` + outcomeId)
+            .then((response) => {
+                setOutcome(response.data);
+            })
+            .catch((error) => {});
+    }, [outcomeId]);
 
-    if (day === 1 && month === 1 && year === 1) {
-      return "Not Yet";
+    function formatDate(date) {
+        const formattedDate = new Date(date);
+        const day = formattedDate.getDate();
+        const month = formattedDate.getMonth() + 1;
+        const year = formattedDate.getFullYear();
+
+        if (day === 1 && month === 1 && year === 1) {
+            return "Not Yet";
+        }
+
+        const formattedDateString = `${day < 10 ? "0" + day : day}-${
+            month < 10 ? "0" + month : month
+        }-${year}`;
+
+        return formattedDateString;
     }
 
-    const formattedDateString = `${day < 10 ? "0" + day : day}-${
-      month < 10 ? "0" + month : month
-    }-${year}`;
+    function AcceptOutcomeRequest() {
+        showLoadingOverlay();
+        axiosClient
+            .post(`${ACCEPT_OUTCOME_REQUEST_URL}?id=${outcomeId}`)
+            .then((response) => {
+                hideLoadingOverlay();
+                Swal.fire({
+                    title: "Finance Report Accepted !!!",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    navigate("/financial-manager/finance-request-list");
+                });
+            })
+            .catch((error) => {
+                hideLoadingOverlay();
+                Swal.fire({
+                    title: "Error",
+                    text: "Accept Unsuccessfully !!!",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            });
+    }
+    function DenyOutcomeRequest() {
+        showLoadingOverlay();
+        axiosClient
+            .post(`${DENY_OUTCOME_REQUEST_URL}?id=${outcomeId}`)
+            .then((response) => {
+                hideLoadingOverlay();
+                Swal.fire({
+                    title: "Finance Report Denied !!!",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    navigate("/financial-manager/finance-request-list");
+                });
+            })
+            .catch((error) => {
+                hideLoadingOverlay();
+                Swal.fire({
+                    title: "Error",
+                    text: "Unsuccessful",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            });
+    }
 
-    return formattedDateString;
-  }
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
+    }
 
-  function AcceptOutcomeRequest() {
-    axios
-      .post(
-        `https://localhost:7226/apis/Finance/AcceptOutcomeRequest?id=${outcomeId}`
-      )
-      .then((response) => {
-        Swal.fire({
-          title: "Finance Report Accepted !!!",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-request-list";
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Error",
-          text: "Accept Unsuccessfully !!!",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      });
-  }
-  function DenyOutcomeRequest() {
-    axios
-      .post(
-        `https://localhost:7226/apis/Finance/DenyOutcomeRequest?id=${outcomeId}`
-      )
-      .then((response) => {
-        Swal.fire({
-          title: "Finance Report Denied !!!",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          window.location.href = "/financial-manager/finance-request-list";
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Error",
-          text: "Unsuccessful",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      });
-  }
+    if (!outcome) {
+        return <div>Loading...</div>;
+    }
 
-  if (!outcome) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <div className="finance-card">
-      <div>
-        <div className="in_request_card">
-          <div>
+    return (
+        <div className="finance-card">
             <div>
-              <div>
-                <h4>Outcome Detail</h4>
-              </div>
-
-              <div className="id_title">
-                <div className="each_row_info">
-                  <label className="span_title">ID: </label>{" "}
-                  <span className="span_info">{outcome.id}</span>
-                </div>
-
-                <div>
-                  <div>
-                    <label className="title">Title: </label>
-                    <lable className="span_info">
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={tempOutcome.title}
-                          onChange={(e) =>
-                            setTempOutcome({
-                              ...tempOutcome,
-                              title: e.target.value,
-                            })
-                          }
-                        />
-                      ) : (
-                        outcome.title
-                      )}
-                    </lable>
-                  </div>
-                </div>
-              </div>
-
-              <div className="each_row_info">
-                <label className="span_title">Description: </label>
-                <lable className="span_info">
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={tempOutcome.description}
-                      onChange={(e) =>
-                        setTempOutcome({
-                          ...tempOutcome,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  ) : (
-                    outcome.description
-                  )}
-                </lable>
-              </div>
-
-              <div>
-                <div className="each_row_info">
-                  <label className="span_title">Created Time: </label>
-                  <label className="span_info">
-                    {formatDate(outcome.createdTime)}
-                  </label>{" "}
-                  <br></br>
-                </div>
-
-                <div className="each_row_info">
-                  <label className="span_title">Modified Time: </label>
-                  <label className="span_info">
-                    {formatDate(outcome.modifiedTime)}
-                  </label>
-                </div>
-              </div>
-
-              <div className="amount_billCode">
-                <div>
-                  <label className="span_title">Amount: </label>
-                  <label className="span_info">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={tempOutcome.amount}
-                        onChange={(e) => {
-                          const numericInput = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          );
-                          setTempOutcome({
-                            ...tempOutcome,
-                            amount: numericInput,
-                          });
-                        }}
-                      />
-                    ) : (
-                      outcome.amount
-                    )}
-                  </label>
-                </div>
-                <div className="billCode">
-                  <label className="bill_title">Bill Code: </label>
-                  <label className="span_info">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={tempOutcome.billCode}
-                        onChange={(e) =>
-                          setTempOutcome({
-                            ...tempOutcome,
-                            billCode: e.target.value,
-                          })
-                        }
-                      />
-                    ) : (
-                      outcome.billCode
-                    )}
-                  </label>
-                </div>
-              </div>
-
-              <div className="finance_status">
-                <label style={getStatusStyle(outcome.financeStatus)}>
-                  {getStatusLabel(outcome.financeStatus)}
-                </label>
-              </div>
-
-              <div className="in_request_card_button">
-                {!isEditing && (
-                  <Link to="/financial-manager/finance-request-list">
-                    <button className="detail_back">
-                      <span>Back to List</span>
-                    </button>
-                  </Link>
-                )}
-                <div>
-                  {outcome.financeStatus === 1 ? (
+                <div className="in_request_card">
                     <div>
-                      <button
-                        onClick={() => {
-                          AcceptOutcomeRequest();
-                        }}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        onClick={() => {
-                          DenyOutcomeRequest();
-                        }}
-                      >
-                        Deny
-                      </button>
+                        <div>
+                            <div style={{ color: "#1976d2" }}>
+                                <h4 style={{ textAlign: "center" }}>
+                                    OUTCOME DETAIL
+                                </h4>
+                                <hr></hr>
+                            </div>
+
+                            <div className="id_title">
+                                <div className="each_row_info col-md-12">
+                                    <label className="span_title">ID: </label>{" "}
+                                    <span className="span_info">
+                                        {outcome.id}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <label className="title">Title: </label>
+                                <label className="span_info ">
+                                    <h5>{outcome.title}</h5>
+                                </label>
+                            </div>
+                            <div className="each_row_info">
+                                <label className="span_title">
+                                    Description:{" "}
+                                </label>
+                                <label className="span_info">
+                                    <h5>{outcome.description}</h5>
+                                </label>
+                            </div>
+
+                            <div>
+                                <div className="each_row_info">
+                                    <label className="span_title">
+                                        Created Time:
+                                    </label>
+                                    <label className="span_info">
+                                        {formatDate(outcome.createdTime)}
+                                    </label>
+                                    <br></br>
+                                </div>
+
+                                <div className="each_row_info">
+                                    <label className="span_title">
+                                        Modified Time:
+                                    </label>
+                                    <label className="span_info">
+                                        {formatDate(outcome.modifiedTime)}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="amount_billCode col-md-12">
+                                <div className="col-md-6">
+                                    <label className="span_title">
+                                        Amount:
+                                    </label>
+                                    <label className="span_info">
+                                        <h5>{outcome.amount}</h5>
+                                    </label>
+                                </div>
+                                <div className="billCode col-md-6">
+                                    <label className="span_title">
+                                        BillCode:
+                                    </label>
+                                    <label className="span_info">
+                                        <h5>{outcome.billCode}</h5>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="finance_status">
+                                <label>
+                                    {getStatusLabel(outcome.financeStatus)}
+                                </label>
+                            </div>
+
+                            <div className="in_request_card_button">
+                                {!isEditing && (
+                                    <Link to="/financial-manager/finance-request-list">
+                                        <Button>Back to List </Button>
+                                    </Link>
+                                )}
+                                <div>
+                                    {outcome.financeStatus === 1 ? (
+                                        <div>
+                                            <Button
+                                                variant="contained"
+                                                color="success"
+                                                onClick={() => {
+                                                    AcceptOutcomeRequest();
+                                                }}
+                                            >
+                                                Accept
+                                            </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="error"
+                                                onClick={() => {
+                                                    DenyOutcomeRequest();
+                                                }}
+                                            >
+                                                Deny
+                                            </Button>
+                                            <Link to="/financial-manager/finance-request-list">
+                                                <Button variant="outlined">
+                                                    Back
+                                                </Button>
+                                            </Link>
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  ) : null}
                 </div>
-              </div>
             </div>
-          </div>
-          {error && <div>Error: {error}</div>}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default OutcomeRequestDetail;

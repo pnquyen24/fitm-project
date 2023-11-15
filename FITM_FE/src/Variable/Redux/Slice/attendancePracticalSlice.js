@@ -1,4 +1,4 @@
-import axiosClient from "../../Api/axiosClient";
+import axiosClient from "../../Api/api";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const GET_ATTENDANCE_LIST_URL = "PracticalDetail/ViewAttendanceList";

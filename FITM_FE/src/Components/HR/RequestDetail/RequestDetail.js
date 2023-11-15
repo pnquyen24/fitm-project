@@ -1,4 +1,5 @@
 import {
+    Chip,
     Paper,
     Table,
     TableBody,
@@ -8,7 +9,7 @@ import {
     TableRow,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomeAlert from "../../Member/Alert/CustomeAlert";
@@ -17,85 +18,102 @@ import "./RequestDetail.css";
 function RequestDetail() {
     document.title = "Request Detail";
 
+    const GET_COMPARE_REQUEST_URL = "RequestEditInfo/GetCompareRequest";
+    const ACCEPT_REQUEST_URL = "RequestEditInfo/AcceptRequest";
+    const DENY_REQUEST_URL = "RequestEditInfo/DenyRequest";
+
     const [compareData, setCompareData] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
+    const [loading, setLoading] = useState(false);
     const id = new URLSearchParams(location.search).get("id");
-    const status = {
-        0: "Pending",
-        1: "Accepted",
-        2: "Denied",
-    };
 
     const getData = useCallback(() => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .get(
-                `https://localhost:7226/apis/RequestEditInfo/GetCompareRequest?id=${id}`
-            )
+        axiosClient
+            .get(`${GET_COMPARE_REQUEST_URL}?id=${id}`)
             .then((response) => {
                 setCompareData(response.data);
             })
             .catch((error) => {
-                console.error("Error fetching data:", error);
             });
     }, [id]);
 
     useEffect(() => {
         getData();
-    }, [id, getData]);
+    }, [id, getData, compareData.status]);
 
     function BackToList() {
         navigate("/member-manager/request-edit-info-list");
     }
 
     function AcceptRequest(id) {
+        setLoading(true);
+        showLoadingOverlay();
         // Send a POST request to the API endpoint
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .post(
-                "https://localhost:7226/apis/RequestEditInfo/AcceptRequest?id=" +
-                    id
-            )
+        axiosClient
+            .post(`${ACCEPT_REQUEST_URL}?id=` + id)
             .then((response) => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.success(`Accepted successfully!`);
                 getData();
             })
             .catch((error) => {
-                console.error(error);
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.error(`Accepted Error!`);
             });
     }
 
     function DenyRequest(id) {
         // Send a POST request to the API endpoint
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-        axios
-            .post(
-                "https://localhost:7226/apis/RequestEditInfo/DenyRequest?id=" +
-                    id
-            )
+        setLoading(true);
+        showLoadingOverlay();
+        axiosClient
+            .post(`${DENY_REQUEST_URL}?id=` + id)
             .then((response) => {
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.success(`Denied successfully!`);
                 getData();
             })
             .catch((error) => {
-                console.error(error);
+                setLoading(false);
+                hideLoadingOverlay();
                 CustomeAlert.error(`Denied Error!`);
             });
+    }
+
+    function convertStatus(status) {
+        if (status === 0)
+            return <Chip label="Pending" color="warning" size="small"></Chip>;
+        if (status === 1)
+            return <Chip label="Accepted" color="success" size="small"></Chip>;
+        if (status === 2)
+            return <Chip label="Denied" color="error" size="small"></Chip>;
+    }
+
+    function showLoadingOverlay() {
+        // Create and append an overlay element with a loading spinner
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingOverlay() {
+        // Remove the loading overlay
+        const overlay = document.querySelector(".loading-overlay");
+        if (overlay) {
+            document.body.removeChild(overlay);
+        }
     }
 
     return (
         <div className="container_request_detail">
             <TableContainer component={Paper} className="TableContainerDetail">
                 <Table>
-                    <TableHead className="TableHead">
+                    <TableHead>
                         <TableRow>
                             <TableCell>Attribute</TableCell>
                             <TableCell>Old Value</TableCell>
@@ -210,9 +228,12 @@ function RequestDetail() {
                         <TableRow>
                             <TableCell>Status</TableCell>
                             <TableCell
-                                className={`${status[compareData.status]}`}
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "end",
+                                }}
                             >
-                                {status[compareData.status]}
+                                {convertStatus(compareData.status)}
                             </TableCell>
                         </TableRow>
                     </TableBody>
@@ -220,15 +241,8 @@ function RequestDetail() {
             </TableContainer>
             <div className="buttons-container">
                 <Button
-                    className="buttons"
-                    onClick={() => {
-                        BackToList();
-                    }}
-                    variant="outlined"
-                >
-                    Back to List
-                </Button>
-                <Button
+                    id="acceptButton"
+                    disabled={loading}
                     style={{
                         display:
                             compareData.status === 1 || compareData.status === 2
@@ -244,6 +258,7 @@ function RequestDetail() {
                     Accepted
                 </Button>
                 <Button
+                    id="denyButton"
                     style={{
                         display:
                             compareData.status === 1 || compareData.status === 2
@@ -254,9 +269,20 @@ function RequestDetail() {
                     onClick={() => {
                         DenyRequest(id);
                     }}
+                    disabled={loading}
                     variant="outlined"
                 >
                     Denied
+                </Button>
+                <Button
+                    className="buttons"
+                    disabled={loading}
+                    onClick={() => {
+                        BackToList();
+                    }}
+                    variant="outlined"
+                >
+                    Back
                 </Button>
             </div>
         </div>

@@ -1,5 +1,5 @@
+import axiosClient from "../../Api/api";
 import CustomeAlert from "../../../Components/Member/Alert/CustomeAlert";
-import axiosClient from "../../Api/axiosClient";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //--------------------------------------------------
@@ -9,16 +9,15 @@ const GET_ALL_PRACTICAL_SCHEDULES_URL =
 const CREATE_PRACTICAL_SCHEDULE_URL = "PracticalSchedule/AddPracticalSchedule";
 const UPDATE_PRACTICAL_SCHEDULE_URL =
     "PracticalSchedule/UpdatePracticalSchedule";
-const DELETE_PRACTICAL_SCHEDULE_URL = (id) =>
-    `PracticalSchedule/DeletePracticalSchedule?id=${id}`;
+const DELETE_PRACTICAL_SCHEDULE_URL =
+    "PracticalSchedule/DeletePracticalSchedule";
 
 //Performance schedule
 const GET_ALL_PERFORMANCE_SCHEDULES_URL =
     "PerformanceSchedule/ViewAllPerformance";
 const CREATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Create";
 const UPDATE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Update";
-const DELETE_PERFORMANCE_SCHEDULE_URL = (pfmID) =>
-    `PerformanceSchedule/Delete?pfmID=${pfmID}`;
+const DELETE_PERFORMANCE_SCHEDULE_URL = "PerformanceSchedule/Delete";
 
 //--------------------------------------------------
 const initialState = {
@@ -63,7 +62,7 @@ export const deletePractical = createAsyncThunk(
     "schedules/deletePractical",
     async (scheduleId) => {
         const { id } = scheduleId;
-        await axiosClient.delete(DELETE_PRACTICAL_SCHEDULE_URL(id));
+        await axiosClient.delete(`${DELETE_PRACTICAL_SCHEDULE_URL}?id=${id}`);
         return scheduleId;
     }
 );
@@ -105,7 +104,9 @@ export const deletePerformance = createAsyncThunk(
     "schedules/deletePerformance",
     async (scheduleId) => {
         const { id } = scheduleId;
-        await axiosClient.delete(DELETE_PERFORMANCE_SCHEDULE_URL(id));
+        await axiosClient.delete(
+            `${DELETE_PERFORMANCE_SCHEDULE_URL}?pfmID=${id}`
+        );
         return scheduleId;
     }
 );
@@ -127,6 +128,10 @@ const schedulesSlice = createSlice({
             })
             .addCase(createPractical.fulfilled, (state, action) => {
                 state.practicals.push(action.payload);
+                CustomeAlert.success("Created Successfully!");
+            })
+            .addCase(createPractical.rejected, (state, action) => {
+                CustomeAlert.error("Something error!");
             })
             .addCase(updatePractical.fulfilled, (state, action) => {
                 const updatedSchedule = action.payload;
@@ -136,20 +141,28 @@ const schedulesSlice = createSlice({
                     }
                     return schedule;
                 });
+                CustomeAlert.success("Updated successfully!");
+            })
+            .addCase(updatePractical.rejected, (state, action) => {
+                CustomeAlert.error("Something error!");
             })
             .addCase(deletePractical.fulfilled, (state, action) => {
                 const { id } = action.payload;
                 state.practicals = state.practicals.filter(
                     (schedule) => schedule.id !== id
                 );
+                CustomeAlert.success("Deleted Successfully!");
+            })
+            .addCase(deletePractical.rejected, (state, action) => {
+                CustomeAlert.error("Something error!");
             })
             //Performance Schedule
             .addCase(fetchPerformances.fulfilled, (state, action) => {
                 state.performances = action.payload;
             })
             .addCase(createPerformance.fulfilled, (state, action) => {
-                state.performances.push(action.payload)
-                CustomeAlert.success("Created Successfuly!");
+                state.performances.push(action.payload);
+                CustomeAlert.success("Created Successfully!");
             })
             .addCase(createPerformance.rejected, (state, action) => {
                 CustomeAlert.error("Created Error");

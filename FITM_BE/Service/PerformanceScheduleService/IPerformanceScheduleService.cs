@@ -4,7 +4,7 @@ namespace FITM_BE.Service.PerformanceScheduleService
 {
 	public interface IPerformanceScheduleService
     {
-        Task CreatePerformance(PerformanceCreateDTO pfmDTO);
+        Task<PerformanceDetail?> CreatePerformance(PerformanceCreateDTO pfmDTO);
         Task<PerformanceDetail?> ViewPerformanceDetail(int pfmID);
         IQueryable<PerformanceDTO> ViewPerformance();
         IQueryable<PerformanceDTO> ViewAllPerformance();

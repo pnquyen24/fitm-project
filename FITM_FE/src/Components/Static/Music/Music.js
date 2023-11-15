@@ -1,26 +1,23 @@
 import Song from "./Song/Song";
 import MusicControl from "./Music Control/MusicControl";
 import "./Music.css";
-import axios from "axios";
+import axiosClient from "../../../Variable/Api/api";
 import { useState, useEffect } from "react";
 function Music() {
     let [songs, setSongs] = useState([]);
     const [editMusic, setEditMusic] = useState(false);
 
+    const GET_ALL_SONGS_URL = "Song/GetAllSongs";
+
     document.title = "Music";
 
-
     useEffect(() => {
-        axios.defaults.headers[
-            "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
-
         getAllSongs();
     }, []);
 
     const getAllSongs = () => {
-        axios
-            .get("https://localhost:7226/apis/Song/GetAllSongs")
+        axiosClient
+            .get(GET_ALL_SONGS_URL)
             .then((response) => {
                 setSongs(response.data);
             })

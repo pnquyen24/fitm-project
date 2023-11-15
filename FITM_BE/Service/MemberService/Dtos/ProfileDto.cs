@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FITM_BE.Authorization.Role;
 using FITM_BE.Entity;
 
 namespace FITM_BE.Service.MemberService.Dtos
@@ -17,5 +18,6 @@ namespace FITM_BE.Service.MemberService.Dtos
         public string BankNumber { get; set; }
         public string Avatar { get; set; }
         public bool Status { get; set; }
+        public ICollection<string> Roles { get; set; }
     }
 }
