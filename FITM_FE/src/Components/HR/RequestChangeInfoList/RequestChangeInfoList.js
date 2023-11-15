@@ -162,18 +162,6 @@ function RequestChangeInfoList() {
                   </MenuItem>
                 </Select>
               </FormControl>
-              <Button
-                onClick={() => toMemberList()}
-                variant="contained"
-                color="primary"
-                size="medium"
-                sx={{
-                  height: "50%",
-                  padding: "5px 10px",
-                }}
-              >
-                Members
-              </Button>
             </CardActions>
           }
         ></CardHeader>
