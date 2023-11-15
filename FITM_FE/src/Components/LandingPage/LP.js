@@ -350,8 +350,12 @@ function LandingPage() {
                         <div
                             className="picture"
                             style={{
-                                backgroundImage: `url("${performances[0].backgroundImg}")`,
-                            }}
+    backgroundImage: performances[0]?.backgroundImg
+        ? performances[0].backgroundImg !== "" ? `url("${performances[0].backgroundImg}")` : "https://th.bing.com/th/id/OIG.RqEdy.pu3EhfGvSZk8Dq?pid=ImgGn"
+        : "https://th.bing.com/th/id/OIG.RqEdy.pu3EhfGvSZk8Dq?pid=ImgGn",
+}}
+
+
                         ></div>
                         <div className="description"></div>
                     </div>
@@ -359,8 +363,12 @@ function LandingPage() {
                         <div
                             className="picture"
                             style={{
-                                backgroundImage: `url("${performances[1].backgroundImg}")`,
-                            }}
+    backgroundImage: performances[1]?.backgroundImg
+        ? performances[1].backgroundImg !== "" ? `url("${performances[1].backgroundImg}")` : "https://th.bing.com/th/id/OIG.RqEdy.pu3EhfGvSZk8Dq?pid=ImgGn"
+        : "https://th.bing.com/th/id/OIG.RqEdy.pu3EhfGvSZk8Dq?pid=ImgGn",
+}}
+
+
                         ></div>
                         <div className="description"></div>
                     </div>
@@ -368,8 +376,12 @@ function LandingPage() {
                         <div
                             className="picture"
                             style={{
-                                backgroundImage: `url("${performances[2].backgroundImg}")`,
-                            }}
+    backgroundImage: performances[2]?.backgroundImg
+        ? performances[2].backgroundImg !== "" ? `url("${performances[2].backgroundImg}")` : "https://th.bing.com/th/id/OIG.RqEdy.pu3EhfGvSZk8Dq?pid=ImgGn"
+        : "https://th.bing.com/th/id/OIG.RqEdy.pu3EhfGvSZk8Dq?pid=ImgGn",
+}}
+
+
                         ></div>
                         <div className="description"></div>
                     </div>
@@ -380,10 +392,10 @@ function LandingPage() {
                     <h2>FIT</h2>
                     <div className="text-wrap">
                         <span>
-                            Để cho vui thôi chứ không biết viết gì vào hết mấy
-                            má sau có nội dung gì thì tự sửa điền vào nha, viết
-                            cái gì dài dài nhìn cho nó đỡ trống, mô tả này kia
-                            nè delectus iste corrupti!
+                        Ngày 13/8/2022, CLB FIT đã chính thức được ra mắt, đánh dấu cột mốc mở đầu của anh chị em "Nhạc tộc".
+FIT là ngôi nhà chung cho những ai có niềm đam mê với nhạc cụ dân tộc. CLB FIT với mong muốn hòa nhập và lan tỏa những giá trị tốt đẹp của văn hóa dân tộc đến với mọi người, đặc biệt là thế hệ trẻ.
+<br/>
+Đến với FIT, chưa bao giờ những thang âm "Ngũ cung" lại gần với "gen Z" đến thế.
                         </span>
                     </div>
                     <br />
@@ -409,7 +421,7 @@ function LandingPage() {
                                 <div className="contact-icon">
                                     <ion-icon name="call-outline"></ion-icon>
                                 </div>
-                                <div className="contact-info">09876543210</div>
+                                <div className="contact-info">0367718301</div>
                             </div>
 
                             <div className="contact-method">
@@ -417,7 +429,7 @@ function LandingPage() {
                                     <ion-icon name="mail-open-outline"></ion-icon>
                                 </div>
                                 <div className="contact-info">
-                                    Cuutoivoi@gmail.com
+                                fit.fptuqn2022@gmail.com
                                 </div>
                             </div>
                         </div>
