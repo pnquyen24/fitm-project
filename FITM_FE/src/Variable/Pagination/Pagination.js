@@ -14,7 +14,7 @@ const PaginationComponent = ({
     };
 
     return (
-        <Stack spacing={2} direction="row" style={{ marginLeft: "40%" }}>
+        <Stack spacing={2} direction="row" style={{minWidth:"40vw"}}>
             <Pagination
                 count={totalPages}
                 color="primary"
