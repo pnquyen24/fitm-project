@@ -61,7 +61,7 @@ function SideBar({ isOpen, setOpen }) {
       //<ion-icon name=""></ion-icon>
       Icon: "chatbox-ellipses-outline",
       Link: "financial-manager/finance-request-list",
-      Role: ["Admin", "FM"],
+      Role: ["Admin", "HRM"],
     },
     {
       Title: "Report Instrument",
