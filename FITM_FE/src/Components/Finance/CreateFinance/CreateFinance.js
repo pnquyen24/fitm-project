@@ -33,7 +33,6 @@ function CreateIncome() {
     if(formData.title === "") {CustomeAlert.error("Title is required"); return;}
     if(formData.description === "") {CustomeAlert.error("Description is required"); return;}
     if(formData.amount < 10000) {CustomeAlert.error("Amount is less than 10k"); return;}
-    if(formData.billCode === "") {CustomeAlert.error("Bill code is required"); return;}
 
     axiosClient
       .post(apiUrl, formData)
