@@ -106,7 +106,7 @@ function MemberProfile() {
                 className="rounded-circle mt-3"
                 width="200px"
                 height="200px"
-                src={"/img/88129659_p0_master1200.jpg"}
+                src={"/IMG/main_avt.png"}
                 alt="avatar"
               />
               <span className="text-black-50 mt-3">{member.email}</span>
