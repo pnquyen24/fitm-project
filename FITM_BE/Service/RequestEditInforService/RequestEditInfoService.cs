@@ -20,10 +20,15 @@ namespace FITM_BE.Service.RequestEditInforService
             _emailSender = emailSender;
         }
 
-        public async Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto)
+        public async Task<RequestEditInfo> Create(RequestEditInfoDto requestEditInfoDto, int userID)
         {
             RequestEditInfo requestEditInfo = _mapper.Map<RequestEditInfo>(requestEditInfoDto);
             requestEditInfo.Status = Enums.RequestEditInfoStatus.Pending;
+            var existRequest = _repository.GetAll<RequestEditInfo>()
+                .Where(rq => rq.CreatedById == userID);
+            if (existRequest.Any(rq => rq.Status.Equals(Enums.RequestEditInfoStatus.Pending))) {
+                throw new InvalidException("One member only have one pending request pertime");
+            }
             await _repository.Add(requestEditInfo);
             return requestEditInfo;
         }

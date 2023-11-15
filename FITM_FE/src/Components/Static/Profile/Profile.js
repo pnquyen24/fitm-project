@@ -80,7 +80,7 @@ function Profile({ memberId }) {
             .catch((error) => {
                 setLoading(false);
                 hideLoadingOverlay();
-                CustomeAlert.error("Send request Error!");
+                CustomeAlert.error(error.response.data.message);
             });
     };
     function showLoadingOverlay() {
@@ -236,7 +236,7 @@ function Profile({ memberId }) {
                                         />
                                     ) : (
                                         <input
-                                            type="text"
+                                            type="date"
                                             value={member.dob.split("T")[0]}
                                             className="form-control"
                                             style={{

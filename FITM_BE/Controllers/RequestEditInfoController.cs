@@ -37,7 +37,8 @@ namespace FITM_BE.Controllers
         [Policy]
         public async Task<RequestEditInfoDto> Post(RequestEditInfoDto requestEditInfoDto)
         {
-            RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto);
+            int userID = int.Parse(User.FindFirstValue("UserID"));
+            RequestEditInfo requestEditInfo = await requestEditInforService.Create(requestEditInfoDto,userID);
             return requestEditInfoDto;
         }
 
